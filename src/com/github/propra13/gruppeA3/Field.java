@@ -3,8 +3,11 @@ package com.github.propra13.gruppeA3;
 public class Field {
 	int x;
 	int y;
+	
 	int type;
-	int attribute;
+	int texture; //für Abwechslung in Feldtexturen
+	int attribute1;
+	int attribute2;
 	int item;
 	
 	public String mapType () {
@@ -39,7 +42,7 @@ public class Field {
 			return '#';
 			
 		case "Wasser":
-			if (this.item == 1) return 'H';
+			if (this.attribute1 == 1) return 'H';
 			else return '≈';
 			
 		case "Tuer":

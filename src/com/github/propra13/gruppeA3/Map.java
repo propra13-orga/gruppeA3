@@ -8,13 +8,12 @@ import java.io.IOException;
 public class Map {
 	
 	Field[][] mapFields;	//mapFields[Zeile][Spalte]
-	Field spawn = new Field();
+	Field spawn;
 	
-	//Baut Map-Objekt; Argument: Dateiname
+	//Baut Map-Objekt aus Datei
 	public Map(String filename) throws IOException {
 		this.mapFields = readFile(filename);
 	}
-	
 	
 	private Field[][] readFile (String filename) throws IOException {
 		/* Spielfelddatei -> Buffer-Array */
@@ -80,25 +79,46 @@ public class Map {
 				map[i][j] = new Field();
 				
 				//Iteriert über alle drei Feldbytes
+				int[] byteParts;
 				for (int k=0; k < 3; k++) {
 					switch (k) {
-					case 0:
-						map[i][j].type = buffer[bufferIndex + k];
-					case 1:
-						map[i][j].attribute = buffer[bufferIndex + k];
-					case 2:
-						map[i][j].item = buffer[bufferIndex + k];
-						map[i][j].x = i;
-						map[i][j].y = j;
+						case 0:
+							byteParts = splitByte(buffer[bufferIndex + k]);
+							map[i][j].texture = byteParts[1];
+							map[i][j].type = byteParts[2];
+							break;
+						
+						case 1:
+							byteParts = splitByte(buffer[bufferIndex + k]);
+							map[i][j].attribute1 = byteParts[1];
+							map[i][j].attribute2 = byteParts[2];
+							break;
+						
+						case 2:
+							map[i][j].item = buffer[bufferIndex + k];
+							map[i][j].x = i;
+							map[i][j].y = j;
+							break;
 					}
 				}
 				if (map[i][j].mapType() == "Spawn")
-					//TODO: keine zwei Objekte für Spawn und map[i][j]
 					this.spawn = map[i][j];
 				
 			}
 		}
 		return map;
 	}
+
+	//Splits a given byte to single hex numbers (4 bit)
+	private int[] splitByte(int toSplit) {
+		int partA=0;
+		while(toSplit > 15) {
+			partA++;
+			toSplit = toSplit - 16;
+		}
+		int[] returnVal = {partA, toSplit};
+		return returnVal;
+	}
+
 }
 	
