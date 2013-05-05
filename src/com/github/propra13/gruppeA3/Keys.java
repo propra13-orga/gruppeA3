@@ -1,6 +1,8 @@
 package com.github.propra13.gruppeA3;
 
 import java.awt.*;
+import com.github.propra13.gruppeA3.Moveable.direction;
+import com.github.propra13.gruppeA3.Player;
 import java.awt.event.*;
 
 public class Keys implements KeyListener {
@@ -22,15 +24,15 @@ public class Keys implements KeyListener {
 	public void keyPressed(KeyEvent e){
 		int pressed = e.getKeyCode();
 		switch(pressed) {
-			case 37: player.direct = LEFT;
+			case 37: player.direct = direction.LEFT;
 					 break;
-			case 38: player.direct = UP;
+			case 38: player.direct = direction.UP;
 					 break;
-			case 39: player.direct = RIGHT;
+			case 39: player.direct = direction.RIGHT;
 					 break;
-			case 40: player.direct = DOWN;
+			case 40: player.direct = direction.DOWN;
 					 break;
-			default: player.direct = NONE;
+			default: player.direct = direction.NONE;
 					 break;
 		}	
 	}
