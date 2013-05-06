@@ -1,4 +1,4 @@
-package com.github.propra13.gruppeA3;
+package com.github.propra13.gruppeA3.Entities;
 
 import com.github.propra13.gruppeA3.Map;
 import com.github.propra13.gruppeA3.Position;
@@ -8,16 +8,22 @@ import com.github.propra13.gruppeA3.Position;
  * Diese Klasse dient als Vorlage für alle bewegbaren Objekte im Spiel.
  *
  */
-public class Moveable {
+public class Moveable extends Entities {
 	
 	/**
 	 * Attribute:
-	 * 				direction Aufzähltyp wird für Richtungsorientierung des bewegbaren Objektes benötigt
-	 * 				pos Position des bewegbaren Objektes im Raum
+	 * 		direction Aufzähltyp wird für Richtungsorientierung des bewegbaren Objektes benötigt
+	 * 		pos Position des bewegbaren Objektes im Raum
+	 * 		life Lebensstärke eines bewegbaren Objektes
+	 * 		power Figurstärke
+	 * 		speed Geschwindigkeit
 	 **/
-	enum direction{LEFT,RIGHT,UP,DOWN,NONE}
+	public enum direction{LEFT,RIGHT,UP,DOWN,NONE}
 	Position pos;
 	Map map;
+	int life;
+	int power;
+	double speed; 
 
 	/** 
 	 * Diese Methode bewegt ein bewegbares Objekt im Raum
@@ -34,6 +40,14 @@ public class Moveable {
 	}
 	
 	/**
+	 * Diese Methode liefert den aktuellen Life Status eines bewegbaren Objektes
+	 * @return liefert ein int Leben
+	 */
+	public int getLife(){	
+		return 0;
+	}
+
+	/**
 	 * Diese Methode ändert die aktuelle Position im Raum
 	 * @param x X-Achse
 	 * @param y Y-Achse
@@ -45,6 +59,13 @@ public class Moveable {
 		pos.y=y;
 	}
 	
+	/**
+	 * Diese Methode setzt den aktuellen Life Status eines bewegbaren Objektes
+	 * @param life
+	 */
+	public void setLife(int life){
+	}
+
 	/**
 	 * Diese Methode überprüft ob die linke Position begehbar ist
 	 * @param x X-Achse
@@ -83,5 +104,10 @@ public class Moveable {
 	 */
 	public boolean downFree(int x, int y){
 		return true;
+	}
+
+	@Override
+	void setPosition(Position pos) {
+		setPosition(pos.x,pos.y);
 	}
 }

@@ -1,6 +1,5 @@
-package com.github.propra13.gruppeA3;
+package com.github.propra13.gruppeA3.Entities;
 
-import com.github.propra13.gruppeA3.Moveable;
 
 /**
  *  
@@ -11,9 +10,8 @@ import com.github.propra13.gruppeA3.Moveable;
 
 public class Player extends Moveable {
 // Attribute
-	int life;//Lebensstärke?
-	int power;//Figurstärke
-	direction direct= direction.NONE; //Richtung
+	
+	public direction direct= direction.NONE; //Richtung
 	
 	// Methode zum Bewegen von Objekten
 		public void move(){
