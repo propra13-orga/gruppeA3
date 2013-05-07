@@ -26,12 +26,16 @@ public class Keys implements KeyListener {
 		int pressed = e.getKeyCode();
 		switch(pressed) {
 			case 37: player.direct = direction.LEFT;
+					 player.move();
 					 break;
 			case 38: player.direct = direction.UP;
+					 player.move();
 					 break;
 			case 39: player.direct = direction.RIGHT;
+					 player.move();
 					 break;
 			case 40: player.direct = direction.DOWN;
+					 player.move();
 					 break;
 			default: player.direct = direction.NONE;
 					 break;

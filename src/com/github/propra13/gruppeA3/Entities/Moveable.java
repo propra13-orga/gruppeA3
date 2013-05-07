@@ -19,16 +19,47 @@ public class Moveable extends Entities {
 	 * 		speed Geschwindigkeit
 	 **/
 	public enum direction{LEFT,RIGHT,UP,DOWN,NONE}
+	public direction direct= direction.NONE; //Richtung
 	Position pos;
-	Map map;
+	Room currentroom;
 	int life;
 	int power;
 	double speed; 
 
 	/** 
 	 * Diese Methode bewegt ein bewegbares Objekt im Raum
+	 * Begehbarkeit des Feldes pr�fen
+	 * Wenn begehbar, setposition anwenden
 	 **/
 	public void move(){
+		switch(this.direct){
+		case LEFT: 
+			if(currentroom.roomfields[this.pos.x-1][this.pos.y].walkable == true){
+				setPosition(this.pos.x-1,this.pos.y);
+			}
+					break;
+					
+		case UP:
+			if(currentroom.roomfields[this.pos.x][this.pos.y+1].walkable == true){
+				setPosition(this.pos.x,this.pos.y+1);
+			}
+					break;
+					
+		case RIGHT:
+			if(currentroom.roomfields[this.pos.x+1][this.pos.y].walkable == true){
+				setPosition(this.pos.x+1,this.pos.y);
+			}
+					break;
+					
+		case DOWN:
+			if(currentroom.roomfields[this.pos.x][this.pos.y-1].walkable == true){
+				setPosition(this.pos.x,this.pos.y-1);
+			}
+					break;
+					
+		default: ;	//nichts tun
+		}
+				
 	}
 	
 	/**
@@ -66,45 +97,7 @@ public class Moveable extends Entities {
 	public void setLife(int life){
 	}
 
-	/**
-	 * Diese Methode überprüft ob die linke Position begehbar ist
-	 * @param x X-Achse
-	 * @param y Y-AChse
-	 * @return true, wenn begehbar, sonst false
-	 */
-	public boolean leftFree(int x, int y){
-		return true;
-	}
 	
-	/**
-	 * Diese Methode überprüft ob die rechte Position begehbar ist
-	 * @param x X-Achse
-	 * @param y Y-AChse
-	 * @return true, wenn begehbar, sonst false
-	 */
-	public boolean rightFree(int x, int y){
-		return true;
-	}
-	
-	/**
-	 * Diese Methode überprüft ob die obere Position begehbar ist
-	 * @param x X-Achse
-	 * @param y Y-AChse
-	 * @return true, wenn begehbar, sonst false
-	 */
-	public boolean upFree(int x, int y){
-		return true;
-	}
-	
-	/**
-	 * Diese Methode überprüft ob die untere Position begehbar ist
-	 * @param x X-Achse
-	 * @param y Y-AChse
-	 * @return true, wenn begehbar, sonst false
-	 */
-	public boolean downFree(int x, int y){
-		return true;
-	}
 
 	@Override
 	void setPosition(Position pos) {

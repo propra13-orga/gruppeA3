@@ -11,10 +11,10 @@ package com.github.propra13.gruppeA3.Entities;
 public class Player extends Moveable {
 // Attribute
 	
-	public direction direct= direction.NONE; //Richtung
 	
-	// Methode zum Bewegen von Objekten
-		public void move(){
+	
+	// Methode zum Bewegen von Objekten (würde methode der oberklasse überschreiben evtl später um animationen zu realisieren?)
+	/*	public void move(){
 			switch(direct){
 				case LEFT: if(leftFree(pos.x-1,pos.y)){
 					setPosition(pos.x-1,pos.y);
@@ -39,7 +39,7 @@ public class Player extends Moveable {
 				case NONE: //zusÃ¤tzliche Monsteraktionen/Zufallserscheininungen von GegenstÃ¤nden
 					
 			}
-		}	
+		}*/	
 		
 		
 }
