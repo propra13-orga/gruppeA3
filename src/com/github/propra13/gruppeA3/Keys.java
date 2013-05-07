@@ -1,8 +1,9 @@
 package com.github.propra13.gruppeA3;
 
 import java.awt.*;
-import com.github.propra13.gruppeA3.Moveable.direction;
-import com.github.propra13.gruppeA3.Player;
+
+import com.github.propra13.gruppeA3.Entities.Player;
+import com.github.propra13.gruppeA3.Entities.Moveable.direction;
 import java.awt.event.*;
 
 public class Keys implements KeyListener {
