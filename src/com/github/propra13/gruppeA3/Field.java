@@ -3,9 +3,9 @@ package com.github.propra13.gruppeA3;
 public class Field {
 	int x;
 	int y;
+	boolean hasLink;
 	
 	/* TODO:
-	 * Spawn ist Attribut / Entity
 	 * Links
 	 * begehbar (statisch gemappt)
 	 */
@@ -14,6 +14,14 @@ public class Field {
 	int attribute1;
 	int attribute2;
 	int item;
+	
+	public void setLink (int linkID, int room, boolean bidirectional) {
+		/* TODO:
+		 * Map vom Link erzählen
+		 * Link-Vars setzen
+		 */
+		
+	}
 	
 	public String fieldType () {
 		switch (this.type) {
@@ -27,8 +35,6 @@ public class Field {
 			return "Wasser";
 		case 4:
 			return "Tuer";
-		case 5:
-			return "Spawn";
 		default:
 			return "unknown";
 		}

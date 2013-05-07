@@ -15,7 +15,7 @@ public class Room {
 	 * Links
 	 * Room-ID (für Links, Listen und wat nich all)
 	 * vernünftiges Dateiformat
-	 * ( 4Byte pro Field (neues Item-Format) )
+	 * ( 6 Byte pro Field (neues Item-Format) )
 	 */
 	
 	//Baut Map-Objekt aus Datei
