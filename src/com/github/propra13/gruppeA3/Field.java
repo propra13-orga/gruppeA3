@@ -4,13 +4,18 @@ public class Field {
 	int x;
 	int y;
 	
+	/* TODO:
+	 * Spawn ist Attribut / Entity
+	 * Links
+	 * begehbar (statisch gemappt)
+	 */
 	int type;
 	int texture; //für Abwechslung in Feldtexturen
 	int attribute1;
 	int attribute2;
 	int item;
 	
-	public String mapType () {
+	public String fieldType () {
 		switch (this.type) {
 		case 0:
 			return "unset";
@@ -30,7 +35,7 @@ public class Field {
 	}
 	
 	public char charMap () {
-		switch (this.mapType()) {
+		switch (this.fieldType()) {
 		
 		case "unset":
 			return 'X';

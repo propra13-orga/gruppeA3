@@ -8,7 +8,15 @@ import java.io.IOException;
 public class Room {
 	
 	Field[][] roomFields;	//mapFields[Zeile][Spalte]
-	Field spawn;
+	Field spawn;			//wird bald umgebaut; Map-Klasse muss Spawns wissen
+	
+	/* TODO:
+	 * Metadatenzeile
+	 * Links
+	 * Room-ID (für Links, Listen und wat nich all)
+	 * vernünftiges Dateiformat
+	 * ( 4Byte pro Field (neues Item-Format) )
+	 */
 	
 	//Baut Map-Objekt aus Datei
 	public Room(String filename) throws IOException {
