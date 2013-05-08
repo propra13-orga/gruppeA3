@@ -14,6 +14,6 @@ public abstract class Entities {
 
 	// Setter Methoden für alle Entites
 
-	abstract void setPosition(Position pos);
+	abstract void setPosition(int x, int y);
 	
 }

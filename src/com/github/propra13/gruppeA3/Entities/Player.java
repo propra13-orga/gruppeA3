@@ -1,6 +1,6 @@
 package com.github.propra13.gruppeA3.Entities;
 
-
+import com.github.propra13.gruppeA3.Room;
 /**
  *  
  * @author Majida Dere
@@ -10,8 +10,12 @@ package com.github.propra13.gruppeA3.Entities;
 
 public class Player extends Moveable {
 // Attribute
+	public int playerid;
 	
-	
+	public Player(Room room_bind){
+		super(room_bind);
+		
+	}
 	
 	// Methode zum Bewegen von Objekten (würde methode der oberklasse überschreiben evtl später um animationen zu realisieren?)
 	/*	public void move(){

@@ -1,6 +1,6 @@
 package com.github.propra13.gruppeA3.Entities;
 
-import com.github.propra13.gruppeA3.Map;
+import com.github.propra13.gruppeA3.Room;
 import com.github.propra13.gruppeA3.Position;
 
 /**
@@ -25,6 +25,16 @@ public class Moveable extends Entities {
 	int life;
 	int power;
 	double speed; 
+	
+	//Konstruktor
+	public Moveable(Room room_bind){
+		pos.x = 0;
+		pos.y = 0;
+		currentroom = room_bind;
+		direct = direction.NONE;
+		power = 0; //noch nicht benutzt
+		speed = 0; //noch nicht benutzt
+	}
 
 	/** 
 	 * Diese Methode bewegt ein bewegbares Objekt im Raum
@@ -34,26 +44,26 @@ public class Moveable extends Entities {
 	public void move(){
 		switch(this.direct){
 		case LEFT: 
-			if(currentroom.roomfields[this.pos.x-1][this.pos.y].walkable == true){
+			if(currentroom.roomFields[this.pos.x-1][this.pos.y].walkable == true){
 				setPosition(this.pos.x-1,this.pos.y);
 			}
 					break;
 					
 		case UP:
-			if(currentroom.roomfields[this.pos.x][this.pos.y+1].walkable == true){
+			if(currentroom.roomFields[this.pos.x][this.pos.y+1].walkable == true){
 				setPosition(this.pos.x,this.pos.y+1);
 			}
 					break;
 					
 		case RIGHT:
-			if(currentroom.roomfields[this.pos.x+1][this.pos.y].walkable == true){
+			if(currentroom.roomFields[this.pos.x+1][this.pos.y].walkable == true){
 				setPosition(this.pos.x+1,this.pos.y);
 			}
 					break;
 					
 		case DOWN:
-			if(currentroom.roomfields[this.pos.x][this.pos.y-1].walkable == true){
-				setPosition(this.pos.x,this.pos.y-1);
+			if(currentroom.roomFields[this.pos.x][this.pos.y+1].walkable == true){
+				setPosition(this.pos.x,this.pos.y+1);
 			}
 					break;
 					
@@ -75,7 +85,7 @@ public class Moveable extends Entities {
 	 * @return liefert ein int Leben
 	 */
 	public int getLife(){	
-		return 0;
+		return this.life;
 	}
 
 	/**
@@ -83,11 +93,9 @@ public class Moveable extends Entities {
 	 * @param x X-Achse
 	 * @param y Y-Achse
 	 */
-	public void setPosition(int x,int y){
-//		map[x][y] = player;
-//		map[pos.x][pos.y] = NONE; 
-		pos.x=x;
-		pos.y=y;
+	public void setPosition(int x, int y){ 
+		pos.x = x;
+		pos.y = y;
 	}
 	
 	/**
@@ -95,12 +103,6 @@ public class Moveable extends Entities {
 	 * @param life
 	 */
 	public void setLife(int life){
-	}
-
-	
-
-	@Override
-	void setPosition(Position pos) {
-		setPosition(pos.x,pos.y);
+		this.life = life;
 	}
 }
