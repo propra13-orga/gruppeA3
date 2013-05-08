@@ -6,3 +6,5 @@ tmp/**/*
 .settings/
 .loadpath
 *.launch
+*.kate-swp
+~*
