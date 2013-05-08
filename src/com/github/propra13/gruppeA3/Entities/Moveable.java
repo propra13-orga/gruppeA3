@@ -25,6 +25,16 @@ public class Moveable extends Entities {
 	int life;
 	int power;
 	double speed; 
+	
+	//Konstruktor
+	public Moveable(Room room_bind){
+		pos.x = 0;
+		pos.y = 0;
+		currentroom = room_bind;
+		direct = direction.NONE;
+		power = 0; //noch nicht benutzt
+		speed = 0; //noch nicht benutzt
+	}
 
 	/** 
 	 * Diese Methode bewegt ein bewegbares Objekt im Raum
@@ -75,7 +85,7 @@ public class Moveable extends Entities {
 	 * @return liefert ein int Leben
 	 */
 	public int getLife(){	
-		return 0;
+		return this.life;
 	}
 
 	/**
@@ -83,11 +93,9 @@ public class Moveable extends Entities {
 	 * @param x X-Achse
 	 * @param y Y-Achse
 	 */
-	public void setPosition(int x,int y){
-//		map[x][y] = player;
-//		map[pos.x][pos.y] = NONE; 
-		pos.x=x;
-		pos.y=y;
+	public void setPosition(int x, int y){ 
+		pos.x = x;
+		pos.y = y;
 	}
 	
 	/**
@@ -95,12 +103,6 @@ public class Moveable extends Entities {
 	 * @param life
 	 */
 	public void setLife(int life){
-	}
-
-	
-
-	@Override
-	void setPosition(Position pos) {
-		setPosition(pos.x,pos.y);
+		this.life = life;
 	}
 }
