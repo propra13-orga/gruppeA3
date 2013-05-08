@@ -1,76 +1,104 @@
 package com.github.propra13.gruppeA3;
-import java.awt.EventQueue;
 
-import javax.swing.JFrame;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.*;
+import java.awt.event.*;
 
+import javax.swing.*;
 
-public class menu {
+public class Menu extends JFrame implements ComponentListener{
+//schützen der Button und Buttonbezeichnung
+	private JButton buttonstart;
+	private JButton buttonbeenden;
+	private String stringbuttonstart;
+	private String stringbuttonbeenden;
+	
+	private JPanel panelButton;
+	
+	private final int MINWIDTH = 400;
+	private final int MINHEIGHT = 300;
+	
+	public Menu(){
+	super("Fenster");	
+	setTitle("Dungeon Crawler");
+	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	//schließen button belegt
+	setLocation(400,200);	//fensterpostion auf bildschirm festlegen
+	setSize(MINWIDTH,MINHEIGHT);
+	getContentPane().setLayout(new BorderLayout(5,5));	//unterteilung des fensters
+	
+	//Fenster überwachung auf Mindestgröße erweiterung der Classe um implements ComponentListener
+	addComponentListener(this);
+	
+	
+	//Button Texte
+	stringbuttonstart = "Spiel Starten";
+	stringbuttonbeenden = "Beenden";
+	
+	//Button erzeugen
+	buttonstart = new JButton(stringbuttonstart);
+	buttonbeenden = new JButton(stringbuttonbeenden);
+	
+	//panelButton = new JPanel(new GridLayout(3,3));	//unterteilung des fensters
+	panelButton = new JPanel(new FlowLayout());
+	//Button anordnen
+	panelButton.add(buttonstart);
+	panelButton.add(buttonbeenden);
+	
+	//listener für button
+	addButtonListener(buttonstart);
+	addButtonListener(buttonbeenden);
+	
+	//positonierung der button auf BorderLayout
+	getContentPane().add(BorderLayout.CENTER, panelButton);
+	setVisible(true);	
+	}
 
-	private JFrame frame;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					menu window = new menu();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+	@SuppressWarnings("unused")
+	public static void main(String[] args){
+	Menu m = new Menu();	//initialisierung des Fensters
+	}	
+	
+	//Listener für Button
+	private void addButtonListener(JButton b){
+		b.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent ae)
+			{
+				eingabe(ae.getActionCommand());
 			}
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
-	public menu() {
-		initialize();
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setBounds(100, 100, 505, 335);
-		
-		JMenuBar menuBar = new JMenuBar();
-		frame.setJMenuBar(menuBar);
-		
-		JMenu mnMenu = new JMenu("Menu");
-		menuBar.add(mnMenu);
-		
-		JMenuItem mntmSpielStarten = new JMenuItem("Spiel starten");
-		mnMenu.add(mntmSpielStarten);
-		
-		JMenuItem mntmSpielBeenden = new JMenuItem("Spiel beenden");
-		mntmSpielBeenden.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				System.exit(1);
-			}
-		});
-		mnMenu.add(mntmSpielBeenden);
-		
-		JMenu mnInfo = new JMenu("Info");
-		menuBar.add(mnInfo);
-		
-		JMenuItem mntmSpielanleitung = new JMenuItem("Spielanleitung");
-		mnInfo.add(mntmSpielanleitung);
-		
-		JMenuItem mntmber = new JMenuItem("\u00DCber");
-		mnInfo.add(mntmber);
+	//Action für button
+	private void eingabe(String a){
+		if(a == stringbuttonbeenden)
+		{
+			System.exit(1);
+		}
 	}
 
 
+	public void componentResized(ComponentEvent e){
+		Dimension dim = this.getSize();
+		dim.width = (dim.width < MINWIDTH) ? MINWIDTH: dim.width;
+		dim.height = (dim.height < MINHEIGHT) ? MINHEIGHT: dim.height;
+		this.setSize(dim);
+	}
+
+	@Override
+	public void componentHidden(ComponentEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void componentMoved(ComponentEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void componentShown(ComponentEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }
