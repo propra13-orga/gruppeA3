@@ -4,11 +4,12 @@ import com.github.propra13.gruppeA3.Field;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.LinkedList;
 
 public class Room {
 	
-	Field[][] roomFields;	//mapFields[Zeile][Spalte]
-	Field spawn;			//wird bald umgebaut; Map-Klasse muss Spawns wissen
+	public Field[][] roomFields;	//mapFields[Zeile][Spalte]
+	public LinkedList entities = new LinkedList();
 	
 	/* TODO:
 	 * Metadatenzeile
@@ -104,13 +105,13 @@ public class Room {
 						
 						case 2:
 							room[i][j].item = buffer[bufferIndex + k];
-							room[i][j].x = i;
-							room[i][j].y = j;
+							room[i][j].pos.x = i;
+							room[i][j].pos.y = j;
 							break;
 					}
 				}
 				if (room[i][j].fieldType() == "Spawn")
-					this.spawn = room[i][j];
+					super.addSpawn(room[i][j].pos);
 				
 			}
 		}

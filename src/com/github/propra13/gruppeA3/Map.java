@@ -1,23 +1,27 @@
 package com.github.propra13.gruppeA3;
 
 import com.github.propra13.gruppeA3.Map;
+import com.github.propra13.gruppeA3.Field;
 
 public class Map {
-	int maxPlayers;
-	Room[] mapRooms;
+	public Room[] mapRooms;
+	public Field[] spawns = new Field[2];
 	
-	public Map(int e) {
-		readRooms();
+	public Map(String dirName) {
+		readRooms(dirName);
 	}
 
+	public void setSpawn() {
+		/* TODO:
+		 * Spawn nur aus 00-Room akzeptieren
+		 */
+	}
 	//Liest alle Rooms einer Map ein
-	private void readRooms() {
+	private void readRooms(String dirName) {
 		/* Ablauf:
 		 * Room-Dateien zählen; Array anlegen
 		 * Rooms auslesen, Room-Objekte erzeugen
 		 * Links zwischen Rooms aufbauen und prüfen
-		 * (Links sind zwingend bidirektional)
-		 * Absolute Spawns und maxPlayers setzen
 		 * Ziel / Ausgang setzen
 		 * Fertig ist die Kuh.
 		 */

@@ -1,9 +1,10 @@
 package com.github.propra13.gruppeA3;
 
+import com.github.propra13.gruppeA3.Position;
+
 public class Field {
-	int x;
-	int y;
-	boolean hasLink;
+	public Position pos = new Position();
+	public boolean hasLink = false;
 	
 	/* TODO:
 	 * Links
@@ -15,7 +16,7 @@ public class Field {
 	int attribute2;
 	int item;
 	
-	public void setLink (int linkID, int room, boolean bidirectional) {
+	public void setLink (int linkID, int targetRoom, boolean bidirectional) {
 		/* TODO:
 		 * Map vom Link erzählen
 		 * Link-Vars setzen
