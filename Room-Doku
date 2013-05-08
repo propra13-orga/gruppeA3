@@ -28,6 +28,10 @@ Link:
     Attr1: Link-ID
     Attr2: Ziel-Map-ID
 	   Spezialwert (FE oder so) falls unidirektional
+
+Spawn:
+    Typ: irgendein walkable
+    
 	
 	
 

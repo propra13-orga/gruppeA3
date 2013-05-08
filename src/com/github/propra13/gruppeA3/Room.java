@@ -3,11 +3,13 @@ package com.github.propra13.gruppeA3;
 import com.github.propra13.gruppeA3.Field;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.LinkedList;
 
 public class Room {
 	
+	public int ID;
 	public Field[][] roomFields;	//mapFields[Zeile][Spalte]
 	public LinkedList entities = new LinkedList();
 	
@@ -20,20 +22,32 @@ public class Room {
 	 */
 	
 	//Baut Map-Objekt aus Datei
-	public Room(String filename) throws IOException {
+	public Room(int roomID, String filename) throws FileNotFoundException, IOException{
+		this.ID = roomID;
 		this.roomFields = readFile(filename);
 	}
 	
-	private Field[][] readFile (String filename) throws IOException {
+	private Field[][] readFile (String filename) throws FileNotFoundException, IOException {
 		/* Spielfelddatei -> Buffer-Array */
-		//TODO: vernünftiges Exception-Handling
 		File file = new File(filename);
 		int[] buffer = new int[(int) file.length()];
+		
+		//Total hässlich, muss aber so (IO halt)
+		if (! file.exists())
+			throw new FileNotFoundException (filename);
 		FileInputStream fis = new FileInputStream(filename);
-		for (int i=0; i < file.length(); i++) {
-			buffer[i] = fis.read(); //Liest byteweise Datei in buffer[]
+			
+		try {
+			for (int i=0; i < file.length(); i++) {
+				buffer[i] = fis.read(); //Liest byteweise Datei in buffer[]
+			}
+		} catch (IOException e) {
+			throw new IOException (filename);
+		} finally {
+			try {
+				fis.close();
+			} catch (IOException e){}
 		}
-		fis.close();
 		
 		
 		/*Symmetriecheck (EOL: EndOfLine)*/
@@ -110,8 +124,14 @@ public class Room {
 							break;
 					}
 				}
+				
+				/* TODO:
+				 * Spawn und End sind keine Typen mehr
+				 */
 				if (room[i][j].fieldType() == "Spawn")
-					super.addSpawn(room[i][j].pos);
+					super.setSpawn(room[i][j]);
+				else if (room[i][j].fieldType() == "End")
+					super.setEnd(room[i][j]);
 				
 			}
 		}
