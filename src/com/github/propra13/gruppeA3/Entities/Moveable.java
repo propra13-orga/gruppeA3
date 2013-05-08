@@ -1,6 +1,6 @@
 package com.github.propra13.gruppeA3.Entities;
 
-import com.github.propra13.gruppeA3.Map;
+import com.github.propra13.gruppeA3.Room;
 import com.github.propra13.gruppeA3.Position;
 
 /**
@@ -34,26 +34,26 @@ public class Moveable extends Entities {
 	public void move(){
 		switch(this.direct){
 		case LEFT: 
-			if(currentroom.roomfields[this.pos.x-1][this.pos.y].walkable == true){
+			if(currentroom.roomFields[this.pos.x-1][this.pos.y].walkable == true){
 				setPosition(this.pos.x-1,this.pos.y);
 			}
 					break;
 					
 		case UP:
-			if(currentroom.roomfields[this.pos.x][this.pos.y+1].walkable == true){
+			if(currentroom.roomFields[this.pos.x][this.pos.y+1].walkable == true){
 				setPosition(this.pos.x,this.pos.y+1);
 			}
 					break;
 					
 		case RIGHT:
-			if(currentroom.roomfields[this.pos.x+1][this.pos.y].walkable == true){
+			if(currentroom.roomFields[this.pos.x+1][this.pos.y].walkable == true){
 				setPosition(this.pos.x+1,this.pos.y);
 			}
 					break;
 					
 		case DOWN:
-			if(currentroom.roomfields[this.pos.x][this.pos.y-1].walkable == true){
-				setPosition(this.pos.x,this.pos.y-1);
+			if(currentroom.roomFields[this.pos.x][this.pos.y+1].walkable == true){
+				setPosition(this.pos.x,this.pos.y+1);
 			}
 					break;
 					
