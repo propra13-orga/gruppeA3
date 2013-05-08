@@ -15,9 +15,41 @@ public class Player extends Moveable {
 	public Player(Room room_bind){
 		super(room_bind);
 		
+		private String name = null;
+
+		
+		/**
+		 * @return name liefert den Namen des Spielers zurÃ¼ck
+		 */
+	    public String getName() {                                                   
+	        return name;
+	    }
+
+	    /**
+	     * @param name legt den Namen eines Spielers fest
+	     */
+	    public void setName(String name) {                                          
+	        this.name = name;
+	    }
+	    //Punktestand
+	    private int score = 0;
+        
+	    /**
+	     * @return liefert den Punktestand
+	     */
+	    public int getScore() {                                                     
+	        return score;
+	    }
+        /**
+         * @ param score setzt den Punktestand, anfangs ist dieser auf 0
+         */
+	    public void setScore(int score) {                                           
+	        this.score = score;
+	    }
+		
 	}
 	
-	// Methode zum Bewegen von Objekten (würde methode der oberklasse überschreiben evtl später um animationen zu realisieren?)
+	// Methode zum Bewegen von Objekten (wï¿½rde methode der oberklasse ï¿½berschreiben evtl spï¿½ter um animationen zu realisieren?)
 	/*	public void move(){
 			switch(direct){
 				case LEFT: if(leftFree(pos.x-1,pos.y)){
