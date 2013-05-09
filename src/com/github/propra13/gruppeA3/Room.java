@@ -1,6 +1,7 @@
 package com.github.propra13.gruppeA3;
 
 import com.github.propra13.gruppeA3.Field;
+import com.github.propra13.gruppeA3.Position;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -99,30 +100,43 @@ public class Room {
 			for (int j=0; j < lineLen/3; j++) {
 				//Nimmt erstes Feldbyte
 				int bufferIndex = lineIndex + j*3;
-				room[i][j] = new Field();
 				
-				//Iteriert über alle drei Feldbytes
+				//Iteriert über alle sechs Feldbytes
 				int[] byteParts;
-				for (int k=0; k < 3; k++) {
+				int texture;
+				int type;
+				int attr1;
+				int attr2;
+				int entityType;
+				int entityAttr;
+				Position pos = new Position();
+				
+				for (int k=0; k < 6; k++) {
 					switch (k) {
 						case 0:
-							byteParts = splitByte(buffer[bufferIndex + k]);
-							room[i][j].texture = byteParts[1];
-							room[i][j].type = byteParts[2];
+							type = buffer[bufferIndex + k];
 							break;
-						
 						case 1:
-							byteParts = splitByte(buffer[bufferIndex + k]);
-							room[i][j].attribute1 = byteParts[1];
-							room[i][j].attribute2 = byteParts[2];
+							texture = buffer[bufferIndex + k];
 							break;
-						
 						case 2:
-							room[i][j].item = buffer[bufferIndex + k];
-							room[i][j].pos.x = i;
-							room[i][j].pos.y = j;
+							attr1 = buffer[bufferIndex + k];
+							break;
+						case 3:
+							attr2 = buffer[bufferIndex + k];
+							break;
+						case 4:
+							entityType = buffer[bufferIndex + k];
+							break;
+						case 5:
+							entityAttr = buffer[bufferIndex + k];
 							break;
 					}
+					pos.x = i;
+					pos.y = j;
+					room[i][j] = new Field(
+							type, texture, attr1, attr2, entityType, entityAttr, pos);
+					
 				}
 				
 				/* TODO:

@@ -1,8 +1,7 @@
 package com.github.propra13.gruppeA3;
 
-import com.github.propra13.gruppeA3.Position;
-
 public class Field {
+	
 	public Position pos = new Position();
 	public boolean hasLink = false;
 	
@@ -10,18 +9,39 @@ public class Field {
 	 * Links
 	 * begehbar (statisch gemappt)
 	 */
+	boolean walkable = false;
+	final static int[] walkables
+	= {1, 3, 4, 5}; //TODO: Wasserverhalten klären
+
+	public enum fieldTypes {UNSET, BODEN, WAND, WASSER, TUER, LINK}
 	int type;
 	int texture; //für Abwechslung in Feldtexturen
 	int attribute1;
 	int attribute2;
-	int item;
+	int entityType;
+	int entityAttr;
 	
-	public void setLink (int linkID, int targetRoom, boolean bidirectional) {
-		/* TODO:
-		 * Map vom Link erzählen
-		 * Link-Vars setzen
-		 */
+	public Link link = null;
+	
+	
+	public Field(
+			int type, int texture, int attr1, int attr2, int entityType, int entityAttr, Position pos) {
 		
+		this.type = type;
+		this.texture = texture;
+		this.attribute1 = attr1;
+		this.attribute2 = attr2;
+		this.entityType = entityType;
+		this.entityAttr = entityAttr;
+		this.pos = pos;
+		
+		//Walkable setzen
+		for (int i=0; i < walkables.length; i++) {
+			if (walkables[i] == type) {
+				walkable = true;
+				break;
+			}
+		}
 	}
 	
 	public String fieldType () {
