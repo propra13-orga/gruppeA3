@@ -9,8 +9,10 @@ public class Menu extends JFrame implements ComponentListener{
 //schützen der Button und Buttonbezeichnung
 	private JButton buttonstart;
 	private JButton buttonbeenden;
+	private JButton buttonoptionen;
 	private String stringbuttonstart;
 	private String stringbuttonbeenden;
+	private String stringbuttonoptionen;
 	
 	private JPanel panelButton;
 	
@@ -32,20 +34,23 @@ public class Menu extends JFrame implements ComponentListener{
 	//Button Texte
 	stringbuttonstart = "Spiel Starten";
 	stringbuttonbeenden = "Beenden";
+	stringbuttonoptionen = "Optionen";
 	
 	//Button erzeugen
 	buttonstart = new JButton(stringbuttonstart);
 	buttonbeenden = new JButton(stringbuttonbeenden);
+	buttonoptionen = new JButton(stringbuttonoptionen);
 	
-	//panelButton = new JPanel(new GridLayout(3,3));	//unterteilung des fensters
-	panelButton = new JPanel(new FlowLayout());
+	panelButton = new JPanel(new FlowLayout());	//button anpassen und anordnen
 	//Button anordnen
 	panelButton.add(buttonstart);
 	panelButton.add(buttonbeenden);
+	panelButton.add(buttonoptionen);
 	
 	//listener für button
 	addButtonListener(buttonstart);
 	addButtonListener(buttonbeenden);
+	addButtonListener(buttonoptionen);
 	
 	//positonierung der button auf BorderLayout
 	getContentPane().add(BorderLayout.CENTER, panelButton);
