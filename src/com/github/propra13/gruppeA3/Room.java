@@ -152,16 +152,5 @@ public class Room {
 		return room;
 	}
 
-	//Splits a given byte to single hex numbers (4 bit)
-	private int[] splitByte(int toSplit) {
-		int partA=0;
-		while(toSplit > 15) {
-			partA++;
-			toSplit = toSplit - 16;
-		}
-		int[] returnVal = {partA, toSplit};
-		return returnVal;
-	}
-
 }
 	
