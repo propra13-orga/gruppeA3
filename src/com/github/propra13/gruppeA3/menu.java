@@ -25,7 +25,7 @@ public class Menu extends JFrame implements ComponentListener{
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	//schließen button belegt
 	setLocation(400,200);	//fensterpostion auf bildschirm festlegen
 	setSize(MINWIDTH,MINHEIGHT);
-	getContentPane().setLayout(new BorderLayout(5,5));	//unterteilung des fensters
+	getContentPane().setLayout(new GridBagLayout());	//unterteilung des fensters
 	
 	//Fenster überwachung auf Mindestgröße erweiterung der Classe um implements ComponentListener
 	addComponentListener(this);
@@ -41,20 +41,41 @@ public class Menu extends JFrame implements ComponentListener{
 	buttonbeenden = new JButton(stringbuttonbeenden);
 	buttonoptionen = new JButton(stringbuttonoptionen);
 	
-	panelButton = new JPanel(new FlowLayout());	//button anpassen und anordnen
+	panelButton = new JPanel(new GridBagLayout());	//button anpassen und anordnen
 	//Button anordnen
-	panelButton.add(buttonstart);
-	panelButton.add(buttonbeenden);
-	panelButton.add(buttonoptionen);
+	GridBagConstraints gbc_buttonstart = new GridBagConstraints();
+	gbc_buttonstart.insets = new Insets(0, 0, 5, 5);
+	gbc_buttonstart.gridx = 1;
+	gbc_buttonstart.gridy = 0;
+	gbc_buttonstart.gridwidth = 1;
+	panelButton.add(buttonstart, gbc_buttonstart);
+	GridBagConstraints gbc_buttonbeenden = new GridBagConstraints();
+	gbc_buttonbeenden.insets = new Insets(0, 0, 5, 5);
+	gbc_buttonbeenden.gridx = 3;
+	gbc_buttonbeenden.gridy = 0;
+	gbc_buttonbeenden.gridwidth = 2;
+	panelButton.add(buttonbeenden, gbc_buttonbeenden);
+	GridBagConstraints gbc_buttonoptionen = new GridBagConstraints();
+	gbc_buttonoptionen.insets = new Insets(0, 0, 5, 5);
+	gbc_buttonoptionen.gridx = 1;
+	gbc_buttonoptionen.gridy = 1;
+	gbc_buttonoptionen.gridwidth = 4;
+	panelButton.add(buttonoptionen, gbc_buttonoptionen);
 	
 	//listener für button
 	addButtonListener(buttonstart);
 	addButtonListener(buttonbeenden);
 	addButtonListener(buttonoptionen);
 	
+	
+	
+	
 	//positonierung der button auf BorderLayout
-	getContentPane().add(BorderLayout.CENTER, panelButton);
-	setVisible(true);	
+	GridBagConstraints gbc_panelButton = new GridBagConstraints();
+	gbc_panelButton.gridy = 0;
+	getContentPane().add(panelButton, gbc_panelButton);
+	setVisible(true);
+	
 	}
 
 	@SuppressWarnings("unused")
@@ -62,25 +83,31 @@ public class Menu extends JFrame implements ComponentListener{
 	Menu m = new Menu();	//initialisierung des Fensters
 	}	
 	
+
 	//Listener für Button
 	private void addButtonListener(JButton b){
 		b.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent ae)
-			{
-				eingabe(ae.getActionCommand());
+					{
+						eingabe(ae.getActionCommand());
+					}
+				});
 			}
-		});
-	}
 
 	//Action für button
-	private void eingabe(String a){
-		if(a == stringbuttonbeenden)
-		{
-			System.exit(1);
-		}
+		private void eingabe(String a){
+			if(a == stringbuttonbeenden)
+				{
+					System.exit(1);
+				}
+				//if(a == stringbuttonoptionen)
+					
+			
+
+
 	}
 
-
+	
 	public void componentResized(ComponentEvent e){
 		Dimension dim = this.getSize();
 		dim.width = (dim.width < MINWIDTH) ? MINWIDTH: dim.width;
