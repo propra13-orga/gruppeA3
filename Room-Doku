@@ -1,0 +1,54 @@
+Typen:
+    1 Boden
+    2 Wand
+    3 Wasser
+    4 Tür
+    5 Link
+    FF (=255) Zeilenende
+    
+Items:
+    1 Lebenstrank
+    2 Waffe
+    3 Rüstung
+
+FELDTYPEN-SPECS
+Wasser:
+    Attribut2:
+        0 ohne Brücke
+        1 mit Brücke
+        
+    Attribut1:
+	Fließrichtung:
+        0 N
+        1 O
+        2 S
+        3 W
+        
+Link:
+    Attr1: Link-ID
+    Attr2: Ziel-Map-ID
+	   Spezialwert (FE oder so) falls unidirektional
+
+Spawn:
+    Typ: irgendein walkable
+    
+	
+	
+
+
+        
+Darstellung eines Felds in einer Datei (6 Byte pro Feld):
+
+    Byte | Belegung
+    -----+----------
+      01 | Feldtyp
+      02 | Textur
+      03 | Feld-Attribut 1
+      04 | Feld-Attribut 2
+      05 | Entity-Typ
+      06 | Entity-Attribut
+      
+Beispiel: 05 00 01 02 00 00
+	  Ist ein Link mit der Textur-ID 0.
+	  Link-ID 01, linkt zu Map 02.
+	  Keine Items.
