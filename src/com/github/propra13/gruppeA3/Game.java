@@ -1,12 +1,16 @@
 package com.github.propra13.gruppeA3;
 
+import java.io.IOException;
+
 import com.github.propra13.gruppeA3.Entities.Player;
+import com.github.propra13.gruppeA3.Exceptions.InvalidRoomLinkException;
+import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
 import com.github.propra13.gruppeA3.Map;
 
 
 public class Game {
 
-	//Attribute: Mehrere globale Variablen für Schwierigkeitsgrad etc.
+	//Attribute: Mehrere globale Variablen fï¿½r Schwierigkeitsgrad etc.
 	public Map map;
 	public Player[] players;
 	public Graphics gui;
@@ -16,18 +20,21 @@ public class Game {
 		
 	}
 	
-	void startgame(int spieleranzahl){
+	
+	void startgame(int spieleranzahl)
+			throws MapFormatException, IOException, InvalidRoomLinkException {
 		/* TODO:
-		 * Map-Verzeichnisname aus Menü abfragen(später)
+		 * Exceptions abfangen bzw. in GUI ausgeben
+		 * Map-Verzeichnisname aus Menï¿½ abfragen(spï¿½ter)
 		 */
 		map = new Map("standardmap");
 		spawnplayers(spieleranzahl);
 		
 	}
 	
-	void spawnplayers(int anzahl){
+	void spawnplayers(int anzahl) {
 		/* TODO:
-		 * spawnfunktion einfügen
+		 * spawnfunktion einfï¿½gen
 		 */
 	}
 	
