@@ -12,6 +12,10 @@ import com.github.propra13.gruppeA3.Exceptions.*;
 public class Map {
 	/**
 	 * @author Christian Krüger
+	 * TODO:
+	 * Links bauen.
+	 * Vorgehensweise:
+	 * Links zählen, Array mit passender Größe anlegen.
 	 */
 	
 	public Room[] mapRooms;
@@ -21,15 +25,15 @@ public class Map {
 	final static String roomEnding = "room";
 	final static String metaEnding = "xml";
 	
-	public Map(String dirName)
+	/* Baut Map aus gegebenem Verzeichnisnamen.
+	 * Interpretiert alle durchnummerierten "xy.room"-Dateien als Rooms.
+	 */
+	public Map(String dirName) 
 			throws MapFormatException, IOException, InvalidRoomLinkException {
 		
+		this.spawns[0] = this.spawns[1] = null;
 		readRooms(dirName);
-		try {
-			checkLinks();
-		} catch (InvalidRoomLinkException e) {
-			throw e;
-		}
+		checkLinks();
 		
 	}
 
@@ -94,15 +98,9 @@ public class Map {
 		}
 		
 		//Baue Rooms auf
-		Room mapRooms[] = new Room[roomNames.length];
+		Room[] mapRooms = new Room[roomNames.length];
 		for (int i=0; i < roomNames.length; i++) {
-			try {
-				mapRooms[i] = new Room(i, roomNames[i] + "." + roomEnding);
-			} catch (FileNotFoundException e) {
-				throw e;
-			} catch (IOException e) {
-				throw e;
-			}
+			mapRooms[i] = new Room(i, roomNames[i] + "." + roomEnding);
 		}
 		
 		return mapRooms;
