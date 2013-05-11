@@ -13,16 +13,16 @@ Items:
 
 FELDTYPEN-SPECS
 Wasser:
-    Attribut2:
-        0 ohne Brücke
-        1 mit Brücke
-        
-    Attribut1:
+    Feld-Attribut 1:
 	Fließrichtung:
         0 N
         1 O
         2 S
         3 W
+    
+    Feld-Attribut 2:
+        0 ohne Brücke
+        1 mit Brücke
         
 Link:
     Attr1: Link-ID
@@ -30,7 +30,11 @@ Link:
 	   Spezialwert (FE oder so) falls unidirektional
 
 Spawn:
-    Typ: irgendein walkable
+    Konvention: Spawns liegen alle in Raum 00
+    Typ: irgendein walkable,
+         idealerweise Boden
+    Feld-Attribut 1: 02
+    Feld-Attribut 2: Spawn-ID
     
 	
 	

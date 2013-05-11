@@ -55,7 +55,8 @@ public class Map {
 	}
 	
 	//Liest alle Rooms einer Map ein
-	private Room[] readRooms(String mapName) throws MapFormatException, IOException {
+	private Room[] readRooms(String mapName)
+			throws FileNotFoundException, MapFormatException, IOException {
 		/* TODO:
 		 * Map-Zip
 		 */
@@ -65,6 +66,7 @@ public class Map {
 		dir = dir + File.separator + "maps";
 		File f = new File(dir);
 		File[] fileArray = f.listFiles();
+		
 		
 		//Sortiere Dateien (Rooms-Array (sortiert), sonstige)
 		String[] roomNames = new String[fileArray.length];
@@ -87,6 +89,7 @@ public class Map {
 					break;
 			}
 		}
+		
 		
 		//Room-Namen-Check
 		Arrays.sort(roomNames);
