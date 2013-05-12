@@ -9,14 +9,15 @@ import com.github.propra13.gruppeA3.Room;
  */
 
 public class Player extends Moveable {
-// Attribute
+    // Attribute
 	public int playerid;
-	
+	private String name = null;
+
+
+	// Konstruktoren
 	public Player(Room room_bind){
 		super(room_bind);
-		
-		private String name = null;
-
+	}
 		
 		/**
 		 * @return name liefert den Namen des Spielers zurück
@@ -76,6 +77,3 @@ public class Player extends Moveable {
 					
 			}
 		}*/	
-		
-		
-}

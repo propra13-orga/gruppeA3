@@ -9,7 +9,7 @@ public class Field {
 	 * Links
 	 * begehbar (statisch gemappt)
 	 */
-	boolean walkable = false;
+	public boolean walkable = false;
 	final static int[] walkables
 	= {1, 3, 4, 5}; //TODO: Wasserverhalten klären
 
@@ -75,7 +75,7 @@ public class Field {
 			
 		case "Wasser":
 			if (this.attribute1 == 1) return 'H';
-			else return '≈';
+			else return '�';
 			
 		case "Tuer":
 			return '+';
