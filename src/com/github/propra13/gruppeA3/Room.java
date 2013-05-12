@@ -94,7 +94,7 @@ public class Room {
 				lineIterate++;
 			}
 		}
-		System.out.println("Kartengröße: " + EOL_counter + "x" + lineLen/3);
+		System.out.println("Kartengröße: " + EOL_counter + "x" + lineLen/6);
 		
 		
 		/* Buffer -> Map-Array */
