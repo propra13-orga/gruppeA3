@@ -7,6 +7,7 @@ import com.github.propra13.gruppeA3.Entities.*;
 
 public class CrawlerSAX extends DefaultHandler{
 	public static Entities[][] map;
+	public static String title;
 	
 	@Override
 	public void startElement (String uri, String localName, 
@@ -14,7 +15,7 @@ public class CrawlerSAX extends DefaultHandler{
 										throws SAXException {
 		if(qName.equals("level")){
 			System.out.println(attrs.getValue("id"));
-			System.out.println(attrs.getValue("desc"));
+			title = new String(attrs.getValue("desc"));
 			System.out.println(attrs.getValue("player"));
 		}
 		else if (qName.equals("rooms")){

@@ -33,9 +33,9 @@ public class MenuStart extends JDialog {
 	 * Create the dialog.
 	 */
 	public MenuStart() {
-
-		setBounds(100, 100,CrawlerSAX.map.length*32,CrawlerSAX.map[0].length*32);
-		getContentPane().setLayout(new BorderLayout());
+		
+		//setBounds(100, 100,CrawlerSAX.map.length*32,CrawlerSAX.map[0].length*32);
+		/*getContentPane().setLayout(new BorderLayout());
 		contentPanel.setLayout(new FlowLayout());
 		contentPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -43,7 +43,7 @@ public class MenuStart extends JDialog {
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-		}
+		}*/
 	}
 
 }

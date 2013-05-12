@@ -6,6 +6,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import com.github.propra13.gruppeA3.Menu.MenuOption;
+import com.github.propra13.gruppeA3.XMLParser.CrawlerSAX;
 
 public class Menu extends JFrame implements ComponentListener{
 //schützen der Button und Buttonbezeichnung
@@ -77,10 +78,10 @@ public class Menu extends JFrame implements ComponentListener{
 	
 	}
 
-	@SuppressWarnings("unused")
+	/*@SuppressWarnings("unused")
 	public static void main(String[] args){
 	Menu m = new Menu();	//initialisierung des Fensters
-	}	
+	}*/	
 	
 
 	//Listener für Button
@@ -112,6 +113,11 @@ public class Menu extends JFrame implements ComponentListener{
 				MenuStart dialog = new MenuStart();
 				dialog.setLocationRelativeTo(this);
 				dialog.setVisible(true);
+		        dialog.setTitle(CrawlerSAX.title);
+		        
+		        dialog.setSize(CrawlerSAX.map.length*32,CrawlerSAX.map[0].length*32);
+		        // Dialog wird auf modal gesetzt
+		        //dialog.setModal(true);
 			}	
 			
 			
