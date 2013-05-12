@@ -29,7 +29,7 @@ public class Map {
 	 * Interpretiert alle durchnummerierten "xy.room"-Dateien als Rooms.
 	 */
 	public Map(String dirName) 
-			throws MapFormatException, IOException, InvalidRoomLinkException {
+			throws FileNotFoundException, MapFormatException, IOException, InvalidRoomLinkException {
 		
 		this.spawns[0] = this.spawns[1] = null;
 		readRooms(dirName);
@@ -54,6 +54,7 @@ public class Map {
 		
 	}
 	
+	
 	//Liest alle Rooms einer Map ein
 	private Room[] readRooms(String mapName)
 			throws FileNotFoundException, MapFormatException, IOException {
@@ -63,8 +64,11 @@ public class Map {
 		
 		//Sammle Map-Dateien
 		String dir = System.getProperty("user.dir");
-		dir = dir + File.separator + "maps";
+		dir = dir/* + "maps"*/ + File.separator + mapName;
+		System.out.println(dir);
 		File f = new File(dir);
+		if (! f.exists())
+			throw new FileNotFoundException(dir);
 		File[] fileArray = f.listFiles();
 		
 		
@@ -103,7 +107,7 @@ public class Map {
 		//Baue Rooms auf
 		Room[] mapRooms = new Room[roomNames.length];
 		for (int i=0; i < roomNames.length; i++) {
-			mapRooms[i] = new Room(i, roomNames[i] + "." + roomEnding);
+			mapRooms[i] = new Room(i, dir + File.separator + roomNames[i] + "." + roomEnding);
 		}
 		
 		return mapRooms;
