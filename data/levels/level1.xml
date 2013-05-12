@@ -44,7 +44,7 @@
 		<walls type="1" power="3" posx="9" posy="7" />
 		<walls type="1" power="3" posx="9" posy="8" />
 	</rooms>
-	
+<!--	
 	<rooms id="2" length="5" height="5">
 		<entry posx="0" posy="0" />
 		<exit  posx="4" posy="4" />
@@ -104,6 +104,6 @@
 		<walls type="3" power="3" posx="6" posy="3" />
 		<walls type="3" power="3" posx="6" posy="4" />
 		<walls type="3" power="3" posx="6" posy="5" />
-
+-->
 	</rooms>
 </level>	

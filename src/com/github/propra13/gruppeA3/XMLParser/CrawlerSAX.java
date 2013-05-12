@@ -22,7 +22,7 @@ public class CrawlerSAX extends DefaultHandler{
 			/*System.out.println(attrs.getValue("id"));
 			System.out.println(attrs.getValue("length"));
 			System.out.println(attrs.getValue("height"));*/
-			map = new Entities [Integer.parseInt(attrs.getValue("length"))][Integer.parseInt(attrs.getValue("height"))];
+			map = new Entities [Integer.parseInt(attrs.getValue("height"))][Integer.parseInt(attrs.getValue("length"))];
 
 		}
 		else if (qName.equals("walls")){
@@ -32,17 +32,16 @@ public class CrawlerSAX extends DefaultHandler{
 				int posy= Integer.parseInt(attrs.getValue("posy"));
 				
 				Walls wall=new Walls(power,type,posx,posy);
-				map[posx][posy]=wall;
-		
+				map[posx][posy]=wall;		
 		}
 
 	}
 	
-	@Override
+/**	@Override
 	public void endElement(String uri,String localN,String qName)
 										throws SAXException {
 		
-		/**
+		
 		if(qName.equals("rooms"))
 		System.out.println("rooms: "+qName.toString());
 			else if(qName.equals("entry"))
@@ -51,9 +50,9 @@ public class CrawlerSAX extends DefaultHandler{
 		System.out.println("exit: "+qName.toString());
 			else if (qName.equals("walls"))
 		System.out.println("walls: "+qName.toString());
-**/
+
 	}
-	
+**/	
 	
 	
 }	
