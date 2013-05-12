@@ -19,7 +19,7 @@ public class Field {
 	
 	public boolean walkable = false;
 	public Link link = null;
-	public Position pos = new Position();
+	public Position pos;
 	
 	
 	

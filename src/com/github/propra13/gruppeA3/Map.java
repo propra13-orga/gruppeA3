@@ -11,11 +11,11 @@ import com.github.propra13.gruppeA3.Exceptions.*;
 
 public class Map {
 	/**
-	 * @author Christian KrÃ¼ger
+	 * @author Christian Krüger
 	 * TODO:
 	 * Links bauen.
 	 * Vorgehensweise:
-	 * Links zÃ¤hlen, Array mit passender GrÃ¶ÃŸe anlegen.
+	 * Links zählen, Array mit passender Größe anlegen.
 	 */
 	
 	public Room[] mapRooms;
@@ -49,7 +49,7 @@ public class Map {
 		
 	}
 	
-	//ÃœberprÃ¼ft die Links zwischen Rooms
+	//Überprüft die Links zwischen Rooms
 	public void checkLinks() throws InvalidRoomLinkException {
 		
 	}
@@ -113,4 +113,3 @@ public class Map {
 		return mapRooms;
 	}
 }
-	

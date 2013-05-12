@@ -124,7 +124,6 @@ public class Room {
 				int attr2 = 255;
 				int entityType = 255;
 				int entityAttr = 255;
-				Position pos = new Position();
 				
 				for (int k=0; k < 6; k++) {
 					switch (k) {
@@ -147,8 +146,7 @@ public class Room {
 							entityAttr = buffer[bufferIndex + k];
 							break;
 					}
-					pos.x = i;
-					pos.y = j;
+					Position pos=new Position(i,j);
 					room[i][j] = new Field(
 							type, texture, attr1, attr2, entityType, entityAttr, pos);
 					
