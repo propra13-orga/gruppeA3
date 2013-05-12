@@ -111,11 +111,13 @@ public class Menu extends JFrame implements ComponentListener{
 			if(a == stringbuttonstart)
 			{
 				MenuStart dialog = new MenuStart();
-				dialog.setLocationRelativeTo(this);
-				dialog.setVisible(true);
-		        dialog.setTitle(CrawlerSAX.title);
+				//dialog.setLocationRelativeTo(this);
+				dialog.setUndecorated(true);
+				dialog.setTitle(CrawlerSAX.title);
 		        
 		        dialog.setSize(CrawlerSAX.map.length*32,CrawlerSAX.map[0].length*32);
+		        dialog.setVisible(true);
+		        
 		        // Dialog wird auf modal gesetzt
 		        //dialog.setModal(true);
 			}	

@@ -19,18 +19,37 @@ public class Walls extends Entities {
 		this.pos=new Position(x,y);
 	}
 	
-	
+	// Getter Methoden
 	
 	@Override
-	Position getPosition() {
+	public Position getPosition() {
 		// TODO Auto-generated method stub
-		return null;
+		return pos;
+	}
+	
+	public int getPower() {
+		return this.power;
+	}
+	
+	public int getType(){
+		return this.type;
 	}
 
+	
+	// Setter Methoden
 	@Override
-	void setPosition(int x, int y) {
+	public void setPosition(int x, int y) {
 		// TODO Auto-generated method stub
-		
+		this.pos.x = x;
+		this.pos.y = y;
+	}
+	
+	public void setPower(int power){
+		this.power = power;
+	}
+	
+	public void setType(int type){
+		this.type = type;
 	}
 
 }

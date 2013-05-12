@@ -14,14 +14,14 @@ public class CrawlerSAX extends DefaultHandler{
 								String qName,Attributes attrs)
 										throws SAXException {
 		if(qName.equals("level")){
-			System.out.println(attrs.getValue("id"));
+			//System.out.println(attrs.getValue("id"));
 			title = new String(attrs.getValue("desc"));
-			System.out.println(attrs.getValue("player"));
+			//System.out.println(attrs.getValue("player"));
 		}
 		else if (qName.equals("rooms")){
-			System.out.println(attrs.getValue("id"));
+			/*System.out.println(attrs.getValue("id"));
 			System.out.println(attrs.getValue("length"));
-			System.out.println(attrs.getValue("height"));
+			System.out.println(attrs.getValue("height"));*/
 			map = new Entities [Integer.parseInt(attrs.getValue("length"))][Integer.parseInt(attrs.getValue("height"))];
 
 		}
