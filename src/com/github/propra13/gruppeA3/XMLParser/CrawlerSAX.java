@@ -7,10 +7,6 @@ import com.github.propra13.gruppeA3.Entities.*;
 
 public class CrawlerSAX extends DefaultHandler{
 	public static Entities[][] map;
-	String currentText;
-	String name=null;
-	String desc=null;
-	String pl=null;
 	
 	@Override
 	public void startElement (String uri, String localName, 
