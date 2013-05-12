@@ -6,6 +6,6 @@ public class Game {
 	public static void main(String[] args){
 		
 		Menu meinmenue = new Menu();
-		meinmenue.show();
+		meinmenue.setVisible(true);
 	}
 }
