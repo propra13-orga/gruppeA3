@@ -107,6 +107,12 @@ public class Menu extends JFrame implements ComponentListener{
 				dialog.setVisible(true);
 			}	
 			
+			if(a == stringbuttonstart)
+			{
+				MenuStart dialog = new MenuStart();
+				dialog.setLocationRelativeTo(this);
+				dialog.setVisible(true);
+			}	
 			
 			
 	}

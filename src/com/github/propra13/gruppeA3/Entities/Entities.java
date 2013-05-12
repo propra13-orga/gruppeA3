@@ -7,6 +7,7 @@ import com.github.propra13.gruppeA3.Position;
  */
 
 public abstract class Entities {
+	
 
 	// Getter Methoden für alle Entites
 	
