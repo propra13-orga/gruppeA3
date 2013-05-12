@@ -27,7 +27,7 @@ public class Room {
 	
 	//Baut Map-Objekt aus Datei
 	public Room(int roomID, String filename)
-			throws FileNotFoundException, IOException, MapFormatException {
+			throws IOException, MapFormatException {
 		this.ID = roomID;
 		this.roomFields = readFile(filename);
 	}
@@ -102,16 +102,20 @@ public class Room {
 		
 		//Durchläuft Zeilen
 		int spawncounter = -1;
+		spawns = new Field[1024]; // spawns waren nicht initialisiert, provisorisch auf 1024 gesetzt
 		spawns[0] = null;
 		spawns[1] = null;
 		
+		int lineIndex = 0;
+		int bufferIndex = 0;
+		
 		for (int i=0; i < EOL_counter; i++) {
-			int lineIndex = i*lineLen + i;
+			lineIndex = i*lineLen + i;
 			
 			// Durchläuft Spalten (in Feldern)
 			for (int j=0; j < lineLen/3; j++) {
 				//Nimmt erstes Feldbyte
-				int bufferIndex = lineIndex + j*3;
+				bufferIndex = lineIndex + j*3;
 				
 				//Iteriert über alle sechs Feldbytes
 				int texture = 255; //255: Eclipse meckert sonst
@@ -135,7 +139,11 @@ public class Room {
 							break;
 						case 3:
 							attr2 = buffer[bufferIndex + k];
-							break;
+							break;  /**
+										@author Majida Dere
+							 			hier ist ein FEhler!!! wenn bufferIndex auf 254 steht, ist k bei 4 und zusammen ergibt das 258.
+									    leider kann ich das Problem nicht l�sen, da ich diese Struktur nicht verstehe.
+									 **/
 						case 4:
 							entityType = buffer[bufferIndex + k];
 							break;
