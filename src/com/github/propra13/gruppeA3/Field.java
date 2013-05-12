@@ -2,7 +2,7 @@ package com.github.propra13.gruppeA3;
 
 public class Field {
 	
-	public Position pos = new Position();
+	public Position pos;
 	public boolean hasLink = false;
 	
 	/* TODO:

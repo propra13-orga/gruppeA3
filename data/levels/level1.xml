@@ -1,0 +1,109 @@
+<level id="1" desc="Sind Spinnen lecker?!" player="1">
+	<rooms id="1" length="10" height="10">
+		<entry posx="0" posy="0" />
+		<exit  posx="9" posy="9" />
+		<!-- Obere Reihe -->
+		<walls type="3" power="3" posx="0" posy="1" />
+		<walls type="3" power="3" posx="0" posy="2" />
+		<walls type="2" power="3" posx="0" posy="3" />
+		<walls type="5" power="3" posx="0" posy="4" />
+		<walls type="5" power="3" posx="0" posy="5" />
+		<walls type="5" power="3" posx="0" posy="6" />
+		<walls type="5" power="3" posx="0" posy="7" />
+		<walls type="2" power="3" posx="0" posy="8" />
+		<walls type="1" power="3" posx="0" posy="9" />
+		
+		<!-- Linke Spalte -->
+		<walls type="1" power="3" posx="1" posy="0" />
+		<walls type="1" power="3" posx="2" posy="0" />
+		<walls type="1" power="3" posx="3" posy="0" />
+		<walls type="1" power="3" posx="4" posy="0" />
+		<walls type="1" power="3" posx="5" posy="0" />
+		<walls type="1" power="3" posx="6" posy="0" />
+		<walls type="1" power="3" posx="7" posy="0" />
+		<walls type="1" power="3" posx="8" posy="0" />
+		<walls type="1" power="3" posx="9" posy="0" />
+		
+		<!-- Rechte Spalte -->
+		<walls type="1" power="3" posx="1" posy="9" />
+		<walls type="1" power="3" posx="2" posy="9" />
+		<walls type="1" power="3" posx="3" posy="9" />
+		<walls type="1" power="3" posx="4" posy="9" />
+		<walls type="1" power="3" posx="5" posy="9" />
+		<walls type="1" power="3" posx="6" posy="9" />
+		<walls type="1" power="3" posx="7" posy="9" />
+		<walls type="1" power="3" posx="8" posy="9" />
+		
+		<!-- Untere Reihe -->
+		<walls type="1" power="3" posx="9" posy="1" />
+		<walls type="1" power="3" posx="9" posy="2" />
+		<walls type="1" power="3" posx="9" posy="3" />
+		<walls type="1" power="3" posx="9" posy="4" />
+		<walls type="1" power="3" posx="9" posy="5" />
+		<walls type="1" power="3" posx="9" posy="6" />
+		<walls type="1" power="3" posx="9" posy="7" />
+		<walls type="1" power="3" posx="9" posy="8" />
+	</rooms>
+	
+	<rooms id="2" length="5" height="5">
+		<entry posx="0" posy="0" />
+		<exit  posx="4" posy="4" />
+		<!-- Obere Reihe -->
+		<walls type="1" power="3" posx="0" posy="1" />
+		<walls type="1" power="3" posx="0" posy="2" />
+		<walls type="1" power="3" posx="0" posy="3" />
+		<walls type="1" power="3" posx="0" posy="4" />
+		
+		<!-- Linke Spalte -->
+		<walls type="1" power="3" posx="1" posy="0" />
+		<walls type="1" power="3" posx="2" posy="0" />
+		<walls type="1" power="3" posx="3" posy="0" />
+		<walls type="1" power="3" posx="4" posy="0" />
+
+		<!-- Rechte Spalte -->
+		<walls type="1" power="3" posx="1" posy="4" />
+		<walls type="1" power="3" posx="2" posy="4" />
+		<walls type="1" power="3" posx="3" posy="4" />
+		
+		<!-- Untere Reihe -->
+		<walls type="1" power="3" posx="4" posy="1" />
+		<walls type="1" power="3" posx="4" posy="2" />
+		<walls type="1" power="3" posx="4" posy="3" />
+		
+	</rooms>
+	
+	<rooms id="3" length="7" height="7">
+		<entry posx="0" posy="0" />
+		<exit  posx="6" posy="6" />
+		<!-- Obere Reihe -->
+		<walls type="1" power="3" posx="0" posy="1" />
+		<walls type="1" power="3" posx="0" posy="2" />
+		<walls type="1" power="3" posx="0" posy="3" />
+		<walls type="1" power="3" posx="0" posy="4" />
+		<walls type="1" power="3" posx="0" posy="5" />
+		<walls type="1" power="3" posx="0" posy="6" />
+		
+		<!-- Linke Spalte -->
+		<walls type="1" power="3" posx="1" posy="0" />
+		<walls type="1" power="3" posx="2" posy="0" />
+		<walls type="1" power="3" posx="3" posy="0" />
+		<walls type="1" power="3" posx="4" posy="0" />
+		<walls type="1" power="3" posx="5" posy="0" />
+		<walls type="1" power="3" posx="6" posy="0" />
+		
+		<!-- Rechte Spalte -->
+		<walls type="1" power="3" posx="1" posy="6" />
+		<walls type="1" power="3" posx="2" posy="6" />
+		<walls type="5" power="3" posx="3" posy="6" />
+		<walls type="5" power="3" posx="4" posy="6" />
+		<walls type="1" power="3" posx="5" posy="6" />
+		
+		<!-- Untere Reihe -->
+		<walls type="1" power="3" posx="6" posy="1" />
+		<walls type="1" power="3" posx="6" posy="2" />
+		<walls type="3" power="3" posx="6" posy="3" />
+		<walls type="3" power="3" posx="6" posy="4" />
+		<walls type="3" power="3" posx="6" posy="5" />
+
+	</rooms>
+</level>	
