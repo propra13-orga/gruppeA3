@@ -1,7 +1,7 @@
 package com.github.propra13.gruppeA3;
 
 /*
- * Klasse für GUI: Menü und Spielgrafik
+ * Klasse fÃ¼r GUI: Spielgrafik
  * 
  */
 
