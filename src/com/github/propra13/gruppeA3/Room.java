@@ -102,7 +102,7 @@ public class Room {
 		
 		//Durchläuft Zeilen
 		int spawncounter = -1;
-		spawns = new Field[1024]; // spawns waren nicht initialisiert, provisorisch auf 1024 gesetzt
+		spawns = new Field[2];
 		spawns[0] = null;
 		spawns[1] = null;
 		
@@ -113,7 +113,7 @@ public class Room {
 			lineIndex = i*lineLen + i;
 			
 			// Durchläuft Spalten (in Feldern)
-			for (int j=0; j < lineLen/3; j++) {
+			for (int j=0; j < lineLen/6; j++) {
 				//Nimmt erstes Feldbyte
 				bufferIndex = lineIndex + j*3;
 				
@@ -139,11 +139,7 @@ public class Room {
 							break;
 						case 3:
 							attr2 = buffer[bufferIndex + k];
-							break;  /**
-										@author Majida Dere
-							 			hier ist ein FEhler!!! wenn bufferIndex auf 254 steht, ist k bei 4 und zusammen ergibt das 258.
-									    leider kann ich das Problem nicht l�sen, da ich diese Struktur nicht verstehe.
-									 **/
+							break;
 						case 4:
 							entityType = buffer[bufferIndex + k];
 							break;

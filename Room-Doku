@@ -34,7 +34,7 @@ Spawn:
     Typ: irgendein walkable,
          idealerweise Boden
     Feld-Attribut 1: 02
-    Feld-Attribut 2: Spawn-ID
+    Feld-Attribut 2: Spawn-ID (00 oder 01)
     
 	
 	
