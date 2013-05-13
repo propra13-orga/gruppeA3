@@ -4,12 +4,27 @@ import java.util.*;
 import org.xml.sax.*;
 import com.github.propra13.gruppeA3.Entities.*;
 
-
+/**
+ * 
+ * @author Majida Dere
+ *
+ */
 public class CrawlerSAX extends DefaultHandler{
 	public static Entities[][] map;
 	public static String title;
 	
 	@Override
+	/**
+	 * Der SAX Crawler erzeugt für zwei Elementknoten zwei Ereignisse,
+	 * eines wenn das öffnende Tag des Elements gefunden ist,
+	 * und eines beim SChließen des tags.
+	 * Die Paramter
+	 * @param uri,
+	 * @param localName,
+	 * @param qName,
+	 * @param attrs,
+	 * geben genaue Informationen über den Tagnamen.
+	 */
 	public void startElement (String uri, String localName, 
 								String qName,Attributes attrs)
 										throws SAXException {
