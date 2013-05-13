@@ -10,13 +10,59 @@ import com.github.propra13.gruppeA3.Room;
 
 public class Player extends Moveable {
     // Attribute
-	public int playerid;
 	private String name = null;
 
 
 	// Konstruktoren
 	public Player(Room room_bind){
 		super(room_bind);
+	}
+	//Methode überschrieben, prüft für Spieler zusätzlich, ob bereits ein anderer Spieler auf dem Feld steht
+	public void move(){
+		switch(this.direct){
+		case LEFT: 
+			if(currentroom.roomFields[pos.x-1][pos.y].walkable == true 
+			   && currentroom.roomFields[pos.x-1][pos.y].entityType != 1){
+				setPosition(this.pos.x-1,this.pos.y);
+			}
+					break;
+					
+		case UP:
+			if(currentroom.roomFields[pos.x][pos.y-1].walkable == true
+			   && currentroom.roomFields[pos.x][pos.y-1].entityType != 1){
+				setPosition(this.pos.x,this.pos.y-1);
+			}
+					break;
+					
+		case RIGHT:
+			if(currentroom.roomFields[this.pos.x+1][this.pos.y].walkable == true
+			   && currentroom.roomFields[pos.x+1][pos.y].entityType != 1){
+				setPosition(this.pos.x+1,this.pos.y);
+			}
+					break;
+					
+		case DOWN:
+			if(currentroom.roomFields[this.pos.x][this.pos.y+1].walkable == true
+			   && currentroom.roomFields[pos.x][pos.y+1].entityType != 1){
+				setPosition(this.pos.x,this.pos.y+1);
+			}
+					break;		
+		default: ;	//nichts tun
+		}
+		switch(this.currentroom.roomFields[this.pos.x][this.pos.y].entityType){
+		case 0: break; 			  
+		case 2: this.death(); //Spieler stirbt bei betreten eines Feldes mit Gegner
+		case 3: this.use();   //Spieler hebt Item auf / benutzt Item
+		default: break;		  //nichts tun
+		}
+	}
+	
+	private void death(){
+		//TODO: Spieler sterben lassen
+	}
+	
+	private void use(){
+		//TODO: Item von Spieler benutzen lassen
 	}
 		
 		/**

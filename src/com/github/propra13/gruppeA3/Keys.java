@@ -1,16 +1,15 @@
 package com.github.propra13.gruppeA3;
 
 import java.awt.*;
-
+import java.awt.event.*;
 import com.github.propra13.gruppeA3.Entities.Player;
 import com.github.propra13.gruppeA3.Entities.Moveable.direction;
-import java.awt.event.*;
+
 
 public class Keys implements KeyListener {
 	
 	Player player; //Referenz zum gesteuerten Charakter
 	private Frame listener_frame;
-	private boolean loop_continue;
 		
 	//Konstruktor
 	public Keys(Player player_bind){
@@ -19,7 +18,6 @@ public class Keys implements KeyListener {
 		listener_frame.setSize(0,0);
 		listener_frame.setVisible(false);
 		listener_frame.addKeyListener(this);
-		loop_continue = false;
 	}
 	
 	public void keyTyped(KeyEvent e){}
@@ -28,28 +26,22 @@ public class Keys implements KeyListener {
 		int pressed = e.getKeyCode();
 		switch(pressed) {
 			case 37: player.direct = direction.LEFT;
+					 player.move();
 					 break;
 			case 38: player.direct = direction.UP;
+					 player.move();
 					 break;
 			case 39: player.direct = direction.RIGHT;
+					 player.move();
 					 break;
 			case 40: player.direct = direction.DOWN;
-					 break;
+					 player.move();
+					 break;		 
 			default: player.direct = direction.NONE;
 					 break;
 		}
-		loop_continue = true;
-		move_loop();
+
 	}
 	
-	public void keyReleased(KeyEvent e){
-		loop_continue = false;
-	}
-	
-	void move_loop(){
-		while(loop_continue == true){
-			player.move();
-		}
-	}
-	
+	public void keyReleased(KeyEvent e){}
 }

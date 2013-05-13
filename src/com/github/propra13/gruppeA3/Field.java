@@ -24,14 +24,12 @@ public class Field {
 	
 	
 	public Field(
-			int type, int texture, int attr1, int attr2, int entityType, int entityAttr, Position pos) {
+			int type, int texture, int attr1, int attr2, Position pos) {
 		
 		this.type = type;
 		this.texture = texture;
 		this.attribute1 = attr1;
 		this.attribute2 = attr2;
-		this.entityType = entityType;
-		this.entityAttr = entityAttr;
 		this.pos = pos;
 		
 		//Walkable setzen
@@ -55,6 +53,8 @@ public class Field {
 			return "Wasser";
 		case 4:
 			return "Tuer";
+		case 5:
+			return "Link";
 		default:
 			return "unknown";
 		}
@@ -67,7 +67,10 @@ public class Field {
 			return 'X';
 			
 		case "Boden":
-			return 'O';
+			if (this.attribute1 == 2)
+				return '$';
+			else
+				return 'O';
 			
 		case "Wand":
 			return '#';
@@ -79,7 +82,7 @@ public class Field {
 		case "Tuer":
 			return '+';
 			
-		case "Spawn":
+		case "Link":
 			return '%';
 			
 		default:

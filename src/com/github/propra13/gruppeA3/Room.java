@@ -13,9 +13,10 @@ import java.util.LinkedList;
 public class Room {
 	
 	public int ID;
-	public Field[][] roomFields;	//roomFields[Zeile][Spalte]
+	public Field[][] roomFields;	//roomFields[Spalte][Zeile]
 	public LinkedList entities = new LinkedList();
 	public Field[] spawns = null;
+	final static int fieldBytes = 4;
 	
 	/* TODO:
 	 * Metadatenzeile
@@ -94,38 +95,41 @@ public class Room {
 				lineIterate++;
 			}
 		}
-		System.out.println("Kartengröße: " + EOL_counter + "x" + lineLen/6);
+		System.out.println("Raum: " + filename);
+		System.out.println("Raumgröße: " + EOL_counter + "x" + lineLen/fieldBytes);
+		System.out.println();
 		
 		
 		/* Buffer -> Map-Array */
-		Field room[][] = new Field[EOL_counter][lineLen/3];
+		Field room[][] = new Field[lineLen/fieldBytes][EOL_counter];
 		
 		//Durchläuft Zeilen
-		int spawncounter = -1;
+		int spawncounter = 0;
 		spawns = new Field[2];
 		spawns[0] = null;
 		spawns[1] = null;
 		
-		int lineIndex = 0;
-		int bufferIndex = 0;
+		int lineIndex = 0;   //Anfang der aktuellen Zeile
+		int bufferIndex = 0; //Anfang des aktuellen Felds
+		
 		
 		for (int i=0; i < EOL_counter; i++) {
-			lineIndex = i*lineLen + i;
+			lineIndex = i*lineLen + i; //Zeile*Zeilenlänge + EOLs
+			
 			
 			// Durchläuft Spalten (in Feldern)
-			for (int j=0; j < lineLen/6; j++) {
+			for (int j=0; j < lineLen/fieldBytes; j++) {
+				
 				//Nimmt erstes Feldbyte
-				bufferIndex = lineIndex + j*3;
+				bufferIndex = lineIndex + j*fieldBytes;
 				
 				//Iteriert über alle sechs Feldbytes
 				int texture = 255; //255: Eclipse meckert sonst
 				int type = 255;
 				int attr1 = 255;
 				int attr2 = 255;
-				int entityType = 255;
-				int entityAttr = 255;
 				
-				for (int k=0; k < 6; k++) {
+				for (int k=0; k < 4; k++) {
 					switch (k) {
 						case 0:
 							type = buffer[bufferIndex + k];
@@ -139,23 +143,17 @@ public class Room {
 						case 3:
 							attr2 = buffer[bufferIndex + k];
 							break;
-						case 4:
-							entityType = buffer[bufferIndex + k];
-							break;
-						case 5:
-							entityAttr = buffer[bufferIndex + k];
-							break;
 					}
-					Position pos=new Position(i,j);
-					room[i][j] = new Field(
-							type, texture, attr1, attr2, entityType, entityAttr, pos);
-					
+					Position pos=new Position(j, i);
+					room[j][i] = new Field(
+							type, texture, attr1, attr2, pos);
 				}
 				
 				//Spawn setzen
-				if (attr1 == 2) {
+				if (room[j][i].type == 1 && attr1 == 2) {
+					File compare = new File(filename);
 					
-					if(filename != "00." + Map.roomEnding)
+					if(! compare.getName().equals( "00." + Map.roomEnding) )
 						throw new MapFormatException("Spawns dürfen nur in Raum 00 sein.");
 					
 					else if (spawncounter > 1 || attr2 > 1)
@@ -165,13 +163,10 @@ public class Room {
 						throw new MapFormatException("Zwei Spawns mit gleicher ID");
 					
 					else
-						spawns[spawncounter] = room[i][j];
+						spawns[spawncounter] = room[j][i];
 					
 					spawncounter++;
-						
-					
 				}
-				
 			}
 		}
 		return room;
