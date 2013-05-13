@@ -6,13 +6,13 @@
     description="A fresh drink."
     type="usable"
     power="2"
-    ...
-	<item id="2" name="Knife"
+    <!-- und so weiter -->
+	<item id="2" name="sword"
 	image="blablibub"
     description="A strong protection."
     type="usable"
     power="10"
-    ...
+    <!--und so weiter -->
 	<item id="2" name="shield"
 	image="blablibub"
     description="A way to protect."
