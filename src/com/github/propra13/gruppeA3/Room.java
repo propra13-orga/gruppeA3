@@ -34,7 +34,13 @@ public class Room {
 	}
 	
 	
-	
+	/* Liest Raum aus Datei aus
+	 * Vorgehensweise:
+	 * Lädt alle Bytes in buffer-Array
+	 * Zählt Zeilenendenmarker (FF bzw. 255)
+	 * Iteriert über alle Felder in allen Zeilen
+	 * Gibt roomFields[][] zurück (enthält alle Felder des Raums)
+	 */
 	private Field[][] readFile (String filename)
 			throws FileNotFoundException, IOException, MapFormatException {
 		
@@ -112,7 +118,14 @@ public class Room {
 		int lineIndex = 0;   //Anfang der aktuellen Zeile
 		int bufferIndex = 0; //Anfang des aktuellen Felds
 		
-		
+		/* i: Zeilennummer
+		 * lineIndex: Nummer des buffer-Arrayplatzes des ersten Bytes delineIndex r aktuellen Zeile
+		 * 
+		 * j: Feldnummer in aktueller Zeile
+		 * bufferIndex: Nummer des buffer-Arrayplatzes des ersten Bytes des aktuellen Felds
+		 * 
+		 * k: Arrayplatz-Offset für Bestimmung der Feldattribute
+		 */
 		for (int i=0; i < EOL_counter; i++) {
 			lineIndex = i*lineLen + i; //Zeile*Zeilenlänge + EOLs
 			

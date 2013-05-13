@@ -55,7 +55,11 @@ public class Map {
 	}
 	
 	
-	//Liest alle Rooms einer Map ein
+	/* Liest alle Rooms einer Map ein
+	 * Vorgehensweise:
+	 * Sammelt aus gegebenem Map-Verzeichnis alle .room-Dateien
+	 * Erzeugt Room-Objekte aus .room-Dateien
+	 */
 	private Room[] readRooms(String mapName)
 			throws FileNotFoundException, MapFormatException, IOException {
 		/* TODO:
@@ -85,7 +89,7 @@ public class Map {
 					break;
 				case Map.metaEnding:
 					/* TODO:
-					 * Datei mit Metainformationen
+					 * Datei mit Mapinformationen (xml)
 					 */
 					break;
 				default:
