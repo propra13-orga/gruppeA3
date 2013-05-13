@@ -38,7 +38,7 @@ public class Moveable extends Entities {
 
 	/** 
 	 * Diese Methode bewegt ein bewegbares Objekt im Raum
-	 * Begehbarkeit des Feldes prüfen
+	 * Begehbarkeit des Feldes prÃ¼fen
 	 * Wenn begehbar, setposition anwenden
 	 **/
 	public void move(){
