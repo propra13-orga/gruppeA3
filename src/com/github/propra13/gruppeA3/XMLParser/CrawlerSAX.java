@@ -63,7 +63,18 @@ public class CrawlerSAX extends DefaultHandler{
 				
 				Monster monster=new Monster(Map.mapRooms[roomID], speed, power, type, size, life, posx, posy);
 		}
-
+		
+		else if(qName.equals("item")){
+			int size = Integer.parseInt(attrs.getValue("size"));
+			double speed = Double.parseDouble(attrs.getValue("speed"));
+			int power = Integer.parseInt(attrs.getValue("power"));
+			int life = Integer.parseInt(attrs.getValue("life"));
+			int type = Integer.parseInt(attrs.getValue("type"));
+			int posx= Integer.parseInt(attrs.getValue("posx"));
+			int posy= Integer.parseInt(attrs.getValue("posy"));
+			
+			Monster monster=new Monster(Map.mapRooms[roomID], speed, power, type, size, life, posx, posy);
+	}
 	}
 	
 /**	@Override
