@@ -1,0 +1,21 @@
+<!-- Item.xml dient dazu, die Items, die ein Spieler während des Spieles aufsammelt und mit sich trägt, darzustellen-->
+<items>
+	<!--id ist die Item ID, name der Name des Items, desciption gibt eine Beschreibung,type steht für Nutbarkeit bzw NIcht Nutzbarkeit, power bedeutet, dass der Charakter 15 Powerpunkte dazu bekommt.-->
+	<item id="1" name="Magic Drink"
+	image="blablibub"
+    description="A fresh drink."
+    type="usable"
+    power="2"
+    ...
+	<item id="2" name="Knife"
+	image="blablibub"
+    description="A strong protection."
+    type="usable"
+    power="10"
+    ...
+	<item id="2" name="shield"
+	image="blablibub"
+    description="A way to protect."
+    type="usable"
+    power="5"
+ </items>
