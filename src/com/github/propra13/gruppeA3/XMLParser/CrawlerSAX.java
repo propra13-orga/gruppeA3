@@ -61,7 +61,7 @@ public class CrawlerSAX extends DefaultHandler{
 				int posx= Integer.parseInt(attrs.getValue("posx"));
 				int posy= Integer.parseInt(attrs.getValue("posy"));
 				
-				//Monster monster=new Monster(Map.mapRooms[roomID], speed, power, type, size, life, posx, posy);
+				Monster monster=new Monster(Map.mapRooms[roomID], speed, power, type, size, life, posx, posy);
 		}
 
 	}

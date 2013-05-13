@@ -18,7 +18,7 @@ public class Map {
 	 * Links z�hlen, Array mit passender Gr��e anlegen.
 	 */
 	
-	public Room[] mapRooms;
+	static public Room[] mapRooms;
 	public Field[] spawns = new Field[2];
 	public Field end = null;
 	

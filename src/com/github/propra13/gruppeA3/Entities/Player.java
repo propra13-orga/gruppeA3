@@ -17,6 +17,7 @@ public class Player extends Moveable {
 	public Player(Room room_bind){
 		super(room_bind);
 	}
+	
 	//Methode überschrieben, prüft für Spieler zusätzlich, ob bereits ein anderer Spieler auf dem Feld steht
 	public void move(){
 		switch(this.direct){
