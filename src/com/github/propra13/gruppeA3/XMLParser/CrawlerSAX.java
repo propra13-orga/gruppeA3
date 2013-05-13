@@ -49,6 +49,14 @@ public class CrawlerSAX extends DefaultHandler{
 				Walls wall=new Walls(power,type,posx,posy);
 				map[posx][posy]=wall;		
 		}
+		else if(qName.equals("monster")){
+				int size= Integer.parseInt(attrs.getValue("size"));
+				int speed= Integer.parseInt(attrs.getValue("speed"));
+				int power= Integer.parseInt(attrs.getValue("power"));
+				int life= Integer.parseInt(attrs.getValue("life"));
+			
+				Monster monster=new Monster(size,speed,power,life);
+		}
 
 	}
 	
