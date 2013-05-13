@@ -9,7 +9,7 @@ import com.github.propra13.gruppeA3.Menu.MenuOption;
 import com.github.propra13.gruppeA3.XMLParser.CrawlerSAX;
 
 public class Menu extends JFrame implements ComponentListener{
-//schützen der Button und Buttonbezeichnung
+//schï¿½tzen der Button und Buttonbezeichnung
 	private JButton buttonstart;
 	private JButton buttonbeenden;
 	private JButton buttonoptionen;
@@ -25,12 +25,12 @@ public class Menu extends JFrame implements ComponentListener{
 	public Menu(){
 	super("Fenster");	
 	setTitle("Dungeon Crawler");
-	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	//schließen button belegt
+	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	//schlieï¿½en button belegt
 	setLocation(400,200);	//fensterpostion auf bildschirm festlegen
 	setSize(MINWIDTH,MINHEIGHT);
 	getContentPane().setLayout(new GridBagLayout());	//unterteilung des fensters
 	
-	//Fenster überwachung auf Mindestgröße erweiterung der Classe um implements ComponentListener
+	//Fenster ï¿½berwachung auf Mindestgrï¿½ï¿½e erweiterung der Classe um implements ComponentListener
 	addComponentListener(this);
 	
 	//Button Texte
@@ -65,7 +65,7 @@ public class Menu extends JFrame implements ComponentListener{
 	gbc_buttonoptionen.gridwidth = 4;
 	panelButton.add(buttonoptionen, gbc_buttonoptionen);
 	
-	//listener für button
+	//listener fï¿½r button
 	addButtonListener(buttonstart);
 	addButtonListener(buttonbeenden);
 	addButtonListener(buttonoptionen);
@@ -84,7 +84,7 @@ public class Menu extends JFrame implements ComponentListener{
 	}*/	
 	
 
-	//Listener für Button
+	//Listener fï¿½r Button
 	private void addButtonListener(JButton b){
 		b.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent ae)
@@ -94,7 +94,7 @@ public class Menu extends JFrame implements ComponentListener{
 				});
 			}
 
-	//Action für button
+	//Action fï¿½r button
 		private void eingabe(String a){
 			if(a == stringbuttonbeenden)
 				{
@@ -115,7 +115,8 @@ public class Menu extends JFrame implements ComponentListener{
 				dialog.setUndecorated(true);
 				dialog.setTitle(CrawlerSAX.title);
 		        
-		        dialog.setSize(CrawlerSAX.map.length*32,CrawlerSAX.map[0].length*32);
+		        //dialog.setSize(CrawlerSAX.map.length*32,CrawlerSAX.map[0].length*32);
+				dialog.setSize(8*32,8*32);
 		        dialog.setVisible(true);
 		        
 		        // Dialog wird auf modal gesetzt

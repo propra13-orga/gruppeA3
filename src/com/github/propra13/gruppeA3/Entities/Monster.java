@@ -1,8 +1,9 @@
 package com.github.propra13.gruppeA3.Entities;
 
 import com.github.propra13.gruppeA3.Position;
+import com.github.propra13.gruppeA3.Room;
 
-public class Monster extends Entities {
+public class Monster extends Moveable {
 
 	// Attribute
 	private double speed;
@@ -13,7 +14,8 @@ public class Monster extends Entities {
 	
 	//Konstruktor
 	
-	public Monster (int power,int type,int x,int y){
+	public Monster (Room room_bind, double speed, int power, int type, int size, int life, int x, int y){
+		super(room_bind);
 		this.speed=speed;
 		this.size=size;
 		this.power=power;
@@ -40,9 +42,9 @@ public class Monster extends Entities {
 	
 	
 	@Override
-	Position getPosition() {
+	public Position getPosition() {
 		// TODO Auto-generated method stub
-		return null;
+		return pos;
 	}
 
 	

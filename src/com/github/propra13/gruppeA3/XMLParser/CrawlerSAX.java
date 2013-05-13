@@ -3,6 +3,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import java.util.*;
 import org.xml.sax.*;
 import com.github.propra13.gruppeA3.Entities.*;
+import com.github.propra13.gruppeA3.Map;
 
 /**
  * 
@@ -10,20 +11,22 @@ import com.github.propra13.gruppeA3.Entities.*;
  *
  */
 public class CrawlerSAX extends DefaultHandler{
-	public static Entities[][] map;
+//	public static Entities[][] map;
 	public static String title;
+	
+	private int roomID;
 	
 	@Override
 	/**
-	 * Der SAX Crawler erzeugt für zwei Elementknoten zwei Ereignisse,
-	 * eines wenn das öffnende Tag des Elements gefunden ist,
-	 * und eines beim SChließen des tags.
+	 * Der SAX Crawler erzeugt fï¿½r zwei Elementknoten zwei Ereignisse,
+	 * eines wenn das ï¿½ffnende Tag des Elements gefunden ist,
+	 * und eines beim SChlieï¿½en des tags.
 	 * Die Paramter
 	 * @param uri,
 	 * @param localName,
 	 * @param qName,
 	 * @param attrs,
-	 * geben genaue Informationen über den Tagnamen.
+	 * geben genaue Informationen ï¿½ber den Tagnamen.
 	 */
 	public void startElement (String uri, String localName, 
 								String qName,Attributes attrs)
@@ -34,11 +37,11 @@ public class CrawlerSAX extends DefaultHandler{
 			//System.out.println(attrs.getValue("player"));
 		}
 		else if (qName.equals("rooms")){
-			/*System.out.println(attrs.getValue("id"));
-			System.out.println(attrs.getValue("length"));
+			roomID = Integer.parseInt(attrs.getValue("id"));
+			/*System.out.println(attrs.getValue("length"));
 			System.out.println(attrs.getValue("height"));*/
-			map = new Entities [Integer.parseInt(attrs.getValue("height"))][Integer.parseInt(attrs.getValue("length"))];
-
+			//map = new Entities [Integer.parseInt(attrs.getValue("height"))][Integer.parseInt(attrs.getValue("length"))];
+			
 		}
 		else if (qName.equals("walls")){
 				int power= Integer.parseInt(attrs.getValue("power"));
@@ -47,15 +50,18 @@ public class CrawlerSAX extends DefaultHandler{
 				int posy= Integer.parseInt(attrs.getValue("posy"));
 				
 				Walls wall=new Walls(power,type,posx,posy);
-				map[posx][posy]=wall;		
+				//map[posx][posy]=wall;		
 		}
 		else if(qName.equals("monster")){
-				int size= Integer.parseInt(attrs.getValue("size"));
-				int speed= Integer.parseInt(attrs.getValue("speed"));
-				int power= Integer.parseInt(attrs.getValue("power"));
-				int life= Integer.parseInt(attrs.getValue("life"));
-			
-				Monster monster=new Monster(size,speed,power,life);
+				int size = Integer.parseInt(attrs.getValue("size"));
+				double speed = Double.parseDouble(attrs.getValue("speed"));
+				int power = Integer.parseInt(attrs.getValue("power"));
+				int life = Integer.parseInt(attrs.getValue("life"));
+				int type = Integer.parseInt(attrs.getValue("type"));
+				int posx= Integer.parseInt(attrs.getValue("posx"));
+				int posy= Integer.parseInt(attrs.getValue("posy"));
+				
+				//Monster monster=new Monster(Map.mapRooms[roomID], speed, power, type, size, life, posx, posy);
 		}
 
 	}

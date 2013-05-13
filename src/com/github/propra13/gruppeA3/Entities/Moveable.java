@@ -28,12 +28,11 @@ public class Moveable extends Entities {
 	
 	//Konstruktor
 	public Moveable(Room room_bind){
-		pos.x = 0;
-		pos.y = 0;
-		currentroom = room_bind;
-		direct = direction.NONE;
-		power = 0; //noch nicht benutzt
-		speed = 0; //noch nicht benutzt
+		this.pos = new Position(0,0);
+		this.currentroom = room_bind;
+		this.direct = direction.NONE;
+		this.power = 0; //noch nicht benutzt
+		this.speed = 0; //noch nicht benutzt
 	}
 
 	/** 
