@@ -1,0 +1,25 @@
+<!-- Alles aus diesem File dient dazu, ein Monster, das dem Spieler begegnet und dessen Attributswerte zu definieren-->
+<monsters>
+<!-- Hier sind verschiedene Typen Monster definiert mit den Eigenschaften size für die Monstegroße, speed für die Schnelligkeit, power für Stärke, die das Monster hat und Leben-->
+	<monster id="1" name="Fledermaus">
+		<attributes
+		size="3"
+		speed="3.0"
+		power="3"
+		life="2"
+		/>
+	</monster> id="2" name="Spinne">
+		<attributes
+		size="2"
+		speed="1.0"
+		power="3"
+		life="4"
+		/>
+	</monster> id="3" name="Ratte">
+		<attributes
+		size="5"
+		speed="4.0"
+		power="7"
+		life="1"
+		/>
+</monsters>
