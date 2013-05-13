@@ -80,11 +80,7 @@ public class MenuStart extends JDialog {
 			for (int i=0; i < map.mapRooms[0].roomFields.length; i++) {
 				//Iteriert über Spalten
 				for (int j=0; j < map.mapRooms[0].roomFields[i].length; j++) {
-					g.drawImage(walls[ map.mapRooms[0].roomFields[j][i].type ],i*32,j*32,this);
-					
-					//Zeilenumbruch bei Zeilenende
-					if(j==map.mapRooms[0].roomFields[i].length - 1)
-						System.out.printf("%n");
+					g.drawImage(walls[ map.mapRooms[0].roomFields[i][j].type ],i*32,j*32,this);
 				}
 			}
 			
