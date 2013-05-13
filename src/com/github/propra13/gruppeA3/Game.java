@@ -28,5 +28,29 @@ public class Game {
 		} catch (Exception e) {
 
 		}
+		
+		/* Test-Konsolenoutput
+		 * @author Christian Krüger
+		 */
+		
+		//Iteriert über Räume
+		for (int k=0; k < map.mapRooms.length; k++) {
+			System.out.println("Raum: " + map.mapRooms[k].ID);
+			
+			//Iteriert über Zeilen
+			for (int i=0; i < map.mapRooms[0].roomFields.length; i++) {
+				//Iteriert über Spalten
+				for (int j=0; j < map.mapRooms[0].roomFields[i].length; j++) {
+					System.out.printf("%c", map.mapRooms[0].roomFields[i][j].charMap());
+					//Zeilenumbruch bei Zeilenende
+					if(j==map.mapRooms[0].roomFields[i].length - 1)
+						System.out.printf("%n");
+				}
+			}
+			
+			System.out.printf("%n%n");
+			
+		}
+		
 	}
 }

@@ -3,9 +3,14 @@ package com.github.propra13.gruppeA3.Menu;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 
+import com.github.propra13.gruppeA3.Map;
 import com.github.propra13.gruppeA3.Entities.Walls;
+import com.github.propra13.gruppeA3.Exceptions.InvalidRoomLinkException;
+import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
 import com.github.propra13.gruppeA3.XMLParser.CrawlerSAX;
 import java.awt.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 @SuppressWarnings("serial")
 public class MenuStart extends JDialog {
@@ -65,6 +70,16 @@ public class MenuStart extends JDialog {
 			}
 			System.out.println();
 		}
+		
+		/*try {
+			Map map = new Map("beispielmap");
+		} catch (MapFormatException | IOException
+				| InvalidRoomLinkException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for (int i = 0; i < map.mapRooms[0].length)
+		*/
 	}
 
 }

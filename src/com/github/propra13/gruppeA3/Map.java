@@ -11,11 +11,11 @@ import com.github.propra13.gruppeA3.Exceptions.*;
 
 public class Map {
 	/**
-	 * @author Christian Krüger
+	 * @author Christian Krï¿½ger
 	 * TODO:
 	 * Links bauen.
 	 * Vorgehensweise:
-	 * Links zählen, Array mit passender Größe anlegen.
+	 * Links zï¿½hlen, Array mit passender Grï¿½ï¿½e anlegen.
 	 */
 	
 	public Room[] mapRooms;
@@ -32,7 +32,7 @@ public class Map {
 			throws FileNotFoundException, MapFormatException, IOException, InvalidRoomLinkException {
 		
 		this.spawns[0] = this.spawns[1] = null;
-		readRooms(dirName);
+		this.mapRooms = readRooms(dirName);
 		checkLinks();
 		
 	}
@@ -49,7 +49,7 @@ public class Map {
 		
 	}
 	
-	//Überprüft die Links zwischen Rooms
+	//ï¿½berprï¿½ft die Links zwischen Rooms
 	public void checkLinks() throws InvalidRoomLinkException {
 		
 	}
@@ -65,7 +65,6 @@ public class Map {
 		//Sammle Map-Dateien
 		String dir = System.getProperty("user.dir");
 		dir = dir/* + "maps"*/ + File.separator + mapName;
-		System.out.println(dir);
 		File f = new File(dir);
 		if (! f.exists())
 			throw new FileNotFoundException(dir);
