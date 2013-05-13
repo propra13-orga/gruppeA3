@@ -25,8 +25,8 @@ public class Game {
 		SAXCrawlerReader reader=new SAXCrawlerReader();
 		try {
 			reader.read("data/levels/level1.xml");
+			
 		} catch (Exception e) {
-
 		}
 		
 		/* Test-Konsolenoutput

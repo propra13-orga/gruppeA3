@@ -50,11 +50,12 @@ public class MenuStart extends JDialog {
 		//super.paint(g);
 		ImageIcon tempImage;
 		// Array von Bildern aller Wandtypen
-		Image[] walls = new Image[5];
+		Image[] walls = new Image[256];
 		for (int x = 0; x < 5 ; x++) {
 			tempImage = new ImageIcon("data/images/wall_"+x+"_32.png");
 			walls[x] = tempImage.getImage();
 		}
+		/*
 		
 		for (int i = 0; i < CrawlerSAX.map.length; i++){
 			for(int j = 0; j < CrawlerSAX.map[0].length; j++) {
@@ -70,16 +71,30 @@ public class MenuStart extends JDialog {
 			}
 			System.out.println();
 		}
+		*/
 		
-		/*try {
+		try {
 			Map map = new Map("beispielmap");
+			
+			//Iteriert über Zeilen
+			for (int i=0; i < map.mapRooms[0].roomFields.length; i++) {
+				//Iteriert über Spalten
+				for (int j=0; j < map.mapRooms[0].roomFields[i].length; j++) {
+					g.drawImage(walls[ map.mapRooms[0].roomFields[j][i].type ],i*32,j*32,this);
+					
+					//Zeilenumbruch bei Zeilenende
+					if(j==map.mapRooms[0].roomFields[i].length - 1)
+						System.out.printf("%n");
+				}
+			}
+			
 		} catch (MapFormatException | IOException
 				| InvalidRoomLinkException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		for (int i = 0; i < map.mapRooms[0].length)
-		*/
+		
+		
 	}
 
 }
