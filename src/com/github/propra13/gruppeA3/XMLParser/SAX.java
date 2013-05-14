@@ -1,7 +1,6 @@
 package com.github.propra13.gruppeA3.XMLParser;
 import org.xml.sax.helpers.DefaultHandler;
 import javax.xml.parsers.*;
-import org.xml.sax.*;
 import java.io.File;
 
 /**
