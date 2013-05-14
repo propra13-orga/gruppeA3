@@ -1,33 +1,37 @@
 package com.github.propra13.gruppeA3.XMLParser;
 import org.xml.sax.helpers.DefaultHandler;
-import java.util.*;
 import org.xml.sax.*;
 import com.github.propra13.gruppeA3.Entities.*;
 import com.github.propra13.gruppeA3.Map;
 
 /**
- * 
  * @author Majida Dere
- *
+ * Die Klasse CrawlerSAX liest die XML Dateien ein und wirft der Reihe nach bestimmte Ereignisse aus. 
+ * SAX bietet eine Standardimplementierung für Handler an, die hier genutzt wird.
  */
+
 public class CrawlerSAX extends DefaultHandler{
-//	public static Entities[][] map;
-	public static String title;
 	
+	// Attribute
+	
+	//	public static Entities[][] map;
+	public static String title;
 	private int roomID;
 	
-	@Override
+	
+	// Methoden
+	
 	/**
-	 * Der SAX Crawler erzeugt f�r zwei Elementknoten zwei Ereignisse,
-	 * eines wenn das �ffnende Tag des Elements gefunden ist,
-	 * und eines beim SChlie�en des tags.
+	 * Der SAX Crawler erzeugt für zwei Elementknoten zwei Ereignisse,
+	 * eines wenn das öffnende Tag des Elements gefunden ist, und eines beim SChließen des tags.
 	 * Die Paramter
 	 * @param uri,
 	 * @param localName,
 	 * @param qName,
 	 * @param attrs,
-	 * geben genaue Informationen �ber den Tagnamen.
+	 * geben genaue Informationen über den Tagnamen.
 	 */
+	@Override
 	public void startElement (String uri, String localName, 
 								String qName,Attributes attrs)
 										throws SAXException {
@@ -49,9 +53,11 @@ public class CrawlerSAX extends DefaultHandler{
 				int posx= Integer.parseInt(attrs.getValue("posx"));
 				int posy= Integer.parseInt(attrs.getValue("posy"));
 				
+				// Es wird eine neue Wand erzeugt mit den zuvor ausgelesenen Informationen aus level.xml
 				Walls wall=new Walls(power,type,posx,posy);
 				//map[posx][posy]=wall;		
 		}
+		
 		else if(qName.equals("monster")){
 				int size = Integer.parseInt(attrs.getValue("size"));
 				double speed = Double.parseDouble(attrs.getValue("speed"));
@@ -61,6 +67,7 @@ public class CrawlerSAX extends DefaultHandler{
 				int posx= Integer.parseInt(attrs.getValue("posx"));
 				int posy= Integer.parseInt(attrs.getValue("posy"));
 				
+				// Es wird ein neues Monster erzeugt mit den zuvor ausgelesenen Informationen aus level.xml
 				Monster monster=new Monster(Map.mapRooms[roomID], speed, power, type, size, life, posx, posy);
 		}
 		
