@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.LinkedList;
 
 import com.github.propra13.gruppeA3.Map;
 import com.github.propra13.gruppeA3.Field;
@@ -11,19 +12,23 @@ import com.github.propra13.gruppeA3.Exceptions.*;
 
 public class Map {
 	/**
-	 * @author Christian Kr�ger
+	 * @author Christian Krüger
 	 * TODO:
 	 * Links bauen.
 	 * Vorgehensweise:
-	 * Links z�hlen, Array mit passender Gr��e anlegen.
+	 * Links zählen, Array mit passender Größe anlegen.
 	 */
 	
 	static public Room[] mapRooms;
-	public Field[] spawns = new Field[2];
-	public Field end = null;
+	static public Field[] spawns = new Field[2];
+	static public Field end = null;
 	
 	final static String roomEnding = "room";
 	final static String metaEnding = "xml";
+	
+	private static LinkedList linkBuffer = new LinkedList();
+	
+	
 	
 	/* Baut Map aus gegebenem Verzeichnisnamen.
 	 * Interpretiert alle durchnummerierten "xy.room"-Dateien als Rooms.
@@ -31,26 +36,9 @@ public class Map {
 	public Map(String dirName) 
 			throws FileNotFoundException, MapFormatException, IOException, InvalidRoomLinkException {
 		
-		this.spawns[0] = this.spawns[1] = null;
-		this.mapRooms = readRooms(dirName);
+		spawns[0] = spawns[1] = null;
+		mapRooms = readRooms(dirName);
 		checkLinks();
-		
-	}
-
-	//Setzt einen Spawn auf der Map
-	public void setSpawn(Field spawn) {
-		/* TODO:
-		 * Spawn nur aus 00-Room akzeptieren
-		 */
-	}
-	
-	//Setzt Ziel der Map
-	public void setEnd(Field end) {
-		
-	}
-	
-	//�berpr�ft die Links zwischen Rooms
-	public void checkLinks() throws InvalidRoomLinkException {
 		
 	}
 	
@@ -114,5 +102,29 @@ public class Map {
 		}
 		
 		return mapRooms;
+	}
+	
+	//Überprüft die Links zwischen Rooms
+	public void checkLinks() throws InvalidRoomLinkException {
+		
+	}
+	
+	/* Fügt einen Link zum Link-Buffer hinzu
+	 * Link-Buffer wird später ausgelesen und die Links ordentlich zusammengestellt
+	 */
+	public static void setLink(Link link) {
+		linkBuffer.add(link);
+	}
+
+	//Setzt einen Spawn auf der Map
+	public void setSpawn(Field spawn) {
+		/* TODO:
+		 * Spawn nur aus 00-Room akzeptieren
+		 */
+	}
+	
+	//Setzt Ziel der Map
+	public void setEnd(Field end) {
+		
 	}
 }

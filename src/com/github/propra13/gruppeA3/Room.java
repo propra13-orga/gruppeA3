@@ -162,24 +162,37 @@ public class Room {
 							type, texture, attr1, attr2, pos);
 				}
 				
-				//Spawn setzen
-				if (room[j][i].type == 1 && attr1 == 2) {
-					File compare = new File(filename);
-					
-					if(! compare.getName().equals( "00." + Map.roomEnding) )
-						throw new MapFormatException("Spawns dürfen nur in Raum 00 sein.");
-					
-					else if (spawncounter > 1 || attr2 > 1)
-						throw new MapFormatException("Nicht mehr als zwei Spawns erlaubt");
-					
-					else if (spawns[spawncounter] != null)
-						throw new MapFormatException("Zwei Spawns mit gleicher ID");
-					
-					else
-						spawns[spawncounter] = room[j][i];
-					
-					spawncounter++;
+				//Spawns und Links setzen
+				switch (room[j][i].type) {
+				
+					//Spawn
+					case 1:
+						if (attr1 == 2) {
+							File compare = new File(filename);
+							
+							if(! compare.getName().equals( "00." + Map.roomEnding) )
+								throw new MapFormatException("Spawns dürfen nur in Raum 00 sein.");
+							
+							else if (spawncounter > 1 || attr2 > 1)
+								throw new MapFormatException("Nicht mehr als zwei Spawns erlaubt");
+							
+							else if (spawns[spawncounter] != null)
+								throw new MapFormatException("Zwei Spawns mit gleicher ID");
+							
+							else
+								spawns[spawncounter] = room[j][i];
+							
+							spawncounter++;
+						}
+						
+					//Link
+					case 5:
+						Link link = new Link();
+						// TODO: Link-Attribute setzen
+						Map.setLink(link);
+						
 				}
+					
 			}
 		}
 		return room;
