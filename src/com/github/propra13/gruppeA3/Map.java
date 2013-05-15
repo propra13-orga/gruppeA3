@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import com.github.propra13.gruppeA3.Map;
@@ -21,12 +22,12 @@ public class Map {
 	
 	static public Room[] mapRooms;
 	static public Field[] spawns = new Field[2];
-	static public Field end = null;
+	static public Link[] links;
 	
 	final static String roomEnding = "room";
 	final static String metaEnding = "xml";
 	
-	private static LinkedList linkBuffer = new LinkedList();
+	private static LinkedList<Link> linkBuffer = new LinkedList<Link>();
 	
 	
 	
@@ -38,6 +39,7 @@ public class Map {
 		
 		spawns[0] = spawns[1] = null;
 		mapRooms = readRooms(dirName);
+		buildLinks();
 		checkLinks();
 		
 	}
@@ -104,7 +106,70 @@ public class Map {
 		return mapRooms;
 	}
 	
-	//Überprüft die Links zwischen Rooms
+	
+	
+	/* Baut Links aus Link-Buffer auf
+	 * Vorgehensweise:
+	 * 	Sucht Link mit der höchsten ID und baut Array mit passender Größe auf
+	 * 	Befüllt Array zweidimensional (Jeder Arrayplatz enthält zwei zusammengehörende halbe Links)
+	 * 	Baut aus zwei zusammengehörenden halben Links einen ganzen Link
+	 * 	Teilt beiden Zielräumen den Link mit und fügt den Link in die Linkliste der Map ein
+	 * 	Überprüft alle Links auf Konsistenz (evtl. auslagern auf Link-Klasse)
+	 */
+	public void buildLinks() throws InvalidRoomLinkException {
+		
+		// Sucht Link mit der höchsten ID
+		int highID = 0;
+		for (Iterator<Link> i = linkBuffer.iterator(); i.hasNext();) {
+			//TODO: LinkedList.next() checken (erstes Element abgedeckt?)
+			if (i.next().ID > highID)
+				highID = i.next().ID;
+		}
+		
+		
+		// Lädt halbe Links in zweidim. Array
+		Link[][] halfLinks;
+		halfLinks = new Link[highID + 1][2];
+		
+		//TODO: pop()
+		for (Iterator<Link> i = linkBuffer.iterator(); i.hasNext();) {
+			Link link = i.next();
+			
+			if (halfLinks[link.ID][0] == null)
+				halfLinks[link.ID][0] = link;
+			else if (halfLinks[link.ID][1] == null)
+				halfLinks[link.ID][1] = link;
+			else
+				throw new InvalidRoomLinkException("dritten halben Link gefunden; Link-ID: " + link.ID);
+		}
+		linkBuffer.clear();
+		
+		// Fügt halbe Links zu ganzen zusammen
+		for (int i=0; i < halfLinks.length; i++) {
+			
+			Room[] targetRooms = new Room[2];
+			Field[] targetFields = new Field[2];
+			
+			//Setzt bidirectional
+			boolean bidirectional = true;
+			if (halfLinks[i][0].bidirectional == false || halfLinks[i][0].bidirectional == false )
+				bidirectional = false;
+			
+			//Setzt targetRooms
+			targetRooms[0] = mapRooms[halfLinks[i][0].ID];
+			targetRooms[1] = mapRooms[halfLinks[i][1].ID];
+			
+			//Setzt targetFields
+			
+			
+			Link link = new Link(i, targetRooms, targetFields, bidirectional);
+			
+		}
+		
+		
+	}
+	
+	//Überprüft die Links zwischen Rooms auf Konsistenz
 	public void checkLinks() throws InvalidRoomLinkException {
 		
 	}
@@ -113,7 +178,7 @@ public class Map {
 	 * Link-Buffer wird später ausgelesen und die Links ordentlich zusammengestellt
 	 */
 	public static void setLink(Link link) {
-		linkBuffer.add(link);
+		linkBuffer.push(link);
 	}
 
 	//Setzt einen Spawn auf der Map

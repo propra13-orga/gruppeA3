@@ -187,8 +187,7 @@ public class Room {
 						
 					//Link
 					case 5:
-						Link link = new Link();
-						// TODO: Link-Attribute setzen
+						Link link = new Link(attr1, attr2, room[j][i]);
 						Map.setLink(link);
 						
 				}
