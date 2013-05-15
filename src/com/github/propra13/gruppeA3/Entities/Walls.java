@@ -1,6 +1,7 @@
 package com.github.propra13.gruppeA3.Entities;
 
 import com.github.propra13.gruppeA3.Position;
+import com.github.propra13.gruppeA3.Room;
 
 /**
  * @author Majida Dere
@@ -14,13 +15,16 @@ public class Walls extends Entities {
 	private int power;
 	private Position pos;
 	private int type;
+	private Room currentroom;
+
 	
 	//Konstruktor
 	
-	public Walls(int power,int type,int x,int y){
+	public Walls(Room room_bind,int power,int type,int x,int y){
 		this.power=power;
 		this.type=type;
 		this.pos=new Position(x,y);
+		this.currentroom = room_bind;
 	}
 	
 	// Getter Methoden

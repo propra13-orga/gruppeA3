@@ -54,8 +54,11 @@ public class CrawlerSAX extends DefaultHandler{
 				int posy= Integer.parseInt(attrs.getValue("posy"));
 				
 				// Es wird eine neue Wand erzeugt mit den zuvor ausgelesenen Informationen aus level.xml
-				Walls wall=new Walls(power,type,posx,posy);
+				Walls wall=new Walls(Map.mapRooms[roomID],power,type,posx,posy);
 				//map[posx][posy]=wall;		
+				
+				Map.mapRooms[roomID].entities.add(wall);
+
 		}
 		
 		else if(qName.equals("monster")){
@@ -69,7 +72,14 @@ public class CrawlerSAX extends DefaultHandler{
 				
 				// Es wird ein neues Monster erzeugt mit den zuvor ausgelesenen Informationen aus level.xml
 				Monster monster=new Monster(Map.mapRooms[roomID], speed, power, type, size, life, posx, posy);
+			
+				//MAP
+				
+				Map.mapRooms[roomID].entities.add(monster);
+		
 		}
+		
+		
 		
 		else if(qName.equals("item")){
 			int size = Integer.parseInt(attrs.getValue("size"));

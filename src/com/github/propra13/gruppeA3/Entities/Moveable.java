@@ -10,13 +10,13 @@ import com.github.propra13.gruppeA3.Position;
  */
 public class Moveable extends Entities {
 	
-	/**
-	 * Attribute:
-	 * 		direction Aufzähltyp wird für Richtungsorientierung des bewegbaren Objektes benötigt
-	 * 		pos Position des bewegbaren Objektes im Raum
-	 * 		life Lebensstärke eines bewegbaren Objektes
-	 * 		power Figurstärke
-	 * 		speed Geschwindigkeit
+	//Attribute
+	
+	/** direction Aufzähltyp wird für Richtungsorientierung des bewegbaren Objektes benötigt
+	 * 	pos Position des bewegbaren Objektes im Raum
+	 * 	life Lebensstärke eines bewegbaren Objektes
+	 * 	power Figurstärke
+	 * 	speed Geschwindigkeit
 	 **/
 	public enum direction{LEFT,RIGHT,UP,DOWN,NONE}
 	public direction direct= direction.NONE; //Richtung
@@ -25,6 +25,7 @@ public class Moveable extends Entities {
 	int life;
 	int power;
 	double speed; 
+	
 	
 	//Konstruktor
 	public Moveable(Room room_bind){

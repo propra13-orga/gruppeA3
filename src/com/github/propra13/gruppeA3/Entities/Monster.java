@@ -20,7 +20,6 @@ public class Monster extends Moveable {
 	private int power;
 	private int life;
 	
-	
 	//Konstruktor
 	
 	public Monster (Room room_bind, double speed, int power, int type, int size, int life, int x, int y){

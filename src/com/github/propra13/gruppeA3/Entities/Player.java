@@ -1,5 +1,8 @@
 package com.github.propra13.gruppeA3.Entities;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+
 import com.github.propra13.gruppeA3.Room;
 /**
  *  
@@ -50,15 +53,50 @@ public class Player extends Moveable {
 					break;		
 		default: ;	//nichts tun
 		}
+		
+		/**
+		 * @author Majida Dere
+		 * Feld muss neu gezeichnet werden. Der Spieler hat sich bewegt.
+		 * 
+		 */
+		
+		// draw();
+		/**
+		 * Die Entitites Liste soll durchlaufen werden, um zu überprüfen, ob an der Position xy des Spielers ein Monster ist.
+		 */
+		LinkedList<Entities> tempEntities = this.currentroom.entities;
+		Iterator<Entities> iter = tempEntities.iterator();
+		
+		Entities testEntity;
+		while(iter.hasNext()){
+			testEntity=iter.next();
+			if((testEntity instanceof Monster) && (this.pos==testEntity.getPosition())){
+				// Dies wird später benötigt, wenn Spieler und auch Monster mehrere Leben haben:
+				// this.setLife(this.getLife()-((Monster)testEntity).getPower());
+				this.death();
+			}
+			else if((testEntity instanceof Enemy) && (this.pos==testEntity.getPosition())){
+				// Dies wird später benötigt, wenn Spieler und auch Gegner mehrere Leben haben:
+				// this.setLife(this.getLife()-((Enemy)testEntity).getLife());
+				this.death();
+			}
+		}
+		
+		
+		/** Wird nicht genutzt!
 		switch(this.currentroom.roomFields[this.pos.x][this.pos.y].entityType){
 		case 0: break; 			  
 		case 2: this.death(); //Spieler stirbt bei betreten eines Feldes mit Gegner
 		case 3: this.use();   //Spieler hebt Item auf / benutzt Item
 		default: break;		  //nichts tun
 		}
+		*/
+		
 	}
 	
 	private void death(){
+		
+		
 		//TODO: Spieler sterben lassen
 	}
 	
