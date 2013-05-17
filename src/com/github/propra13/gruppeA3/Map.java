@@ -27,7 +27,7 @@ public class Map {
 	final static String roomEnding = "room";
 	final static String metaEnding = "xml";
 	
-	private static LinkedList<Link> linkBuffer = new LinkedList<Link>();
+	private static LinkedList<Link> linkBuffer = null;
 	
 	
 	
@@ -41,7 +41,7 @@ public class Map {
 		mapRooms = readRooms(dirName);
 		buildLinks();
 		checkLinks();
-		
+		linkBuffer = new LinkedList<Link>();
 	}
 	
 	
@@ -117,7 +117,7 @@ public class Map {
 	 * 	Überprüft alle Links auf Konsistenz (evtl. auslagern auf Link-Klasse)
 	 */
 	public void buildLinks() throws InvalidRoomLinkException {
-		
+/**
 		// Sucht Link mit der höchsten ID
 		int highID = 0;
 		for (Iterator<Link> i = linkBuffer.iterator(); i.hasNext();) {
@@ -126,12 +126,13 @@ public class Map {
 				highID = i.next().ID;
 		}
 		
-		
+		System.out.println(highID);
 		// Lädt halbe Links in zweidim. Array
 		Link[][] halfLinks;
 		halfLinks = new Link[highID + 1][2];
 		
 		//TODO: pop()
+		// Funktioniert im Augenblick nicht, wird überarbeitet.
 		for (Iterator<Link> i = linkBuffer.iterator(); i.hasNext();) {
 			Link link = i.next();
 			
@@ -166,7 +167,7 @@ public class Map {
 			
 		}
 		
-		
+	**/	
 	}
 	
 	//Überprüft die Links zwischen Rooms auf Konsistenz
