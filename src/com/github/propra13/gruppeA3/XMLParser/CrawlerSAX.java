@@ -17,7 +17,16 @@ public class CrawlerSAX extends DefaultHandler{
 	//	public static Entities[][] map;
 	public static String title;
 	private int roomID;
+	private Map map;
 	
+	/**
+	 * @author Majida Dere
+	 * Konstruktor erzeugt einen Handler und weist die übergebene Map seiner privaten zu.
+	 */
+	public CrawlerSAX(Map map) {
+		super();
+		this.map = map;
+	}
 	
 	// Methoden
 	
@@ -54,10 +63,10 @@ public class CrawlerSAX extends DefaultHandler{
 				int posy= Integer.parseInt(attrs.getValue("posy"));
 				
 				// Es wird eine neue Wand erzeugt mit den zuvor ausgelesenen Informationen aus level.xml
-				Walls wall=new Walls(Map.mapRooms[roomID],power,type,posx,posy);
+				Walls wall=new Walls(map.getMapRoom(roomID),power,type,posx,posy);
 				//map[posx][posy]=wall;		
 				
-				Map.mapRooms[roomID].entities.add(wall);
+				map.getMapRoom(roomID).entities.add(wall);
 
 		}
 		
@@ -71,11 +80,11 @@ public class CrawlerSAX extends DefaultHandler{
 				int posy= Integer.parseInt(attrs.getValue("posy"));
 				
 				// Es wird ein neues Monster erzeugt mit den zuvor ausgelesenen Informationen aus level.xml
-				Monster monster=new Monster(Map.mapRooms[roomID], speed, power, type, size, life, posx, posy);
+				Monster monster=new Monster(map.getMapRoom(roomID), speed, power, type, size, life, posx, posy);
 			
 				//MAP
 				
-				Map.mapRooms[roomID].entities.add(monster);
+				map.getMapRoom(roomID).entities.add(monster);
 		
 		}
 		
@@ -90,7 +99,9 @@ public class CrawlerSAX extends DefaultHandler{
 			int posx= Integer.parseInt(attrs.getValue("posx"));
 			int posy= Integer.parseInt(attrs.getValue("posy"));
 			
-			Monster monster=new Monster(Map.mapRooms[roomID], speed, power, type, size, life, posx, posy);
+			//Item item=new Item(map.getMapRoom(roomID), speed, power, type, size, life, posx, posy);
+			
+			//map.getMapRoom(roomID).entities.add(item);
 	}
 	}
 	

@@ -22,7 +22,8 @@ public class Game {
 			e.printStackTrace();
 		}
 		
-		SAXCrawlerReader reader=new SAXCrawlerReader();
+		//Übergebe map an XML Parser, sodass wir immer dieselbe map benutzen.
+		SAXCrawlerReader reader=new SAXCrawlerReader(map);
 		try {
 			reader.read("data/levels/level1.xml");
 			

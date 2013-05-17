@@ -192,4 +192,13 @@ public class Map {
 	public void setEnd(Field end) {
 		
 	}
+	
+	/**
+	 * @author Majida Dere
+	 * @param roomID - gibt die ID des aktuellen Raumes an
+	 * @return liefert den aktuellen Raum
+	 */
+	public Room getMapRoom(int roomID){
+		return this.mapRooms[roomID];
+	}
 }
