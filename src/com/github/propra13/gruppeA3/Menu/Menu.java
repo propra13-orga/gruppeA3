@@ -1,11 +1,18 @@
 package com.github.propra13.gruppeA3.Menu;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
-import com.github.propra13.gruppeA3.Menu.MenuOption;
 import com.github.propra13.gruppeA3.XMLParser.CrawlerSAX;
 
 public class Menu extends JFrame implements ComponentListener{
@@ -23,14 +30,14 @@ public class Menu extends JFrame implements ComponentListener{
 	private final int MINHEIGHT = 300;
 	
 	public Menu(){
-	super("Fenster");	
+	//super("Fenster");	
 	setTitle("Dungeon Crawler");
-	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	//schlieï¿½en button belegt
+	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	//schließen button belegt
 	setLocation(400,200);	//fensterpostion auf bildschirm festlegen
 	setSize(MINWIDTH,MINHEIGHT);
 	getContentPane().setLayout(new GridBagLayout());	//unterteilung des fensters
 	
-	//Fenster ï¿½berwachung auf Mindestgrï¿½ï¿½e erweiterung der Classe um implements ComponentListener
+	//Fenster überwachung auf Mindestgröße erweiterung der Classe um implements ComponentListener
 	addComponentListener(this);
 	
 	//Button Texte
@@ -110,14 +117,13 @@ public class Menu extends JFrame implements ComponentListener{
 			
 			if(a == stringbuttonstart)
 			{
-				MenuStart dialog = new MenuStart();
-				//dialog.setLocationRelativeTo(this);
-				dialog.setUndecorated(true);
-				dialog.setTitle(CrawlerSAX.title);
-		        
-		        //dialog.setSize(CrawlerSAX.map.length*32,CrawlerSAX.map[0].length*32);
-				dialog.setSize(8*32,8*32);
-		        dialog.setVisible(true);
+				//Menue Frame ausblenden beim Spiel Start
+				this.setVisible(false);
+				
+				//Menu Aufruf verändert und die JDialog Optionen in  
+				//MenuStart.Java verschoben
+				MenuStart window = new MenuStart();
+				
 		        
 		        // Dialog wird auf modal gesetzt
 		        //dialog.setModal(true);

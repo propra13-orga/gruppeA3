@@ -9,6 +9,7 @@ import com.github.propra13.gruppeA3.XMLParser.SAXCrawlerReader;
 import com.github.propra13.gruppeA3.Map;
 
 public class Game {
+	
 	public static void main(String[] args){
 
 		Menu meinmenue = new Menu();
