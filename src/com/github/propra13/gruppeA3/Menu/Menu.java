@@ -1,6 +1,7 @@
 package com.github.propra13.gruppeA3.Menu;
 
 import java.awt.Dimension;
+import java.awt.DisplayMode;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -119,14 +120,8 @@ public class Menu extends JFrame implements ComponentListener{
 			{
 				//Menue Frame ausblenden beim Spiel Start
 				this.setVisible(false);
-				
-				//Menu Aufruf verändert und die JDialog Optionen in  
-				//MenuStart.Java verschoben
-				MenuStart window = new MenuStart();
-				
-		        
-		        // Dialog wird auf modal gesetzt
-		        //dialog.setModal(true);
+				MenuStart window = new MenuStart(); //ersetzt durch run
+
 			}	
 			
 			

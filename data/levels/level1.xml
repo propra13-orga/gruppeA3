@@ -1,6 +1,6 @@
 <!-- Dieses File ist für den Levelaufbau bzw. Raumaufbau bzw. Wallaufbau gedacht -->
 <!-- id Jedes Level hat eine Id, desc Jedes Level hat eine Beschreibung, player Anzahl der Spieler -->
-<level id="1" desc="Sind Spinnen lecker?!" player="1">
+<level id="1" desc="Dungeon Crawler" player="1">
 	<!-- id Jeder Raum hat eine ID, length height Höhe und Breite des Raumes -->
 	<rooms id="1" length="10" height="10">
 		<entry posx="0" posy="0" />
