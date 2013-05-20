@@ -7,7 +7,6 @@ import java.awt.Toolkit;
 import java.io.IOException;
 
 import javax.swing.JFrame;
-import javax.swing.Timer;
 
 import com.github.propra13.gruppeA3.Map;
 import com.github.propra13.gruppeA3.Exceptions.InvalidRoomLinkException;
@@ -18,25 +17,22 @@ import com.github.propra13.gruppeA3.XMLParser.CrawlerSAX;
 public class MenuStart extends JFrame {
 
 	//definiert die Fenstergröße vom Spielfeld
-	public int GameMinSize = 400; 
-	public int GameMaxSize = 300;
-	private final int DELAY= 140;
-	private Timer timer;
-	
-	public MenuStart() {
+	public int GameMinSizeX = 400; 
+	public int GameMinSizeY = 300;
 
-	
-	//Spielstart fenster aus menu.java kopiert
+	public MenuStart() {
+		
+	//wie bei menu wird das JFrame gezeichnet
 	setLocationRelativeTo(this);
 	setTitle(CrawlerSAX.title);
-	setSize(GameMinSize,GameMaxSize); //vorher wurde hier 8*32 gerechnet
+	setSize(GameMinSizeX,GameMinSizeY); 
     setVisible(true);
 	}
 	
-	public void paint(Graphics g) {
+	public void paint(Graphics g) { //Funktion zum Zeichnen von Grafiken
 		super.paint(g);
 		Graphics2D g2d = (Graphics2D) g;
-		//Bilder ausgeben
+		//Bilder laden und ausgeben 
 		Toolkit tool = Toolkit.getDefaultToolkit();
 
 		// Array von Bildern aller Wandtypen

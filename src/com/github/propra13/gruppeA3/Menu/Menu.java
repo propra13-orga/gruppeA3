@@ -1,7 +1,6 @@
 package com.github.propra13.gruppeA3.Menu;
 
 import java.awt.Dimension;
-import java.awt.DisplayMode;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -14,10 +13,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.github.propra13.gruppeA3.XMLParser.CrawlerSAX;
 
 public class Menu extends JFrame implements ComponentListener{
-//schï¿½tzen der Button und Buttonbezeichnung
+//Initialisieren der Button und Buttonbezeichnung
 	private JButton buttonstart;
 	private JButton buttonbeenden;
 	private JButton buttonoptionen;
@@ -25,20 +23,19 @@ public class Menu extends JFrame implements ComponentListener{
 	private String stringbuttonbeenden;
 	private String stringbuttonoptionen;
 	
-	private JPanel panelButton;
+	private JPanel panelButton;		// Button einem JPanel zuweisen
 	
 	private final int MINWIDTH = 400;
 	private final int MINHEIGHT = 300;
 	
-	public Menu(){
-	//super("Fenster");	
+	public Menu(){	//JFrame zeichnen
 	setTitle("Dungeon Crawler");
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	//schließen button belegt
 	setLocation(400,200);	//fensterpostion auf bildschirm festlegen
 	setSize(MINWIDTH,MINHEIGHT);
 	getContentPane().setLayout(new GridBagLayout());	//unterteilung des fensters
 	
-	//Fenster überwachung auf Mindestgröße erweiterung der Classe um implements ComponentListener
+	//ComponentListener zuständig für Überwachung der Mindestfenstergröße
 	addComponentListener(this);
 	
 	//Button Texte
@@ -51,7 +48,7 @@ public class Menu extends JFrame implements ComponentListener{
 	buttonbeenden = new JButton(stringbuttonbeenden);
 	buttonoptionen = new JButton(stringbuttonoptionen);
 	
-	panelButton = new JPanel(new GridBagLayout());	//button anpassen und anordnen
+	panelButton = new JPanel(new GridBagLayout());	//Unterteilung des Fensters in Zeilen und Blöcke
 	
 	//Button anordnen
 	GridBagConstraints gbc_buttonstart = new GridBagConstraints();
@@ -73,12 +70,12 @@ public class Menu extends JFrame implements ComponentListener{
 	gbc_buttonoptionen.gridwidth = 4;
 	panelButton.add(buttonoptionen, gbc_buttonoptionen);
 	
-	//listener fï¿½r button
+	//listener fuer Button
 	addButtonListener(buttonstart);
 	addButtonListener(buttonbeenden);
 	addButtonListener(buttonoptionen);
 	
-	//positonierung der button auf BorderLayout
+	//Positonierung der Button auf BorderLayout
 	GridBagConstraints gbc_panelButton = new GridBagConstraints();
 	gbc_panelButton.gridy = 0;
 	getContentPane().add(panelButton, gbc_panelButton);
@@ -92,7 +89,7 @@ public class Menu extends JFrame implements ComponentListener{
 	}*/	
 	
 
-	//Listener fï¿½r Button
+	//Listener fuer Button
 	private void addButtonListener(JButton b){
 		b.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent ae)
@@ -102,7 +99,7 @@ public class Menu extends JFrame implements ComponentListener{
 				});
 			}
 
-	//Action fï¿½r button
+	//Action fuer button
 		private void eingabe(String a){
 			if(a == stringbuttonbeenden)
 				{
@@ -120,14 +117,14 @@ public class Menu extends JFrame implements ComponentListener{
 			{
 				//Menue Frame ausblenden beim Spiel Start
 				this.setVisible(false);
-				MenuStart window = new MenuStart(); //ersetzt durch run
+				@SuppressWarnings("unused")
+				MenuStart window = new MenuStart(); 
 
 			}	
-			
-			
+					
 	}
 
-	
+	//falls fenster kleiner gemacht wird, wieder auf mindestgröße zurück setzen
 	public void componentResized(ComponentEvent e){
 		Dimension dim = this.getSize();
 		dim.width = (dim.width < MINWIDTH) ? MINWIDTH: dim.width;

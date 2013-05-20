@@ -8,6 +8,8 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+//wird noch bearbeitet. zur Zeit noch nicht in der Nutzung
+
 @SuppressWarnings("serial")
 public class MenuOption extends JDialog {
 
