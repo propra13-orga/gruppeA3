@@ -19,16 +19,12 @@ public class MenuStart extends JFrame {
 	//definiert die Fenstergr��e vom Spielfeld
 	public int GameMinSizeX = 400; 
 	public int GameMinSizeY = 300;
-	
-	private Map map = null;
 
 	public MenuStart(Map map) {
 		
 		// alle wichtigen Eigenschaften der Oberklasse übernehmen.
 		super();
-		
-		//übergebene Map zuweisen
-		this.map = map;
+	
 		
 		//wie bei menu wird das JFrame gezeichnet
 		setLocationRelativeTo(this);
@@ -54,12 +50,12 @@ public class MenuStart extends JFrame {
 			// Map map = new Map("beispielmap");
 			
 			//Iteriert �ber Zeilen
-			for (int i=0; i < map.mapRooms[0].roomFields.length; i++) {
+			for (int i=0; i < Map.mapRooms[0].roomFields.length; i++) {
 				//Iteriert �ber Spalten
-				for (int j=0; j < map.mapRooms[0].roomFields[i].length; j++) {
+				for (int j=0; j < Map.mapRooms[0].roomFields[i].length; j++) {
 					int x = i*32;
 					int y = j*32;
-					g2d.drawImage(walls[ map.mapRooms[0].roomFields[i][j].type ],x,y,this);
+					g2d.drawImage(walls[ Map.mapRooms[0].roomFields[i][j].type ],x,y,this);
 				}
 			}
 			
