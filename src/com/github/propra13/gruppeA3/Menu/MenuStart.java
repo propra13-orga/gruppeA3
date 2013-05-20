@@ -13,8 +13,10 @@ import com.github.propra13.gruppeA3.Exceptions.InvalidRoomLinkException;
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
 import com.github.propra13.gruppeA3.XMLParser.CrawlerSAX;
 
-@SuppressWarnings("serial")
+
 public class MenuStart extends JFrame {
+	//static final serialVersionUID statt SuppressWarnings
+	private static final long serialVersionUID = -5219519843826185283L;
 
 	//definiert die Fenstergr��e vom Spielfeld
 	public int GameMinSizeX = 400; 
