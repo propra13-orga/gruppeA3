@@ -13,6 +13,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.github.propra13.gruppeA3.Map;
+
 
 public class Menu extends JFrame implements ComponentListener{
 //Initialisieren der Button und Buttonbezeichnung
@@ -28,58 +30,64 @@ public class Menu extends JFrame implements ComponentListener{
 	private final int MINWIDTH = 400;
 	private final int MINHEIGHT = 300;
 	
-	public Menu(){	//JFrame zeichnen
-	setTitle("Dungeon Crawler");
-	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	//schließen button belegt
-	setLocation(400,200);	//fensterpostion auf bildschirm festlegen
-	setSize(MINWIDTH,MINHEIGHT);
-	getContentPane().setLayout(new GridBagLayout());	//unterteilung des fensters
+	private Map map = null;
 	
-	//ComponentListener zuständig für Überwachung der Mindestfenstergröße
-	addComponentListener(this);
+	public Menu(Map map){	//JFrame zeichnen
+		
+		// Zuweisung des Ã¼bergebenen Maps.
+		this.map = map;
+		
+		setTitle("Dungeon Crawler");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	//schlieï¿½en button belegt
+		setLocation(400,200);	//fensterpostion auf bildschirm festlegen
+		setSize(MINWIDTH,MINHEIGHT);
+		getContentPane().setLayout(new GridBagLayout());	//unterteilung des fensters
 	
-	//Button Texte
-	stringbuttonstart = "Spiel Starten";
-	stringbuttonbeenden = "Beenden";
-	stringbuttonoptionen = "Optionen";
+		//ComponentListener zustï¿½ndig fï¿½r ï¿½berwachung der Mindestfenstergrï¿½ï¿½e
+		addComponentListener(this);
 	
-	//Button erzeugen
-	buttonstart = new JButton(stringbuttonstart);
-	buttonbeenden = new JButton(stringbuttonbeenden);
-	buttonoptionen = new JButton(stringbuttonoptionen);
+		//Button Texte
+		stringbuttonstart = "Spiel Starten";
+		stringbuttonbeenden = "Beenden";
+		stringbuttonoptionen = "Optionen";
 	
-	panelButton = new JPanel(new GridBagLayout());	//Unterteilung des Fensters in Zeilen und Blöcke
+		//Button erzeugen
+		buttonstart = new JButton(stringbuttonstart);
+		buttonbeenden = new JButton(stringbuttonbeenden);
+		buttonoptionen = new JButton(stringbuttonoptionen);
 	
-	//Button anordnen
-	GridBagConstraints gbc_buttonstart = new GridBagConstraints();
-	gbc_buttonstart.insets = new Insets(0, 0, 5, 5);
-	gbc_buttonstart.gridx = 1;
-	gbc_buttonstart.gridy = 0;
-	gbc_buttonstart.gridwidth = 1;
-	panelButton.add(buttonstart, gbc_buttonstart);
-	GridBagConstraints gbc_buttonbeenden = new GridBagConstraints();
-	gbc_buttonbeenden.insets = new Insets(0, 0, 5, 5);
-	gbc_buttonbeenden.gridx = 3;
-	gbc_buttonbeenden.gridy = 0;
-	gbc_buttonbeenden.gridwidth = 2;
-	panelButton.add(buttonbeenden, gbc_buttonbeenden);
-	GridBagConstraints gbc_buttonoptionen = new GridBagConstraints();
-	gbc_buttonoptionen.insets = new Insets(0, 0, 5, 5);
-	gbc_buttonoptionen.gridx = 1;
-	gbc_buttonoptionen.gridy = 1;
-	gbc_buttonoptionen.gridwidth = 4;
-	panelButton.add(buttonoptionen, gbc_buttonoptionen);
+		panelButton = new JPanel(new GridBagLayout());	//Unterteilung des Fensters in Zeilen und Blï¿½cke
 	
-	//listener fuer Button
-	addButtonListener(buttonstart);
-	addButtonListener(buttonbeenden);
-	addButtonListener(buttonoptionen);
+		//Button anordnen
+		GridBagConstraints gbc_buttonstart = new GridBagConstraints();
+		gbc_buttonstart.insets = new Insets(0, 0, 5, 5);
+		gbc_buttonstart.gridx = 1;
+		gbc_buttonstart.gridy = 0;
+		gbc_buttonstart.gridwidth = 1;
+		panelButton.add(buttonstart, gbc_buttonstart);
+		GridBagConstraints gbc_buttonbeenden = new GridBagConstraints();
+		gbc_buttonbeenden.insets = new Insets(0, 0, 5, 5);
+		gbc_buttonbeenden.gridx = 3;
+		gbc_buttonbeenden.gridy = 0;
+		gbc_buttonbeenden.gridwidth = 2;
+		panelButton.add(buttonbeenden, gbc_buttonbeenden);
+		GridBagConstraints gbc_buttonoptionen = new GridBagConstraints();
+		gbc_buttonoptionen.insets = new Insets(0, 0, 5, 5);
+		gbc_buttonoptionen.gridx = 1;
+		gbc_buttonoptionen.gridy = 1;
+		gbc_buttonoptionen.gridwidth = 4;
+		panelButton.add(buttonoptionen, gbc_buttonoptionen);
 	
-	//Positonierung der Button auf BorderLayout
-	GridBagConstraints gbc_panelButton = new GridBagConstraints();
-	gbc_panelButton.gridy = 0;
-	getContentPane().add(panelButton, gbc_panelButton);
-	setVisible(true);
+		//listener fuer Button
+		addButtonListener(buttonstart);
+		addButtonListener(buttonbeenden);
+		addButtonListener(buttonoptionen);
+	
+		//Positonierung der Button auf BorderLayout
+		GridBagConstraints gbc_panelButton = new GridBagConstraints();
+		gbc_panelButton.gridy = 0;
+		getContentPane().add(panelButton, gbc_panelButton);
+		setVisible(true);
 	
 	}
 
@@ -118,13 +126,13 @@ public class Menu extends JFrame implements ComponentListener{
 				//Menue Frame ausblenden beim Spiel Start
 				this.setVisible(false);
 				@SuppressWarnings("unused")
-				MenuStart window = new MenuStart(); 
-
+				MenuStart window = new MenuStart(map); 
+				// map Ã¼bergeben
 			}	
 					
 	}
 
-	//falls fenster kleiner gemacht wird, wieder auf mindestgröße zurück setzen
+	//falls fenster kleiner gemacht wird, wieder auf mindestgrÃ¶ÃŸe zurÃ¼ck setzen
 	public void componentResized(ComponentEvent e){
 		Dimension dim = this.getSize();
 		dim.width = (dim.width < MINWIDTH) ? MINWIDTH: dim.width;

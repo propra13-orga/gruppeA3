@@ -12,8 +12,6 @@ public class Game {
 	
 	public static void main(String[] args){
 
-		Menu meinmenue = new Menu();
-		meinmenue.setVisible(true);
 		Map map = null;
 		
 		try {
@@ -53,6 +51,10 @@ public class Game {
 			System.out.printf("%n%n");
 			
 		}
+		
+		//map muss an Menu weitergereicht werden, damit die map nicht nochmal ausgelesen wird.
+		Menu meinmenue = new Menu(map);
+		meinmenue.setVisible(true);
 		
 	}
 }

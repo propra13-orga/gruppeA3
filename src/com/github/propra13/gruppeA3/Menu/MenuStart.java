@@ -16,17 +16,25 @@ import com.github.propra13.gruppeA3.XMLParser.CrawlerSAX;
 @SuppressWarnings("serial")
 public class MenuStart extends JFrame {
 
-	//definiert die Fenstergröße vom Spielfeld
+	//definiert die Fenstergrï¿½ï¿½e vom Spielfeld
 	public int GameMinSizeX = 400; 
 	public int GameMinSizeY = 300;
+	
+	private Map map = null;
 
-	public MenuStart() {
+	public MenuStart(Map map) {
 		
-	//wie bei menu wird das JFrame gezeichnet
-	setLocationRelativeTo(this);
-	setTitle(CrawlerSAX.title);
-	setSize(GameMinSizeX,GameMinSizeY); 
-    setVisible(true);
+		// alle wichtigen Eigenschaften der Oberklasse Ã¼bernehmen.
+		super();
+		
+		//Ã¼bergebene Map zuweisen
+		this.map = map;
+		
+		//wie bei menu wird das JFrame gezeichnet
+		setLocationRelativeTo(this);
+		setTitle(CrawlerSAX.title);
+		setSize(GameMinSizeX,GameMinSizeY); 
+    	setVisible(true);
 	}
 	
 	public void paint(Graphics g) { //Funktion zum Zeichnen von Grafiken
@@ -41,12 +49,13 @@ public class MenuStart extends JFrame {
 			walls[x] = tool.getImage("data/images/wall_"+x+"_32.png");
 		}
 		
-		try {
-			Map map = new Map("beispielmap");
+		//try {
+			// NICHT nochmal auslesen, sonst wird eine neue map erzeugt!!!
+			// Map map = new Map("beispielmap");
 			
-			//Iteriert über Zeilen
+			//Iteriert ï¿½ber Zeilen
 			for (int i=0; i < map.mapRooms[0].roomFields.length; i++) {
-				//Iteriert über Spalten
+				//Iteriert ï¿½ber Spalten
 				for (int j=0; j < map.mapRooms[0].roomFields[i].length; j++) {
 					int x = i*32;
 					int y = j*32;
@@ -54,10 +63,10 @@ public class MenuStart extends JFrame {
 				}
 			}
 			
-		} catch (MapFormatException | IOException | InvalidRoomLinkException e) {
+		//} catch (MapFormatException | IOException | InvalidRoomLinkException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//	e.printStackTrace();
+		//}
 		
 		
 	}
