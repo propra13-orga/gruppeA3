@@ -66,7 +66,7 @@ public class CrawlerSAX extends DefaultHandler{
 				Walls wall=new Walls(map.getMapRoom(roomID),power,type,posx,posy);
 				//map[posx][posy]=wall;		
 				
-				map.getMapRoom(roomID).entities.add(wall);
+				//map.getMapRoom(roomID).entities.add(wall);
 
 		}
 		
