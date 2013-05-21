@@ -18,6 +18,7 @@ public class Player extends Moveable {
     // Konstruktoren
     public Player(Room room_bind) {
         super(room_bind);
+        setPosition(1,1);
     }
 
     //Methode überschrieben, prüft für Spieler zusätzlich, ob bereits ein anderer Spieler auf dem Feld steht
@@ -30,34 +31,33 @@ public class Player extends Moveable {
             // TODO: Spieler bewegt sich nicht
             case LEFT:
                 System.out.println("Ist das Feld begehbar?: "+currentroom.roomFields[pos.x - 1][pos.y].walkable);
-//                if (currentroom.roomFields[pos.x - 1][pos.y].walkable
-//                        && currentroom.roomFields[pos.x - 1][pos.y].entityType != 1) {
+              if (currentroom.roomFields[pos.x - 1][pos.y].walkable                      && currentroom.roomFields[pos.x - 1][pos.y].entityType != 1) {
                     setPosition(this.pos.x - 1, this.pos.y);
-//                }
+              }
                 break;
 
             case UP:
                 System.out.println("Ist das Feld begehbar?: "+currentroom.roomFields[pos.x][pos.y - 1].walkable);
-//                if (currentroom.roomFields[pos.x][pos.y - 1].walkable
-//                        && currentroom.roomFields[pos.x][pos.y - 1].entityType != 1) {
+               if (currentroom.roomFields[pos.x][pos.y - 1].walkable
+                       && currentroom.roomFields[pos.x][pos.y - 1].entityType != 1) {
                     setPosition(this.pos.x, this.pos.y - 1);
-//                }
+                    }
                 break;
 
             case RIGHT:
                 System.out.println("Ist das Feld begehbar?: "+currentroom.roomFields[this.pos.x + 1][this.pos.y].walkable);
-//                if (currentroom.roomFields[this.pos.x + 1][this.pos.y].walkable
-//                        && currentroom.roomFields[pos.x + 1][pos.y].entityType != 1) {
+                if (currentroom.roomFields[this.pos.x + 1][this.pos.y].walkable
+                        && currentroom.roomFields[pos.x + 1][pos.y].entityType != 1) {
                     setPosition(this.pos.x + 1, this.pos.y);
-//                }
+                }
                 break;
 
             case DOWN:
                 System.out.println("Ist das Feld begehbar?: "+currentroom.roomFields[this.pos.x][this.pos.y + 1].walkable);
-//                if (currentroom.roomFields[this.pos.x][this.pos.y + 1].walkable
-//                        && currentroom.roomFields[pos.x][pos.y + 1].entityType != 1) {
+                if (currentroom.roomFields[this.pos.x][this.pos.y + 1].walkable
+                        && currentroom.roomFields[pos.x][pos.y + 1].entityType != 1) {
                     setPosition(this.pos.x, this.pos.y + 1);
-//                }
+                }
                 break;
             default:
                 System.out.println("Nicht bewegt!");

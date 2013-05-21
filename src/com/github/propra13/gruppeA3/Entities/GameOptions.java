@@ -2,9 +2,6 @@ package com.github.propra13.gruppeA3.Entities;
 
 import java.util.Map;
 
-/**
- * Created by Steven on 20.05.13.
- */
 public class GameOptions {
 
     protected String GamePath;
