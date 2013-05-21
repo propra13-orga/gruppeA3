@@ -2,6 +2,7 @@ package com.github.propra13.gruppeA3.Entities;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import com.github.propra13.gruppeA3.Menu.GameEndWindow;
 
 import com.github.propra13.gruppeA3.Room;
 
@@ -11,8 +12,9 @@ import com.github.propra13.gruppeA3.Room;
  */
 
 public class Player extends Moveable {
-    // Attribute
-    private String name = null;
+   // Attribute / werden noch nicht benutzt
+   // private String name;
+   // private int score;
 
 
     // Konstruktoren
@@ -27,8 +29,8 @@ public class Player extends Moveable {
         System.out.println("Setze Richtung auf "+this.direct);
 
         switch (this.direct) {
-            // TODO: Vorher prüfen ob die Bewegung ausserhalb der Map liegt
-            // TODO: Spieler bewegt sich nicht
+            // TODO: Überprüfung ob Spieler aus der Map läuft nicht nötig, wenn Wände richtig gesetzt sind
+
             case LEFT:
                 System.out.println("Ist das Feld begehbar?: "+currentroom.roomFields[pos.x - 1][pos.y].walkable);
               if (currentroom.roomFields[pos.x - 1][pos.y].walkable                      && currentroom.roomFields[pos.x - 1][pos.y].entityType != 1) {
@@ -92,84 +94,35 @@ public class Player extends Moveable {
         }
 
 
-        /** Wird nicht genutzt!
-         switch(this.currentroom.roomFields[this.pos.x][this.pos.y].entityType){
-         case 0: break;
-         case 2: this.death(); //Spieler stirbt bei betreten eines Feldes mit Gegner
-         case 3: this.use();   //Spieler hebt Item auf / benutzt Item
-         default: break;		  //nichts tun
-         }
-         */
 
     }
 
     private void death() {
+    	GameEndWindow end = new GameEndWindow("Game Over");
 
-
-        //TODO: Spieler sterben lassen
+        //TODO: Eventuell Referenzen auf null setzten damit GC abräumt?
     }
 
+    /* Noch nicht benutzt
     private void use() {
         //TODO: Item von Spieler benutzen lassen
     }
 
-    /**
-     * @return name liefert den Namen des Spielers zurück
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * @param name legt den Namen eines Spielers fest
-     */
     public void setName(String name) {
         this.name = name;
     }
 
-    //Punktestand
-    private int score = 0;
-
-    /**
-     * @return liefert den Punktestand
-     */
     public int getScore() {
         return score;
     }
 
-    /**
-     * @ param score setzt den Punktestand, anfangs ist dieser auf 0
-     */
     public void setScore(int score) {
         this.score = score;
     }
-
+	*/
 }
 
-// Methode zum Bewegen von Objekten (w�rde methode der oberklasse �berschreiben evtl sp�ter um animationen zu realisieren?)
-    /*	public void move(){
-			switch(direct){
-				case LEFT: if(leftFree(pos.x-1,pos.y)){
-					setPosition(pos.x-1,pos.y);
-					//feldNeuZeichnen();
-					//zusätzliche Monsteraktionen/Zufallserscheininungen von Gegenständen
-				}break;
-				case RIGHT: if(rightFree(pos.x+1,pos.y)){
-					setPosition(pos.x+1,pos.y);
-					//feldNeuZeichnen();
-					//zusätzliche Monsteraktionen/Zufallserscheininungen von Gegenständen
-				}break;
-				case UP: if (upFree(pos.x,pos.y+1)){
-					setPosition(pos.x,pos.y+1);
-					//feldNeuZeichnen();
-					//zusätzliche Monsteraktionen/Zufallserscheininungen von Gegenständen
-				}break;
-				case DOWN:if (downFree(pos.x,pos.y-1)){
-					setPosition(pos.x,pos.y+1);
-					//feldNeuZeichnen();
-					//zusätzliche Monsteraktionen/Zufallserscheininungen von Gegenständen
-				}break;
-				case NONE: //zusätzliche Monsteraktionen/Zufallserscheininungen von Gegenständen
-					
-			}
-		}*/	

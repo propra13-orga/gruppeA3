@@ -46,6 +46,28 @@ public class GameEndWindow extends JFrame{
 		panelButton.add(endmessage, gbc_endmessage);
 		
 		addButtonListener(buttonbeenden);
+		addButtonListener(buttonmenue);
 		
+		this.setAlwaysOnTop(true);
+		this.setVisible(true);
 	}
+	//Listener fuer Button
+	private void addButtonListener(JButton b){
+		b.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent ae){
+					eingabe(ae.getActionCommand());
+				}
+		});
+	}
+
+	//Action fuer button
+	private void eingabe(String a){
+		if(a == "Spiel beenden"){
+			System.exit(1);
+		}
+		if(a == "Hauptmenü"){
+			
+		}
+	}
+
 }
