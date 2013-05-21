@@ -40,12 +40,12 @@ public class Game {
 			
 			//Iteriert über Zeilen TODO: ans laufen kriegen
 
-			for (int i=0; i < Map.mapRooms[0].roomFields.length; i++) {
+			for (int i=0; i < Map.mapRooms[k].roomFields.length; i++) {
 				//Iteriert über Spalten
-				for (int j=0; j < Map.mapRooms[0].roomFields[i].length; j++) {
-					System.out.printf("%c", Map.mapRooms[0].roomFields[i][j].charMap());
+				for (int j=0; j < Map.mapRooms[k].roomFields[i].length; j++) {
+					System.out.printf("%c", Map.mapRooms[k].roomFields[i][j].charMap());
 					//Zeilenumbruch bei Zeilenende
-					if(j==Map.mapRooms[0].roomFields[i].length - 1)
+					if(j==Map.mapRooms[k].roomFields[i].length - 1)
 						System.out.printf("%n");
 				}
 			}

@@ -139,8 +139,11 @@ public class MenuStart extends JFrame {
             }
         }
         
-        
-        g2d.drawImage(this.playerimg, pp.x*32, pp.y*32, this);
+        /* @author CK
+         * "pp.y*32 - 32" ist ein Workaround; das -32 setzt den Spieler ein Feld nach oben, da sonst
+         * irgendwas verschoben ist
+         */ 
+        g2d.drawImage(this.playerimg, pp.x*32, pp.y*32 - 32, this);
         System.out.println("Playerposition X:"+pp.x+" Y:"+pp.y);
 
         //} catch (MapFormatException | IOException | InvalidRoomLinkException e) {
