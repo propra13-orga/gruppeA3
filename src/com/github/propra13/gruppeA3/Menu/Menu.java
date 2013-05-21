@@ -17,9 +17,6 @@ import com.github.propra13.gruppeA3.Map;
 
 
 public class Menu extends JFrame implements ComponentListener{
-//static final serialVersionUID statt SuppressWarnings
-	private static final long serialVersionUID = -5219519843826182381L;
-
 //Initialisieren der Button und Buttonbezeichnung
 	private JButton buttonstart;
 	private JButton buttonbeenden;
@@ -33,7 +30,12 @@ public class Menu extends JFrame implements ComponentListener{
 	private final int MINWIDTH = 400;
 	private final int MINHEIGHT = 300;
 	
-	public Menu(){	//JFrame zeichnen
+	private Map map = null;
+	
+	public Menu(Map map){	//JFrame zeichnen
+		
+		// Zuweisung des übergebenen Maps.
+		this.map = map;
 		
 		setTitle("Dungeon Crawler");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	//schlie�en button belegt
@@ -124,7 +126,8 @@ public class Menu extends JFrame implements ComponentListener{
 				//Menue Frame ausblenden beim Spiel Start
 				this.setVisible(false);
 				@SuppressWarnings("unused")
-				MenuStart window = new MenuStart(); 
+				MenuStart window = new MenuStart(map); 
+				// map übergeben
 			}	
 					
 	}

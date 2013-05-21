@@ -1,5 +1,7 @@
 package com.github.propra13.gruppeA3.Menu;
 
+import com.github.propra13.gruppeA3.Entities.GameOptions;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
@@ -14,8 +16,9 @@ import javax.swing.border.EmptyBorder;
 public class MenuOption extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
+    private GameOptions options;
 
-	/**
+    /**
 	 * Launch the application.
 	
 	public static void main(String[] args) {
@@ -55,4 +58,7 @@ public class MenuOption extends JDialog {
 		}
 	}
 
+    public GameOptions getOptions() {
+        return options;
+    }
 }

@@ -19,7 +19,7 @@ public class Moveable extends Entities {
 	 * 	speed Geschwindigkeit
 	 **/
 	public enum direction{LEFT,RIGHT,UP,DOWN,NONE}
-	public direction direct= direction.NONE; //Richtung
+	public direction direct; //Richtung
 	Position pos;
 	Room currentroom;
 	int life;
@@ -43,31 +43,31 @@ public class Moveable extends Entities {
 	 **/
 	public void move(){
 		switch(this.direct){
-		case LEFT: 
-			if(currentroom.roomFields[this.pos.x-1][this.pos.y].walkable == true){
+		case LEFT:
+			if(currentroom.roomFields[this.pos.x - 1][this.pos.y].walkable){
 				setPosition(this.pos.x-1,this.pos.y);
 			}
 					break;
 					
 		case UP:
-			if(currentroom.roomFields[this.pos.x][this.pos.y+1].walkable == true){
+			if(currentroom.roomFields[this.pos.x][this.pos.y + 1].walkable){
 				setPosition(this.pos.x,this.pos.y+1);
 			}
 					break;
 					
 		case RIGHT:
-			if(currentroom.roomFields[this.pos.x+1][this.pos.y].walkable == true){
+			if(currentroom.roomFields[this.pos.x + 1][this.pos.y].walkable){
 				setPosition(this.pos.x+1,this.pos.y);
 			}
 					break;
 					
 		case DOWN:
-			if(currentroom.roomFields[this.pos.x][this.pos.y+1].walkable == true){
+			if(currentroom.roomFields[this.pos.x][this.pos.y + 1].walkable){
 				setPosition(this.pos.x,this.pos.y+1);
 			}
 					break;
 					
-		default: ;	//nichts tun
+		default: //nichts tun
 		}
 				
 	}
@@ -96,11 +96,13 @@ public class Moveable extends Entities {
 	public void setPosition(int x, int y){ 
 		pos.x = x;
 		pos.y = y;
+
+        System.out.println("Setze Position auf X:"+x+ " Y:"+y);
 	}
 	
 	/**
 	 * Diese Methode setzt den aktuellen Life Status eines bewegbaren Objektes
-	 * @param life
+	 * @param life leben
 	 */
 	public void setLife(int life){
 		this.life = life;
