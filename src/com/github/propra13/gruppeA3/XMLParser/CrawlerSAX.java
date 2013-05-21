@@ -85,7 +85,7 @@ public class CrawlerSAX extends DefaultHandler{
 				//MAP
 				
 				map.getMapRoom(roomID).entities.add(monster);
-		
+
 		}
 		
 		

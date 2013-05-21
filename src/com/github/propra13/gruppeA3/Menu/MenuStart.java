@@ -7,9 +7,13 @@ import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 import javax.swing.*;
 
+import com.github.propra13.gruppeA3.Entities.Entities;
+import com.github.propra13.gruppeA3.Entities.Monster;
 import com.github.propra13.gruppeA3.Entities.Moveable;
 import com.github.propra13.gruppeA3.Entities.Player;
 import com.github.propra13.gruppeA3.Game;
@@ -38,10 +42,13 @@ public class MenuStart extends JFrame {
     protected String GamePath;
     protected Keys keyListener;
 
+    private Map map;
+    
     public MenuStart(Map map) {
         // alle wichtigen Eigenschaften der Oberklasse übernehmen.
-        super();
-
+    	super();
+    	this.map=map;
+    	
         this.GamePath = System.getProperty("user.dir");
         this.tool = Toolkit.getDefaultToolkit();
 
@@ -108,7 +115,31 @@ public class MenuStart extends JFrame {
             }
         }
 
+        
+        
         Position pp = this.player.getPosition();
+        
+        /**
+         * Gehe die Entites Liste solange durch, bis du ein Monster findest und zeichne dieses dann auf die Map.
+         */
+        LinkedList<Entities> tempEntities = map.getMapRoom(this.activeRoom).entities;
+        Iterator<Entities> iter = tempEntities.iterator();
+        Entities testEntity;
+        Position pm;
+        
+        Monster monster;
+        while (iter.hasNext()) {
+            testEntity = iter.next();
+            if (testEntity instanceof Monster) {
+            	monster=(Monster)testEntity;
+            	pm = monster.getPosition();
+                g2d.drawImage(this.monsterimg, pm.x*32, pm.y*32, this);
+                System.out.println("Monsterposition X:"+pm.x+" Y:"+pm.y);
+
+            }
+        }
+        
+        
         g2d.drawImage(this.playerimg, pp.x*32, pp.y*32, this);
         System.out.println("Playerposition X:"+pp.x+" Y:"+pp.y);
 
