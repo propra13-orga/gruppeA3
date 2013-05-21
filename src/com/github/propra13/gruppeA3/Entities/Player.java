@@ -3,6 +3,7 @@ package com.github.propra13.gruppeA3.Entities;
 import java.util.Iterator;
 import java.util.LinkedList;
 import com.github.propra13.gruppeA3.Menu.GameEndWindow;
+import com.github.propra13.gruppeA3.Menu.MenuStart;
 import com.github.propra13.gruppeA3.Link;
 
 import com.github.propra13.gruppeA3.Room;
@@ -109,10 +110,12 @@ public class Player extends Moveable {
     	if(this.currentroom == link.targetRooms[0]){
     		this.currentroom = link.targetRooms[1];	//currentroom auf neuen Raum setzten
     		this.setPosition(link.targetFields[1].pos.x, link.targetFields[1].pos.y);
+    		MenuStart.activeRoom = currentroom.ID;
     	}
     	else{
     		this.currentroom = link.targetRooms[0];
     		this.setPosition(link.targetFields[0].pos.x, link.targetFields[0].pos.y);
+    		MenuStart.activeRoom = currentroom.ID;
     	}
     }
 
