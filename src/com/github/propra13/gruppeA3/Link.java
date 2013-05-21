@@ -8,7 +8,7 @@ public class Link {
 	
 	// Temporäre Variablen
 	int targetRoomID;
-	Field position;
+	Position pos;
 	
 	
 	/* Konstruktor für einen "halben" Link
@@ -20,10 +20,10 @@ public class Link {
 	 * Parameter:
 	 * Link-ID; Zielraum; Zielfeld im Zielraum
 	 */
-	public Link(int ID, int targetRoom, Field position) {
+	public Link(int ID, int targetRoom, Position position) {
 		this.ID = ID;
 		this.targetRoomID = targetRoom;
-		this.position = position;
+		this.pos = position;
 		
 		// Setzt Möglichkeit, ob dieser Link genutzt werden kann
 		if (targetRoom == 254)

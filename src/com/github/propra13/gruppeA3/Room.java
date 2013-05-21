@@ -184,11 +184,16 @@ public class Room {
 							
 							spawncounter++;
 						}
+						break;
 						
 					//Link
 					case 5:
-						//Link link = new Link(attr1, attr2, room[j][i]);
-						//Map.setLink(link);
+						if (attr2 != 254) {
+							Link link = new Link(attr1, attr2, room[j][i].pos);
+							Map.setLink(link);
+						} else
+						Map.setEnd(room[j][i]);
+						break;
 						
 				}
 					

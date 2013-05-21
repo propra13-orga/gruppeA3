@@ -41,6 +41,10 @@ public class Field {
 		}
 	}
 	
+	public void setLink (Link link) {
+		this.link = link;
+	}
+	
 	public String fieldType () {
 		switch (this.type) {
 		case 0:

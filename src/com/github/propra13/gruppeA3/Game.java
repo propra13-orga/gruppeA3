@@ -34,16 +34,16 @@ public class Game {
 		 */
 		
 		//Iteriert über Räume
-		for (int k=0; k < map.mapRooms.length; k++) {
-			System.out.println("Raum: " + map.mapRooms[k].ID);
+		for (int k=0; k < Map.mapRooms.length; k++) {
+			System.out.println("Raum: " + Map.mapRooms[k].ID);
 			
 			//Iteriert über Zeilen
-			for (int i=0; i < map.mapRooms[0].roomFields.length; i++) {
+			for (int i=0; i < Map.mapRooms[k].roomFields[0].length; i++) {
 				//Iteriert über Spalten
-				for (int j=0; j < map.mapRooms[0].roomFields[i].length; j++) {
-					System.out.printf("%c", map.mapRooms[0].roomFields[i][j].charMap());
+				for (int j=0; j < Map.mapRooms[k].roomFields.length; j++) {
+					System.out.printf("%c", Map.mapRooms[k].roomFields[j][i].charMap());
 					//Zeilenumbruch bei Zeilenende
-					if(j==map.mapRooms[0].roomFields[i].length - 1)
+					if(j==Map.mapRooms[k].roomFields.length - 1)
 						System.out.printf("%n");
 				}
 			}
