@@ -9,6 +9,7 @@ import com.github.propra13.gruppeA3.XMLParser.SAXCrawlerReader;
 import com.github.propra13.gruppeA3.Map;
 
 public class Game {
+	public static Menu meinmenue;
 	
 	public static void main(String[] args){
 
@@ -54,7 +55,7 @@ public class Game {
 		}
 		
 		//map muss an Menu weitergereicht werden, damit die map nicht nochmal ausgelesen wird.
-		Menu meinmenue = new Menu(map);
+		meinmenue = new Menu(map);
 		meinmenue.setVisible(true);
 		
 	}

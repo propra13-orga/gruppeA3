@@ -3,6 +3,7 @@ package com.github.propra13.gruppeA3.Menu;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import com.github.propra13.gruppeA3.*;
 
 
 public class GameEndWindow extends JFrame{
@@ -66,7 +67,8 @@ public class GameEndWindow extends JFrame{
 			System.exit(1);
 		}
 		if(a == "Hauptmenü"){
-			
+			Game.meinmenue.setVisible(true);
+			this.dispose();
 		}
 	}
 

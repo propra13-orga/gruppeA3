@@ -86,10 +86,7 @@ public class Player extends Moveable {
             if ((testEntity instanceof Monster) && (this.pos == testEntity.getPosition())) {
                 // Dies wird später benötigt, wenn Spieler und auch Monster mehrere Leben haben:
                 // this.setLife(this.getLife()-((Monster)testEntity).getPower());
-                this.death();
-            } else if ((testEntity instanceof Monster) && (this.pos == testEntity.getPosition())) {
-                // Dies wird später benötigt, wenn Spieler und auch Gegner mehrere Leben haben:
-                // this.setLife(this.getLife()-((Enemy)testEntity).getLife());
+            	System.out.println("Monster auf dem gleichen Feld wie Spieler!");
                 this.death();
             }
         }
