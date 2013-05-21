@@ -228,7 +228,7 @@ public class Map {
 	 * @param roomID - gibt die ID des aktuellen Raumes an
 	 * @return liefert den aktuellen Raum
 	 */
-	public static Room getMapRoom(int roomID){
+	public Room getMapRoom(int roomID){
 		return Map.mapRooms[roomID];
 	}
 }

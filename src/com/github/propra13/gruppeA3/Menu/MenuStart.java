@@ -27,7 +27,6 @@ public class MenuStart extends JFrame {
     public int GameMinSizeX = 400;
     public int GameMinSizeY = 300;
 
-    private Map map = null;
     private Player player = null;
     private Integer activeRoom = 0;
 
@@ -50,8 +49,7 @@ public class MenuStart extends JFrame {
         wallimg = this.getImage(this.GamePath + "/data/images/Test_Wand.png");
         playerimg = this.getImage(this.GamePath + "/data/images/Test_Player.png");
 
-        //übergebene Map zuweisen
-        this.map = map;
+
 
         // TODO: Um die neue den neuen Raum zu betreten den "activeRoom" ändern bzw das Objekt neu bauen
         this.player = new Player(map.getMapRoom(this.activeRoom));
@@ -95,17 +93,17 @@ public class MenuStart extends JFrame {
         // Map map = new Map("beispielmap");
 
         //Iteriert über Zeilen
-        for (int i = 0; i < map.mapRooms[0].roomFields.length; i++) {
+        for (int i = 0; i < Map.mapRooms[0].roomFields.length; i++) {
             //Iteriert über Spalten
-            for (int j = 0; j < map.mapRooms[0].roomFields[i].length; j++) {
-                System.out.printf("%c", map.mapRooms[0].roomFields[i][j].charMap());
+            for (int j = 0; j < Map.mapRooms[0].roomFields[i].length; j++) {
+                System.out.printf("%c", Map.mapRooms[0].roomFields[i][j].charMap());
 
                 int x = i * 32;
                 int y = j * 32;
-                g2d.drawImage(walls[map.mapRooms[0].roomFields[i][j].type], x, y, this);
+                g2d.drawImage(walls[Map.mapRooms[0].roomFields[i][j].type], x, y, this);
 
                 //Zeilenumbruch bei Zeilenende
-                if (j == map.mapRooms[0].roomFields[i].length - 1)
+                if (j == Map.mapRooms[0].roomFields[i].length - 1)
                     System.out.printf("%n");
             }
         }
