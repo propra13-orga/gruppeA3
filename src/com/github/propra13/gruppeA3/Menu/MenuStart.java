@@ -32,7 +32,7 @@ public class MenuStart extends JFrame {
     public int GameMinSizeY = 300;
 
     private Player player = null;
-    private Integer activeRoom = 0;
+    public static Integer activeRoom = 0;
 
     protected Image monsterimg;
     protected Image wallimg;
@@ -100,17 +100,17 @@ public class MenuStart extends JFrame {
         // Map map = new Map("beispielmap");
 
         //Iteriert über Zeilen
-        for (int i = 0; i < Map.mapRooms[0].roomFields.length; i++) {
+        for (int i = 0; i < Map.mapRooms[this.activeRoom].roomFields.length; i++) {
             //Iteriert über Spalten
-            for (int j = 0; j < Map.mapRooms[0].roomFields[i].length; j++) {
-                System.out.printf("%c", Map.mapRooms[0].roomFields[i][j].charMap());
+            for (int j = 0; j < Map.mapRooms[this.activeRoom].roomFields[i].length; j++) {
+                System.out.printf("%c", Map.mapRooms[this.activeRoom].roomFields[i][j].charMap());
 
                 int x = i * 32;
                 int y = j * 32;
-                g2d.drawImage(walls[Map.mapRooms[0].roomFields[i][j].type], x, y, this);
+                g2d.drawImage(walls[Map.mapRooms[this.activeRoom].roomFields[i][j].type], x, y, this);
 
                 //Zeilenumbruch bei Zeilenende
-                if (j == Map.mapRooms[0].roomFields[i].length - 1)
+                if (j == Map.mapRooms[this.activeRoom].roomFields[i].length - 1)
                     System.out.printf("%n");
             }
         }
