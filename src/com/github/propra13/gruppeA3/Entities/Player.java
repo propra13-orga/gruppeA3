@@ -3,6 +3,7 @@ package com.github.propra13.gruppeA3.Entities;
 import java.util.Iterator;
 import java.util.LinkedList;
 import com.github.propra13.gruppeA3.Menu.GameEndWindow;
+import com.github.propra13.gruppeA3.Link;
 
 import com.github.propra13.gruppeA3.Room;
 
@@ -91,7 +92,10 @@ public class Player extends Moveable {
             }
         }
 
-
+        if(currentroom.roomFields[pos.x][pos.y].link != null){
+        	System.out.println("Hier ist ein Link!");
+        	changeRooms(currentroom.roomFields[pos.x][pos.y].link);
+        }
 
     }
 
@@ -99,6 +103,17 @@ public class Player extends Moveable {
     	GameEndWindow end = new GameEndWindow("Game Over");
 
         //TODO: Eventuell Referenzen auf null setzten damit GC abräumt?
+    }
+    
+    private void changeRooms(Link link){
+    	if(this.currentroom == link.targetRooms[0]){
+    		this.currentroom = link.targetRooms[1];	//currentroom auf neuen Raum setzten
+    		this.setPosition(link.targetFields[1].pos.x, link.targetFields[1].pos.y);
+    	}
+    	else{
+    		this.currentroom = link.targetRooms[0];
+    		this.setPosition(link.targetFields[0].pos.x, link.targetFields[0].pos.y);
+    	}
     }
 
     /* Noch nicht benutzt

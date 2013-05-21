@@ -2,8 +2,8 @@ package com.github.propra13.gruppeA3;
 
 public class Link {
 	int ID;
-	Room[] targetRooms = new Room[2];
-	Field[] targetFields = new Field[2];
+	public Room[] targetRooms = new Room[2];
+	public Field[] targetFields = new Field[2];
 	boolean bidirectional;
 	
 	// Temporäre Variablen
