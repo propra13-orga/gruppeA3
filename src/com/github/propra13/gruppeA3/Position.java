@@ -16,4 +16,12 @@ public class Position {
 			this.x=x;
 			this.y=y;
 		}
+		
+		// vergleicht zwei Positionen auf Gleichheit
+		public boolean equals(Position pos) {
+			if (this.x == pos.x && this.y == pos.y)
+				return true;
+			else
+				return false;
+		}
 }

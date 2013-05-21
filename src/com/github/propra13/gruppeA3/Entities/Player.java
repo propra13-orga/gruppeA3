@@ -82,6 +82,7 @@ public class Player extends Moveable {
         Entities testEntity;
         while (iter.hasNext()) {
             testEntity = iter.next();
+            System.out.println("Checking: Entity " + testEntity.getPosition().x + ":" + testEntity.getPosition().y);
             if ((testEntity instanceof Monster) && (this.pos == testEntity.getPosition())) {
                 // Dies wird später benötigt, wenn Spieler und auch Monster mehrere Leben haben:
                 // this.setLife(this.getLife()-((Monster)testEntity).getPower());
