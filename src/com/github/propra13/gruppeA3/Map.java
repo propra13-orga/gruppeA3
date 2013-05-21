@@ -200,6 +200,6 @@ public class Map {
 	 * @return liefert den aktuellen Raum
 	 */
 	public Room getMapRoom(int roomID){
-		return this.mapRooms[roomID];
+		return Map.mapRooms[roomID];
 	}
 }
