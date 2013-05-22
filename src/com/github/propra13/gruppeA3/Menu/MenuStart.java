@@ -125,6 +125,14 @@ public class MenuStart extends JFrame {
         Entities testEntity;
         Position pm;
         
+        /**
+         * monster: temporäre Variable, wird dazu verwendet um die Position des Monsters zu bestimmen
+         * gehe diese Liste bis zum Ende durch, und zeichne alle gefundenen Monster ins Frame ein.
+         * Die if Abfrage überprüft hier, ob das Entity Element eine Instanz von Monster ist. (Wenn es eine ist, wird es getypcastet.)
+         * Wird später um Player und Item erweitert werden. 
+         * 
+         */
+        
         Monster monster;
         while (iter.hasNext()) {
             testEntity = iter.next();

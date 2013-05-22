@@ -21,7 +21,7 @@ public class CrawlerSAX extends DefaultHandler{
 	
 	/**
 	 * @author Majida Dere
-	 * Konstruktor erzeugt einen Handler und weist die übergebene Map seiner privaten zu.
+	 * Konstruktor erzeugt einen Handler und weist die übergebene Map seiner privaten Map zu.
 	 */
 	public CrawlerSAX(Map map) {
 		super();
