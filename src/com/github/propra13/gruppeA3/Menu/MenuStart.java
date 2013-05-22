@@ -59,8 +59,11 @@ public class MenuStart extends JFrame {
 
 
         // TODO: Um die neue den neuen Raum zu betreten den "activeRoom" ändern bzw das Objekt neu bauen
+        // Der oder die Spieler sollten ins XML File und im CrawlerSAX erzeugt werden.
         this.player = new Player(map.getMapRoom(this.activeRoom));
-
+        //player ist auch ein entitiy.
+        map.getMapRoom(this.activeRoom).entities.add(this.player);
+        
         //wie bei menu wird das JFrame gezeichnet
 
         keyListener = new Keys(this.player, this);
@@ -105,9 +108,10 @@ public class MenuStart extends JFrame {
             for (int j = 0; j < Map.mapRooms[this.activeRoom].roomFields[i].length; j++) {
                 System.out.printf("%c", Map.mapRooms[this.activeRoom].roomFields[i][j].charMap());
 
-                int x = i * 32;
-                int y = j * 32;
-                g2d.drawImage(walls[Map.mapRooms[this.activeRoom].roomFields[i][j].type], x, y, this);
+                //int x = i * 32;
+                //int y = j * 32;
+                //spart das ständige Erzeugen von lokalen Variablen
+                g2d.drawImage(walls[Map.mapRooms[this.activeRoom].roomFields[i][j].type], i*32, j*32, this);
 
                 //Zeilenumbruch bei Zeilenende
                 if (j == Map.mapRooms[this.activeRoom].roomFields[i].length - 1)
@@ -134,7 +138,7 @@ public class MenuStart extends JFrame {
             	monster=(Monster)testEntity;
             	pm = monster.getPosition();
                 g2d.drawImage(this.monsterimg, pm.x*32, pm.y*32, this);
-                System.out.println("Monsterposition X:"+pm.x+" Y:"+pm.y);
+                System.out.println("Monsterposition X:"+pm.x+" Y:"+pm.y +" activeRoom: "+this.activeRoom);
 
             }
         }

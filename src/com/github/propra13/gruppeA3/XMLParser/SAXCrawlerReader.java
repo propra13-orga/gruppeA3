@@ -26,8 +26,6 @@ public class SAXCrawlerReader {
 							throws Exception{
 		// übergibt die Map an den handler
 		CrawlerSAX handler=new CrawlerSAX(map);
-		File pfad = new File("");
-        System.out.println(pfad.getAbsolutePath());
 		SAX.parse(fileName,handler);
 		return handler.toString();
 	}
