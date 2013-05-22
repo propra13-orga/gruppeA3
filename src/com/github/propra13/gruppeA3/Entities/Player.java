@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import com.github.propra13.gruppeA3.Menu.GameEndWindow;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 import com.github.propra13.gruppeA3.Link;
+import com.github.propra13.gruppeA3.Map;
 
 import com.github.propra13.gruppeA3.Room;
 
@@ -97,6 +98,9 @@ public class Player extends Moveable {
         	System.out.println("Hier ist ein Link!");
         	changeRooms(currentroom.roomFields[pos.x][pos.y].link);
         }
+        
+        if(currentroom.roomFields[pos.x][pos.y]== Map.end)
+        	this.win();
 
     }
 
@@ -104,6 +108,11 @@ public class Player extends Moveable {
     	GameEndWindow end = new GameEndWindow("Game Over");
 
         //TODO: Eventuell Referenzen auf null setzten damit GC abräumt?
+    }
+    
+    // @author CK - provisorisch
+    private void win() {
+    	GameEndWindow end = new GameEndWindow("Gewonnen! Fuck Yeah!");
     }
     
     private void changeRooms(Link link){

@@ -15,14 +15,13 @@ public class Map {
 	/**
 	 * @author Christian Krüger
 	 * TODO:
-	 * Links bauen.
-	 * Vorgehensweise:
-	 * Links zählen, Array mit passender Größe anlegen.
+	 * Boolean isSet
 	 */
 	
 	static public Room[] mapRooms;
 	static public Field[] spawns = new Field[2];
 	static public Link[] links;
+	static public Field end;
 	
 	final static String roomEnding = "room";
 	final static String metaEnding = "xml";
@@ -219,8 +218,8 @@ public class Map {
 	}
 	
 	//Setzt Ziel der Map
-	public static void setEnd(Field end) {
-		
+	public static void setEnd(Field endField, Room room) {
+		end = endField;
 	}
 	
 	/**

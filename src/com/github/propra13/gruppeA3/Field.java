@@ -21,10 +21,12 @@ public class Field {
 	public Link link = null;
 	public Position pos;
 	
+	private Room room;
+	
 	
 	
 	public Field(
-			int type, int texture, int attr1, int attr2, Position pos) {
+			Room room, int type, int texture, int attr1, int attr2, Position pos) {
 		
 		this.type = type;
 		this.texture = texture;
@@ -92,5 +94,9 @@ public class Field {
 		default:
 			return 'X';
 		}
+	}
+	
+	public Room getRoom() {
+		return this.room;
 	}
 }

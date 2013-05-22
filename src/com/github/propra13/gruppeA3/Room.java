@@ -159,7 +159,7 @@ public class Room {
 					}
 					Position pos=new Position(j, i);
 					room[j][i] = new Field(
-							type, texture, attr1, attr2, pos);
+							this, type, texture, attr1, attr2, pos);
 				}
 				
 				//Spawns und Links setzen
@@ -192,7 +192,7 @@ public class Room {
 							Link link = new Link(attr1, attr2, room[j][i].pos);
 							Map.setLink(link);
 						} else
-						Map.setEnd(room[j][i]);
+						Map.setEnd(room[j][i], this);
 						break;
 						
 				}
