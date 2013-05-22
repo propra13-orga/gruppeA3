@@ -27,9 +27,9 @@ import com.github.propra13.gruppeA3.XMLParser.CrawlerSAX;
 @SuppressWarnings("serial")
 public class MenuStart extends JFrame {
 
-    //definiert die Fenstergr��e vom Spielfeld
+    //definiert die Fenstergrï¿½ï¿½e vom Spielfeld
     public int GameMinSizeX = 320;
-    public int GameMinSizeY = 384;
+    public int GameMinSizeY = 424;
 
     private Player player = null;
     public static Integer activeRoom = 0;
@@ -43,7 +43,7 @@ public class MenuStart extends JFrame {
     protected Keys keyListener;
     
     public MenuStart(Map map) {
-        // alle wichtigen Eigenschaften der Oberklasse übernehmen.
+        // alle wichtigen Eigenschaften der Oberklasse Ã¼bernehmen.
     	super();
     	
         this.GamePath = System.getProperty("user.dir");
@@ -55,7 +55,7 @@ public class MenuStart extends JFrame {
 
 
 
-        // TODO: Um die neue den neuen Raum zu betreten den "activeRoom" ändern bzw das Objekt neu bauen
+        // TODO: Um die neue den neuen Raum zu betreten den "activeRoom" Ã¤ndern bzw das Objekt neu bauen
         // Der oder die Spieler sollten ins XML File und im CrawlerSAX erzeugt werden.
         this.player = new Player(map.getMapRoom(activeRoom));
         //player ist auch ein entitiy.
@@ -99,13 +99,16 @@ public class MenuStart extends JFrame {
         // NICHT nochmal auslesen, sonst wird eine neue map erzeugt!!!
         // Map map = new Map("beispielmap");
 
-        //Iteriert über Zeilen
+        //Iteriert Ã¼ber Zeilen
         for (int i = 0; i < Map.mapRooms[activeRoom].roomFields.length; i++) {
-            //Iteriert über Spalten
+            //Iteriert Ã¼ber Spalten
             for (int j = 0; j < Map.mapRooms[activeRoom].roomFields[i].length; j++) {
                 System.out.printf("%c", Map.mapRooms[activeRoom].roomFields[i][j].charMap());
-
-                g2d.drawImage(walls[Map.mapRooms[activeRoom].roomFields[i][j].type], i*32, j*32, this);
+                    /*
+                     * author: J.L
+                     * +32 damit die zeile nicht abgeschnitten wird das gleiche bei Monster
+                     */
+                g2d.drawImage(walls[Map.mapRooms[activeRoom].roomFields[i][j].type], i*32, j*32+32, this);
 
                 //Zeilenumbruch bei Zeilenende
                 if (j == Map.mapRooms[activeRoom].roomFields[i].length - 1)
@@ -131,7 +134,7 @@ public class MenuStart extends JFrame {
             if (testEntity instanceof Monster) {
             	monster=(Monster)testEntity;
             	pm = monster.getPosition();
-                g2d.drawImage(this.monsterimg, pm.x*32, pm.y*32, this);
+                g2d.drawImage(this.monsterimg, pm.x*32, pm.y*32+32, this);
                 System.out.println("Monsterposition X:"+pm.x+" Y:"+pm.y +" activeRoom: "+activeRoom);
 
             }
@@ -140,8 +143,10 @@ public class MenuStart extends JFrame {
         /* @author CK
          * "pp.y*32 - 32" ist ein Workaround; das -32 setzt den Spieler ein Feld nach oben, da sonst
          * irgendwas verschoben ist
+         * @author J.L 
+         * hat sich erledigt 
          */ 
-        g2d.drawImage(this.playerimg, pp.x*32, pp.y*32 - 32, this);
+        g2d.drawImage(this.playerimg, pp.x*32, pp.y*32 , this);
         System.out.println("Playerposition X:"+pp.x+" Y:"+pp.y);
 
         //} catch (MapFormatException | IOException | InvalidRoomLinkException e) {
