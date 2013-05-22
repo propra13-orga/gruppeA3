@@ -3,6 +3,7 @@ package com.github.propra13.gruppeA3.Menu;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
 import com.github.propra13.gruppeA3.*;
 
 
@@ -11,6 +12,8 @@ public class GameEndWindow extends JFrame{
 	private JButton buttonbeenden;
 	private JButton buttonmenue;
 	private JLabel endmessage;
+	private String stringbuttonmenue;
+	private String stringbuttonbeenden;
 
 	private JPanel panelButton;
 	
@@ -19,11 +22,18 @@ public class GameEndWindow extends JFrame{
 		setTitle("Spiel zu Ende");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(400,200);
-		setSize(200,140);
+		setSize(400,200);
 		getContentPane().setLayout(new GridBagLayout());
 		
-		buttonbeenden = new JButton("Spiel Beenden");
-		buttonmenue = new JButton("Hauptmenü");
+
+		//Button Texte
+		stringbuttonmenue = "Hauptmenu";
+		stringbuttonbeenden = "Beenden";
+		
+		
+		//Button erzeugen
+		buttonbeenden = new JButton(stringbuttonbeenden);
+		buttonmenue = new JButton(stringbuttonmenue);
 		endmessage = new JLabel(s);
 		
 		panelButton = new JPanel(new GridBagLayout());
@@ -49,9 +59,16 @@ public class GameEndWindow extends JFrame{
 		addButtonListener(buttonbeenden);
 		addButtonListener(buttonmenue);
 		
+		//Positonierung der Button auf BorderLayout
+				GridBagConstraints gbc_panelButton = new GridBagConstraints();
+				gbc_panelButton.gridy = 0;
+				getContentPane().add(panelButton, gbc_panelButton);
+				setVisible(true);
+		
 		this.setAlwaysOnTop(true);
 		this.setVisible(true);
 	}
+	
 	//Listener fuer Button
 	private void addButtonListener(JButton b){
 		b.addActionListener(new ActionListener(){
@@ -60,13 +77,16 @@ public class GameEndWindow extends JFrame{
 				}
 		});
 	}
-
-	//Action fuer button
+	
+	//Action fuer Button
 	private void eingabe(String a){
-		if(a == "Spiel beenden"){
-			System.exit(1);
-		}
-		if(a == "Hauptmenü"){
+		if(a == stringbuttonbeenden)
+			{
+				System.exit(1);
+			}
+	
+	
+		if(a == stringbuttonmenue){
 			Game.meinmenue.setVisible(true);
 			this.dispose();
 		}
