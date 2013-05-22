@@ -16,7 +16,6 @@ import java.io.IOException;
 
 public class GameWindow extends JFrame{
 
-    private Map activeMap;
     private GameOptions options;
     private java.util.Map<String, Player> players;
 
@@ -32,7 +31,7 @@ public class GameWindow extends JFrame{
         }
 
         try {
-            this.activeMap = new Map(this.options.getStartMap());
+            new Map(this.options.getStartMap());
         } catch (MapFormatException | IOException | InvalidRoomLinkException e) {
             System.out.println("Die Map konnte nicht geladen werden!");
             e.printStackTrace();

@@ -14,7 +14,7 @@ public class Room {
 	
 	public int ID;
 	public Field[][] roomFields;	//roomFields[Spalte][Zeile]
-	public static LinkedList entities = new LinkedList();
+	public LinkedList entities = new LinkedList();
 	public Field[] spawns = null;
 	final static int fieldBytes = 4;
 	

@@ -62,7 +62,7 @@ public class MenuStart extends JFrame {
         // Der oder die Spieler sollten ins XML File und im CrawlerSAX erzeugt werden.
         this.player = new Player(map.getMapRoom(this.activeRoom));
         //player ist auch ein entitiy.
-        map.getMapRoom(this.activeRoom).entities.add(this.player);
+        Map.mapRooms[activeRoom].entities.add(this.player);
         
         //wie bei menu wird das JFrame gezeichnet
 
