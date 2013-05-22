@@ -28,8 +28,8 @@ import com.github.propra13.gruppeA3.XMLParser.CrawlerSAX;
 public class MenuStart extends JFrame {
 
     //definiert die Fenstergr��e vom Spielfeld
-    public int GameMinSizeX = 400;
-    public int GameMinSizeY = 300;
+    public int GameMinSizeX = 320;
+    public int GameMinSizeY = 384;
 
     private Player player = null;
     public static Integer activeRoom = 0;
@@ -41,13 +41,10 @@ public class MenuStart extends JFrame {
     protected Toolkit tool;
     protected String GamePath;
     protected Keys keyListener;
-
-    private Map map;
     
     public MenuStart(Map map) {
         // alle wichtigen Eigenschaften der Oberklasse übernehmen.
     	super();
-    	this.map=map;
     	
         this.GamePath = System.getProperty("user.dir");
         this.tool = Toolkit.getDefaultToolkit();
@@ -60,7 +57,7 @@ public class MenuStart extends JFrame {
 
         // TODO: Um die neue den neuen Raum zu betreten den "activeRoom" ändern bzw das Objekt neu bauen
         // Der oder die Spieler sollten ins XML File und im CrawlerSAX erzeugt werden.
-        this.player = new Player(map.getMapRoom(this.activeRoom));
+        this.player = new Player(map.getMapRoom(activeRoom));
         //player ist auch ein entitiy.
         Map.mapRooms[activeRoom].entities.add(this.player);
         
@@ -103,18 +100,15 @@ public class MenuStart extends JFrame {
         // Map map = new Map("beispielmap");
 
         //Iteriert über Zeilen
-        for (int i = 0; i < Map.mapRooms[this.activeRoom].roomFields.length; i++) {
+        for (int i = 0; i < Map.mapRooms[activeRoom].roomFields.length; i++) {
             //Iteriert über Spalten
-            for (int j = 0; j < Map.mapRooms[this.activeRoom].roomFields[i].length; j++) {
-                System.out.printf("%c", Map.mapRooms[this.activeRoom].roomFields[i][j].charMap());
+            for (int j = 0; j < Map.mapRooms[activeRoom].roomFields[i].length; j++) {
+                System.out.printf("%c", Map.mapRooms[activeRoom].roomFields[i][j].charMap());
 
-                //int x = i * 32;
-                //int y = j * 32;
-                //spart das ständige Erzeugen von lokalen Variablen
-                g2d.drawImage(walls[Map.mapRooms[this.activeRoom].roomFields[i][j].type], i*32, j*32, this);
+                g2d.drawImage(walls[Map.mapRooms[activeRoom].roomFields[i][j].type], i*32, j*32, this);
 
                 //Zeilenumbruch bei Zeilenende
-                if (j == Map.mapRooms[this.activeRoom].roomFields[i].length - 1)
+                if (j == Map.mapRooms[activeRoom].roomFields[i].length - 1)
                     System.out.printf("%n");
             }
         }
@@ -126,7 +120,7 @@ public class MenuStart extends JFrame {
         /**
          * Gehe die Entites Liste solange durch, bis du ein Monster findest und zeichne dieses dann auf die Map.
          */
-        LinkedList<Entities> tempEntities = map.getMapRoom(this.activeRoom).entities;
+        LinkedList<Entities> tempEntities = Map.mapRooms[activeRoom].entities;
         Iterator<Entities> iter = tempEntities.iterator();
         Entities testEntity;
         Position pm;
@@ -138,7 +132,7 @@ public class MenuStart extends JFrame {
             	monster=(Monster)testEntity;
             	pm = monster.getPosition();
                 g2d.drawImage(this.monsterimg, pm.x*32, pm.y*32, this);
-                System.out.println("Monsterposition X:"+pm.x+" Y:"+pm.y +" activeRoom: "+this.activeRoom);
+                System.out.println("Monsterposition X:"+pm.x+" Y:"+pm.y +" activeRoom: "+activeRoom);
 
             }
         }

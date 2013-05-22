@@ -44,6 +44,7 @@ public class GameWindow extends JFrame{
         Graphics2D g2d = (Graphics2D) g;
 
         Toolkit tool = Toolkit.getDefaultToolkit();
+        
 
         // Allgemeine Karte zeichnen
         // Player Zeichnen
@@ -60,5 +61,9 @@ public class GameWindow extends JFrame{
 
     public void startGame() {
 
+    }
+    
+    public void endGame() {
+    	super.dispose();
     }
 }
