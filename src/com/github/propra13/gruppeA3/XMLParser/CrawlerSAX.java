@@ -106,22 +106,28 @@ public class CrawlerSAX extends DefaultHandler{
 	}
 	}
 	
-/**	@Override
+	@Override
 	public void endElement(String uri,String localN,String qName)
 										throws SAXException {
 		
 		
 		if(qName.equals("rooms"))
 		System.out.println("rooms: "+qName.toString());
-			else if(qName.equals("entry"))
-		System.out.println("entry: "+qName.toString());
-			else if (qName.equals("exit"))
-		System.out.println("exit: "+qName.toString());
-			else if (qName.equals("walls"))
-		System.out.println("walls: "+qName.toString());
+		
+		else if(qName.equals("level"))
+		System.out.println("level: "+qName.toString());
+		
+		
+		
+		//	else if(qName.equals("entry"))
+		//System.out.println("entry: "+qName.toString());
+		//	else if (qName.equals("exit"))
+		//System.out.println("exit: "+qName.toString());
+		//	else if (qName.equals("walls"))
+		//System.out.println("walls: "+qName.toString());
 
 	}
-**/	
+	
 	
 	
 }	
