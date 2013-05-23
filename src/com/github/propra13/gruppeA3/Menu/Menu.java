@@ -18,6 +18,12 @@ import com.github.propra13.gruppeA3.Map;
 
 public class Menu extends JFrame implements ComponentListener{
 //Initialisieren der Button und Buttonbezeichnung
+	
+	/* workaround: static-Ref auf das aktuelle MenuStart-Objekt,
+	 *             damits von überall abgeschossen werden kann
+	 */
+	private static MenuStart activeGameWindow;
+	
 	private JButton buttonstart;
 	private JButton buttonbeenden;
 	private JButton buttonoptionen;
@@ -127,6 +133,7 @@ public class Menu extends JFrame implements ComponentListener{
 				this.setVisible(false);
 				@SuppressWarnings("unused")
 				MenuStart window = new MenuStart(map); 
+				activeGameWindow = window;
 				// map übergeben
 			}	
 					
@@ -156,6 +163,10 @@ public class Menu extends JFrame implements ComponentListener{
 	public void componentShown(ComponentEvent arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public static void closeWindow() {
+		activeGameWindow.close();
 	}
 	
 }

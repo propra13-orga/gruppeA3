@@ -3,6 +3,7 @@ package com.github.propra13.gruppeA3.Entities;
 import java.util.Iterator;
 import java.util.LinkedList;
 import com.github.propra13.gruppeA3.Menu.GameEndWindow;
+import com.github.propra13.gruppeA3.Menu.Menu;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 import com.github.propra13.gruppeA3.Link;
 import com.github.propra13.gruppeA3.Map;
@@ -106,6 +107,7 @@ public class Player extends Moveable {
 
     private void death() {
     	GameEndWindow end = new GameEndWindow("Game Over");
+    	Menu.closeWindow();
 
         //TODO: Eventuell Referenzen auf null setzten damit GC abräumt?
     }
@@ -113,6 +115,7 @@ public class Player extends Moveable {
     // @author CK - provisorisch
     private void win() {
     	GameEndWindow end = new GameEndWindow("Gewonnen! Fuck Yeah!");
+    	Menu.closeWindow();
     }
     
     private void changeRooms(Link link){

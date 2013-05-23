@@ -4,9 +4,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -14,13 +11,9 @@ import javax.swing.*;
 
 import com.github.propra13.gruppeA3.Entities.Entities;
 import com.github.propra13.gruppeA3.Entities.Monster;
-import com.github.propra13.gruppeA3.Entities.Moveable;
 import com.github.propra13.gruppeA3.Entities.Player;
-import com.github.propra13.gruppeA3.Game;
 import com.github.propra13.gruppeA3.Keys;
 import com.github.propra13.gruppeA3.Map;
-import com.github.propra13.gruppeA3.Exceptions.InvalidRoomLinkException;
-import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
 import com.github.propra13.gruppeA3.Position;
 import com.github.propra13.gruppeA3.XMLParser.CrawlerSAX;
 
@@ -163,6 +156,10 @@ public class MenuStart extends JFrame {
         //}
 
 
+    }
+    
+    public void close() {
+    	this.dispose();
     }
 
 }
