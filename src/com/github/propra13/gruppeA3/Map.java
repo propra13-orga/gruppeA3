@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import com.github.propra13.gruppeA3.Map;
 import com.github.propra13.gruppeA3.Field;
 import com.github.propra13.gruppeA3.Exceptions.*;
+import com.github.propra13.gruppeA3.XMLParser.SAXCrawlerReader;
 
 public class Map {
 	/**
@@ -39,7 +40,12 @@ public class Map {
 		linkBuffer = new LinkedList<Link>();
 		
 		spawns[0] = spawns[1] = null;
+		
+		//Map einlesen
 		mapRooms = readRooms(dirName);
+		
+		
+
 		buildLinks();
 		//checkLinks();
 	}
@@ -103,7 +109,29 @@ public class Map {
 			mapRooms[i] = new Room(i, dir + File.separator + roomNames[i] + "." + roomEnding);
 		}
 		
+		
+		// XML-Kram
+		/* TODO:
+		 * Reader bekommt als Param nichts; Map ist komplett static
+		 * reader.read() bekommt als Eingabeparam String dirName, Room room
+		 * (Verzeichnisname wo die Räume sind, Raum-Ref wo der Kram rein soll)
+		 */
+		
+		/*SAXCrawlerReader reader=new SAXCrawlerReader(this);
+		for (int i=0; i < mapRooms.length; i++) {
+			try {
+				reader.read(mapName, mapRooms[i]);
+				
+			} catch (Exception e) {
+			}
+		}*/
+		
 		return mapRooms;
+	}
+	
+	
+	private void readEntities(String dirName, Room room) {
+		
 	}
 	
 	
@@ -116,7 +144,7 @@ public class Map {
 	 * 	Teilt beiden Zielräumen den Link mit und fügt den Link in die Linkliste der Map ein
 	 * 	Überprüft alle Links auf Konsistenz (evtl. auslagern auf Link-Klasse)
 	 */
-	public void buildLinks() throws InvalidRoomLinkException {
+	private void buildLinks() throws InvalidRoomLinkException {
 		
 		// Sucht Link mit der höchsten ID
 		int highID = 0;
@@ -176,7 +204,7 @@ public class Map {
 	/* TODO: Überprüft die Links zwischen Rooms auf Konsistenz
 	 * Derzeit: Testweise Ausgabe aller Links
 	 */
-	public void checkLinks() throws InvalidRoomLinkException {
+	private void checkLinks() throws InvalidRoomLinkException {
 		//Iteriert über Räume
 		for (int k=0; k < Map.mapRooms.length; k++) {
 			
@@ -227,7 +255,7 @@ public class Map {
 	 * @param roomID - gibt die ID des aktuellen Raumes an
 	 * @return liefert den aktuellen Raum
 	 */
-	public Room getMapRoom(int roomID){
-		return Map.mapRooms[roomID];
+	public static Room getMapRoom(int roomID){
+		return mapRooms[roomID];
 	}
 }
