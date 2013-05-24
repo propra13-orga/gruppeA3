@@ -16,7 +16,7 @@ public class Game {
 		Map map = null;
 		
 		try {
-			map = new Map("beispielmap");
+			map = new Map("Map02");
 		} catch (InvalidRoomLinkException | IOException | MapFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -38,10 +38,10 @@ public class Game {
 		for (int k=0; k < Map.mapRooms.length; k++) {
 			System.out.println("Raum: " + Map.mapRooms[k].ID);
 			
-			//Iteriert über Zeilen TODO: ans laufen kriegen
+			//Iteriert über Spalten
 
 			for (int i=0; i < Map.mapRooms[k].roomFields.length; i++) {
-				//Iteriert über Spalten
+				//Iteriert über Zeilen
 				for (int j=0; j < Map.mapRooms[k].roomFields[i].length; j++) {
 					System.out.printf("%c", Map.mapRooms[k].roomFields[i][j].charMap());
 					//Zeilenumbruch bei Zeilenende

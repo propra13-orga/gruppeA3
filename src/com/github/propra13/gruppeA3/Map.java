@@ -64,7 +64,7 @@ public class Map {
 		
 		//Sammle Map-Dateien
 		String dir = System.getProperty("user.dir");
-		dir = dir/* + "maps"*/ + File.separator + mapName;
+		dir = dir + File.separator + "data" + File.separator + "maps" + File.separator + mapName;
 		File f = new File(dir);
 		if (! f.exists())
 			throw new FileNotFoundException(dir);

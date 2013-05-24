@@ -92,9 +92,9 @@ public class MenuStart extends JFrame {
         // NICHT nochmal auslesen, sonst wird eine neue map erzeugt!!!
         // Map map = new Map("beispielmap");
 
-        //Iteriert Ã¼ber Zeilen
+        //Iteriert über Spalten
         for (int i = 0; i < Map.mapRooms[activeRoom].roomFields.length; i++) {
-            //Iteriert Ã¼ber Spalten
+            //Iteriert über Zeilen
             for (int j = 0; j < Map.mapRooms[activeRoom].roomFields[i].length; j++) {
                 System.out.printf("%c", Map.mapRooms[activeRoom].roomFields[i][j].charMap());
                     /*
