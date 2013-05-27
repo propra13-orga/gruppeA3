@@ -88,10 +88,6 @@ public class MenuStart extends JFrame {
             walls[x] = tool.getImage("data/images/wall_" + x + "_32.png");
         }
 
-        //try {
-        // NICHT nochmal auslesen, sonst wird eine neue map erzeugt!!!
-        // Map map = new Map("beispielmap");
-
         //Iteriert über Spalten
         for (int i = 0; i < Map.mapRooms[activeRoom].roomFields.length; i++) {
             //Iteriert über Zeilen
