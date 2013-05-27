@@ -1,0 +1,5 @@
+Feldgröße: 25x18 Felder (800x576 px)
+Anzeigenleiste überm Feld (Höhe: 24px)
+  => 800x600 Fenstergröße
+  
+

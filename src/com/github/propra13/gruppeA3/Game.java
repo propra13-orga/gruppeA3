@@ -30,30 +30,6 @@ public class Game {
 		} catch (Exception e) {
 		}
 		
-		/* Test-Konsolenoutput
-		 * @author Christian Krüger
-		 */
-		
-		//Iteriert über Räume
-		for (int k=0; k < Map.mapRooms.length; k++) {
-			System.out.println("Raum: " + Map.mapRooms[k].ID);
-			
-			//Iteriert über Spalten
-
-			for (int i=0; i < Map.mapRooms[k].roomFields.length; i++) {
-				//Iteriert über Zeilen
-				for (int j=0; j < Map.mapRooms[k].roomFields[i].length; j++) {
-					System.out.printf("%c", Map.mapRooms[k].roomFields[i][j].charMap());
-					//Zeilenumbruch bei Zeilenende
-					if(j==Map.mapRooms[k].roomFields[i].length - 1)
-						System.out.printf("%n");
-				}
-			}
-			
-			System.out.printf("%n%n");
-			
-		}
-		
 		//map muss an Menu weitergereicht werden, damit die map nicht nochmal ausgelesen wird.
 		meinmenue = new Menu(map);
 		meinmenue.setVisible(true);

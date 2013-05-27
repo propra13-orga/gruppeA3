@@ -1,0 +1,18 @@
+Aufräumen
+    Grafiken auf Panels
+    Grafikkram in eigene Klasse, raus aus MenuStart
+    Feste Fenstergröße
+    Grafiken bekommen ein JPanel übergeben, auf das sie malen können
+    Ungenutzten Müll rausschmeißen
+    Ungenutzten Kram kommentieren, falls er noch gebraucht wird
+    
+Game-Loop
+Double-Koords für Entities
+Bewegungsanimation, Bewegungsgeschwindigkeit
+
+Checkpoints
+    Kanal-System; Kanäle zur Reiseverkürzung
+    Feste Checkpointräume, die Kanal-Link freischalten
+    Tod: Spieler wird auf Spawn gesetzt und kann evtl durch
+         Kanäle zum letzten Checkpointraum reisen
+
