@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
@@ -36,7 +37,7 @@ public class Menu extends JFrame implements ComponentListener{
 	private JPanel panelButton;		// Button einem JPanel zuweisen
 	
 	private final int MINWIDTH = 800;
-	private final int MINHEIGHT = 700;
+	private final int MINHEIGHT = 600;
 	
 	private Map map = null;
 	
@@ -44,12 +45,17 @@ public class Menu extends JFrame implements ComponentListener{
 		
 		// Zuweisung des übergebenen Maps.
 		this.map = map;
-		
 		setTitle("Dungeon Crawler");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	//schlie�en button belegt
-		setLocation(400,200);	//fensterpostion auf bildschirm festlegen
+	//auslesen der Auflösung
+		final Dimension d = this.getToolkit().getScreenSize(); 
+	//Umrechnen der Auflösung und schreiben der Werte als integer
+		setLocation((int) ((d.getWidth() - this.getWidth()) / 2), (int) ((d.getHeight() - this.getHeight()) / 2));
+	    		
 		setSize(MINWIDTH,MINHEIGHT);
 		setResizable(false);
+		//wichtig für die Fenster Zentrierung soll nach setSize kommen.
+		setLocationRelativeTo(null); 
 		getContentPane().setLayout(new GridBagLayout());	//unterteilung des fensters
 	
 		//ComponentListener zust�ndig f�r �berwachung der Mindestfenstergr��e

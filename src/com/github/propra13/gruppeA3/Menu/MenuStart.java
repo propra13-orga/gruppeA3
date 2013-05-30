@@ -28,7 +28,7 @@ public class MenuStart extends JPanel implements ActionListener{
 
     //definiert die Fenstergröße vom Spielfeld
     public int GameMinSizeX = 800; 
-    public int GameMinSizeY = 612; //+12 wegen runtergeschobenem Feld
+    public int GameMinSizeY = 600;
 
 	public static Timer timer;
 	
@@ -52,7 +52,8 @@ public class MenuStart extends JPanel implements ActionListener{
         monsterimg = this.getImage(this.GamePath + "/data/images/Test_Monster.png");
         wallimg = this.getImage(this.GamePath + "/data/images/Test_Wand.png");
         playerimg = this.getImage(this.GamePath + "/data/images/Test_Player.png");
-
+        timer = new Timer(10000/60, this);
+        timer.start();
 
 
         // TODO: Um die neue den neuen Raum zu betreten den "activeRoom" Ã¤ndern bzw das Objekt neu bauen
@@ -128,7 +129,7 @@ public class MenuStart extends JPanel implements ActionListener{
             if (testEntity instanceof Monster) {
             	monster=(Monster)testEntity;
             	pm = monster.getPosition();
-                g2d.drawImage(this.monsterimg, pm.x*32, pm.y*32+32, this);
+                g2d.drawImage(this.monsterimg, pm.x*32, pm.y*32, this);
                 System.out.println("Monsterposition X:"+pm.x+" Y:"+pm.y +" activeRoom: "+activeRoom);
 
             }
