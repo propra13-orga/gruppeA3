@@ -1,6 +1,8 @@
 package com.github.propra13.gruppeA3.Menu;
 
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -129,12 +131,12 @@ public class Menu extends JFrame implements ComponentListener{
 			
 			if(a == stringbuttonstart)
 			{
-				//Menue Frame ausblenden beim Spiel Start
-				this.setVisible(false);
-				@SuppressWarnings("unused")
-				MenuStart window = new MenuStart(map); 
-				activeGameWindow = window;
-				// map übergeben
+			//JPanel übergabe und alten JPanel schließen
+				Component start;
+				remove(panelButton);
+				validate();
+				start = add(new MenuStart(map));
+				update(start.getGraphics());
 			}	
 					
 	}
@@ -163,10 +165,6 @@ public class Menu extends JFrame implements ComponentListener{
 	public void componentShown(ComponentEvent arg0) {
 		// TODO Auto-generated method stub
 		
-	}
-	
-	public static void closeWindow() {
-		activeGameWindow.close();
 	}
 	
 }

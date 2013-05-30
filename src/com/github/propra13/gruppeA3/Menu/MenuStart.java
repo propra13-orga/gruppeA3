@@ -1,30 +1,36 @@
 package com.github.propra13.gruppeA3.Menu;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.Timer;
 
-import com.github.propra13.gruppeA3.Entities.Entities;
-import com.github.propra13.gruppeA3.Entities.Monster;
-import com.github.propra13.gruppeA3.Entities.Player;
 import com.github.propra13.gruppeA3.Keys;
 import com.github.propra13.gruppeA3.Map;
 import com.github.propra13.gruppeA3.Position;
-import com.github.propra13.gruppeA3.XMLParser.CrawlerSAX;
+import com.github.propra13.gruppeA3.Entities.Entities;
+import com.github.propra13.gruppeA3.Entities.Monster;
+import com.github.propra13.gruppeA3.Entities.Player;
 
 @SuppressWarnings("serial")
-public class MenuStart extends JFrame {
+public class MenuStart extends JPanel implements ActionListener{
 
     //definiert die Fenstergröße vom Spielfeld
     public int GameMinSizeX = 800; 
     public int GameMinSizeY = 612; //+12 wegen runtergeschobenem Feld
 
+	public static Timer timer;
+	
     private Player player = null;
     public static Integer activeRoom = 0;
 
@@ -34,7 +40,6 @@ public class MenuStart extends JFrame {
 
     protected Toolkit tool;
     protected String GamePath;
-    protected Keys keyListener;
     
     public MenuStart(Map map) {
         // alle wichtigen Eigenschaften der Oberklasse übernehmen.
@@ -56,14 +61,9 @@ public class MenuStart extends JFrame {
         Map.mapRooms[activeRoom].entities.add(this.player);
         
         //wie bei menu wird das JFrame gezeichnet
-
-        keyListener = new Keys(this.player, this);
-
-        addKeyListener(keyListener);
-        setLocationRelativeTo(this);
-        setTitle(CrawlerSAX.title);
+        addKeyListener(new Keys(this.player, this));
         setSize(GameMinSizeX, GameMinSizeY);
-        setVisible(true);
+        setFocusable(true);
     }
 
     protected Image getImage(String path) {
@@ -97,7 +97,7 @@ public class MenuStart extends JFrame {
                      * author: J.L
                      * +32 damit die zeile nicht abgeschnitten wird das gleiche bei Monster
                      */
-                g2d.drawImage(walls[Map.mapRooms[activeRoom].roomFields[i][j].type], i*32, j*32+32, this);
+                g2d.drawImage(walls[Map.mapRooms[activeRoom].roomFields[i][j].type], i*32, j*32, this);
             }
         }
 
@@ -149,9 +149,19 @@ public class MenuStart extends JFrame {
 
 
     }
-    
-    public void close() {
-    	this.dispose();
+    public void death(Graphics g) {
+    	String msg = "Game Over";
+    	Font small = new Font("Helvetica", Font.BOLD, 25);
+    	FontMetrics metr = this.getFontMetrics(small);
+    	g.setColor(Color.WHITE);
+    	g.setFont(small);
+    	g.drawString(msg, (WIDTH - metr.stringWidth(msg)) / 2, HEIGHT /2);
     }
+    
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		repaint();
+	}
 
 }

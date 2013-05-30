@@ -97,7 +97,8 @@ public class Player extends Moveable {
                 // Dies wird später benötigt, wenn Spieler und auch Monster mehrere Leben haben:
                 // this.setLife(this.getLife()-((Monster)testEntity).getPower());
             	System.out.println("Monster auf dem gleichen Feld wie Spieler!");
-                this.death();
+               //funktioniert nicht mehr JPanel
+			//   this.death();
             }
         }
 
@@ -122,24 +123,10 @@ public class Player extends Moveable {
     	}
     }
 
-    private void death() {
-    	lives--;
-    	if (lives == 0) {
-    		new GameEndWindow("Game Over");
-    		Menu.closeWindow();
-    	} else {
-    		currentroom = Map.mapRooms[0];
-    		setPosition(Map.spawns[0].pos.x, Map.spawns[0].pos.y);
-    		MenuStart.activeRoom = currentroom.ID;
-    	}
-
-        //TODO: Eventuell Referenzen auf null setzten damit GC abräumt?
-    }
     
     // @author CK - provisorisch
     private void win() {
     	GameEndWindow end = new GameEndWindow("Gewonnen! Fuck Yeah!");
-    	Menu.closeWindow();
     }
     
     private void changeRooms(Link link){

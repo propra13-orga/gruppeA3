@@ -14,9 +14,12 @@ public class Keys implements KeyListener {
 	//Konstruktor
 	public Keys(Player player_bind, Frame listener_frame){
 		player = player_bind;
+		/* nicht mehr funktionsfaehig im JPanel
         this.listener_frame =  listener_frame;
 		listener_frame.setSize(0,0);
 		listener_frame.setVisible(false);
+		
+		*/
 	}
 	
 	public void keyTyped(KeyEvent e){}
