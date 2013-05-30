@@ -35,8 +35,8 @@ public class Menu extends JFrame implements ComponentListener{
 	
 	private JPanel panelButton;		// Button einem JPanel zuweisen
 	
-	private final int MINWIDTH = 400;
-	private final int MINHEIGHT = 300;
+	private final int MINWIDTH = 800;
+	private final int MINHEIGHT = 700;
 	
 	private Map map = null;
 	
@@ -49,6 +49,7 @@ public class Menu extends JFrame implements ComponentListener{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	//schlie�en button belegt
 		setLocation(400,200);	//fensterpostion auf bildschirm festlegen
 		setSize(MINWIDTH,MINHEIGHT);
+		setResizable(false);
 		getContentPane().setLayout(new GridBagLayout());	//unterteilung des fensters
 	
 		//ComponentListener zust�ndig f�r �berwachung der Mindestfenstergr��e

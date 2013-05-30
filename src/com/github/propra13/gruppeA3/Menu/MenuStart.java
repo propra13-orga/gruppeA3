@@ -6,6 +6,7 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.List;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -108,7 +109,7 @@ public class MenuStart extends JPanel implements ActionListener{
         /**
          * Gehe die Entites Liste solange durch, bis du ein Monster findest und zeichne dieses dann auf die Map.
          */
-        List<Entities> tempEntities = Map.mapRooms[activeRoom].entities;
+        LinkedList<Entities> tempEntities = Map.mapRooms[activeRoom].entities;
         Iterator<Entities> iter = tempEntities.iterator();
         Entities testEntity;
         Position pm;

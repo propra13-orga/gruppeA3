@@ -4,15 +4,15 @@ import java.awt.*;
 import java.awt.event.*;
 import com.github.propra13.gruppeA3.Entities.Player;
 import com.github.propra13.gruppeA3.Entities.Moveable.direction;
+import com.github.propra13.gruppeA3.Menu.MenuStart;
 
 
 public class Keys implements KeyListener {
 	
 	Player player; //Referenz zum gesteuerten Charakter
-	private Frame listener_frame;
 
 	//Konstruktor
-	public Keys(Player player_bind, Frame listener_frame){
+	public Keys(Player player_bind, MenuStart menuStart){
 		player = player_bind;
 		/* nicht mehr funktionsfaehig im JPanel
         this.listener_frame =  listener_frame;
@@ -44,8 +44,6 @@ public class Keys implements KeyListener {
 			default: player.direct = direction.NONE;
 					 break;
 		}
-
-        this.listener_frame.repaint();
 
 	}
 	
