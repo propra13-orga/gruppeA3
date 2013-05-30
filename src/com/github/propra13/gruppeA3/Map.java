@@ -47,6 +47,9 @@ public class Map {
 		
 
 		buildLinks();
+		buildCheckpoints();
+		
+		System.out.println("Map gebaut!");
 		//checkLinks();
 	}
 	
@@ -129,8 +132,7 @@ public class Map {
 		return mapRooms;
 	}
 	
-	
-	private void readEntities(String dirName, Room room) {
+	private void buildCheckpoints() {
 		
 	}
 	
@@ -162,13 +164,12 @@ public class Map {
 		for (Iterator<Link> i = linkBuffer.iterator(); i.hasNext();) {
 			Link link = i.next();
 			
-			System.out.println("Möchte zugreifen: halfLinks["+link.ID+"][0]; Größe: halfLinks["+halfLinks.length+"]["+halfLinks[0].length+"]");
 			if (halfLinks[link.ID][0] == null)
 				halfLinks[link.ID][0] = link;
 			else if (halfLinks[link.ID][1] == null)
 				halfLinks[link.ID][1] = link;
 			else
-				throw new InvalidRoomLinkException("dritten halben Link gefunden; Link-ID: " + link.ID);
+				throw new InvalidRoomLinkException("dritten halben Link gefunden; Link-ID: "+link.ID+", Position: "+link.pos.x+":"+link.pos.y+", Ziel: Room "+link.targetRoomID);
 		}
 		linkBuffer.clear();
 		
@@ -191,8 +192,7 @@ public class Map {
 			targetFields[0] = targetRooms[0].roomFields[halfLinks[i][1].pos.x][halfLinks[i][1].pos.y];
 			targetFields[1] = targetRooms[1].roomFields[halfLinks[i][0].pos.x][halfLinks[i][0].pos.y];
 			
-			
-			Link link = new Link(i, targetRooms, targetFields, bidirectional);
+			Link link = new Link(i, targetRooms, targetFields, bidirectional, ! halfLinks[i][0].isActivated());
 			
 			//Setzt ganze Links auf Felder
 			targetFields[0].setLink(link);
@@ -234,15 +234,16 @@ public class Map {
 	/* Fügt einen Link zum Link-Buffer hinzu
 	 * Link-Buffer wird später ausgelesen und die Links ordentlich zusammengestellt
 	 */
-	public static void setLink(Link link) {
+	public static void addLink(Link link) {
 		linkBuffer.push(link);
 	}
 
 	//Setzt einen Spawn auf der Map
-	public static void setSpawn(Field spawn) {
-		/* TODO:
-		 * Spawn nur aus 00-Room akzeptieren
-		 */
+	public static void addSpawn(Field spawn) {
+		if (spawns[0] == null)
+			spawns[0] = spawn;
+		else if (spawns[1] == null)
+			spawns[1] = spawn;
 	}
 	
 	//Setzt Ziel der Map

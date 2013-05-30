@@ -4,6 +4,8 @@ Typen:
     3 Wasser
     4 Tür
     5 Link
+    6 Checkpoint-Link
+    7 Trigger
     FF (=255) Zeilenende
     
 Items:
@@ -24,7 +26,7 @@ Wasser:
         0 ohne Brücke
         1 mit Brücke
         
-Link:
+Link (auch Checkpoint):
     Attr1: Link-ID
     Attr2: Ziel-Map-ID
 	   Spezialwert (FE oder so) falls unidirektional
@@ -36,8 +38,20 @@ Spawn:
     Feld-Attribut 1: 02
     Feld-Attribut 2: Spawn-ID (00 oder 01)
     
-	
-	
+Trigger:
+    Attribut 1: Trigger-ID
+    Attribut 2: Trigger-Typ
+    Triggertypen:
+        00 | Checkpointtrigger
+    
+Checkpoint:
+    Speziallink; triggern zum freischalten notwendig
+    Trigger-ID = Link-ID
+    Triggertyp = 00
+    Konventionen:
+        Zurück-Checkpoint-Link-ID < Vorwärts-Checkpoint-Link-ID
+        Nur ein Checkpoint-Link-Strang pro Map
+            => Max zwei Checkpoint-Links pro Room
 
 
         
@@ -49,10 +63,7 @@ Darstellung eines Felds in einer Datei (6 Byte pro Feld):
       02 | Textur
       03 | Feld-Attribut 1
       04 | Feld-Attribut 2
-      05 | Entity-Typ
-      06 | Entity-Attribut
       
-Beispiel: 05 00 01 02 00 00
+Beispiel: 05 00 01 02
 	  Ist ein Link mit der Textur-ID 0.
 	  Link-ID 01, linkt zu Map 02.
-	  Keine Items.

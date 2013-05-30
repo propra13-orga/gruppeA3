@@ -5,6 +5,7 @@ public class Link {
 	public Room[] targetRooms = new Room[2];
 	public Field[] targetFields = new Field[2];
 	boolean bidirectional;
+	private boolean isActivated = true;
 	
 	// Temporäre Variablen
 	int targetRoomID;
@@ -18,9 +19,9 @@ public class Link {
 	 * 	halbe Links gebaut, aus denen später ganze Links werden.
 	 * 
 	 * Parameter:
-	 * Link-ID; Zielraum; Zielfeld im Zielraum
+	 * Link-ID; Zielraum; Zielfeld im Zielraum; Position des halben Links; ist Checkpointlink?
 	 */
-	public Link(int ID, int targetRoom, Position position) {
+	public Link(int ID, int targetRoom, Position position, boolean isCheckpoint) {
 		this.ID = ID;
 		this.targetRoomID = targetRoom;
 		this.pos = position;
@@ -30,15 +31,36 @@ public class Link {
 			this.bidirectional = false;
 		else
 			this.bidirectional = true;
+		
+		//Setzt isActivated auf false, falls Link Checkpointlink ist 
+		isActivated = ! isCheckpoint;
+		
+		Map.addLink(this);
 	}
 	
 	 /* Konstruktor für einen ganzen Link
 	  * Ist beiden Zielräumen bekannt
 	  */
-	public Link(int ID, Room[] targetRooms, Field[] targetFields, boolean bidirectional) {
+	public Link(int ID, Room[] targets, Field[] target_Fields, boolean bidirectional, boolean isCheckpoint) {
+		System.out.println("Ich bin Link "+ID+" und werde nun gebaut.");
 		this.ID = ID;
-		this.targetRooms = targetRooms;
-		this.targetFields = targetFields;
+		this.targetRooms = targets;
+		this.targetFields = target_Fields;
 		this.bidirectional = bidirectional;
+		isActivated = ! isCheckpoint;
+		System.out.println("Ich verbinde "+this.targetRooms[0].ID+" und "+this.targetRooms[1].ID);
+	}
+	
+	public boolean isActivated() {
+		return isActivated;
+	}
+	
+	// Schaltet ggf. Checkpointlink frei
+	public void activate() {
+		System.out.println("Ich bin Link "+ID+" und möchte bitte aktiviert werden");
+		System.out.println(this.targetRooms[0].ID);
+		System.out.println(this.targetRooms[1].ID);
+		System.out.println("Hier ist Link "+ID+" von "+targetRooms[0].ID+" nach "+targetRooms[1].ID+", ich wurde soeben aktiviert.");
+		isActivated = true;
 	}
 }

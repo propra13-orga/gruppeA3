@@ -2,11 +2,14 @@ package com.github.propra13.gruppeA3.Entities;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
+
 import com.github.propra13.gruppeA3.Menu.GameEndWindow;
 import com.github.propra13.gruppeA3.Menu.Menu;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 import com.github.propra13.gruppeA3.Link;
 import com.github.propra13.gruppeA3.Map;
+import com.github.propra13.gruppeA3.Trigger;
 
 import com.github.propra13.gruppeA3.Room;
 
@@ -19,15 +22,18 @@ public class Player extends Moveable {
    // Attribute / werden noch nicht benutzt
    // private String name;
    // private int score;
+	
+	private int health;
+	private int lives = 7;
 
 
     // Konstruktoren
     public Player(Room room_bind) {
         super(room_bind);
-        setPosition(1,1);
+        setPosition(Map.spawns[0].pos.x, Map.spawns[0].pos.y);
     }
 
-    //Methode überschrieben, prüft für Spieler zusätzlich, ob bereits ein anderer Spieler auf dem Feld steht
+    //Methode überschrieben, prüft für Spieler zusätzlich Trigger und ob bereits ein anderer Spieler auf dem Feld steht
     public void move() {
 
         System.out.println("Setze Richtung auf "+this.direct);
@@ -80,7 +86,7 @@ public class Player extends Moveable {
         /**
          * Die Entitites Liste soll durchlaufen werden, um zu überprüfen, ob an der Position xy des Spielers ein Monster ist.
          */
-        LinkedList<Entities> tempEntities = this.currentroom.entities;
+        List<Entities> tempEntities = this.currentroom.entities;
         Iterator<Entities> iter = tempEntities.iterator();
 
         Entities testEntity;
@@ -97,17 +103,35 @@ public class Player extends Moveable {
 
         if(currentroom.roomFields[pos.x][pos.y].link != null){
         	System.out.println("Hier ist ein Link!");
-        	changeRooms(currentroom.roomFields[pos.x][pos.y].link);
+        	System.out.println("isActivated: "+currentroom.roomFields[pos.x][pos.y].link.isActivated());
+        	
+        	if (currentroom.roomFields[pos.x][pos.y].link.isActivated()) {
+        		System.out.println("Ich darf durch den Link!");
+        		changeRooms(currentroom.roomFields[pos.x][pos.y].link);
+        	}
         }
         
         if(currentroom.roomFields[pos.x][pos.y]== Map.end)
         	this.win();
-
+        
+        Trigger trigger = currentroom.roomFields[this.pos.x][this.pos.y].trigger;
+        if (trigger != null) {
+        	System.out.println("Ich triggere");
+        	//Funktioniert nicht; keinen blassen Schimmer warum
+        	//trigger.trigger();
+    	}
     }
 
     private void death() {
-    	GameEndWindow end = new GameEndWindow("Game Over");
-    	Menu.closeWindow();
+    	lives--;
+    	if (lives == 0) {
+    		new GameEndWindow("Game Over");
+    		Menu.closeWindow();
+    	} else {
+    		currentroom = Map.mapRooms[0];
+    		setPosition(Map.spawns[0].pos.x, Map.spawns[0].pos.y);
+    		MenuStart.activeRoom = currentroom.ID;
+    	}
 
         //TODO: Eventuell Referenzen auf null setzten damit GC abräumt?
     }
@@ -119,16 +143,24 @@ public class Player extends Moveable {
     }
     
     private void changeRooms(Link link){
-    	if(this.currentroom == link.targetRooms[0]){
+    	if(this.currentroom == link.targetRooms[0]) {
     		this.currentroom = link.targetRooms[1];	//currentroom auf neuen Raum setzten
     		this.setPosition(link.targetFields[1].pos.x, link.targetFields[1].pos.y);
     		MenuStart.activeRoom = currentroom.ID;
     	}
-    	else{
+    	else {
     		this.currentroom = link.targetRooms[0];
     		this.setPosition(link.targetFields[0].pos.x, link.targetFields[0].pos.y);
     		MenuStart.activeRoom = currentroom.ID;
     	}
+    }
+    
+    public int getHealth() {
+    	return health;
+    }
+    
+    public int getLives() {
+    	return lives;
     }
 
     /* Noch nicht benutzt

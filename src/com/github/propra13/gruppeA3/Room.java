@@ -2,26 +2,34 @@ package com.github.propra13.gruppeA3;
 
 import com.github.propra13.gruppeA3.Field;
 import com.github.propra13.gruppeA3.Position;
+import com.github.propra13.gruppeA3.Entities.Entities;
+import com.github.propra13.gruppeA3.Entities.Monster;
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Room {
 	
 	public int ID;
 	public Field[][] roomFields;	//roomFields[Spalte][Zeile]
-	public LinkedList entities = new LinkedList();
+	public List<Entities> entities = new LinkedList<Entities>();
 	public Field[] spawns = null;
 	final static int fieldBytes = 4;
+	
+	//Temporäre Sammellisten
+	private List<Link> checkpointLinks = new LinkedList<Link>();
+	private List<Field> checkpointsToBuild = new LinkedList<Field>(); //für buildCheckpoints()
 	
 	/* TODO:
 	 * Metadatenzeile
 	 * Links
-	 * Room-ID (für Links, Listen und wat nich all)
+	 * Room-ID (für Links, Listen und was nicht all)
 	 * vernünftiges Dateiformat
 	 * ( 6 Byte pro Field (neues Item-Format) )
 	 */
@@ -30,7 +38,17 @@ public class Room {
 	public Room(int roomID, String filename)
 			throws IOException, MapFormatException {
 		this.ID = roomID;
+		System.out.println("Baue Raum "+ID);
 		this.roomFields = readFile(filename);
+		buildCheckpoints();
+		System.out.println("Checkpoints gebaut");
+		
+		//Iteriert über alle gefundenen Checkpointtrigger
+		Iterator<Field> iter = checkpointsToBuild.iterator();
+		Field toBuild;
+		while (iter.hasNext()) {
+			toBuild = iter.next();
+		}
 	}
 	
 	
@@ -101,9 +119,6 @@ public class Room {
 				lineIterate++;
 			}
 		}
-		System.out.println("Raum: " + filename);
-		System.out.println("Raumgröße: " + EOL_counter + "x" + lineLen/fieldBytes);
-		System.out.println();
 		
 		
 		/* Buffer -> Map-Array */
@@ -162,15 +177,18 @@ public class Room {
 							this, type, texture, attr1, attr2, pos);
 				}
 				
-				//Spawns und Links setzen
+				// Checkpoints, Trigger, Spawns und Links setzen
 				switch (room[j][i].type) {
 				
 					//Spawn
 					case 1:
 						if (attr1 == 2) {
+							
+							// Um den Pfad vom Dateinamen einfach abhacken zu können
 							File compare = new File(filename);
 							
-							if(! compare.getName().equals( "00." + Map.roomEnding) )
+							
+							if( !compare.getName().equals( "00." + Map.roomEnding) )
 								throw new MapFormatException("Spawns dürfen nur in Raum 00 sein.");
 							
 							else if (spawncounter > 1 || attr2 > 1)
@@ -180,7 +198,7 @@ public class Room {
 								throw new MapFormatException("Zwei Spawns mit gleicher ID");
 							
 							else
-								spawns[spawncounter] = room[j][i];
+								Map.addSpawn(room[j][i]);
 							
 							spawncounter++;
 						}
@@ -188,11 +206,29 @@ public class Room {
 						
 					//Link
 					case 5:
-						if (attr2 != 254) {
-							Link link = new Link(attr1, attr2, room[j][i].pos);
-							Map.setLink(link);
-						} else
+						if (attr2 != 254) 
+							new Link(attr1, attr2, room[j][i].pos, false);
+						else
 						Map.setEnd(room[j][i], this);
+						break;
+						
+					/* Checkpoint-Link
+					 * Werden gesammelt für buildCheckpoints()
+					 */
+					case 6:
+						System.out.println("Checkpoint-Link "+attr1+" gefunden");
+						checkpointLinks.add(new Link(attr1, attr2, room[j][i].pos, true));
+						break;
+						
+					// Trigger
+					case 7:
+						// Sucht Trigger-Subobjekt raus
+						switch (attr2) {
+							case 0:
+								System.out.println("Checkpointtrigger gefunden auf "+j+":"+i);
+								checkpointBuildLater(room[j][i]);
+								break;
+						}
 						break;
 						
 				}
@@ -200,6 +236,39 @@ public class Room {
 			}
 		}
 		return room;
+	}
+	
+	private void checkpointBuildLater(Field location) {
+		checkpointsToBuild.add(location);
+	}
+	
+	// Baut alle Checkpoint-Trigger aus checkpointsToBuild
+	private void buildCheckpoints() {
+		Iterator<Field> iter = checkpointsToBuild.iterator();
+		Field toBuild;
+
+		//Iteriert über alle gefundenen Checkpointtrigger
+		while (iter.hasNext()) {
+			toBuild = iter.next();
+			System.out.println("Suche Link für Checkpointtrigger "+toBuild.attribute1);
+	
+			Iterator<Link> iter2 = checkpointLinks.iterator();
+			Link toCheck;
+			//Iteriert über alle gefundenen Checkpoint-Links
+			while (iter2.hasNext()) {
+				toCheck = iter2.next();
+				System.out.println("Prüfe Checkpoint-Link "+toCheck.ID);
+				
+				/* Falls die ID des Checkpoint-Links (aus checkpointLinks) mit der ID
+				 * des Triggers (aus checkpointsToBuild übereinstimmt, wird der
+				 * Checkpoint-Trigger erzeugt.
+				 */
+				if (toCheck.ID == toBuild.attribute1) {
+					System.out.println("Setze Checkpoint");
+					toBuild.trigger = new Checkpoint(toBuild, toCheck);
+				}
+			}
+        }
 	}
 
 }

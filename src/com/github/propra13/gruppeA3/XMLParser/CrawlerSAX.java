@@ -51,7 +51,7 @@ public class CrawlerSAX extends DefaultHandler{
 		}
 		else if (qName.equals("rooms")){
 			roomID = Integer.parseInt(attrs.getValue("id"));
-			System.out.println("Blubb"+roomID);
+			//System.out.println("Blubb"+roomID);
 			/*System.out.println(attrs.getValue("length"));
 			System.out.println(attrs.getValue("height"));*/
 			//map = new Entities [Integer.parseInt(attrs.getValue("height"))][Integer.parseInt(attrs.getValue("length"))];
@@ -70,7 +70,7 @@ public class CrawlerSAX extends DefaultHandler{
 				Monster monster=new Monster(map.getMapRoom(roomID), speed, power, type, size, life, posx, posy);
 			
 				//MAP
-				System.out.println("Monster");
+				//System.out.println("Monster");
 				map.getMapRoom(roomID).entities.add(monster);
 
 		}
@@ -97,11 +97,11 @@ public class CrawlerSAX extends DefaultHandler{
 										throws SAXException {
 		
 		
-		if(qName.equals("rooms"))
+		/*if(qName.equals("rooms"))
 		System.out.println("rooms: "+qName.toString());
 		
 		else if(qName.equals("level"))
-		System.out.println("level: "+qName.toString());
+		System.out.println("level: "+qName.toString());*/
 		
 		
 		

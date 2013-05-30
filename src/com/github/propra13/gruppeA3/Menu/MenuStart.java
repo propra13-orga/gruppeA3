@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.*;
 
@@ -20,9 +21,9 @@ import com.github.propra13.gruppeA3.XMLParser.CrawlerSAX;
 @SuppressWarnings("serial")
 public class MenuStart extends JFrame {
 
-    //definiert die Fenstergrï¿½ï¿½e vom Spielfeld
-    public int GameMinSizeX = 320;
-    public int GameMinSizeY = 424;
+    //definiert die Fenstergröße vom Spielfeld
+    public int GameMinSizeX = 800; 
+    public int GameMinSizeY = 612; //+12 wegen runtergeschobenem Feld
 
     private Player player = null;
     public static Integer activeRoom = 0;
@@ -36,7 +37,7 @@ public class MenuStart extends JFrame {
     protected Keys keyListener;
     
     public MenuStart(Map map) {
-        // alle wichtigen Eigenschaften der Oberklasse Ã¼bernehmen.
+        // alle wichtigen Eigenschaften der Oberklasse übernehmen.
     	super();
     	
         this.GamePath = System.getProperty("user.dir");
@@ -92,16 +93,11 @@ public class MenuStart extends JFrame {
         for (int i = 0; i < Map.mapRooms[activeRoom].roomFields.length; i++) {
             //Iteriert über Zeilen
             for (int j = 0; j < Map.mapRooms[activeRoom].roomFields[i].length; j++) {
-                System.out.printf("%c", Map.mapRooms[activeRoom].roomFields[i][j].charMap());
                     /*
                      * author: J.L
                      * +32 damit die zeile nicht abgeschnitten wird das gleiche bei Monster
                      */
                 g2d.drawImage(walls[Map.mapRooms[activeRoom].roomFields[i][j].type], i*32, j*32+32, this);
-
-                //Zeilenumbruch bei Zeilenende
-                if (j == Map.mapRooms[activeRoom].roomFields[i].length - 1)
-                    System.out.printf("%n");
             }
         }
 
@@ -112,7 +108,7 @@ public class MenuStart extends JFrame {
         /**
          * Gehe die Entites Liste solange durch, bis du ein Monster findest und zeichne dieses dann auf die Map.
          */
-        LinkedList<Entities> tempEntities = Map.mapRooms[activeRoom].entities;
+        List<Entities> tempEntities = Map.mapRooms[activeRoom].entities;
         Iterator<Entities> iter = tempEntities.iterator();
         Entities testEntity;
         Position pm;

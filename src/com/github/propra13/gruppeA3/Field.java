@@ -6,7 +6,7 @@ public class Field {
 	 * Links
 	 */
 	final static int[] walkables
-	= {1, 3, 4, 5}; //TODO: Wasserverhalten klären
+	= {1, 3, 4, 5, 6, 7}; //TODO: Wasserverhalten klären
 
 	
 	//Feldeigenschaften
@@ -22,6 +22,7 @@ public class Field {
 	public Position pos;
 	
 	private Room room;
+	public Trigger trigger;
 	
 	
 	
