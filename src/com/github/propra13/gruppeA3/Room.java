@@ -22,7 +22,12 @@ public class Room {
 	public Field[] spawns = null;
 	final static int fieldBytes = 4;
 	
+	
 	//Temporäre Sammellisten
+	
+	/*Positionen, an denen Checkpoint-Links sind.
+	 * Direkte Link-Refs können nicht genutzt werden, da zur Einlesezeit
+	 */
 	private List<Link> checkpointLinks = new LinkedList<Link>();
 	private List<Field> checkpointsToBuild = new LinkedList<Field>(); //für buildCheckpoints()
 	
@@ -253,19 +258,19 @@ public class Room {
 			System.out.println("Suche Link für Checkpointtrigger "+toBuild.attribute1);
 	
 			Iterator<Link> iter2 = checkpointLinks.iterator();
-			Link toCheck;
-			//Iteriert über alle gefundenen Checkpoint-Links
+			Link linkToCheck;
+			//Iteriert über alle gefundenen Checkpoint-Link-Positionen
 			while (iter2.hasNext()) {
-				toCheck = iter2.next();
-				System.out.println("Prüfe Checkpoint-Link "+toCheck.ID);
+				linkToCheck = iter2.next();
 				
 				/* Falls die ID des Checkpoint-Links (aus checkpointLinks) mit der ID
-				 * des Triggers (aus checkpointsToBuild übereinstimmt, wird der
+				 * des Triggers (aus checkpointsToBuild) übereinstimmt, wird der
 				 * Checkpoint-Trigger erzeugt.
 				 */
-				if (toCheck.ID == toBuild.attribute1) {
-					System.out.println("Setze Checkpoint");
-					toBuild.trigger = new Checkpoint(toBuild, toCheck);
+				if (linkToCheck.ID == toBuild.attribute1) {
+					//System.out.println("Setze Checkpoint für Link "+linkToCheck.targetRooms[0].ID);
+					Field linkField = roomFields[linkToCheck.pos.x][linkToCheck.pos.y];
+					Map.addTrigger(toBuild, linkField);
 				}
 			}
         }

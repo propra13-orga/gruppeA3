@@ -118,8 +118,8 @@ public class Player extends Moveable {
         Trigger trigger = currentroom.roomFields[this.pos.x][this.pos.y].trigger;
         if (trigger != null) {
         	System.out.println("Ich triggere");
-        	//Funktioniert nicht; keinen blassen Schimmer warum
-        	//trigger.trigger();
+        	//TODO: Testen
+        	trigger.trigger();
     	}
     }
 

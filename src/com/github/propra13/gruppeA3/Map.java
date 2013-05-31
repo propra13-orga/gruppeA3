@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 import com.github.propra13.gruppeA3.Map;
 import com.github.propra13.gruppeA3.Field;
@@ -27,7 +28,10 @@ public class Map {
 	final static String roomEnding = "room";
 	final static String metaEnding = "xml";
 	
-	private static LinkedList<Link> linkBuffer = null;
+	// Temporäre Sammellisten
+	private static LinkedList<Link> linkBuffer = new LinkedList<Link>();
+	private static LinkedList<Field> checkpointFieldsToBuild = new LinkedList<Field>();
+	private static LinkedList<Field> checkpointLinksToBuild = new LinkedList<Field>();
 	
 	
 	
@@ -36,8 +40,6 @@ public class Map {
 	 */
 	public Map(String dirName) 
 			throws FileNotFoundException, MapFormatException, IOException, InvalidRoomLinkException {
-		
-		linkBuffer = new LinkedList<Link>();
 		
 		spawns[0] = spawns[1] = null;
 		
@@ -132,10 +134,6 @@ public class Map {
 		return mapRooms;
 	}
 	
-	private void buildCheckpoints() {
-		
-	}
-	
 	
 	
 	/* Baut Links aus Link-Buffer auf
@@ -221,9 +219,6 @@ public class Map {
 						Room room2 = Map.mapRooms[k].roomFields[j][i].link.targetRooms[1];
 						Room room = Map.mapRooms[k];
 						Position pos = Map.mapRooms[k].roomFields[j][i].pos;
-						System.out.println("Ich bin ein Link!");
-						System.out.println("Ich verknüpfe die Felder "+pos1.x+":"+pos1.y+" und "+pos2.x+":"+pos2.y+" in dem Räumen "+room1.ID+" und "+room2.ID+".");
-						System.out.println("Ich sitze in Raum "+room.ID+" auf dem Feld "+pos.x+":"+pos.y+".");
 					}
 				}
 			}
@@ -231,11 +226,30 @@ public class Map {
 		
 	}
 	
+	private void buildCheckpoints() {
+		Iterator<Field> i = checkpointFieldsToBuild.iterator();
+		Iterator<Field> j = checkpointLinksToBuild.iterator();
+		while (i.hasNext()) {
+			Field triggerField = i.next();
+			Field linkField = j.next();
+			Link checkpointLink = linkField.link;
+			triggerField.trigger = new Checkpoint(triggerField, checkpointLink);
+		}
+	}
+	
 	/* Fügt einen Link zum Link-Buffer hinzu
 	 * Link-Buffer wird später ausgelesen und die Links ordentlich zusammengestellt
 	 */
 	public static void addLink(Link link) {
 		linkBuffer.push(link);
+	}
+	
+	/* Fügt einen Checkpoint zum Checkpoint-Buffer hinzu
+	 * Checkpoint-Buffer wird später ausgelesen und die Trigger mit den Links verknüpft
+	 */
+	public static void addTrigger(Field trigger, Field link) {
+		checkpointFieldsToBuild.push(trigger);
+		checkpointLinksToBuild.push(link);
 	}
 
 	//Setzt einen Spawn auf der Map
