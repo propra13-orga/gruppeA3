@@ -151,6 +151,8 @@ public class MenuStart extends JPanel implements ActionListener{
 
 
     }
+    
+    /* test umbau für jpanel
     public void death(Graphics g) {
     	String msg = "Game Over";
     	Font small = new Font("Helvetica", Font.BOLD, 25);
@@ -159,7 +161,7 @@ public class MenuStart extends JPanel implements ActionListener{
     	g.setFont(small);
     	g.drawString(msg, (WIDTH - metr.stringWidth(msg)) / 2, HEIGHT /2);
     }
-    
+    */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub

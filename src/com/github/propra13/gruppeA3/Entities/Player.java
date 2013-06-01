@@ -98,7 +98,7 @@ public class Player extends Moveable {
                 // this.setLife(this.getLife()-((Monster)testEntity).getPower());
             	System.out.println("Monster auf dem gleichen Feld wie Spieler!");
                //funktioniert nicht mehr JPanel
-			//   this.death();
+			  this.death();
             }
         }
 
@@ -127,6 +127,11 @@ public class Player extends Moveable {
     // @author CK - provisorisch
     private void win() {
     	GameEndWindow end = new GameEndWindow("Gewonnen! Fuck Yeah!");
+    }
+    
+    // @author CK - provisorisch
+    private void death() {
+    	GameEndWindow end = new GameEndWindow("Game Over!");
     }
     
     private void changeRooms(Link link){
