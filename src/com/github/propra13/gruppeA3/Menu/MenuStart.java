@@ -63,7 +63,7 @@ public class MenuStart extends JPanel implements ActionListener{
         Map.mapRooms[activeRoom].entities.add(this.player);
         
         //wie bei menu wird das JFrame gezeichnet
-        addKeyListener(new Keys(this.player, this));
+        addKeyListener(new Keys(this.player));
         setSize(GameMinSizeX, GameMinSizeY);
         setFocusable(true);
     }
