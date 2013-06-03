@@ -16,7 +16,7 @@ public class Game {
 		Map map = null;
 		
 		try {
-			map = new Map("Map02");
+			Map.initialize("Map02");
 		} catch (InvalidRoomLinkException | IOException | MapFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

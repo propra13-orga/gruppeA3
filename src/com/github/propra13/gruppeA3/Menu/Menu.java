@@ -39,18 +39,24 @@ public class Menu extends JFrame implements ComponentListener{
 	private final int MINWIDTH = 800;
 	private final int MINHEIGHT = 600;
 	
-	private Map map = null;
-	
 	public Menu(Map map){	//JFrame zeichnen
-		
-		// Zuweisung des übergebenen Maps.
-		this.map = map;
+
 		setTitle("Dungeon Crawler");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	//schlie�en button belegt
 	//auslesen der Auflösung
 		final Dimension d = this.getToolkit().getScreenSize(); 
 	//Umrechnen der Auflösung und schreiben der Werte als integer
 		setLocation((int) ((d.getWidth() - this.getWidth()) / 2), (int) ((d.getHeight() - this.getHeight()) / 2));
+		/* @author CK
+		 * TODO: 
+		 * if(d.getHeight == 600 || d.getWidth == 800)
+		 * 		Vollbild
+		 * else if(d.getHeight < 600 || d.getWidth < 800)
+		 * 		Nicht mehr unterstützte Auflösung, irgendwas halbwegs sinnvolles tun
+		 * 
+		 * Damit es nicht zu hässlichen Konflikten mit Taskleisten oder anderem Kram kommt.
+		 * Benötigt zwangsläufig auch ESC-Knopfreaktion, damit man auch aus dem Spiel wieder raus kommt.
+		 */
 	    		
 		setSize(MINWIDTH,MINHEIGHT);
 		setResizable(false);
@@ -58,7 +64,7 @@ public class Menu extends JFrame implements ComponentListener{
 		setLocationRelativeTo(null); 
 		getContentPane().setLayout(new GridBagLayout());	//unterteilung des fensters
 	
-		//ComponentListener zust�ndig f�r �berwachung der Mindestfenstergr��e
+		//ComponentListener zuständig für Überwachung der Mindestfenstergröße
 		addComponentListener(this);
 	
 		//Button Texte
@@ -71,7 +77,7 @@ public class Menu extends JFrame implements ComponentListener{
 		buttonbeenden = new JButton(stringbuttonbeenden);
 		buttonoptionen = new JButton(stringbuttonoptionen);
 	
-		panelButton = new JPanel(new GridBagLayout());	//Unterteilung des Fensters in Zeilen und Bl�cke
+		panelButton = new JPanel(new GridBagLayout());	//Unterteilung des Fensters in Zeilen und Blöcke
 	
 		//Button anordnen
 		GridBagConstraints gbc_buttonstart = new GridBagConstraints();
@@ -138,11 +144,11 @@ public class Menu extends JFrame implements ComponentListener{
 			
 			if(a == stringbuttonstart)
 			{
-			//JPanel übergabe und alten JPanel schließen
+			//JPanel-Übergabe und alten JPanel schließen
 				Component start;
 				remove(panelButton);
 				validate();
-				start = add(new MenuStart(map));
+				start = add(new MenuStart());
 				update(start.getGraphics());
 			}	
 					

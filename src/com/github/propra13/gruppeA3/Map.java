@@ -6,12 +6,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
-
 import com.github.propra13.gruppeA3.Map;
 import com.github.propra13.gruppeA3.Field;
 import com.github.propra13.gruppeA3.Exceptions.*;
-import com.github.propra13.gruppeA3.XMLParser.SAXCrawlerReader;
 
 public class Map {
 	/**
@@ -33,12 +30,14 @@ public class Map {
 	private static LinkedList<Field> checkpointFieldsToBuild = new LinkedList<Field>();
 	private static LinkedList<Field> checkpointLinksToBuild = new LinkedList<Field>();
 	
-	
+	//Privater Konstruktor, damit Map nicht instanziiert wird
+	private Map() {
+	}
 	
 	/* Baut Map aus gegebenem Verzeichnisnamen.
 	 * Interpretiert alle durchnummerierten "xy.room"-Dateien als Rooms.
 	 */
-	public Map(String dirName) 
+	public static void initialize(String dirName) 
 			throws FileNotFoundException, MapFormatException, IOException, InvalidRoomLinkException {
 		
 		spawns[0] = spawns[1] = null;
@@ -61,7 +60,7 @@ public class Map {
 	 * Sammelt aus gegebenem Map-Verzeichnis alle .room-Dateien
 	 * Erzeugt Room-Objekte aus .room-Dateien
 	 */
-	private Room[] readRooms(String mapName)
+	private static Room[] readRooms(String mapName)
 			throws FileNotFoundException, MapFormatException, IOException {
 		/* TODO:
 		 * Map-Zip
@@ -144,7 +143,7 @@ public class Map {
 	 * 	Teilt beiden Zielräumen den Link mit und fügt den Link in die Linkliste der Map ein
 	 * 	Überprüft alle Links auf Konsistenz (evtl. auslagern auf Link-Klasse)
 	 */
-	private void buildLinks() throws InvalidRoomLinkException {
+	private static void buildLinks() throws InvalidRoomLinkException {
 		
 		// Sucht Link mit der höchsten ID
 		int highID = 0;
@@ -226,7 +225,7 @@ public class Map {
 		
 	}
 	
-	private void buildCheckpoints() {
+	private static void buildCheckpoints() {
 		Iterator<Field> i = checkpointFieldsToBuild.iterator();
 		Iterator<Field> j = checkpointLinksToBuild.iterator();
 		while (i.hasNext()) {

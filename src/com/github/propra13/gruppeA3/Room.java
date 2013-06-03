@@ -43,10 +43,8 @@ public class Room {
 	public Room(int roomID, String filename)
 			throws IOException, MapFormatException {
 		this.ID = roomID;
-		System.out.println("Baue Raum "+ID);
 		this.roomFields = readFile(filename);
 		buildCheckpoints();
-		System.out.println("Checkpoints gebaut");
 		
 		//Iteriert über alle gefundenen Checkpointtrigger
 		Iterator<Field> iter = checkpointsToBuild.iterator();
@@ -221,7 +219,6 @@ public class Room {
 					 * Werden gesammelt für buildCheckpoints()
 					 */
 					case 6:
-						System.out.println("Checkpoint-Link "+attr1+" gefunden");
 						checkpointLinks.add(new Link(attr1, attr2, room[j][i].pos, true));
 						break;
 						
@@ -230,7 +227,6 @@ public class Room {
 						// Sucht Trigger-Subobjekt raus
 						switch (attr2) {
 							case 0:
-								System.out.println("Checkpointtrigger gefunden auf "+j+":"+i);
 								checkpointBuildLater(room[j][i]);
 								break;
 						}
@@ -255,7 +251,6 @@ public class Room {
 		//Iteriert über alle gefundenen Checkpointtrigger
 		while (iter.hasNext()) {
 			toBuild = iter.next();
-			System.out.println("Suche Link für Checkpointtrigger "+toBuild.attribute1);
 	
 			Iterator<Link> iter2 = checkpointLinks.iterator();
 			Link linkToCheck;
@@ -268,7 +263,6 @@ public class Room {
 				 * Checkpoint-Trigger erzeugt.
 				 */
 				if (linkToCheck.ID == toBuild.attribute1) {
-					//System.out.println("Setze Checkpoint für Link "+linkToCheck.targetRooms[0].ID);
 					Field linkField = roomFields[linkToCheck.pos.x][linkToCheck.pos.y];
 					Map.addTrigger(toBuild, linkField);
 				}

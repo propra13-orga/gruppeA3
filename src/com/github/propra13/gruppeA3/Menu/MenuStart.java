@@ -27,8 +27,8 @@ import com.github.propra13.gruppeA3.Entities.Player;
 public class MenuStart extends JPanel implements ActionListener{
 
     //definiert die Fenstergröße vom Spielfeld
-    public int GameMinSizeX = 800; 
-    public int GameMinSizeY = 600;
+    final public int GameMinSizeX = 800; 
+    final public int GameMinSizeY = 600;
 
 	public static Timer timer;
 	
@@ -42,7 +42,7 @@ public class MenuStart extends JPanel implements ActionListener{
     protected Toolkit tool;
     protected String GamePath;
     
-    public MenuStart(Map map) {
+    public MenuStart() {
         // alle wichtigen Eigenschaften der Oberklasse übernehmen.
     	super();
     	
@@ -58,7 +58,7 @@ public class MenuStart extends JPanel implements ActionListener{
 
         // TODO: Um die neue den neuen Raum zu betreten den "activeRoom" Ã¤ndern bzw das Objekt neu bauen
         // Der oder die Spieler sollten ins XML File und im CrawlerSAX erzeugt werden.
-        this.player = new Player(map.getMapRoom(activeRoom));
+        this.player = new Player(Map.getMapRoom(activeRoom));
         //player ist auch ein entitiy.
         Map.mapRooms[activeRoom].entities.add(this.player);
         
@@ -95,10 +95,10 @@ public class MenuStart extends JPanel implements ActionListener{
         for (int i = 0; i < Map.mapRooms[activeRoom].roomFields.length; i++) {
             //Iteriert über Zeilen
             for (int j = 0; j < Map.mapRooms[activeRoom].roomFields[i].length; j++) {
-                    /*
-                     * author: J.L
-                     * +32 damit die zeile nicht abgeschnitten wird das gleiche bei Monster
-                     */
+                /*
+                 * author: J.L
+                 * +32 damit die zeile nicht abgeschnitten wird das gleiche bei Monster
+                 */
                 g2d.drawImage(walls[Map.mapRooms[activeRoom].roomFields[i][j].type], i*32, j*32, this);
             }
         }
@@ -135,12 +135,6 @@ public class MenuStart extends JPanel implements ActionListener{
             }
         }
         
-        /* @author CK
-         * "pp.y*32 - 32" ist ein Workaround; das -32 setzt den Spieler ein Feld nach oben, da sonst
-         * irgendwas verschoben ist
-         * @author J.L 
-         * hat sich erledigt 
-         */ 
         g2d.drawImage(this.playerimg, pp.x*32, pp.y*32 , this);
         System.out.println("Playerposition X:"+pp.x+" Y:"+pp.y);
 

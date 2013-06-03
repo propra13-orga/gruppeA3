@@ -42,13 +42,11 @@ public class Link {
 	  * Ist beiden Zielräumen bekannt
 	  */
 	public Link(int ID, Room[] targets, Field[] target_Fields, boolean bidirectional, boolean isCheckpoint) {
-		System.out.println("Ich bin Link "+ID+" und werde nun gebaut.");
 		this.ID = ID;
 		this.targetRooms = targets;
 		this.targetFields = target_Fields;
 		this.bidirectional = bidirectional;
 		isActivated = ! isCheckpoint;
-		System.out.println("Ich verbinde "+this.targetRooms[0].ID+" und "+this.targetRooms[1].ID);
 	}
 	
 	public boolean isActivated() {
@@ -57,10 +55,8 @@ public class Link {
 	
 	// Schaltet ggf. Checkpointlink frei
 	public void activate() {
-		System.out.println("Ich bin Link "+ID+" und möchte bitte aktiviert werden");
 		System.out.println(this.targetRooms[0].ID);
 		System.out.println(this.targetRooms[1].ID);
-		System.out.println("Hier ist Link "+ID+" von "+targetRooms[0].ID+" nach "+targetRooms[1].ID+", ich wurde soeben aktiviert.");
 		isActivated = true;
 	}
 }

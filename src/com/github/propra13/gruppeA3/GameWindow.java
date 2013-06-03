@@ -31,7 +31,7 @@ public class GameWindow extends JFrame{
         }
 
         try {
-            new Map(this.options.getStartMap());
+            Map.initialize(this.options.getStartMap());
         } catch (MapFormatException | IOException | InvalidRoomLinkException e) {
             System.out.println("Die Map konnte nicht geladen werden!");
             e.printStackTrace();
