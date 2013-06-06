@@ -19,13 +19,10 @@ import com.github.propra13.gruppeA3.Room;
  */
 
 public class Player extends Moveable {
-   // Attribute / werden noch nicht benutzt
-   // private String name;
-   // private int score;
-	
-	private int health;
+   // Attribute
+	private int health = 100;
 	private int lives = 7;
-
+	private int money = 0;
 
     // Konstruktoren
     public Player(Room room_bind) {
@@ -42,14 +39,13 @@ public class Player extends Moveable {
             // TODO: Überprüfung ob Spieler aus der Map läuft nicht nötig, wenn Wände richtig gesetzt sind
 
             case LEFT:
-                System.out.println("Ist das Feld begehbar?: "+currentroom.roomFields[pos.x - 1][pos.y].walkable);
-              if (currentroom.roomFields[pos.x - 1][pos.y].walkable                      && currentroom.roomFields[pos.x - 1][pos.y].entityType != 1) {
+              if (currentroom.roomFields[pos.x - 1][pos.y].walkable 
+            		  && currentroom.roomFields[pos.x - 1][pos.y].entityType != 1) {
                     setPosition(this.pos.x - 1, this.pos.y);
               }
                 break;
 
             case UP:
-                System.out.println("Ist das Feld begehbar?: "+currentroom.roomFields[pos.x][pos.y - 1].walkable);
                if (currentroom.roomFields[pos.x][pos.y - 1].walkable
                        && currentroom.roomFields[pos.x][pos.y - 1].entityType != 1) {
                     setPosition(this.pos.x, this.pos.y - 1);
@@ -57,7 +53,6 @@ public class Player extends Moveable {
                 break;
 
             case RIGHT:
-                System.out.println("Ist das Feld begehbar?: "+currentroom.roomFields[this.pos.x + 1][this.pos.y].walkable);
                 if (currentroom.roomFields[this.pos.x + 1][this.pos.y].walkable
                         && currentroom.roomFields[pos.x + 1][pos.y].entityType != 1) {
                     setPosition(this.pos.x + 1, this.pos.y);
@@ -65,24 +60,15 @@ public class Player extends Moveable {
                 break;
 
             case DOWN:
-                System.out.println("Ist das Feld begehbar?: "+currentroom.roomFields[this.pos.x][this.pos.y + 1].walkable);
                 if (currentroom.roomFields[this.pos.x][this.pos.y + 1].walkable
                         && currentroom.roomFields[pos.x][pos.y + 1].entityType != 1) {
                     setPosition(this.pos.x, this.pos.y + 1);
                 }
                 break;
             default:
-                System.out.println("Nicht bewegt!");
                 //nichts tun
         }
 
-        /**
-         * @author Majida Dere
-         * Feld muss neu gezeichnet werden. Der Spieler hat sich bewegt.
-         *
-         */
-
-        // draw();
         /**
          * Die Entitites Liste soll durchlaufen werden, um zu überprüfen, ob an der Position xy des Spielers ein Monster ist.
          */
@@ -94,9 +80,6 @@ public class Player extends Moveable {
             testEntity = iter.next();
             System.out.println("Checking: Entity " + testEntity.getPosition().x + ":" + testEntity.getPosition().y);
             if ((testEntity instanceof Monster) && (this.pos.equals(testEntity.getPosition()))){
-                // Dies wird später benötigt, wenn Spieler und auch Monster mehrere Leben haben:
-                // this.setLife(this.getLife()-((Monster)testEntity).getPower());
-            	System.out.println("Monster auf dem gleichen Feld wie Spieler!");
                //funktioniert nicht mehr JPanel
 			  this.death();
             }
@@ -123,13 +106,10 @@ public class Player extends Moveable {
     	}
     }
 
-    
-    // @author CK - provisorisch
     private void win() {
     	new GameEndWindow("Gewonnen! Fuck Yeah!");
     }
     
-    // @author CK - provisorisch
     private void death() {
     	new GameEndWindow("Game Over!");
     }
@@ -151,30 +131,24 @@ public class Player extends Moveable {
     	return health;
     }
     
+    public void setHealth(int health){
+    	this.health = health;
+    }
+    
     public int getLives() {
     	return lives;
     }
-
-    /* Noch nicht benutzt
-    private void use() {
-        //TODO: Item von Spieler benutzen lassen
+    
+    public void setLives(int lives){
+    	this.lives = lives;
     }
 
-    public String getName() {
-        return name;
+    public int getMoney(){
+    	return this.money;
     }
-
-    public void setName(String name) {
-        this.name = name;
+    
+    public void setMoney(int money){
+    	this.money = money;
     }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-	*/
 }
 

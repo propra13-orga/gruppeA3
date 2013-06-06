@@ -10,20 +10,14 @@ import com.github.propra13.gruppeA3.Position;
  */
 public class Moveable extends Entities {
 	
-	//Attribute
-	
-	/** direction Aufzähltyp wird für Richtungsorientierung des bewegbaren Objektes benötigt
-	 * 	pos Position des bewegbaren Objektes im Raum
-	 * 	life Lebensstärke eines bewegbaren Objektes
-	 * 	power Figurstärke
-	 * 	speed Geschwindigkeit
-	 **/
+
 	public enum direction{LEFT,RIGHT,UP,DOWN,NONE}
-	public direction direct; //Richtung
+	public direction direct; 
 	Position pos;
 	Room currentroom;
-	int life;
+	int health;
 	int power;
+	int armour;
 	double speed; 
 	
 	
@@ -32,8 +26,9 @@ public class Moveable extends Entities {
 		this.pos = new Position(0,0);
 		this.currentroom = room_bind;
 		this.direct = direction.NONE;
-		this.power = 0; //noch nicht benutzt
-		this.speed = 0; //noch nicht benutzt
+		this.power = 0;
+		this.speed = 1; 
+		this.armour = 0;
 	}
 
 	/** 
@@ -85,7 +80,7 @@ public class Moveable extends Entities {
 	 * @return liefert ein int Leben
 	 */
 	public int getLife(){	
-		return this.life;
+		return this.health;
 	}
 
 	/**
@@ -104,7 +99,7 @@ public class Moveable extends Entities {
 	 * Diese Methode setzt den aktuellen Life Status eines bewegbaren Objektes
 	 * @param life leben
 	 */
-	public void setLife(int life){
-		this.life = life;
+	public void setLife(int health){
+		this.health = health;
 	}
 }
