@@ -38,30 +38,30 @@ public class Player extends Moveable {
             // TODO: Überprüfung ob Spieler aus der Map läuft nicht nötig, wenn Wände richtig gesetzt sind
 
             case LEFT:
-              if (currentroom.roomFields[pos.x - 1][pos.y].walkable 
-            		  && currentroom.roomFields[pos.x - 1][pos.y].entityType != 1) {
-                    setPosition(this.pos.x - 1, this.pos.y);
+              if (getRoom().roomFields[getPosition().x - 1][getPosition().y].walkable 
+            		  && getRoom().roomFields[getPosition().x - 1][getPosition().y].entityType != 1) {
+                    setPosition(getPosition().x - 1, getPosition().y);
               }
                 break;
 
             case UP:
-               if (currentroom.roomFields[pos.x][pos.y - 1].walkable
-                       && currentroom.roomFields[pos.x][pos.y - 1].entityType != 1) {
-                    setPosition(this.pos.x, this.pos.y - 1);
+            	if (getRoom().roomFields[getPosition().x][getPosition().y - 1].walkable 
+              		  && getRoom().roomFields[getPosition().x][getPosition().y - 1].entityType != 1) {
+                      setPosition(getPosition().x, getPosition().y - 1);
                     }
                 break;
 
             case RIGHT:
-                if (currentroom.roomFields[this.pos.x + 1][this.pos.y].walkable
-                        && currentroom.roomFields[pos.x + 1][pos.y].entityType != 1) {
-                    setPosition(this.pos.x + 1, this.pos.y);
+            	if (getRoom().roomFields[getPosition().x + 1][getPosition().y].walkable 
+              		  && getRoom().roomFields[getPosition().x + 1][getPosition().y].entityType != 1) {
+                      setPosition(getPosition().x + 1, getPosition().y);
                 }
                 break;
 
             case DOWN:
-                if (currentroom.roomFields[this.pos.x][this.pos.y + 1].walkable
-                        && currentroom.roomFields[pos.x][pos.y + 1].entityType != 1) {
-                    setPosition(this.pos.x, this.pos.y + 1);
+            	if (getRoom().roomFields[getPosition().x][getPosition().y + 1].walkable 
+                		  && getRoom().roomFields[getPosition().x][getPosition().y + 1].entityType != 1) {
+                        setPosition(getPosition().x, getPosition().y + 1);
                 }
                 break;
             default:
@@ -71,33 +71,33 @@ public class Player extends Moveable {
         /**
          * Die Entitites Liste soll durchlaufen werden, um zu überprüfen, ob an der Position xy des Spielers ein Monster ist.
          */
-        List<Entities> tempEntities = this.currentroom.entities;
+        List<Entities> tempEntities = getRoom().entities;
         Iterator<Entities> iter = tempEntities.iterator();
 
         Entities testEntity;
         while (iter.hasNext()) {
             testEntity = iter.next();
             System.out.println("Checking: Entity " + testEntity.getPosition().x + ":" + testEntity.getPosition().y);
-            if ((testEntity instanceof Monster) && (this.pos.equals(testEntity.getPosition()))){
+            if ((testEntity instanceof Monster) && (getPosition().equals(testEntity.getPosition()))){
                //funktioniert nicht mehr JPanel
 			  this.death();
             }
         }
 
-        if(currentroom.roomFields[pos.x][pos.y].link != null){
+        if(getRoom().roomFields[getPosition().x][getPosition().y].link != null){
         	System.out.println("Hier ist ein Link!");
-        	System.out.println("isActivated: "+currentroom.roomFields[pos.x][pos.y].link.isActivated());
+        	System.out.println("isActivated: "+getRoom().roomFields[getPosition().x][getPosition().y].link.isActivated());
         	
-        	if (currentroom.roomFields[pos.x][pos.y].link.isActivated()) {
+        	if (getRoom().roomFields[getPosition().x][getPosition().y].link.isActivated()) {
         		System.out.println("Ich darf durch den Link!");
-        		changeRooms(currentroom.roomFields[pos.x][pos.y].link);
+        		changeRooms(getRoom().roomFields[getPosition().x][getPosition().y].link);
         	}
         }
         
-        if(currentroom.roomFields[pos.x][pos.y]== Map.end)
+        if(getRoom().roomFields[getPosition().x][getPosition().y]== Map.end)
         	this.win();
         
-        Trigger trigger = currentroom.roomFields[this.pos.x][this.pos.y].trigger;
+        Trigger trigger = getRoom().roomFields[getPosition().x][getPosition().y].trigger;
         if (trigger != null) {
         	System.out.println("Ich triggere");
         	//TODO: Testen
@@ -114,15 +114,15 @@ public class Player extends Moveable {
     }
     
     private void changeRooms(Link link){
-    	if(this.currentroom == link.targetRooms[0]) {
-    		this.currentroom = link.targetRooms[1];	//currentroom auf neuen Raum setzten
+    	if(getRoom() == link.targetRooms[0]) {
+    		setRoom(link.targetRooms[1]);	//currentroom auf neuen Raum setzten
     		this.setPosition(link.targetFields[1].pos.x, link.targetFields[1].pos.y);
-    		MenuStart.activeRoom = currentroom.ID;
+    		MenuStart.activeRoom = getRoom().ID;
     	}
     	else {
-    		this.currentroom = link.targetRooms[0];
+    		setRoom(link.targetRooms[0]);
     		this.setPosition(link.targetFields[0].pos.x, link.targetFields[0].pos.y);
-    		MenuStart.activeRoom = currentroom.ID;
+    		MenuStart.activeRoom = getRoom().ID;
     	}
     }
      
