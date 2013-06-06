@@ -12,9 +12,5 @@ public abstract class Entities {
 	// Getter Methoden für alle Entites
 	
 	abstract Position getPosition();
-
-	// Setter Methoden für alle Entites
-
-	abstract void setPosition(int x, int y);
 	
 }

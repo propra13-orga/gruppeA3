@@ -28,7 +28,7 @@ public class Moveable extends Entities {
 	
 	
 	//Konstruktor
-	public Moveable(Room room_bind){
+	protected Moveable(Room room_bind){
 		this.pos = new Position(0,0);
 		this.currentroom = room_bind;
 		this.direct = direction.NONE;

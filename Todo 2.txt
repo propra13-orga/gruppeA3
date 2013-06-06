@@ -6,13 +6,13 @@ Aufräumen
     Ungenutzten Müll rausschmeißen
     Ungenutzten Kram kommentieren, falls er noch gebraucht wird
     
-Game-Loop
-Double-Koords für Entities
-Bewegungsanimation, Bewegungsgeschwindigkeit
-
-Checkpoints
-    Kanal-System; Kanäle zur Reiseverkürzung
-    Feste Checkpointräume, die Kanal-Link freischalten
-    Tod: Spieler wird auf Spawn gesetzt und kann evtl durch
-         Kanäle zum letzten Checkpointraum reisen
+Game-Loop, Bewegungsgeschwindigkeit <-- TS
+Pixel-Koords für Entities <-- CK
+Bewegungsanimation <-- JL
+         
+Kampfsystem <-- TS
+Infoleiste <-- VB
+Items; xml <-- MD
+Zaubersys <-- CK
+KeyListener <-- CK
 

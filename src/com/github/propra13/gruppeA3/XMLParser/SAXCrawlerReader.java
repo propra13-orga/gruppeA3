@@ -11,21 +11,18 @@ import com.github.propra13.gruppeA3.Map;
 
 public class SAXCrawlerReader {
 	
-	private Map map;
-	
 	/**
 	 * @author Majida Dere
 	 * Konstruktor erzeugt einen Reader und weist die übergebene Map seiner privaten Map zu, um sie dann an den Händler zu übergeben.
 	 */
-	public SAXCrawlerReader(Map map){
+	public SAXCrawlerReader(){
 		super();
-		this.map = map;
 	}
 	
 	public String read(String fileName)
 							throws Exception{
 		// übergibt die Map an den handler
-		CrawlerSAX handler=new CrawlerSAX(map);
+		CrawlerSAX handler=new CrawlerSAX();
 		SAX.parse(fileName,handler);
 		return handler.toString();
 	}

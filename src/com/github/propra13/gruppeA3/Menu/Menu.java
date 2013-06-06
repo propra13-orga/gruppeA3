@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.github.propra13.gruppeA3.Keys;
 import com.github.propra13.gruppeA3.Map;
 
 
@@ -39,7 +40,8 @@ public class Menu extends JFrame implements ComponentListener{
 	private final int MINWIDTH = 800;
 	private final int MINHEIGHT = 600;
 	
-	public Menu(Map map){	//JFrame zeichnen
+	public Menu(){	//JFrame zeichnen
+		addKeyListener(new Keys(null));
 
 		setTitle("Dungeon Crawler");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	//schlie�en button belegt

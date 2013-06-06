@@ -6,7 +6,7 @@ public class Position {
 	 * @author Majida Dere
 	 *
 	 */
-		// Hat nur zwei Attribute: int x und int y
+		// Mittelpunkt
 		public int x;
 		public int y;
 		
@@ -23,5 +23,10 @@ public class Position {
 				return true;
 			else
 				return false;
+		}
+		
+		public void changePosition(int x, int y) {
+			this.x = x;
+			this.y = y;
 		}
 }

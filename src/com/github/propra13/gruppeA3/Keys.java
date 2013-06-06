@@ -1,6 +1,9 @@
 package com.github.propra13.gruppeA3;
 
 import java.awt.event.*;
+
+import javax.swing.JPanel;
+
 import com.github.propra13.gruppeA3.Entities.Player;
 import com.github.propra13.gruppeA3.Entities.Moveable.direction;
 
@@ -9,7 +12,7 @@ public class Keys implements KeyListener {
 	Player player; //Referenz zum gesteuerten Charakter
 
 	//Konstruktor
-	public Keys(Player player_bind){
+	public Keys(Player player_bind) {
 		player = player_bind;
 		/* nicht mehr funktionsfaehig im JPanel
         this.listener_frame =  listener_frame;
@@ -27,6 +30,7 @@ public class Keys implements KeyListener {
 		int pressed = e.getKeyCode();
 		switch(pressed) {
 			case 37: player.direct = direction.LEFT;
+					 System.out.println("left");
 					 break;
 			case 38: player.direct = direction.UP;
 					 break;

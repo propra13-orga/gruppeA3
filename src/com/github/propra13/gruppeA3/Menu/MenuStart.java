@@ -10,6 +10,7 @@ import java.awt.List;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -22,6 +23,8 @@ import com.github.propra13.gruppeA3.Position;
 import com.github.propra13.gruppeA3.Entities.Entities;
 import com.github.propra13.gruppeA3.Entities.Monster;
 import com.github.propra13.gruppeA3.Entities.Player;
+import com.github.propra13.gruppeA3.Exceptions.InvalidRoomLinkException;
+import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
 
 @SuppressWarnings("serial")
 public class MenuStart extends JPanel implements ActionListener{
@@ -45,15 +48,23 @@ public class MenuStart extends JPanel implements ActionListener{
     public MenuStart() {
         // alle wichtigen Eigenschaften der Oberklasse übernehmen.
     	super();
+    	setFocusable(true);
     	
         this.GamePath = System.getProperty("user.dir");
         this.tool = Toolkit.getDefaultToolkit();
+        
+        try {
+			Map.initialize("Map02");
+		} catch (InvalidRoomLinkException | IOException | MapFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
         monsterimg = this.getImage(this.GamePath + "/data/images/Test_Monster.png");
         wallimg = this.getImage(this.GamePath + "/data/images/Test_Wand.png");
         playerimg = this.getImage(this.GamePath + "/data/images/Test_Player.png");
-        timer = new Timer(10000/60, this);
-        timer.start();
+        //timer = new Timer(10000/60, this);
+        //timer.start();
 
 
         // TODO: Um die neue den neuen Raum zu betreten den "activeRoom" Ã¤ndern bzw das Objekt neu bauen
@@ -65,7 +76,7 @@ public class MenuStart extends JPanel implements ActionListener{
         //wie bei menu wird das JFrame gezeichnet
         addKeyListener(new Keys(this.player));
         setSize(GameMinSizeX, GameMinSizeY);
-        setFocusable(true);
+        requestFocus();
     }
 
     protected Image getImage(String path) {

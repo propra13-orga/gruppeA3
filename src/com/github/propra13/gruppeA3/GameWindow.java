@@ -29,13 +29,6 @@ public class GameWindow extends JFrame{
             System.out.println("Bitte stellen Sie den Namen von mindestens einem Spieler ein!");
             return;
         }
-
-        try {
-            Map.initialize(this.options.getStartMap());
-        } catch (MapFormatException | IOException | InvalidRoomLinkException e) {
-            System.out.println("Die Map konnte nicht geladen werden!");
-            e.printStackTrace();
-        }
     }
 
     public void paint(Graphics g) {
