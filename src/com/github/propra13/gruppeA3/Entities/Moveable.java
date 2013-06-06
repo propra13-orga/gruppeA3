@@ -13,12 +13,12 @@ public class Moveable extends Entities {
 
 	public enum direction{LEFT,RIGHT,UP,DOWN,NONE}
 	public direction direct; 
-	Position pos;
-	Room currentroom;
-	int health;
-	int power;
-	int armour;
-	double speed; 
+	private Position pos;
+	private Room currentroom;
+	private int health;
+	private int power;
+	private int armour;
+	private double speed; 
 	
 	
 	//Konstruktor
@@ -87,7 +87,7 @@ public class Moveable extends Entities {
 	}
 	
 	/**
-	 * Diese Methode setzt den aktuellen Life Status eines bewegbaren Objektes
+	 * Diese Methode setzt den aktuellen Health Status eines bewegbaren Objektes
 	 * @param life leben
 	 */
 	public void setHealth(int health){
@@ -95,10 +95,43 @@ public class Moveable extends Entities {
 	}
 
 	/**
-	 * Diese Methode liefert den aktuellen Life Status eines bewegbaren Objektes
+	 * Diese Methode liefert den aktuellen Health Status eines bewegbaren Objektes
 	 * @return liefert ein int Leben
 	 */
 	public int getHealth(){	
 		return this.health;
 	}
+	
+	public int getPower(){
+		return power;
+	}
+	
+	public void setPower(int power){
+		this.power = power;
+	}
+	
+	public int getArmour(){
+		return armour;
+	}
+	
+	public void setArmour(int armour){
+		this.armour = armour;
+	}
+	
+	public double getSpeed(){
+		return speed;
+	}
+	
+	public void setSpeed(double speed){
+		this.speed = speed;
+	}
+	
+	public Room getRoom(){
+		return currentroom;
+	}
+	
+	public void setRoom(Room room){
+		this.currentroom = room;
+	}
+	
 }
