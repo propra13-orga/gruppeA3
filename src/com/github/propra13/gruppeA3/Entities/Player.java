@@ -25,7 +25,9 @@ public class Player extends Moveable {
 	
 	private int health;
 	private int lives = 7;
-
+	
+	private LinkedList<Item> items = null;
+	private int mana;
 
     // Konstruktoren
     public Player(Room room_bind) {
