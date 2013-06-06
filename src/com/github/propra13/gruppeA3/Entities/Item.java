@@ -40,7 +40,7 @@ public class Item extends Entities {
 	public Position getPosition() {
 		return pos;
 	}
-	
+
 	/**
 	 * Liefert die Wirkungseinheit des Items
 	 */

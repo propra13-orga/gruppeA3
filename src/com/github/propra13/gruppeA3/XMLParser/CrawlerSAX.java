@@ -40,8 +40,8 @@ public class CrawlerSAX extends DefaultHandler{
 	 */
 	@Override
 	public void startElement (String uri, String localName, 
-							  String qName,Attributes attrs)
-									  	throws SAXException {
+								String qName,Attributes attrs)
+										throws SAXException {
 		if(qName.equals("level")){
 			//System.out.println(attrs.getValue("id"));
 			title = new String(attrs.getValue("desc"));
