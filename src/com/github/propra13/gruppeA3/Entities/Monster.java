@@ -16,19 +16,19 @@ public class Monster extends Moveable {
 	
 	private double speed;
 	private Position pos;
-	private int size;
 	private int power;
 	private int life;
+	private String desc;
 	
 	//Konstruktor
 	
-	public Monster (Room room_bind, double speed, int power, int type, int size, int life, int x, int y){
+	public Monster (Room room_bind, double speed, int power, int type, int life, int x, int y, String desc){
 		super(room_bind);
 		this.speed=speed;
-		this.size=size;
 		this.power=power;
 		this.life=life;
 		this.pos=new Position(x,y);
+		this.desc = desc;
 	}
 	
 	
@@ -39,14 +39,6 @@ public class Monster extends Moveable {
 	 */
 	public double getSpeed(){
 		return this.speed;
-	}
-	
-	/**
-	 * liefert die Monstergröße
-	 * @return gibt die Größe zurück
-	 */
-	public double getSize(){
-		return this.size;
 	}
 	
 	/**
@@ -106,14 +98,6 @@ public class Monster extends Moveable {
 	
 	public void setPower(int power){
 		this.power = power;
-	}
-	
-	/**
-	 * legt die Monstergöße fest
-	 * @param size Monstergröße
-	 */
-	public void setSize(int size){
-		this.size = size;
 	}
 	
 	/**

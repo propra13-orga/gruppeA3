@@ -1,6 +1,7 @@
 package com.github.propra13.gruppeA3.Entities;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.github.propra13.gruppeA3.Menu.GameEndWindow;
@@ -22,6 +23,9 @@ public class Player extends Moveable {
 	private int health = 100;
 	private int lives = 7;
 	private int money = 0;
+	
+	private LinkedList<Item> items = null;
+	private int mana;
 
     // Konstruktoren
     public Player(Room room_bind) {
