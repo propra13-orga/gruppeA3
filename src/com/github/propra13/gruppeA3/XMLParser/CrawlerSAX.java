@@ -42,6 +42,7 @@ public class CrawlerSAX extends DefaultHandler{
 	public void startElement (String uri, String localName, 
 								String qName,Attributes attrs)
 										throws SAXException {
+		System.out.println("Checke: "+qName);
 		if(qName.equals("level")){
 			//System.out.println(attrs.getValue("id"));
 			title = new String(attrs.getValue("desc"));
@@ -56,20 +57,21 @@ public class CrawlerSAX extends DefaultHandler{
 			
 		}
 		else if(qName.equals("monster")){
-				int size = Integer.parseInt(attrs.getValue("size"));
-				double speed = Double.parseDouble(attrs.getValue("speed"));
-				int power = Integer.parseInt(attrs.getValue("power"));
-				int life = Integer.parseInt(attrs.getValue("life"));
-				int type = Integer.parseInt(attrs.getValue("type"));
-				int posx= Integer.parseInt(attrs.getValue("posx"));
-				int posy= Integer.parseInt(attrs.getValue("posy"));
-				
-				// Es wird ein neues Monster erzeugt mit den zuvor ausgelesenen Informationen aus level.xml
-				Monster monster=new Monster(Map.getMapRoom(roomID), speed, power, type, size, life, posx, posy);
 			
-				//MAP
-				//System.out.println("Monster");
-				Map.getMapRoom(roomID).entities.add(monster);
+			int size = Integer.parseInt(attrs.getValue("size"));
+			double speed = Double.parseDouble(attrs.getValue("speed"));
+			int power = Integer.parseInt(attrs.getValue("power"));
+			int life = Integer.parseInt(attrs.getValue("life"));
+			int type = Integer.parseInt(attrs.getValue("type"));
+			int posx= Integer.parseInt(attrs.getValue("posx"));
+			int posy= Integer.parseInt(attrs.getValue("posy"));
+			
+			// Es wird ein neues Monster erzeugt mit den zuvor ausgelesenen Informationen aus level.xml
+			Monster monster=new Monster(Map.getMapRoom(roomID), speed, power, type, size, life, posx, posy);
+			
+			//MAP
+			System.out.println("Monster");
+			Map.getMapRoom(roomID).entities.add(monster);
 
 		}
 		

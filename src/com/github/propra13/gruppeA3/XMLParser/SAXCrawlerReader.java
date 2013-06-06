@@ -13,7 +13,7 @@ public class SAXCrawlerReader {
 	
 	/**
 	 * @author Majida Dere
-	 * Konstruktor erzeugt einen Reader und weist die übergebene Map seiner privaten Map zu, um sie dann an den Händler zu übergeben.
+	 * Konstruktor erzeugt einen Reader
 	 */
 	public SAXCrawlerReader(){
 		super();

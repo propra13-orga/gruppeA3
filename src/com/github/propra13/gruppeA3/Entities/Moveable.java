@@ -23,6 +23,7 @@ public class Moveable extends Entities {
 	
 	//Konstruktor
 	protected Moveable(Room room_bind){
+		System.out.println("Moveable"); //nicht erreichbar - wtf
 		this.pos = new Position(0,0);
 		this.currentroom = room_bind;
 		this.direct = direction.NONE;
@@ -83,8 +84,6 @@ public class Moveable extends Entities {
 	public void setPosition(int x, int y){ 
 		pos.x = x;
 		pos.y = y;
-
-        System.out.println("Setze Position auf X:"+x+ " Y:"+y);
 	}
 	
 	/**

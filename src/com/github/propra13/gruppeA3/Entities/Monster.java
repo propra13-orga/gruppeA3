@@ -24,6 +24,7 @@ public class Monster extends Moveable {
 	
 	public Monster (Room room_bind, double speed, int power, int type, int size, int life, int x, int y){
 		super(room_bind);
+		System.out.println("Ich bin ein Monster!"); //Nicht erreichbar  -wtf
 		this.speed=speed;
 		this.size=size;
 		this.power=power;

@@ -7,7 +7,7 @@ public class Item extends Entities {
 	
 	public int power;
 	public int type;
-	Position pos = new Position(0, 0);
+	Position pos;
 	
 	public Item (int type, int power, Position pos) {
 		this.type = type;

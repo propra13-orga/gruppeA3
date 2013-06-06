@@ -1,8 +1,11 @@
 package com.github.propra13.gruppeA3.Entities;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Iterator;
 import java.util.List;
 
+import com.github.propra13.gruppeA3.Entities.Moveable.direction;
 import com.github.propra13.gruppeA3.Menu.GameEndWindow;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 import com.github.propra13.gruppeA3.Link;
@@ -16,7 +19,7 @@ import com.github.propra13.gruppeA3.Room;
  *         Diese Klasse definiert einen Spieler und seine Eigenschaften und Methoden.
  */
 
-public class Player extends Moveable {
+public class Player extends Moveable implements KeyListener {
    // Attribute
 	@SuppressWarnings("unused")
 	private int health = 100;
@@ -140,6 +143,32 @@ public class Player extends Moveable {
     
     public void setMoney(int money){
     	this.money = money;
+    }
+    
+    // KeyListening findet nun hier statt
+	
+	public void keyTyped(KeyEvent e){}
+	
+	public void keyPressed(KeyEvent e){
+        System.out.println("Key pressed: "+e.getKeyCode());
+
+		int pressed = e.getKeyCode();
+		switch(pressed) {
+			case 37: this.direct = direction.LEFT;
+					 System.out.println("left");
+					 break;
+			case 38: this.direct = direction.UP;
+					 break;
+			case 39: this.direct = direction.RIGHT;
+					 break;
+			case 40: this.direct = direction.DOWN;
+					 break;		 
+		}
+
+	}
+	
+	public void keyReleased(KeyEvent e){
+		this.direct = direction.NONE;
     }
 }
 
