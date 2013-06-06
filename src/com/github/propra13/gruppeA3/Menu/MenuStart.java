@@ -20,6 +20,7 @@ import com.github.propra13.gruppeA3.Keys;
 import com.github.propra13.gruppeA3.Map;
 import com.github.propra13.gruppeA3.Position;
 import com.github.propra13.gruppeA3.Entities.Entities;
+import com.github.propra13.gruppeA3.Entities.Item;
 import com.github.propra13.gruppeA3.Entities.Monster;
 import com.github.propra13.gruppeA3.Entities.Player;
 
@@ -38,6 +39,13 @@ public class MenuStart extends JPanel implements ActionListener{
     protected Image monsterimg;
     protected Image wallimg;
     protected Image playerimg;
+    
+    // Item images
+    protected Image lifePosion;
+    protected Image deadlyPosion;
+    protected Image manaPosion;
+    protected Image sword;
+    protected Image shield;
 
     protected Toolkit tool;
     protected String GamePath;
@@ -52,6 +60,8 @@ public class MenuStart extends JPanel implements ActionListener{
         monsterimg = this.getImage(this.GamePath + "/data/images/Test_Monster.png");
         wallimg = this.getImage(this.GamePath + "/data/images/Test_Wand.png");
         playerimg = this.getImage(this.GamePath + "/data/images/Test_Player.png");
+        sword = this.getImage(this.GamePath + "/data/images/sword.png");
+        shield = this.getImage(this.GamePath + "/data/images/shield.png");
         timer = new Timer(10000/60, this);
         timer.start();
 
@@ -113,7 +123,7 @@ public class MenuStart extends JPanel implements ActionListener{
         LinkedList<Entities> tempEntities = Map.mapRooms[activeRoom].entities;
         Iterator<Entities> iter = tempEntities.iterator();
         Entities testEntity;
-        Position pm;
+        Position entityPos;
         
         /**
          * monster: temporäre Variable, wird dazu verwendet um die Position des Monsters zu bestimmen
@@ -124,15 +134,30 @@ public class MenuStart extends JPanel implements ActionListener{
          */
         
         Monster monster;
+        Item item;
         while (iter.hasNext()) {
             testEntity = iter.next();
             if (testEntity instanceof Monster) {
             	monster=(Monster)testEntity;
-            	pm = monster.getPosition();
-                g2d.drawImage(this.monsterimg, pm.x*32, pm.y*32, this);
-                System.out.println("Monsterposition X:"+pm.x+" Y:"+pm.y +" activeRoom: "+activeRoom);
-
+            	entityPos= monster.getPosition();
+                g2d.drawImage(this.monsterimg, entityPos.x*32, entityPos.y*32, this);
+                System.out.println("Monsterposition X:"+entityPos.x+" Y:"+entityPos.y +" activeRoom: "+activeRoom);
             }
+            else if (testEntity instanceof Item) {
+            	item = (Item)testEntity;
+            	entityPos = item.getPosition();
+            	switch (item.getType()){
+            		case 4:
+            			g2d.drawImage(this.sword, entityPos.x*32, entityPos.y*32, this);
+            			System.out.println("Schwert X:"+entityPos.x+" Y:"+entityPos.y +" activeRoom: "+activeRoom);
+            			break;
+            		case 5:
+            			g2d.drawImage(this.shield, entityPos.x*32, entityPos.y*32, this);
+            			System.out.println("Schild X:"+entityPos.x+" Y:"+entityPos.y +" activeRoom: "+activeRoom);
+            			break;
+            	}
+            }
+            
         }
         
         /* @author CK

@@ -19,16 +19,18 @@ public class Monster extends Moveable {
 	private int size;
 	private int power;
 	private int life;
+	private String desc;
 	
 	//Konstruktor
 	
-	public Monster (Room room_bind, double speed, int power, int type, int size, int life, int x, int y){
+	public Monster (Room room_bind, double speed, int power, int type, int size, int life, int x, int y, String desc){
 		super(room_bind);
 		this.speed=speed;
 		this.size=size;
 		this.power=power;
 		this.life=life;
 		this.pos=new Position(x,y);
+		this.desc = desc;
 	}
 	
 	

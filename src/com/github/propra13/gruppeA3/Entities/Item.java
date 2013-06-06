@@ -16,8 +16,10 @@ public class Item extends Entities {
 	private Position pos;
 	// bei Waffen die Schlagkraft, bei Tränken die Wirkungsmenge
 	private int damage = 0;
-	// Falls das Item ein Trank ist, so kann es auch einen negativen Effekt haben.
-	private boolean posionNegativeEffect = false;
+	// muss noch spezifiziert werden: bei Tränken (Mana, Gift, Leben), Schild und Schwert
+	// Vorerst: 1 Leben, 2 Gift, 3 Mana, 4 Schwert, 5 Schild, weitere folgen.
+	private int type;
+	private String desc;
 	
 	/**
 	 * @author Majida Dere
@@ -26,11 +28,12 @@ public class Item extends Entities {
 	 * @param damage
 	 * @param affect
 	 */
-	public Item(Room room_bind, Position pos, int damage, boolean effect) {
+	public Item(Room room_bind, int damage, int type, int x, int y, String desc) {
 		this.currentroom = room_bind;
-		this.pos = pos;
+		this.pos = new Position(x,y);
 		this.damage = damage;
-		this.posionNegativeEffect = effect;
+		this.type = type;
+		this.desc = desc;
 	}
 
 	@Override
@@ -52,10 +55,10 @@ public class Item extends Entities {
 	}
 	
 	/**
-	 * Liefert den negativ/positiv Effekt eines Trankes.
+	 * Liefert den Typen zurück
 	 */
-	public boolean getEffect(){
-		return this.posionNegativeEffect;
+	public int getType(){
+		return this.type;
 	}
 
 }

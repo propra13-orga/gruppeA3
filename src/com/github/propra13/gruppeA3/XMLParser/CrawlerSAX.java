@@ -51,9 +51,6 @@ public class CrawlerSAX extends DefaultHandler{
 		}
 		else if (qName.equals("rooms")){
 			roomID = Integer.parseInt(attrs.getValue("id"));
-			//System.out.println("Blubb"+roomID);
-			/*System.out.println(attrs.getValue("length"));
-			System.out.println(attrs.getValue("height"));*/
 			//map = new Entities [Integer.parseInt(attrs.getValue("height"))][Integer.parseInt(attrs.getValue("length"))];
 			
 		}
@@ -63,11 +60,12 @@ public class CrawlerSAX extends DefaultHandler{
 				int power = Integer.parseInt(attrs.getValue("power"));
 				int life = Integer.parseInt(attrs.getValue("life"));
 				int type = Integer.parseInt(attrs.getValue("type"));
-				int posx= Integer.parseInt(attrs.getValue("posx"));
-				int posy= Integer.parseInt(attrs.getValue("posy"));
+				int posx = Integer.parseInt(attrs.getValue("posx"));
+				int posy = Integer.parseInt(attrs.getValue("posy"));
+				String desc = new String(attrs.getValue("desc"));
 				
 				// Es wird ein neues Monster erzeugt mit den zuvor ausgelesenen Informationen aus level.xml
-				Monster monster=new Monster(map.getMapRoom(roomID), speed, power, type, size, life, posx, posy);
+				Monster monster=new Monster(map.getMapRoom(roomID), speed, power, type, size, life, posx, posy, desc);
 			
 				//MAP
 				//System.out.println("Monster");
@@ -78,17 +76,15 @@ public class CrawlerSAX extends DefaultHandler{
 		
 		
 		else if(qName.equals("item")){
-			int size = Integer.parseInt(attrs.getValue("size"));
-			double speed = Double.parseDouble(attrs.getValue("speed"));
-			int power = Integer.parseInt(attrs.getValue("power"));
-			int life = Integer.parseInt(attrs.getValue("life"));
+			int damage = Integer.parseInt(attrs.getValue("damage"));
 			int type = Integer.parseInt(attrs.getValue("type"));
-			int posx= Integer.parseInt(attrs.getValue("posx"));
-			int posy= Integer.parseInt(attrs.getValue("posy"));
+			int posx = Integer.parseInt(attrs.getValue("posx"));
+			int posy = Integer.parseInt(attrs.getValue("posy"));
+			String desc = new String(attrs.getValue("desc"));
+
+			Item item=new Item(map.getMapRoom(roomID), damage, type, posx, posy, desc);
 			
-			//Item item=new Item(map.getMapRoom(roomID), speed, power, type, size, life, posx, posy);
-			
-			//map.getMapRoom(roomID).entities.add(item);
+			map.getMapRoom(roomID).entities.add(item);
 	}
 	}
 	
