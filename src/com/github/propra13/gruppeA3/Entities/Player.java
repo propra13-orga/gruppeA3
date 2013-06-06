@@ -1,11 +1,9 @@
 package com.github.propra13.gruppeA3.Entities;
 
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 import com.github.propra13.gruppeA3.Menu.GameEndWindow;
-import com.github.propra13.gruppeA3.Menu.Menu;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 import com.github.propra13.gruppeA3.Link;
 import com.github.propra13.gruppeA3.Map;
@@ -20,6 +18,7 @@ import com.github.propra13.gruppeA3.Room;
 
 public class Player extends Moveable {
    // Attribute
+	@SuppressWarnings("unused")
 	private int health = 100;
 	private int lives = 7;
 	private int money = 0;
@@ -126,15 +125,7 @@ public class Player extends Moveable {
     		MenuStart.activeRoom = currentroom.ID;
     	}
     }
-    
-    public int getHealth() {
-    	return health;
-    }
-    
-    public void setHealth(int health){
-    	this.health = health;
-    }
-    
+     
     public int getLives() {
     	return lives;
     }

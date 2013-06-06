@@ -74,14 +74,6 @@ public class Moveable extends Entities {
 	public Position getPosition(){
 		return pos;
 	}
-	
-	/**
-	 * Diese Methode liefert den aktuellen Life Status eines bewegbaren Objektes
-	 * @return liefert ein int Leben
-	 */
-	public int getLife(){	
-		return this.health;
-	}
 
 	/**
 	 * Diese Methode ändert die aktuelle Position im Raum
@@ -99,7 +91,15 @@ public class Moveable extends Entities {
 	 * Diese Methode setzt den aktuellen Life Status eines bewegbaren Objektes
 	 * @param life leben
 	 */
-	public void setLife(int health){
+	public void setHealth(int health){
 		this.health = health;
+	}
+
+	/**
+	 * Diese Methode liefert den aktuellen Life Status eines bewegbaren Objektes
+	 * @return liefert ein int Leben
+	 */
+	public int getHealth(){	
+		return this.health;
 	}
 }
