@@ -111,7 +111,7 @@ public class Player extends Moveable implements KeyListener {
         	trigger.trigger();
     	}
     }
-
+   
     private void win() {
     	new GameEndWindow("Gewonnen! Fuck Yeah!");
     }

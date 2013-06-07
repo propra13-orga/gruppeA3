@@ -1,5 +1,9 @@
 package com.github.propra13.gruppeA3.Entities;
 
+import java.util.Iterator;
+import java.util.List;
+import java.lang.Math;
+
 import com.github.propra13.gruppeA3.Room;
 import com.github.propra13.gruppeA3.Position;
 
@@ -66,6 +70,32 @@ public class Moveable extends Entities {
 		default: //nichts tun
 		}
 				
+	}
+	
+	public boolean rangeCheck(){
+		int xdelta;
+		int ydelta;
+		boolean flag = false;
+		Entities test = null;
+		 List<Entities> tempEntities = getRoom().entities;
+	        Iterator<Entities> iter = tempEntities.iterator();
+		while(iter.hasNext()){
+			if(test != this){
+				test = iter.next();
+				xdelta = this.getPosition().x - test.getPosition().x;
+				if(xdelta < 0)
+					xdelta = xdelta * (-1);
+				ydelta = this.getPosition().y - test.getPosition().y;
+				if(ydelta < 0)
+					ydelta = ydelta * (-1);
+				
+				if(Math.sqrt(xdelta*xdelta + ydelta*ydelta) < 42){
+					flag = true;
+				}
+			}
+		}
+		
+		return flag;
 	}
 	
 	/**

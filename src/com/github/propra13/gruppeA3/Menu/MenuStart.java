@@ -32,7 +32,7 @@ public class MenuStart extends JPanel implements ActionListener {
 
 	public static Timer timer;
 	
-    private Player player = null;
+    static Player player = null;
     public static Integer activeRoom = 0;
 
     protected Image monsterimg;
