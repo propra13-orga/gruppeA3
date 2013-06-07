@@ -54,7 +54,7 @@ public class MenuStart extends JPanel implements ActionListener {
     public MenuStart() {
         // alle wichtigen Eigenschaften der Oberklasse übernehmen.
     	super();
-    	//setFocusable(true);
+    	setFocusable(true);
     	
         this.GamePath = System.getProperty("user.dir");
         this.tool = Toolkit.getDefaultToolkit();
@@ -71,8 +71,8 @@ public class MenuStart extends JPanel implements ActionListener {
         playerimg = this.getImage(this.GamePath + "/data/images/Test_Player.png");
         sword = this.getImage(this.GamePath + "/data/images/sword.png");
         shield = this.getImage(this.GamePath + "/data/images/shield.png");
-        //timer = new Timer(10000/60, this);
-        //timer.start();
+        timer = new Timer(10000/60, this);
+        timer.start();
         
         this.player = new Player(Map.getMapRoom(activeRoom));
         addKeyListener(new Keys(player));
