@@ -51,7 +51,7 @@ public class Map {
 		buildCheckpoints();
 		
 		System.out.println("Map gebaut!");
-		//checkLinks();
+		checkLinks();
 	}
 	
 	
@@ -201,7 +201,7 @@ public class Map {
 	/* TODO: Überprüft die Links zwischen Rooms auf Konsistenz
 	 * Derzeit: Testweise Ausgabe aller Links
 	 */
-	private void checkLinks() throws InvalidRoomLinkException {
+	private static void checkLinks() throws InvalidRoomLinkException {
 		//Iteriert über Räume
 		for (int k=0; k < Map.mapRooms.length; k++) {
 			
@@ -211,6 +211,7 @@ public class Map {
 				//Iteriert über Spalten
 				for (int j=0; j < Map.mapRooms[k].roomFields.length; j++) {
 					
+					/* Falls Testausgabe benötigt wird
 					if(Map.mapRooms[k].roomFields[j][i].link != null) {
 						Position pos1 = Map.mapRooms[k].roomFields[j][i].link.targetFields[0].pos;
 						Position pos2 = Map.mapRooms[k].roomFields[j][i].link.targetFields[1].pos;
@@ -218,7 +219,7 @@ public class Map {
 						Room room2 = Map.mapRooms[k].roomFields[j][i].link.targetRooms[1];
 						Room room = Map.mapRooms[k];
 						Position pos = Map.mapRooms[k].roomFields[j][i].pos;
-					}
+					}*/
 				}
 			}
 		}

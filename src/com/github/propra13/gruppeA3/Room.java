@@ -2,8 +2,6 @@ package com.github.propra13.gruppeA3;
 
 import com.github.propra13.gruppeA3.Field;
 import com.github.propra13.gruppeA3.Position;
-import com.github.propra13.gruppeA3.Entities.Entities;
-import com.github.propra13.gruppeA3.Entities.Monster;
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
 
 import java.io.File;
@@ -18,6 +16,7 @@ public class Room {
 	
 	public int ID;
 	public Field[][] roomFields;	//roomFields[Spalte][Zeile]
+	@SuppressWarnings("rawtypes")
 	public LinkedList entities = new LinkedList();
 	public Field[] spawns = null;
 	final static int fieldBytes = 4;
@@ -45,13 +44,6 @@ public class Room {
 		this.ID = roomID;
 		this.roomFields = readFile(filename);
 		buildCheckpoints();
-		
-		//Iteriert über alle gefundenen Checkpointtrigger
-		Iterator<Field> iter = checkpointsToBuild.iterator();
-		Field toBuild;
-		while (iter.hasNext()) {
-			toBuild = iter.next();
-		}
 	}
 	
 	
