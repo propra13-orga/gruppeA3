@@ -74,10 +74,10 @@ public class MenuStart extends JPanel implements ActionListener {
         timer = new Timer(10000/60, this);
         timer.start();
         
-        player = new Player(Map.getMapRoom(activeRoom));
+        this.player = new Player(Map.getMapRoom(activeRoom));
         addKeyListener(new Keys(player));
 
-        Map.mapRooms[activeRoom].entities.add(player);
+        Map.mapRooms[activeRoom].entities.add(this.player);
         setSize(GameMinSizeX, GameMinSizeY);
     }
     
@@ -119,7 +119,7 @@ public class MenuStart extends JPanel implements ActionListener {
         }
         
 
-        Position pp = player.getPosition();
+        Position pp = this.player.getPosition();
         
 
         // Malt Entities
