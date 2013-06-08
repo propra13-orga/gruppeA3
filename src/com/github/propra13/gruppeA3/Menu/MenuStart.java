@@ -26,6 +26,7 @@ import com.github.propra13.gruppeA3.Entities.Monster;
 import com.github.propra13.gruppeA3.Entities.Player;
 import com.github.propra13.gruppeA3.Exceptions.InvalidRoomLinkException;
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
+import com.github.propra13.gruppeA3.XMLParser.SAXCrawlerReader;
 
 @SuppressWarnings("serial")
 public class MenuStart extends JPanel implements ActionListener{
@@ -63,6 +64,16 @@ public class MenuStart extends JPanel implements ActionListener{
         
         try {
 			Map.initialize("Map02");
+			
+			//Übergebe map an XML Parser, sodass wir immer dieselbe map benutzen.
+			SAXCrawlerReader reader=new SAXCrawlerReader();
+			try {
+				reader.read("data/levels/level1.xml");
+
+				System.out.println("XML gelesen!");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 		} catch (InvalidRoomLinkException | IOException | MapFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

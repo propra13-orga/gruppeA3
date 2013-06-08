@@ -59,13 +59,14 @@ public class CrawlerSAX extends DefaultHandler{
 			int type = Integer.parseInt(attrs.getValue("type"));
 			int posx = Integer.parseInt(attrs.getValue("posx"));
 			int posy = Integer.parseInt(attrs.getValue("posy"));
-			String desc = new String(attrs.getValue("desc"));
+			String desc = new String(attrs.getValue("name"));
 
 			// Es wird ein neues Monster erzeugt mit den zuvor ausgelesenen Informationen aus level.xml
 			Monster monster=new Monster(Map.getMapRoom(roomID), speed, power, type, life, posx, posy, desc);
 			//MAP
 			//System.out.println("Monster");
 			Map.getMapRoom(roomID).entities.add(monster);
+			System.out.println(desc);
 		}
 		else if(qName.equals("item")){
 			int damage = Integer.parseInt(attrs.getValue("damage"));
@@ -77,6 +78,7 @@ public class CrawlerSAX extends DefaultHandler{
 			Item item=new Item(Map.getMapRoom(roomID), damage, type, posx, posy, desc);
 
 			Map.getMapRoom(roomID).entities.add(item);
+			System.out.println(desc);
 		}
 	}
 	

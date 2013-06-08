@@ -17,7 +17,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.github.propra13.gruppeA3.Keys;
-import com.github.propra13.gruppeA3.Map;
 
 
 public class Menu extends JFrame implements ComponentListener{

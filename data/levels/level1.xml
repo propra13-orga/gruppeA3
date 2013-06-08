@@ -15,8 +15,8 @@
 		<!-- Items in Room -->
 		<item type="1" name="Life Drink" desc="A fresh drink." damage="2" posx="3" posy="4" />
 		<item type="2" name="Posion Drink" desc="Deadly Posion" damage="-2" posx="3" posy="5" />
-  		<item type="4" name="sword" desc="A strong protection." damage="10" posx="2" posy="4" />
-		<item type="5" name="shield" desc="A way to protect." damage="5" posx="6" posy="2" />
+  		<item type="4" name="sword" desc="A strong protection." damage="10" posx="7" posy="9" />
+		<item type="5" name="shield" desc="A way to protect." damage="5" posx="2" posy="6" />
 
 	<!-- Idee um Punkt 1.2 zu realisieren, da unsere aktuellen Raum dateien diesen Punkt nicht erfüllen.
 		<lines>################</lines>
