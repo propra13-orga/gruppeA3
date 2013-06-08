@@ -4,10 +4,8 @@ import com.github.propra13.gruppeA3.Position;
 import com.github.propra13.gruppeA3.Room;
 
 /**
- * 
  * @author Majida Dere
  * Die Klasse Monster liefert hauptsächlich die zugehörigen getter und setter Methoden zur Entity Monster
- *
  */
 
 public class Monster extends Moveable {
@@ -20,22 +18,30 @@ public class Monster extends Moveable {
 	private int life;
 	private String desc;
 	
+	private Hitbox hitbox;
+	
 	//Konstruktor
 	
-	public Monster (Room room_bind, double speed, int power, int type, int life, int x, int y, String desc){
+	public Monster (Room room_bind, double speed, int power, int type, int life, Position pos, Hitbox hitbox, String desc){
 		super(room_bind);
+		System.out.println("Ich bin ein Monster!"); //Offenbar nicht erreichbar
 		this.speed=speed;
 		this.power=power;
 		this.life=life;
-		this.pos=new Position(x,y);
+		this.pos=pos;
 		this.desc = desc;
+		this.hitbox = hitbox;
 	}
 	
 	
 	// Getter Methoden
 	
+	public Hitbox getHitbox() {
+		return hitbox;
+	}
+	
 	/** liefert die Schnelligkeit eines Monsters
-	 * @ return gibt die Schnelligkeit zurück
+	 * @return gibt die Schnelligkeit zurück
 	 */
 	public double getSpeed(){
 		return this.speed;
@@ -68,7 +74,7 @@ public class Monster extends Moveable {
 
 	
 	
-	// Setter Methoden
+	// Setter-Methoden
 	
 	/**
 	 * legt die Position des Monsters fest
@@ -77,7 +83,6 @@ public class Monster extends Moveable {
 	 */
 	@Override
 	public void setPosition(int x, int y) {
-		// TODO Auto-generated method stub
 		this.pos.x = x;
 		this.pos.y = y;
 	}

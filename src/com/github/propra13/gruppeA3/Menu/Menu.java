@@ -2,11 +2,9 @@ package com.github.propra13.gruppeA3.Menu;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
@@ -16,16 +14,13 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.github.propra13.gruppeA3.Keys;
-
-
+@SuppressWarnings("serial")
 public class Menu extends JFrame implements ComponentListener{
 //Initialisieren der Button und Buttonbezeichnung
 	
 	/* workaround: static-Ref auf das aktuelle MenuStart-Objekt,
 	 *             damits von überall abgeschossen werden kann
 	 */
-	private static MenuStart activeGameWindow;
 	
 	private JButton buttonstart;
 	private JButton buttonbeenden;
@@ -40,14 +35,16 @@ public class Menu extends JFrame implements ComponentListener{
 	private final int MINHEIGHT = 600;
 	
 	public Menu(){	//JFrame zeichnen
-		addKeyListener(new Keys(null));
 
 		setTitle("Dungeon Crawler");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	//schlie�en button belegt
-	//auslesen der Auflösung
-		final Dimension d = this.getToolkit().getScreenSize(); 
-	//Umrechnen der Auflösung und schreiben der Werte als integer
-		setLocation((int) ((d.getWidth() - this.getWidth()) / 2), (int) ((d.getHeight() - this.getHeight()) / 2));
+		
+		// Zentrierung des Fensters
+		// Auflösung
+		final Dimension d = this.getToolkit().getScreenSize();
+		
+		// Zentriert
+		setLocation((int)((d.getWidth() - this.getWidth()) / 2), (int)((d.getHeight() - this.getHeight()) / 2));
 		/* @author CK
 		 * TODO: 
 		 * if(d.getHeight == 600 || d.getWidth == 800)
@@ -149,7 +146,11 @@ public class Menu extends JFrame implements ComponentListener{
 				Component start;
 				remove(panelButton);
 				validate();
-				start = add(new MenuStart());
+				start = new MenuStart();
+				add(start);
+
+		        start.requestFocus(); //requestFocus im start-Konstruktor tut nicht
+		        System.out.println("Focus: "+start.hasFocus());
 				update(start.getGraphics());
 			}	
 					

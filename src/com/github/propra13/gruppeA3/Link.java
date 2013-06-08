@@ -9,7 +9,7 @@ public class Link {
 	
 	// Temporäre Variablen
 	int targetRoomID;
-	Position pos;
+	FieldPosition pos;
 	
 	
 	/* Konstruktor für einen "halben" Link
@@ -21,7 +21,7 @@ public class Link {
 	 * Parameter:
 	 * Link-ID; Zielraum; Zielfeld im Zielraum; Position des halben Links; ist Checkpointlink?
 	 */
-	public Link(int ID, int targetRoom, Position position, boolean isCheckpoint) {
+	public Link(int ID, int targetRoom, FieldPosition position, boolean isCheckpoint) {
 		this.ID = ID;
 		this.targetRoomID = targetRoom;
 		this.pos = position;

@@ -1,5 +1,7 @@
 package com.github.propra13.gruppeA3.Entities;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,7 +19,7 @@ import com.github.propra13.gruppeA3.Room;
  *         Diese Klasse definiert einen Spieler und seine Eigenschaften und Methoden.
  */
 
-public class Player extends Moveable {
+public class Player extends Moveable implements KeyListener {
    // Attribute
 	@SuppressWarnings("unused")
 	private int health = 100;
@@ -26,11 +28,15 @@ public class Player extends Moveable {
 	
 	private LinkedList<Item> items = null;
 	private int mana;
+	
+	final public static int movePx = Moveable.movePx;
+	final public static Hitbox hitbox = new Hitbox(32, 32);
 
     // Konstruktoren
     public Player(Room room_bind) {
         super(room_bind);
-        setPosition(Map.spawns[0].pos.x, Map.spawns[0].pos.y);
+        //+16: damit Player in der Mitte des Felds landet
+        setPosition(Map.spawns[0].pos.toPosition().x+16, Map.spawns[0].pos.toPosition().y+16);
     }
 
     //Methode überschrieben, prüft für Spieler zusätzlich Trigger und ob bereits ein anderer Spieler auf dem Feld steht
@@ -42,30 +48,30 @@ public class Player extends Moveable {
             // TODO: Überprüfung ob Spieler aus der Map läuft nicht nötig, wenn Wände richtig gesetzt sind
 
             case LEFT:
-              if (getRoom().roomFields[getPosition().x - 1][getPosition().y].walkable 
-            		  && getRoom().roomFields[getPosition().x - 1][getPosition().y].entityType != 1) {
-                    setPosition(getPosition().x - 1, getPosition().y);
+              if (getRoom().roomFields[getFieldPos().x - 1][getFieldPos().y].walkable 
+            		  && getRoom().roomFields[getFieldPos().x - 1][getFieldPos().y].entityType != 1) {
+                    setPosition(getPosition().x - (int)(movePx*speed), getPosition().y);
               }
                 break;
 
             case UP:
-            	if (getRoom().roomFields[getPosition().x][getPosition().y - 1].walkable 
-              		  && getRoom().roomFields[getPosition().x][getPosition().y - 1].entityType != 1) {
-                      setPosition(getPosition().x, getPosition().y - 1);
+            	if (getRoom().roomFields[getFieldPos().x][getFieldPos().y - 1].walkable 
+              		  && getRoom().roomFields[getFieldPos().x][getFieldPos().y - 1].entityType != 1) {
+                      setPosition(getPosition().x, getPosition().y - (int)(movePx*speed));
                     }
                 break;
 
             case RIGHT:
-            	if (getRoom().roomFields[getPosition().x + 1][getPosition().y].walkable 
-              		  && getRoom().roomFields[getPosition().x + 1][getPosition().y].entityType != 1) {
-                      setPosition(getPosition().x + 1, getPosition().y);
+            	if (getRoom().roomFields[getFieldPos().x + 1][getFieldPos().y].walkable 
+              		  && getRoom().roomFields[getFieldPos().x + 1][getFieldPos().y].entityType != 1) {
+                      setPosition(getPosition().x + (int)(movePx*speed), getPosition().y);
                 }
                 break;
 
             case DOWN:
-            	if (getRoom().roomFields[getPosition().x][getPosition().y + 1].walkable 
-                		  && getRoom().roomFields[getPosition().x][getPosition().y + 1].entityType != 1) {
-                        setPosition(getPosition().x, getPosition().y + 1);
+            	if (getRoom().roomFields[getFieldPos().x][getFieldPos().y + 1].walkable 
+                		  && getRoom().roomFields[getFieldPos().x][getFieldPos().y + 1].entityType != 1) {
+                        setPosition(getPosition().x, getPosition().y + (int)(movePx*speed));
                 }
                 break;
             default:
@@ -74,6 +80,7 @@ public class Player extends Moveable {
 
         /**
          * Die Entitites Liste soll durchlaufen werden, um zu überprüfen, ob an der Position xy des Spielers ein Monster ist.
+         * TODO: Pixelkoordinatensystemkollisionsabfrage
          */
         List<Entities> tempEntities = getRoom().entities;
         Iterator<Entities> iter = tempEntities.iterator();
@@ -88,27 +95,29 @@ public class Player extends Moveable {
             }
         }
 
-        if(getRoom().roomFields[getPosition().x][getPosition().y].link != null){
+        // Links
+        if(getRoom().roomFields[getFieldPos().x][getFieldPos().y].link != null){
         	System.out.println("Hier ist ein Link!");
-        	System.out.println("isActivated: "+getRoom().roomFields[getPosition().x][getPosition().y].link.isActivated());
+        	System.out.println("isActivated: "+getRoom().roomFields[getFieldPos().x][getFieldPos().y].link.isActivated());
         	
-        	if (getRoom().roomFields[getPosition().x][getPosition().y].link.isActivated()) {
+        	if (getRoom().roomFields[getFieldPos().x][getFieldPos().y].link.isActivated()) {
         		System.out.println("Ich darf durch den Link!");
-        		changeRooms(getRoom().roomFields[getPosition().x][getPosition().y].link);
+        		followLink(getRoom().roomFields[getPosition().x][getPosition().y].link);
         	}
         }
         
-        if(getRoom().roomFields[getPosition().x][getPosition().y]== Map.end)
+        // Win
+        if(getRoom().roomFields[getPosition().toFieldPos().x][getPosition().toFieldPos().y]== Map.end)
         	this.win();
         
-        Trigger trigger = getRoom().roomFields[getPosition().x][getPosition().y].trigger;
+        // Trigger
+        Trigger trigger = getRoom().roomFields[getPosition().toFieldPos().x][getPosition().toFieldPos().y].trigger;
         if (trigger != null) {
         	System.out.println("Ich triggere");
-        	//TODO: Testen
         	trigger.trigger();
     	}
     }
-
+   
     private void win() {
     	new GameEndWindow("Gewonnen! Fuck Yeah!");
     }
@@ -117,15 +126,16 @@ public class Player extends Moveable {
     	new GameEndWindow("Game Over!");
     }
     
-    private void changeRooms(Link link){
+    // Benutzt einen gegebenen Link; geht in den targetRoom, der nicht der aktuelle ist
+    private void followLink(Link link){
     	if(getRoom() == link.targetRooms[0]) {
     		setRoom(link.targetRooms[1]);	//currentroom auf neuen Raum setzten
-    		this.setPosition(link.targetFields[1].pos.x, link.targetFields[1].pos.y);
+    		this.setPosition(link.targetFields[1].pos.toPosition().x+16, link.targetFields[1].pos.toPosition().y+16);
     		MenuStart.activeRoom = getRoom().ID;
     	}
     	else {
     		setRoom(link.targetRooms[0]);
-    		this.setPosition(link.targetFields[0].pos.x, link.targetFields[0].pos.y);
+    		this.setPosition(link.targetFields[0].pos.toPosition().x+16, link.targetFields[0].pos.toPosition().y+16);
     		MenuStart.activeRoom = getRoom().ID;
     	}
     }
@@ -144,6 +154,31 @@ public class Player extends Moveable {
     
     public void setMoney(int money){
     	this.money = money;
+    }
+    
+    // KeyListening findet nun hier statt
+	
+	public void keyTyped(KeyEvent e){}
+	
+	public void keyPressed(KeyEvent e){
+        System.out.println("Key pressed: "+e.getKeyCode());
+
+		int pressed = e.getKeyCode();
+		switch(pressed) {
+			case 37: this.direct = direction.LEFT;
+					 break;
+			case 38: this.direct = direction.UP;
+					 break;
+			case 39: this.direct = direction.RIGHT;
+					 break;
+			case 40: this.direct = direction.DOWN;
+					 break;		 
+		}
+
+	}
+	
+	public void keyReleased(KeyEvent e){
+		this.direct = direction.NONE;
     }
 }
 

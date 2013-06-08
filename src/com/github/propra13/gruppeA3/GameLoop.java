@@ -16,7 +16,7 @@ public class GameLoop {
 			if(currTime >= nextTime){
 				//Zeitpunkt der naechsten Aktualisierung errechnen
 				nextTime += delta;	
-				//update();		//Spielfeld aktualisieren
+				update();		//Spielfeld aktualisieren
 				//draw();		//Fenster neuzeichnen
 			}
 			else{
@@ -39,4 +39,9 @@ public class GameLoop {
 	public void stop(){
 		runflag = false;
 	}
+
+	private void update(){
+		
+	}
+	
 }

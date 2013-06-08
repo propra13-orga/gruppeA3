@@ -212,12 +212,12 @@ public class Map {
 				for (int j=0; j < Map.mapRooms[k].roomFields.length; j++) {
 					
 					if(Map.mapRooms[k].roomFields[j][i].link != null) {
-						Position pos1 = Map.mapRooms[k].roomFields[j][i].link.targetFields[0].pos;
-						Position pos2 = Map.mapRooms[k].roomFields[j][i].link.targetFields[1].pos;
+						FieldPosition pos1 = Map.mapRooms[k].roomFields[j][i].link.targetFields[0].pos;
+						FieldPosition pos2 = Map.mapRooms[k].roomFields[j][i].link.targetFields[1].pos;
 						Room room1 = Map.mapRooms[k].roomFields[j][i].link.targetRooms[0];
 						Room room2 = Map.mapRooms[k].roomFields[j][i].link.targetRooms[1];
 						Room room = Map.mapRooms[k];
-						Position pos = Map.mapRooms[k].roomFields[j][i].pos;
+						FieldPosition pos = Map.mapRooms[k].roomFields[j][i].pos;
 					}
 				}
 			}

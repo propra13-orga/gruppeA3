@@ -1,7 +1,12 @@
 package com.github.propra13.gruppeA3.Entities;
 
-import com.github.propra13.gruppeA3.Room;
+import java.util.Iterator;
+import java.util.List;
+import java.lang.Math;
+
 import com.github.propra13.gruppeA3.Position;
+import com.github.propra13.gruppeA3.Room;
+import com.github.propra13.gruppeA3.FieldPosition;
 
 /**
  * @author Majida Dere 
@@ -18,11 +23,16 @@ public class Moveable extends Entities {
 	private int health;
 	private int power;
 	private int armour;
-	private double speed; 
+	protected double speed; 
+	
+	/* Anzahl der Pixel, die bei einer Bewegung
+	 * mit Speed 1 zurückgelegt werden sollen */
+	final public static int movePx = 3;
 	
 	
 	//Konstruktor
-	protected Moveable(Room room_bind){
+	public Moveable(Room room_bind){
+		System.out.println("Moveable"); //nicht erreichbar - wtf
 		this.pos = new Position(0,0);
 		this.currentroom = room_bind;
 		this.direct = direction.NONE;
@@ -39,32 +49,58 @@ public class Moveable extends Entities {
 	public void move(){
 		switch(this.direct){
 		case LEFT:
-			if(currentroom.roomFields[this.pos.x - 1][this.pos.y].walkable){
-				setPosition(this.pos.x-1,this.pos.y);
+			if(currentroom.roomFields[this.pos.x - 1][this.pos.y].walkable) {
+				setPosition(this.pos.x - (int)(movePx*speed), this.pos.y);
 			}
 					break;
 					
 		case UP:
 			if(currentroom.roomFields[this.pos.x][this.pos.y + 1].walkable){
-				setPosition(this.pos.x,this.pos.y+1);
+				setPosition(this.pos.x, this.pos.y + (int)(movePx*speed));
 			}
 					break;
 					
 		case RIGHT:
 			if(currentroom.roomFields[this.pos.x + 1][this.pos.y].walkable){
-				setPosition(this.pos.x+1,this.pos.y);
+				setPosition(this.pos.x + (int)(movePx*speed), this.pos.y);
 			}
 					break;
 					
 		case DOWN:
 			if(currentroom.roomFields[this.pos.x][this.pos.y + 1].walkable){
-				setPosition(this.pos.x,this.pos.y+1);
+				setPosition(this.pos.x, this.pos.y + (int)(movePx*speed));
 			}
 					break;
 					
 		default: //nichts tun
 		}
 				
+	}
+	
+	public boolean rangeCheck(){
+		int xdelta;
+		int ydelta;
+		boolean flag = false;
+		Entities test = null;
+		 List<Entities> tempEntities = getRoom().entities;
+	        Iterator<Entities> iter = tempEntities.iterator();
+		while(iter.hasNext()){
+			if(test != this){
+				test = iter.next();
+				xdelta = this.getPosition().x - test.getPosition().x;
+				if(xdelta < 0)
+					xdelta = xdelta * (-1);
+				ydelta = this.getPosition().y - test.getPosition().y;
+				if(ydelta < 0)
+					ydelta = ydelta * (-1);
+				
+				if(Math.sqrt(xdelta*xdelta + ydelta*ydelta) < 42){
+					flag = true;
+				}
+			}
+		}
+		
+		return flag;
 	}
 	
 	/**
@@ -81,10 +117,11 @@ public class Moveable extends Entities {
 	 * @param y Y-Achse
 	 */
 	public void setPosition(int x, int y){ 
-		pos.x = x;
-		pos.y = y;
-
-        System.out.println("Setze Position auf X:"+x+ " Y:"+y);
+		pos.setPosition(x, y);
+	}
+	
+	public FieldPosition getFieldPos() {
+		return new FieldPosition(pos.x/32, pos.y/(32));
 	}
 	
 	/**

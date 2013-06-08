@@ -1,7 +1,7 @@
 package com.github.propra13.gruppeA3;
 
 import com.github.propra13.gruppeA3.Field;
-import com.github.propra13.gruppeA3.Position;
+import com.github.propra13.gruppeA3.FieldPosition;
 import com.github.propra13.gruppeA3.Entities.Entities;
 import com.github.propra13.gruppeA3.Entities.Monster;
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
@@ -175,7 +175,7 @@ public class Room {
 							attr2 = buffer[bufferIndex + k];
 							break;
 					}
-					Position pos=new Position(j, i);
+					FieldPosition pos=new FieldPosition(j, i);
 					room[j][i] = new Field(
 							this, type, texture, attr1, attr2, pos);
 				}
