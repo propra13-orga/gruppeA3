@@ -24,13 +24,13 @@ public class Keys implements KeyListener {
 
 		int pressed = e.getKeyCode();
 		switch(pressed) {
-			case 37: player.direct = direction.LEFT;
+			case 37: player.setDirection(direction.LEFT);
 					 break;
-			case 38: player.direct = direction.UP;
+			case 38: player.setDirection(direction.UP);
 					 break;
-			case 39: player.direct = direction.RIGHT;
+			case 39: player.setDirection(direction.RIGHT);
 					 break;
-			case 40: player.direct = direction.DOWN;
+			case 40: player.setDirection(direction.DOWN);
 					 break;
 		} 
 		player.move(); //TODO: in den loop
@@ -38,7 +38,7 @@ public class Keys implements KeyListener {
 	}
 	
 	public void keyReleased(KeyEvent e){
-		player.direct = direction.NONE;
+		player.setDirection(direction.NONE);
     }
 	
 

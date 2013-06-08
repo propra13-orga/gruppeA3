@@ -42,36 +42,36 @@ public class Player extends Moveable implements KeyListener {
     //Methode überschrieben, prüft für Spieler zusätzlich Trigger und ob bereits ein anderer Spieler auf dem Feld steht
     public void move() {
 
-        System.out.println("Setze Richtung auf "+this.direct);
+        System.out.println("Setze Richtung auf "+this.getDirection());
 
-        switch (this.direct) {
+        switch (this.getDirection()) {
             // TODO: Überprüfung ob Spieler aus der Map läuft nicht nötig, wenn Wände richtig gesetzt sind
 
             case LEFT:
               if (getRoom().roomFields[getFieldPos().x - 1][getFieldPos().y].walkable 
             		  && getRoom().roomFields[getFieldPos().x - 1][getFieldPos().y].entityType != 1) {
-                    setPosition(getPosition().x - (int)(movePx*speed), getPosition().y);
+                    setPosition(getPosition().x - (int)(movePx*getSpeed()), getPosition().y);
               }
                 break;
 
             case UP:
             	if (getRoom().roomFields[getFieldPos().x][getFieldPos().y - 1].walkable 
               		  && getRoom().roomFields[getFieldPos().x][getFieldPos().y - 1].entityType != 1) {
-                      setPosition(getPosition().x, getPosition().y - (int)(movePx*speed));
+                      setPosition(getPosition().x, getPosition().y - (int)(movePx*getSpeed()));
                     }
                 break;
 
             case RIGHT:
             	if (getRoom().roomFields[getFieldPos().x + 1][getFieldPos().y].walkable 
               		  && getRoom().roomFields[getFieldPos().x + 1][getFieldPos().y].entityType != 1) {
-                      setPosition(getPosition().x + (int)(movePx*speed), getPosition().y);
+                      setPosition(getPosition().x + (int)(movePx*getSpeed()), getPosition().y);
                 }
                 break;
 
             case DOWN:
             	if (getRoom().roomFields[getFieldPos().x][getFieldPos().y + 1].walkable 
                 		  && getRoom().roomFields[getFieldPos().x][getFieldPos().y + 1].entityType != 1) {
-                        setPosition(getPosition().x, getPosition().y + (int)(movePx*speed));
+                        setPosition(getPosition().x, getPosition().y + (int)(movePx*getSpeed()));
                 }
                 break;
             default:
@@ -158,27 +158,28 @@ public class Player extends Moveable implements KeyListener {
     
     // KeyListening findet nun hier statt
 	
-	public void keyTyped(KeyEvent e){}
+	public void keyTyped(KeyEvent e){
+	}
 	
 	public void keyPressed(KeyEvent e){
         System.out.println("Key pressed: "+e.getKeyCode());
 
 		int pressed = e.getKeyCode();
 		switch(pressed) {
-			case 37: this.direct = direction.LEFT;
+			case 37: this.setDirection(direction.LEFT);
 					 break;
-			case 38: this.direct = direction.UP;
+			case 38: this.setDirection(direction.UP);
 					 break;
-			case 39: this.direct = direction.RIGHT;
+			case 39: this.setDirection(direction.RIGHT);
 					 break;
-			case 40: this.direct = direction.DOWN;
+			case 40: this.setDirection(direction.DOWN);
 					 break;		 
 		}
 
 	}
 	
 	public void keyReleased(KeyEvent e){
-		this.direct = direction.NONE;
+		this.setDirection(direction.NONE);
     }
 }
 

@@ -10,7 +10,7 @@ public class Hitbox {
 	}
 	
 	// Standardhitbox
-	public Hitbox () {
+	public Hitbox() {
 		this.width = this.height = 32;
 	}
 }
