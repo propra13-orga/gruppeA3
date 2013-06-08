@@ -1,5 +1,6 @@
 package com.github.propra13.gruppeA3.Entities;
 
+import com.github.propra13.gruppeA3.FieldPosition;
 import com.github.propra13.gruppeA3.Position;
 import com.github.propra13.gruppeA3.Room;
 
@@ -20,23 +21,30 @@ public class Monster extends Moveable {
 	private int life;
 	private String desc;
 	
+	private Hitbox hitbox;
+	
 	//Konstruktor
 	
-	public Monster (Room room_bind, double speed, int power, int type, int life, int x, int y, String desc){
+	public Monster (Room room_bind, double speed, int power, int type, int life, Position pos, Hitbox hitbox, String desc){
 		super(room_bind);
 		System.out.println("Ich bin ein Monster!"); //Nicht erreichbar  -wtf
 		this.speed=speed;
 		this.power=power;
 		this.life=life;
-		this.pos=new Position(x,y);
+		this.pos=pos;
 		this.desc = desc;
+		this.hitbox = hitbox;
 	}
 	
 	
 	// Getter Methoden
 	
+	public Hitbox getHitbox() {
+		return hitbox;
+	}
+	
 	/** liefert die Schnelligkeit eines Monsters
-	 * @ return gibt die Schnelligkeit zurück
+	 * @return gibt die Schnelligkeit zurück
 	 */
 	public double getSpeed(){
 		return this.speed;

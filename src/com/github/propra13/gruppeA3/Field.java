@@ -19,7 +19,7 @@ public class Field {
 	
 	public boolean walkable = false;
 	public Link link = null;
-	public Position pos;
+	public FieldPosition pos;
 	
 	private Room room;
 	public Trigger trigger;
@@ -27,7 +27,7 @@ public class Field {
 	
 	
 	public Field(
-			Room room, int type, int texture, int attr1, int attr2, Position pos) {
+			Room room, int type, int texture, int attr1, int attr2, FieldPosition pos) {
 		
 		this.type = type;
 		this.texture = texture;

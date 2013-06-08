@@ -15,6 +15,7 @@ import javax.swing.Timer;
 
 import com.github.propra13.gruppeA3.Keys;
 import com.github.propra13.gruppeA3.Map;
+import com.github.propra13.gruppeA3.FieldPosition;
 import com.github.propra13.gruppeA3.Position;
 import com.github.propra13.gruppeA3.Entities.Entities;
 import com.github.propra13.gruppeA3.Entities.Item;
@@ -119,7 +120,7 @@ public class MenuStart extends JPanel implements ActionListener {
         }
         
 
-        Position pp = this.player.getPosition();
+        Position pp = player.getPosition().drawPosition(Player.hitbox);
         
 
         // Malt Entities
@@ -158,7 +159,7 @@ public class MenuStart extends JPanel implements ActionListener {
 
         // Malt Spieler
         
-        g2d.drawImage(this.playerimg, pp.x*32, pp.y*32-32 , this);
+        g2d.drawImage(this.playerimg, pp.x+32, pp.y , this);
         System.out.println("Playerposition X:"+pp.x+" Y:"+pp.y);
 
     }

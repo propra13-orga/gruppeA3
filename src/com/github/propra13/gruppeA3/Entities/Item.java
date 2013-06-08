@@ -3,6 +3,7 @@
  */
 package com.github.propra13.gruppeA3.Entities;
 
+import com.github.propra13.gruppeA3.FieldPosition;
 import com.github.propra13.gruppeA3.Position;
 import com.github.propra13.gruppeA3.Room;
 

@@ -3,6 +3,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.*;
 import com.github.propra13.gruppeA3.Entities.*;
 import com.github.propra13.gruppeA3.Map;
+import com.github.propra13.gruppeA3.Position;
 
 /**
  * @author Majida Dere
@@ -62,7 +63,7 @@ public class CrawlerSAX extends DefaultHandler{
 			String desc = new String(attrs.getValue("desc"));
 
 			// Es wird ein neues Monster erzeugt mit den zuvor ausgelesenen Informationen aus level.xml
-			Monster monster=new Monster(Map.getMapRoom(roomID), speed, power, type, life, posx, posy, desc);
+			Monster monster=new Monster(Map.getMapRoom(roomID), speed, power, type, life, new Position(posx, posy), new Hitbox(32, 32), desc);
 			//MAP
 			//System.out.println("Monster");
 			Map.getMapRoom(roomID).entities.add(monster);

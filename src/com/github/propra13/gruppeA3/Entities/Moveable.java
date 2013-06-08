@@ -4,8 +4,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.lang.Math;
 
-import com.github.propra13.gruppeA3.Room;
 import com.github.propra13.gruppeA3.Position;
+import com.github.propra13.gruppeA3.Room;
+import com.github.propra13.gruppeA3.FieldPosition;
 
 /**
  * @author Majida Dere 
@@ -22,7 +23,11 @@ public class Moveable extends Entities {
 	private int health;
 	private int power;
 	private int armour;
-	private double speed; 
+	protected double speed; 
+	
+	/* Anzahl der Pixel, die bei einer Bewegung
+	 * mit Speed 1 zurückgelegt werden sollen */
+	final public static int movePx = 3;
 	
 	
 	//Konstruktor
@@ -44,26 +49,26 @@ public class Moveable extends Entities {
 	public void move(){
 		switch(this.direct){
 		case LEFT:
-			if(currentroom.roomFields[this.pos.x - 1][this.pos.y].walkable){
-				setPosition(this.pos.x-1,this.pos.y);
+			if(currentroom.roomFields[this.pos.x - 1][this.pos.y].walkable) {
+				setPosition(this.pos.x - (int)(movePx*speed), this.pos.y);
 			}
 					break;
 					
 		case UP:
 			if(currentroom.roomFields[this.pos.x][this.pos.y + 1].walkable){
-				setPosition(this.pos.x,this.pos.y+1);
+				setPosition(this.pos.x, this.pos.y + (int)(movePx*speed));
 			}
 					break;
 					
 		case RIGHT:
 			if(currentroom.roomFields[this.pos.x + 1][this.pos.y].walkable){
-				setPosition(this.pos.x+1,this.pos.y);
+				setPosition(this.pos.x + (int)(movePx*speed), this.pos.y);
 			}
 					break;
 					
 		case DOWN:
 			if(currentroom.roomFields[this.pos.x][this.pos.y + 1].walkable){
-				setPosition(this.pos.x,this.pos.y+1);
+				setPosition(this.pos.x, this.pos.y + (int)(movePx*speed));
 			}
 					break;
 					
@@ -112,8 +117,11 @@ public class Moveable extends Entities {
 	 * @param y Y-Achse
 	 */
 	public void setPosition(int x, int y){ 
-		pos.x = x;
-		pos.y = y;
+		pos.setPosition(x, y);
+	}
+	
+	public FieldPosition getFieldPos() {
+		return new FieldPosition(pos.x/32, pos.y/(32));
 	}
 	
 	/**
