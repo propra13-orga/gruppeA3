@@ -1,14 +1,11 @@
 package com.github.propra13.gruppeA3.Entities;
 
-import com.github.propra13.gruppeA3.FieldPosition;
 import com.github.propra13.gruppeA3.Position;
 import com.github.propra13.gruppeA3.Room;
 
 /**
- * 
  * @author Majida Dere
  * Die Klasse Monster liefert hauptsächlich die zugehörigen getter und setter Methoden zur Entity Monster
- *
  */
 
 public class Monster extends Moveable {
@@ -27,7 +24,7 @@ public class Monster extends Moveable {
 	
 	public Monster (Room room_bind, double speed, int power, int type, int life, Position pos, Hitbox hitbox, String desc){
 		super(room_bind);
-		System.out.println("Ich bin ein Monster!"); //Nicht erreichbar  -wtf
+		System.out.println("Ich bin ein Monster!"); //Offenbar nicht erreichbar
 		this.speed=speed;
 		this.power=power;
 		this.life=life;
@@ -77,7 +74,7 @@ public class Monster extends Moveable {
 
 	
 	
-	// Setter Methoden
+	// Setter-Methoden
 	
 	/**
 	 * legt die Position des Monsters fest
@@ -86,7 +83,6 @@ public class Monster extends Moveable {
 	 */
 	@Override
 	public void setPosition(int x, int y) {
-		// TODO Auto-generated method stub
 		this.pos.x = x;
 		this.pos.y = y;
 	}
