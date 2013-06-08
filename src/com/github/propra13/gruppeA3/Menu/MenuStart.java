@@ -158,8 +158,8 @@ public class MenuStart extends JPanel implements ActionListener {
 
         // Malt Spieler
         
-        g2d.drawImage(this.playerimg, pp.x+32, pp.y , this);
-        System.out.println("Playerposition X:"+pp.x+" Y:"+pp.y);
+        g2d.drawImage(this.playerimg, pp.x, pp.y-32 , this);
+        System.out.println("Playerposition X:"+pp.toFieldPos().x+" Y:"+pp.toFieldPos().y);
 
     }
     

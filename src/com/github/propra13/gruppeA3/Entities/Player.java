@@ -166,7 +166,6 @@ public class Player extends Moveable implements KeyListener {
 		int pressed = e.getKeyCode();
 		switch(pressed) {
 			case 37: this.direct = direction.LEFT;
-					 System.out.println("left");
 					 break;
 			case 38: this.direct = direction.UP;
 					 break;

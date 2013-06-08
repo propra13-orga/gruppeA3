@@ -15,15 +15,6 @@ public class Keys implements KeyListener {
 	//Konstruktor
 	public Keys(Player player_bind) {
 		player = player_bind;
-		if(player == null)
-			playerIsSet = false;
-		/* nicht mehr funktionsfaehig im JPanel
-        this.listener_frame =  listener_frame;
-		listener_frame.setSize(0,0);
-		listener_frame.setVisible(false);
-		
-		*/
-		System.out.println("keys gebaut");
 	}
 	
 	public void keyTyped(KeyEvent e){}
