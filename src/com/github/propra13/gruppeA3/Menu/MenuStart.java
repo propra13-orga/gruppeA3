@@ -1,4 +1,4 @@
-package com.github.propra13.gruppeA3.Menu;
+﻿package com.github.propra13.gruppeA3.Menu;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -42,7 +42,7 @@ public class MenuStart extends JPanel implements ActionListener {
     public static Integer activeRoom;
     protected Toolkit tool;
     
-    private int fps = 100;
+    private int fps = 60;
     public Graphics2D g2d;
     
     // Menüelemente
@@ -223,9 +223,10 @@ public void Score(Graphics2D g) {
    for (i = 0; i < player.getLives(); i++) {
 	   x = i * 32 + 8 ;
 	   System.out.println(x);
-        g.drawImage(GameWindow.playerimg, x, 590, this);
+        g.drawImage(GameWindow.heart, x, 573, this);
     }
-    
+   
+ //   g.drawImage(GameWindow.heart, 250, 573, this);
 }
 
 public void paintMessage(String msg, Graphics g){
