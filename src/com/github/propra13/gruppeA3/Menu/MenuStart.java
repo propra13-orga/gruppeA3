@@ -1,4 +1,4 @@
-﻿package com.github.propra13.gruppeA3.Menu;
+package com.github.propra13.gruppeA3.Menu;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -42,7 +42,7 @@ public class MenuStart extends JPanel implements ActionListener {
     public static Integer activeRoom;
     protected Toolkit tool;
     
-    private int fps = 60;
+    private int fps = 100;
     public Graphics2D g2d;
     
     // Menüelemente
@@ -60,6 +60,7 @@ public class MenuStart extends JPanel implements ActionListener {
 	Font smallfont = new Font("Helvetica", Font.BOLD, 14);
 	
     public MenuStart() {
+    	setLayout(null);
     	setFocusable(true);
     	new GameWindow();  
     	setBackground(Color.WHITE);
@@ -196,7 +197,7 @@ public void initMenu(){
 	// Zeichne Menüelemente
 	// Lege Standartpositionen für Buttons fest
 	buttonPosX = GameMinSizeX/2-100;
-	buttonPosY = GameMinSizeY/2-40;
+	buttonPosY = GameMinSizeY/2-100;
 	// bestimme Position und Größe
 	buttonstart.setBounds(buttonPosX,buttonPosY,200,30);
 	buttonbeenden.setBounds(buttonPosX,buttonPosY+40,200,30);
@@ -225,8 +226,6 @@ public void Score(Graphics2D g) {
 	   System.out.println(x);
         g.drawImage(GameWindow.heart, x, 573, this);
     }
-   
- //   g.drawImage(GameWindow.heart, 250, 573, this);
 }
 
 public void paintMessage(String msg, Graphics g){
