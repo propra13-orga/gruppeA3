@@ -6,13 +6,12 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.github.propra13.gruppeA3.Menu.GameEndWindow;
-import com.github.propra13.gruppeA3.Menu.MenuStart;
 import com.github.propra13.gruppeA3.Link;
 import com.github.propra13.gruppeA3.Map;
-import com.github.propra13.gruppeA3.Trigger;
-
 import com.github.propra13.gruppeA3.Room;
+import com.github.propra13.gruppeA3.Trigger;
+import com.github.propra13.gruppeA3.Menu.GameEndWindow;
+import com.github.propra13.gruppeA3.Menu.MenuStart;
 
 /**
  * @author Majida Dere
@@ -25,10 +24,7 @@ public class Player extends Moveable implements KeyListener {
 	private int health = 100;
 	private int lives = 7;
 	private int money = 0;
-	
-	private LinkedList<Item> items = null;
-	private int mana;
-	
+
 	final public static int movePx = Moveable.movePx;
 	final public static Hitbox hitbox = new Hitbox(32, 32);
 
@@ -88,7 +84,6 @@ public class Player extends Moveable implements KeyListener {
         Entities testEntity;
         while (iter.hasNext()) {
             testEntity = iter.next();
-            System.out.println("Checking: Entity " + testEntity.getPosition().x + ":" + testEntity.getPosition().y);
             if ((testEntity instanceof Monster) && (getPosition().equals(testEntity.getPosition()))){
                //funktioniert nicht mehr JPanel
 			  this.death();
@@ -97,11 +92,8 @@ public class Player extends Moveable implements KeyListener {
 
         // Links
         if(getRoom().roomFields[getFieldPos().x][getFieldPos().y].link != null){
-        	System.out.println("Hier ist ein Link!");
-        	System.out.println("isActivated: "+getRoom().roomFields[getFieldPos().x][getFieldPos().y].link.isActivated());
-        	
+    	
         	if (getRoom().roomFields[getFieldPos().x][getFieldPos().y].link.isActivated()) {
-        		System.out.println("Ich darf durch den Link!");
         		followLink(getRoom().roomFields[getPosition().x][getPosition().y].link);
         	}
         }
@@ -113,17 +105,18 @@ public class Player extends Moveable implements KeyListener {
         // Trigger
         Trigger trigger = getRoom().roomFields[getPosition().toFieldPos().x][getPosition().toFieldPos().y].trigger;
         if (trigger != null) {
-        	System.out.println("Ich triggere");
         	trigger.trigger();
     	}
     }
    
     private void win() {
-    	new GameEndWindow("Gewonnen! Fuck Yeah!");
+    	MenuStart.win=true;
+    	MenuStart.ingame=false;
     }
     
     private void death() {
-    	new GameEndWindow("Game Over!");
+    	MenuStart.win=false;
+    	MenuStart.ingame=false;
     }
     
     // Benutzt einen gegebenen Link; geht in den targetRoom, der nicht der aktuelle ist

@@ -8,6 +8,8 @@ import com.github.propra13.gruppeA3.*;
 
 
 public class GameEndWindow extends JFrame{
+/*
+	
 	//Komponenten
 	private JButton buttonbeenden;
 	private JButton buttonmenue;
@@ -91,5 +93,5 @@ public class GameEndWindow extends JFrame{
 			this.dispose();
 		}
 	}
-
+*/
 }

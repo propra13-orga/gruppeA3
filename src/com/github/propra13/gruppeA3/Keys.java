@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 
 import com.github.propra13.gruppeA3.Entities.Player;
 import com.github.propra13.gruppeA3.Entities.Moveable.direction;
+import com.github.propra13.gruppeA3.Menu.MenuStart;
 
 public class Keys implements KeyListener {
 	
@@ -20,25 +21,35 @@ public class Keys implements KeyListener {
 	public void keyTyped(KeyEvent e){}
 	
 	public void keyPressed(KeyEvent e){
-        System.out.println("Key pressed: "+e.getKeyCode());
-
-		int pressed = e.getKeyCode();
-		switch(pressed) {
-			case 37: player.setDirection(direction.LEFT);
-					 break;
-			case 38: player.setDirection(direction.UP);
-					 break;
-			case 39: player.setDirection(direction.RIGHT);
-					 break;
-			case 40: player.setDirection(direction.DOWN);
-					 break;
-		} 
-		player.move(); //TODO: in den loop
-
+		int keys = e.getKeyCode();
+		if(MenuStart.ingame)
+		{
+			
+			if(keys == KeyEvent.VK_LEFT)
+    		{
+				player.setDirection(direction.LEFT);
+				player.move();
+    		}
+			else if(keys == KeyEvent.VK_RIGHT)
+			{
+				player.setDirection(direction.RIGHT);
+				player.move();
+			}
+			else if(keys == KeyEvent.VK_UP)
+			{
+				player.setDirection(direction.UP);
+				player.move();
+			}
+			else if(keys == KeyEvent.VK_DOWN)
+			{
+				player.setDirection(direction.DOWN);
+				player.move();
+			}
+		}
 	}
 	
 	public void keyReleased(KeyEvent e){
-		player.setDirection(direction.NONE);
+	
     }
 	
 

@@ -1,62 +1,59 @@
 package com.github.propra13.gruppeA3;
 
+import java.awt.Image;
+import java.awt.Toolkit;
+
 /**
  * Klasse für GUI: Spielgrafik
  * @autor Jenny Lenz
  */
 
-import com.github.propra13.gruppeA3.Entities.GameOptions;
-import com.github.propra13.gruppeA3.Entities.Player;
-import com.github.propra13.gruppeA3.Exceptions.InvalidRoomLinkException;
-import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
 
-import javax.swing.*;
-import java.awt.*;
-import java.io.IOException;
-
-public class GameWindow extends JFrame{
-
-    private GameOptions options;
-    private java.util.Map<String, Player> players;
-
-    public GameWindow(GameOptions options) {
-        super();
-
-        this.options = options;
-        this.players = this.options.getAllPlayers();
-
-        if(this.players.size() < 1) {
-            System.out.println("Bitte stellen Sie den Namen von mindestens einem Spieler ein!");
-            return;
-        }
-    }
-
-    public void paint(Graphics g) {
-
-        super.paint(g);
-        Graphics2D g2d = (Graphics2D) g;
-
-        Toolkit tool = Toolkit.getDefaultToolkit();
-        
-
-        // Allgemeine Karte zeichnen
-        // Player Zeichnen
-
-        while(true) {
-            // Bewegungen abfangen
-
-            // Auf Bewegungen reagieren
-            // ggf. Aktionenen ausführen (Bewegen)
-            // nach der Aktion das betroffene Objekt neu zeichnen
-        }
-
-    }
-
-    public void startGame() {
-
-    }
+public class GameWindow {
+	
+    public static Image monsterimg;
+    public static Image backgroundimg;
+    public static Image wallimg_1_32;
+    public static Image wallimg_2_32;
+    public static Image wallimg_3_32;
+    public static Image playerimg;
+    public static Image exitimg;
+    public static Image heart;
+    public static Image coin;
     
-    public void endGame() {
-    	super.dispose();
+    // Item images
+    public static Image lifePosion;
+    public static Image deadlyPosion;
+    public static Image manaPosion;
+    public static Image sword;
+    public static Image shield;
+
+    protected Toolkit tool;
+    protected String GamePath;
+    
+	public GameWindow(){
+	GamePath = System.getProperty("user.dir");
+    tool = Toolkit.getDefaultToolkit();
+    monsterimg = this.getImage(this.GamePath + "/data/images/Test_Monster.png");
+    backgroundimg = this.getImage(this.GamePath + "/data/images/Test_Wand.png");
+    wallimg_1_32 = this.getImage(this.GamePath + "/data/images/wall_1_32.png");
+    wallimg_2_32 = this.getImage(this.GamePath + "/data/images/wall_2_32.png");
+    wallimg_3_32 = this.getImage(this.GamePath + "/data/images/wall_3_32.png");
+    playerimg = this.getImage(this.GamePath + "/data/images/Test_Player.png");
+    exitimg = this.getImage(this.GamePath + "/data/images/exit.png");
+    sword = this.getImage(this.GamePath + "/data/images/sword.png");
+    shield = this.getImage(this.GamePath + "/data/images/shield.png");
+    heart = this.getImage(this.GamePath + "/data/images/herz.png");
+    coin = this.getImage(this.GamePath + "/data/images/coin.png");
+	}
+	
+    protected Image getImage(String path) {
+        Image img = null;
+        try {
+            img = tool.getImage(path);
+        } catch (NullPointerException npe) {
+        }
+
+        return img;
     }
 }
