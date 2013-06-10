@@ -44,9 +44,7 @@
 	
 	<rooms id="2" length="12" height="10">
 		
-		<monster type="1" name="Monster-Snake" speed="3.0" power="3" life="2" posx="1" posy="4" />
-		<monster type="2" name="Spider-Man" speed="1.0" power="3" life="4" posx="5" posy="7" />
-		
+		<monster type="5" name="Bossi" speed="3.0" power="10" life="15" posx="12" posy="8" />		
 
 	</rooms>
 </level>	
