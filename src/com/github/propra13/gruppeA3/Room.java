@@ -285,5 +285,9 @@ public class Room {
 	public Field getField(FieldPosition pos) {
 		return roomFields[pos.x][pos.y];
 	}
+	
+	public Field getField(int x, int y) {
+		return roomFields[x][y];
+	}
 }
 	

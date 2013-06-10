@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.github.propra13.gruppeA3.Field;
+import com.github.propra13.gruppeA3.FieldPosition;
 import com.github.propra13.gruppeA3.Link;
 import com.github.propra13.gruppeA3.Map;
 import com.github.propra13.gruppeA3.Position;
@@ -43,37 +44,52 @@ public class Player extends Moveable implements KeyListener {
 
     	int step = (int)(movePx * getSpeed());
     	Position nextPos = new Position(0,0); //Position, auf die gelaufen werden soll
-    	Field fieldToWalk;
+    	Field[] fieldsToWalk = new Field[2];  // Felder, die betreten werden sollen
+    	Position fieldPos = new Position(0,0);
+    	boolean collision;
 
         switch (this.getDirection()) {
             case LEFT:
             	if(getFieldPos().x > 0) {
             		nextPos.setPosition(getPosition().x - step, getPosition().y);
+            		
             		// Kollision mit Wänden und setPosition
-	        		fieldToWalk = Map.mapRooms[MenuStart.activeRoom].getField(nextPos.getCornerTopLeft(hitbox));
-	        		if(fieldToWalk.walkable)
-	        			setPosition(nextPos);
-	        			
-	        		/* Ansonsten: Schritt nicht vollständig machen; bis zur Wand laufen
-	        		 * Setzt Abstand zwischen Wand und Hitbox auf 0 */
-	        		else {
-	        			int distance = getPosition().getCornerTopLeft(hitbox).x - (fieldToWalk.pos.toPosition().x + 32);
-	        			setPosition(getPosition().x - distance, nextPos.y);
-	        		}
+            		Position p = new Position(nextPos.getCornerTopLeft(hitbox).x, nextPos.getCornerTopLeft(hitbox).y +1);
+            		fieldsToWalk[0] = Map.mapRooms[MenuStart.activeRoom].getField(p); //+1: damit Spieler durch Gänge passt
+            		
+            		p.setPosition(nextPos.getCornerBottomLeft(hitbox).x, nextPos.getCornerBottomLeft(hitbox).y -1);
+            		fieldsToWalk[1] = Map.mapRooms[MenuStart.activeRoom].getField(p);
+            		
+            		// Falls fieldsToWalk[0] und [1] begehbar, beweg dich einfach
+            		if (fieldsToWalk[0].walkable && fieldsToWalk[1].walkable) {
+            			setPosition(nextPos);
+            			break;
+            		// Ansonsten liegt Kollision vor, daher Annäherung an Feldgrenze
+            		} else {
+            			int distance = getPosition().getCornerTopLeft(hitbox).x - (fieldsToWalk[0].pos.toPosition().x + 32);
+	        			setPosition(getPosition().x, nextPos.y + distance);
+            		}
         		}
                 break;
 
             case UP:
             	if(getFieldPos().y > 0) {
             		nextPos.setPosition(getPosition().x, getPosition().y - step);
+            		
+            		// Kollision mit Wänden und setPosition
+            		Position p = new Position(nextPos.getCornerTopLeft(hitbox).x +1, nextPos.getCornerTopLeft(hitbox).y);
+            		fieldsToWalk[0] = Map.mapRooms[MenuStart.activeRoom].getField(p); //+1: damit Spieler durch Gänge passt
+            		
+            		p.setPosition(nextPos.getCornerTopRight(hitbox).x -1, nextPos.getCornerTopRight(hitbox).y);
+            		fieldsToWalk[1] = Map.mapRooms[MenuStart.activeRoom].getField(p);
 
-	        		// Kollision mit Wänden und setPosition
-            		fieldToWalk = Map.mapRooms[MenuStart.activeRoom].getField(nextPos.getCornerTopLeft(hitbox));
-            		System.out.println("Darf ich laufen? "+fieldToWalk.walkable+" auf "+fieldToWalk.type+" auf "+fieldToWalk.pos.x+":"+fieldToWalk.pos.y);
-	        		if(fieldToWalk.walkable)
-	        			setPosition(nextPos);
-	        		else {
-	        			int distance = getPosition().getCornerTopLeft(hitbox).y - (fieldToWalk.pos.toPosition().y + 32);
+            		// Falls fieldsToWalk[0] und [1] begehbar, beweg dich einfach
+            		if (fieldsToWalk[0].walkable && fieldsToWalk[1].walkable) {
+            			setPosition(nextPos);
+            			break;
+            		// Ansonsten liegt Kollision vor, daher Annäherung an Feldgrenze
+            		} else {
+	        			int distance = getPosition().getCornerTopLeft(hitbox).y - (fieldsToWalk[0].pos.toPosition().y + 32);
 	        			setPosition(getPosition().x, nextPos.y - distance);
 	        		}
             	}
@@ -84,12 +100,19 @@ public class Player extends Moveable implements KeyListener {
             		nextPos.setPosition(getPosition().x + step, getPosition().y);
             		
             		// Kollision mit Wänden und setPosition
-            		fieldToWalk = Map.mapRooms[MenuStart.activeRoom].getField(nextPos.getCornerBottomRight(hitbox));
-	        		System.out.println("Darf ich laufen? "+fieldToWalk.walkable+" auf "+fieldToWalk.type);
-	        		if(fieldToWalk.walkable)
-	        			setPosition(nextPos);
-	        		else {
-	        			int distance = fieldToWalk.pos.toPosition().x - getPosition().getCornerTopRight(hitbox).x;
+            		Position p = new Position(nextPos.getCornerTopRight(hitbox).x, nextPos.getCornerTopRight(hitbox).y +1);
+            		fieldsToWalk[0] = Map.mapRooms[MenuStart.activeRoom].getField(p); //+1: damit Spieler durch Gänge passt
+            		
+            		p.setPosition(nextPos.getCornerBottomRight(hitbox).x, nextPos.getCornerBottomRight(hitbox).y -1);
+            		fieldsToWalk[1] = Map.mapRooms[MenuStart.activeRoom].getField(p);
+            		
+            		// Falls fieldsToWalk[0] und [1] begehbar, beweg dich einfach
+            		if (fieldsToWalk[0].walkable && fieldsToWalk[1].walkable) {
+            			setPosition(nextPos);
+            			break;
+            		// Ansonsten liegt Kollision vor, daher Annäherung an Feldgrenze
+            		} else {
+	        			int distance = fieldsToWalk[0].pos.toPosition().x - getPosition().getCornerTopRight(hitbox).x;
 	        			setPosition(getPosition().x + distance, nextPos.y);
 	        		}
             	}
@@ -100,12 +123,19 @@ public class Player extends Moveable implements KeyListener {
             		nextPos.setPosition(getPosition().x, getPosition().y + step);
             		
             		// Kollision mit Wänden und setPosition
-            		fieldToWalk = Map.mapRooms[MenuStart.activeRoom].getField(nextPos.getCornerBottomLeft(hitbox));
-	        		System.out.println("Darf ich laufen? "+fieldToWalk.walkable+" auf "+fieldToWalk.type);
-	        		if(fieldToWalk.walkable)
-	        			setPosition(nextPos);
-	        		else {
-	        			int distance = fieldToWalk.pos.toPosition().y - getPosition().getCornerBottomLeft(hitbox).y;
+            		Position p = new Position(nextPos.getCornerBottomLeft(hitbox).x +1, nextPos.getCornerBottomLeft(hitbox).y);
+            		fieldsToWalk[0] = Map.mapRooms[MenuStart.activeRoom].getField(p); //+1: damit Spieler durch Gänge passt
+            		
+            		p.setPosition(nextPos.getCornerBottomRight(hitbox).x -1, nextPos.getCornerBottomRight(hitbox).y);
+            		fieldsToWalk[1] = Map.mapRooms[MenuStart.activeRoom].getField(p);
+            		
+            		// Falls fieldsToWalk[0] und [1] begehbar, beweg dich einfach
+            		if (fieldsToWalk[0].walkable && fieldsToWalk[1].walkable) {
+            			setPosition(nextPos);
+            			break;
+            		// Ansonsten liegt Kollision vor, daher Annäherung an Feldgrenze
+            		} else {
+	        			int distance = fieldsToWalk[0].pos.toPosition().y - getPosition().getCornerBottomLeft(hitbox).y;
 	        			setPosition(getPosition().x, nextPos.y + distance);
 	        		}
             	}	
