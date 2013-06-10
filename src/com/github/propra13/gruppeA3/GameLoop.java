@@ -1,10 +1,8 @@
 package com.github.propra13.gruppeA3;
 
-import com.github.propra13.gruppeA3.Menu.MenuStart;
 
 public class GameLoop {
 	private boolean runflag = false;
-	private Room activeRoom;
 	
 	void run(double delta){
 		//Loop vorbereiten: Flag auf true setzen, Systemzeit holen

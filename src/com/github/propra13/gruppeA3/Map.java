@@ -153,7 +153,7 @@ public class Map {
 				highID = i.next().ID;
 		}
 		
-		System.out.println(highID);
+		//System.out.println(highID);
 		// Lädt halbe Links in zweidim. Array
 		Link[][] halfLinks;
 		halfLinks = new Link[highID + 1][2];

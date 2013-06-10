@@ -46,28 +46,28 @@ public class Player extends Moveable implements KeyListener {
             case LEFT:
               if (getRoom().roomFields[getFieldPos().x - 1][getFieldPos().y].walkable 
             		  && getRoom().roomFields[getFieldPos().x - 1][getFieldPos().y].entityType != 1) {
-                    setPosition(getPosition().x - (int)(movePx*getSpeed()), getPosition().y);
+                    setPosition(getPosition().x - 32, getPosition().y);
               }
                 break;
 
             case UP:
             	if (getRoom().roomFields[getFieldPos().x][getFieldPos().y - 1].walkable 
               		  && getRoom().roomFields[getFieldPos().x][getFieldPos().y - 1].entityType != 1) {
-                      setPosition(getPosition().x, getPosition().y - (int)(movePx*getSpeed()));
+                      setPosition(getPosition().x, getPosition().y - 32);
                     }
                 break;
 
             case RIGHT:
             	if (getRoom().roomFields[getFieldPos().x + 1][getFieldPos().y].walkable 
               		  && getRoom().roomFields[getFieldPos().x + 1][getFieldPos().y].entityType != 1) {
-                      setPosition(getPosition().x + (int)(movePx*getSpeed()), getPosition().y);
+                      setPosition(getPosition().x + 32, getPosition().y);
                 }
                 break;
 
             case DOWN:
             	if (getRoom().roomFields[getFieldPos().x][getFieldPos().y + 1].walkable 
                 		  && getRoom().roomFields[getFieldPos().x][getFieldPos().y + 1].entityType != 1) {
-                        setPosition(getPosition().x, getPosition().y + (int)(movePx*getSpeed()));
+                        setPosition(getPosition().x, getPosition().y + 32);
                 }
                 break;
             default:
@@ -78,23 +78,29 @@ public class Player extends Moveable implements KeyListener {
          * Die Entitites Liste soll durchlaufen werden, um zu überprüfen, ob an der Position xy des Spielers ein Monster ist.
          * TODO: Pixelkoordinatensystemkollisionsabfrage
          */
-        List<Entities> tempEntities = getRoom().entities;
+        LinkedList<Entities> tempEntities = getRoom().entities;
         Iterator<Entities> iter = tempEntities.iterator();
 
         Entities testEntity;
+        Monster monster = null;
+        Item item = null;
         while (iter.hasNext()) {
             testEntity = iter.next();
-            if ((testEntity instanceof Monster) && (getPosition().equals(testEntity.getPosition()))){
-               //funktioniert nicht mehr JPanel
-			  this.death();
-            }
+            if (testEntity instanceof Monster)
+            	if ((getFieldPos().x == testEntity.getPosition().x) && (getFieldPos().y == testEntity.getPosition().y)){
+            		//funktioniert nicht mehr JPanel
+            		monster = (Monster)testEntity;
+            		System.out.println("Monster: "+monster.getPosition().x+", "+monster.getPosition().y);
+            		System.out.println("Monster: "+getPosition().x+", "+getPosition().y);
+            		this.death();
+            	}
         }
 
         // Links
         if(getRoom().roomFields[getFieldPos().x][getFieldPos().y].link != null){
     	
         	if (getRoom().roomFields[getFieldPos().x][getFieldPos().y].link.isActivated()) {
-        		followLink(getRoom().roomFields[getPosition().x][getPosition().y].link);
+        		followLink(getRoom().roomFields[getFieldPos().x][getFieldPos().y].link);
         	}
         }
         

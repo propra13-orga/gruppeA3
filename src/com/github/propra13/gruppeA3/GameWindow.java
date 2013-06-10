@@ -52,6 +52,7 @@ public class GameWindow {
         try {
             img = tool.getImage(path);
         } catch (NullPointerException npe) {
+        	npe.printStackTrace();
         }
 
         return img;

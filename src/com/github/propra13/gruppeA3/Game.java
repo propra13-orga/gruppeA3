@@ -47,8 +47,9 @@ public class Game extends JFrame{
 		try {
 			reader.read("data/levels/level1.xml");
 			
-		} catch (Exception e) {
-		}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		
 		new Game();
 	}

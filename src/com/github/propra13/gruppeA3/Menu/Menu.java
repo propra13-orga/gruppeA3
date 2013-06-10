@@ -150,7 +150,7 @@ public class Menu extends JFrame implements ComponentListener{
 				add(start);
 
 		        start.requestFocus(); //requestFocus im start-Konstruktor tut nicht
-		        System.out.println("Focus: "+start.hasFocus());
+		        //System.out.println("Focus: "+start.hasFocus());
 				update(start.getGraphics());
 			}	
 					

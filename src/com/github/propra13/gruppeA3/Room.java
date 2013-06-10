@@ -2,8 +2,6 @@ package com.github.propra13.gruppeA3;
 
 import com.github.propra13.gruppeA3.Field;
 import com.github.propra13.gruppeA3.FieldPosition;
-import com.github.propra13.gruppeA3.Entities.Entities;
-import com.github.propra13.gruppeA3.Entities.Monster;
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
 
 import java.io.File;

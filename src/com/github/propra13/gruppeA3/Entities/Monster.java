@@ -22,15 +22,15 @@ public class Monster extends Moveable {
 	
 	//Konstruktor
 	
-	public Monster (Room room_bind, double speed, int power, int type, int life, Position pos, Hitbox hitbox, String desc){
+	public Monster (Room room_bind, double speed, int power, int type, int life, int x, int y, String desc){
 		super(room_bind);
-		System.out.println("Ich bin ein Monster!"); //Offenbar nicht erreichbar
+		//System.out.println("Ich bin ein Monster!"); //Offenbar nicht erreichbar
 		this.speed=speed;
 		this.power=power;
 		this.life=life;
-		this.pos=pos;
+		this.pos=new Position(x,y);
 		this.desc = desc;
-		this.hitbox = hitbox;
+		this.hitbox = new Hitbox(32,32);
 	}
 	
 	

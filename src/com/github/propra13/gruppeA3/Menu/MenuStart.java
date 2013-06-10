@@ -5,15 +5,12 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Iterator;
-import java.util.List;
+
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -26,9 +23,7 @@ import com.github.propra13.gruppeA3.Position;
 import com.github.propra13.gruppeA3.Entities.Entities;
 import com.github.propra13.gruppeA3.Entities.Item;
 import com.github.propra13.gruppeA3.Entities.Monster;
-import com.github.propra13.gruppeA3.Entities.Moveable;
 import com.github.propra13.gruppeA3.Entities.Player;
-import com.github.propra13.gruppeA3.Entities.Walls;
 
 @SuppressWarnings("serial")
 public class MenuStart extends JPanel implements ActionListener {
@@ -87,8 +82,10 @@ public class MenuStart extends JPanel implements ActionListener {
  		win = false;
  		score = 0;
  		activeRoom = 0;
- 		Map.mapRooms[activeRoom].entities.add(player); 
+// 		Map.mapRooms[activeRoom].entities.add(player); 
  		 player = new Player(Map.getMapRoom(activeRoom));
+ 		 System.out.println("Playerpos: "+player.getPosition().x + ", "+player.getPosition().y);
+ 		 System.out.println("PlayerFieldpos: "+player.getFieldPos().x + ", "+player.getFieldPos().y);
          addKeyListener(new Keys(player));
  		timer.start();
  	}
@@ -223,7 +220,7 @@ public void Score(Graphics2D g) {
     g.drawString(s, 700, 590); //Zeile 32 spalte 25
    for (i = 0; i < player.getLives(); i++) {
 	   x = i * 32 + 8 ;
-	   System.out.println(x);
+	   //System.out.println(x);
         g.drawImage(GameWindow.heart, x, 573, this);
     }
 }

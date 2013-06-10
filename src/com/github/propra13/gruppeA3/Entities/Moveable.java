@@ -1,6 +1,7 @@
 package com.github.propra13.gruppeA3.Entities;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.lang.Math;
 
@@ -33,7 +34,7 @@ public class Moveable extends Entities {
 	
 	//Konstruktor
 	public Moveable(Room room_bind){
-		System.out.println("Moveable"); //nicht erreichbar - wtf
+		//System.out.println("Moveable"); //nicht erreichbar - wtf
 		this.pos = new Position(0,0);
 		this.currentroom = room_bind;
 		this.direct = direction.NONE;
@@ -47,7 +48,7 @@ public class Moveable extends Entities {
 	 * Begehbarkeit des Feldes prüfen
 	 * Wenn begehbar, setposition anwenden
 	 **/
-	public void move(){
+	/*public void move(){
 		switch(this.direct){
 		case LEFT:
 			if(currentroom.roomFields[this.pos.x - 1][this.pos.y].walkable) {
@@ -76,7 +77,7 @@ public class Moveable extends Entities {
 		default: //nichts tun
 		}
 				
-	}
+	}*/
 	
 	
 	//Kollisionsabfragen
@@ -85,7 +86,7 @@ public class Moveable extends Entities {
 		int ydelta;
 		boolean flag = true;
 		Moveable test = null;	//durch alle Entitys der Liste iterieren
-		 List<Moveable> tempEntities = getRoom().entities;
+		 LinkedList<Moveable> tempEntities = getRoom().entities;
 	        Iterator<Moveable> iter = tempEntities.iterator();
 		while(iter.hasNext()){
 			if(test != this){
