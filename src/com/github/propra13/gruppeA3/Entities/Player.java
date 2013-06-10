@@ -44,31 +44,35 @@ public class Player extends Moveable implements KeyListener {
             // TODO: Überprüfung ob Spieler aus der Map läuft nicht nötig, wenn Wände richtig gesetzt sind
 
             case LEFT:
-              if (getRoom().roomFields[getFieldPos().x - 1][getFieldPos().y].walkable 
-            		  && getRoom().roomFields[getFieldPos().x - 1][getFieldPos().y].entityType != 1) {
-                    setPosition(getPosition().x - 32, getPosition().y);
+            	if(getFieldPos().x > 0)
+            		if (getRoom().roomFields[getFieldPos().x - 1][getFieldPos().y].walkable 
+            		 && getRoom().roomFields[getFieldPos().x - 1][getFieldPos().y].entityType != 1) {
+            			setPosition(getPosition().x - 32, getPosition().y);
               }
                 break;
 
             case UP:
-            	if (getRoom().roomFields[getFieldPos().x][getFieldPos().y - 1].walkable 
-              		  && getRoom().roomFields[getFieldPos().x][getFieldPos().y - 1].entityType != 1) {
-                      setPosition(getPosition().x, getPosition().y - 32);
-                    }
+            	if(getFieldPos().y > 0)
+            		if (getRoom().roomFields[getFieldPos().x][getFieldPos().y - 1].walkable 
+              		 && getRoom().roomFields[getFieldPos().x][getFieldPos().y - 1].entityType != 1) {
+            			setPosition(getPosition().x, getPosition().y - 32);
+            		}
                 break;
 
             case RIGHT:
-            	if (getRoom().roomFields[getFieldPos().x + 1][getFieldPos().y].walkable 
-              		  && getRoom().roomFields[getFieldPos().x + 1][getFieldPos().y].entityType != 1) {
-                      setPosition(getPosition().x + 32, getPosition().y);
-                }
+            	if(getFieldPos().x < getRoom().roomFields.length - 1)
+            		if (getRoom().roomFields[getFieldPos().x + 1][getFieldPos().y].walkable 
+              		 && getRoom().roomFields[getFieldPos().x + 1][getFieldPos().y].entityType != 1) {
+            			setPosition(getPosition().x + 32, getPosition().y);
+            		}
                 break;
 
             case DOWN:
-            	if (getRoom().roomFields[getFieldPos().x][getFieldPos().y + 1].walkable 
-                		  && getRoom().roomFields[getFieldPos().x][getFieldPos().y + 1].entityType != 1) {
+            	if(getFieldPos().y < getRoom().roomFields[0].length - 1)
+            		if (getRoom().roomFields[getFieldPos().x][getFieldPos().y + 1].walkable 
+            		 && getRoom().roomFields[getFieldPos().x][getFieldPos().y + 1].entityType != 1) {
                         setPosition(getPosition().x, getPosition().y + 32);
-                }
+            		}
                 break;
             default:
                 //nichts tun

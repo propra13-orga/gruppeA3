@@ -84,8 +84,6 @@ public class MenuStart extends JPanel implements ActionListener {
  		activeRoom = 0;
 // 		Map.mapRooms[activeRoom].entities.add(player); 
  		 player = new Player(Map.getMapRoom(activeRoom));
- 		 System.out.println("Playerpos: "+player.getPosition().x + ", "+player.getPosition().y);
- 		 System.out.println("PlayerFieldpos: "+player.getFieldPos().x + ", "+player.getFieldPos().y);
          addKeyListener(new Keys(player));
  		timer.start();
  	}
