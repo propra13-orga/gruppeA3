@@ -6,8 +6,10 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.github.propra13.gruppeA3.Field;
 import com.github.propra13.gruppeA3.Link;
 import com.github.propra13.gruppeA3.Map;
+import com.github.propra13.gruppeA3.Position;
 import com.github.propra13.gruppeA3.Room;
 import com.github.propra13.gruppeA3.Trigger;
 import com.github.propra13.gruppeA3.Menu.GameEndWindow;
@@ -37,46 +39,81 @@ public class Player extends Moveable implements KeyListener {
 
     //Methode überschrieben, prüft für Spieler zusätzlich Trigger und ob bereits ein anderer Spieler auf dem Feld steht
     public void move() {
+    	System.out.println("Setze Richtung auf "+this.getDirection());
 
-        System.out.println("Setze Richtung auf "+this.getDirection());
+    	int step = (int)(movePx * getSpeed());
+    	Position nextPos = new Position(0,0); //Position, auf die gelaufen werden soll
+    	Field fieldToWalk;
 
         switch (this.getDirection()) {
-            // TODO: Überprüfung ob Spieler aus der Map läuft nicht nötig, wenn Wände richtig gesetzt sind
-
             case LEFT:
-            	if(getFieldPos().x > 0)
-            		if (getRoom().roomFields[getFieldPos().x - 1][getFieldPos().y].walkable 
-            		 && getRoom().roomFields[getFieldPos().x - 1][getFieldPos().y].entityType != 1) {
-            			setPosition(getPosition().x - 32, getPosition().y);
-              }
+            	if(getFieldPos().x > 0) {
+            		nextPos.setPosition(getPosition().x - step, getPosition().y);
+            		// Kollision mit Wänden und setPosition
+	        		fieldToWalk = Map.mapRooms[MenuStart.activeRoom].getField(nextPos.getCornerTopLeft(hitbox));
+	        		if(fieldToWalk.walkable)
+	        			setPosition(nextPos);
+	        			
+	        		/* Ansonsten: Schritt nicht vollständig machen; bis zur Wand laufen
+	        		 * Setzt Abstand zwischen Wand und Hitbox auf 0 */
+	        		else {
+	        			int distance = getPosition().getCornerTopLeft(hitbox).x - (fieldToWalk.pos.toPosition().x + 32);
+	        			setPosition(getPosition().x - distance, nextPos.y);
+	        		}
+        		}
                 break;
 
             case UP:
-            	if(getFieldPos().y > 0)
-            		if (getRoom().roomFields[getFieldPos().x][getFieldPos().y - 1].walkable 
-              		 && getRoom().roomFields[getFieldPos().x][getFieldPos().y - 1].entityType != 1) {
-            			setPosition(getPosition().x, getPosition().y - 32);
-            		}
+            	if(getFieldPos().y > 0) {
+            		nextPos.setPosition(getPosition().x, getPosition().y - step);
+
+	        		// Kollision mit Wänden und setPosition
+            		fieldToWalk = Map.mapRooms[MenuStart.activeRoom].getField(nextPos.getCornerTopLeft(hitbox));
+            		System.out.println("Darf ich laufen? "+fieldToWalk.walkable+" auf "+fieldToWalk.type+" auf "+fieldToWalk.pos.x+":"+fieldToWalk.pos.y);
+	        		if(fieldToWalk.walkable)
+	        			setPosition(nextPos);
+	        		else {
+	        			int distance = getPosition().getCornerTopLeft(hitbox).y - (fieldToWalk.pos.toPosition().y + 32);
+	        			setPosition(getPosition().x, nextPos.y - distance);
+	        		}
+            	}
                 break;
 
             case RIGHT:
-            	if(getFieldPos().x < getRoom().roomFields.length - 1)
-            		if (getRoom().roomFields[getFieldPos().x + 1][getFieldPos().y].walkable 
-              		 && getRoom().roomFields[getFieldPos().x + 1][getFieldPos().y].entityType != 1) {
-            			setPosition(getPosition().x + 32, getPosition().y);
-            		}
+            	if(getFieldPos().x < getRoom().roomFields.length - 1) {
+            		nextPos.setPosition(getPosition().x + step, getPosition().y);
+            		
+            		// Kollision mit Wänden und setPosition
+            		fieldToWalk = Map.mapRooms[MenuStart.activeRoom].getField(nextPos.getCornerBottomRight(hitbox));
+	        		System.out.println("Darf ich laufen? "+fieldToWalk.walkable+" auf "+fieldToWalk.type);
+	        		if(fieldToWalk.walkable)
+	        			setPosition(nextPos);
+	        		else {
+	        			int distance = fieldToWalk.pos.toPosition().x - getPosition().getCornerTopRight(hitbox).x;
+	        			setPosition(getPosition().x + distance, nextPos.y);
+	        		}
+            	}
                 break;
 
             case DOWN:
-            	if(getFieldPos().y < getRoom().roomFields[0].length - 1)
-            		if (getRoom().roomFields[getFieldPos().x][getFieldPos().y + 1].walkable 
-            		 && getRoom().roomFields[getFieldPos().x][getFieldPos().y + 1].entityType != 1) {
-                        setPosition(getPosition().x, getPosition().y + 32);
-            		}
+            	if(getFieldPos().y < getRoom().roomFields[0].length - 1) {
+            		nextPos.setPosition(getPosition().x, getPosition().y + step);
+            		
+            		// Kollision mit Wänden und setPosition
+            		fieldToWalk = Map.mapRooms[MenuStart.activeRoom].getField(nextPos.getCornerBottomLeft(hitbox));
+	        		System.out.println("Darf ich laufen? "+fieldToWalk.walkable+" auf "+fieldToWalk.type);
+	        		if(fieldToWalk.walkable)
+	        			setPosition(nextPos);
+	        		else {
+	        			int distance = fieldToWalk.pos.toPosition().y - getPosition().getCornerBottomLeft(hitbox).y;
+	        			setPosition(getPosition().x, nextPos.y + distance);
+	        		}
+            	}	
                 break;
             default:
                 //nichts tun
         }
+        System.out.println("Spielerpos: "+getPosition().x+":"+getPosition().y);
 
         /**
          * Die Entitites Liste soll durchlaufen werden, um zu überprüfen, ob an der Position xy des Spielers ein Monster ist.

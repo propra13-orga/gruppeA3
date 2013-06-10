@@ -26,13 +26,38 @@ public class Position {
 	}
 	
 	/**
-	 * Berechnet Position der oberen linken Ecke der Entity
+	 * Berechnet Position von Ecken aus gegebener Hitbox
 	 * aus gegebener Hitbox
 	 */
-	public Position drawPosition(Hitbox hitbox) {
+	public Position getDrawPosition(Hitbox hitbox) {
+		return getCornerTopLeft(hitbox);
+	}
+	
+	public Position getCornerTopLeft(Hitbox hitbox) {
 		int x, y;
 		x = this.x - hitbox.width/2;
 		y = this.y - hitbox.height/2;
+		return new Position(x, y);
+	}
+
+	public Position getCornerTopRight(Hitbox hitbox) {
+		int x, y;
+		x = this.x + hitbox.width/2;
+		y = this.y - hitbox.height/2;
+		return new Position(x, y);
+	}
+
+	public Position getCornerBottomRight(Hitbox hitbox) {
+		int x, y;
+		x = this.x + hitbox.width/2;
+		y = this.y + hitbox.height/2;
+		return new Position(x, y);
+	}
+	
+	public Position getCornerBottomLeft(Hitbox hitbox) {
+		int x, y;
+		x = this.x - hitbox.width/2;
+		y = this.y + hitbox.height/2;
 		return new Position(x, y);
 	}
 	

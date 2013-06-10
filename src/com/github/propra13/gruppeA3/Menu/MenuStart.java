@@ -127,7 +127,7 @@ public class MenuStart extends JPanel implements ActionListener {
             }
         }
         
-        Position pp = player.getPosition().drawPosition(Player.hitbox);
+        Position pp = player.getPosition().getDrawPosition(Player.hitbox);
 
         // Malt Entities
         LinkedList<Entities> tempEntities = Map.mapRooms[activeRoom].entities;

@@ -200,8 +200,12 @@ public class Moveable extends Entities {
 	 * @param x X-Achse
 	 * @param y Y-Achse
 	 */
-	public void setPosition(int x, int y){ 
+	public void setPosition(int x, int y) { 
 		pos.setPosition(x, y);
+	}
+	
+	public void setPosition(Position pos) {
+		this.pos = pos;
 	}
 	
 	public FieldPosition getFieldPos() {

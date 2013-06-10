@@ -31,6 +31,7 @@ public class FieldPosition {
 			this.y = y;
 		}
 		
+		// Gibt obere linke Ecke des Felds in Pixelkoords zurück
 		public Position toPosition() {
 			return new Position(x*32, y*32);
 		}

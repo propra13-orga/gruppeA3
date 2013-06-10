@@ -241,6 +241,15 @@ public class Room {
 		checkpointsToBuild.add(location);
 	}
 	
+	/** 
+	 * Gibt Feld zurück, auf dem sich eine gegebene Position in Pixelkoords befindet.
+	 * @param pos Position, zu der das Feld bestimmt werden soll
+	 * @return Feld an Position pos
+	 */
+	public Field getField(Position pos) {
+		return getField(new FieldPosition(pos.toFieldPos().x, pos.toFieldPos().y));
+	}
+	
 	// Baut alle Checkpoint-Trigger aus checkpointsToBuild
 	private void buildCheckpoints() {
 		Iterator<Field> iter = checkpointsToBuild.iterator();
@@ -268,5 +277,13 @@ public class Room {
         }
 	}
 
+	/**
+	 * Gibt Feld an Feldposition pos zurück
+	 * @param pos Position, deren Feld bestimmt werden soll
+	 * @return Feld an Feldposition pos zurück
+	 */
+	public Field getField(FieldPosition pos) {
+		return roomFields[pos.x][pos.y];
+	}
 }
 	

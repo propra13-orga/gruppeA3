@@ -4,6 +4,8 @@ public class Hitbox {
 	public int width;
 	public int height;
 	
+	public static Hitbox standard = new Hitbox();
+	
 	public Hitbox(int width, int height) {
 		this.width = width;
 		this.height = height;
