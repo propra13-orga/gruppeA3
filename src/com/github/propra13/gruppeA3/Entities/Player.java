@@ -191,17 +191,22 @@ public class Player extends Moveable {
         	trigger.trigger();
     	}
     }
-   
     private void win() {
     	MenuStart.win=true;
     	MenuStart.ingame=false;
+    	MenuStart.menu=false;
     }
     
     private void death() {
+    	int lives = getLives();
+    	lives --;
+    	setLives(lives);
+    	 setPosition(Map.spawns[0].pos.toPosition().x+16, Map.spawns[0].pos.toPosition().y+16);
+    	if(lives == 0){
     	MenuStart.win=false;
     	MenuStart.ingame=false;
-    }
-    
+    	}
+    } 
     // Benutzt einen gegebenen Link; geht in den targetRoom, der nicht der aktuelle ist
     private void followLink(Link link) throws MapFormatException {
     	Room targetRoom;
@@ -261,5 +266,11 @@ public class Player extends Moveable {
     public void setMoney(int money){
     	this.money = money;
     }
+
+	@Override
+	Hitbox getHitbox() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
 

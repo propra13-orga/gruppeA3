@@ -1,4 +1,4 @@
-package com.github.propra13.gruppeA3.Menu;
+﻿package com.github.propra13.gruppeA3.Menu;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -63,30 +63,32 @@ public class MenuStart extends JPanel implements ActionListener {
         setSize(GameMinSizeX, GameMinSizeY);
         setDoubleBuffered(true);
         
-        menu = true; //wichtig für den ersten Spiel aufruf
+        activeRoom = Map.getMapRoom(0);
+ 		 player = new Player(activeRoom);
+         addKeyListener(new Keys(player));
         
+        menu = true; //wichtig für den ersten Spiel aufruf
         timer = new Timer(fps, this);
+        timer.start();
+        
      // Menü vorbereiten
-     		buttonstart = new JButton("Spiel starten");
-     		buttonbeenden = new JButton("Beenden");
-     		initMenu();
+     	buttonstart = new JButton("Spiel starten");
+     	buttonbeenden = new JButton("Beenden");
+     	initMenu();
     }
+    
  // Startet Spiel
- 	public void initGame(){
- 		// Buttons ausblenden
- 		buttonstart.setVisible(false);
- 		buttonbeenden.setVisible(false);
-
- 		// Spielablaufparameter setzen
+ public void initGame(){
+	// Buttons ausblenden
+		buttonstart.setVisible(false);
+		buttonbeenden.setVisible(false);
+		
+	 // Spielablaufparameter setzen
  		menu=false;
  		ingame = true;
  		win = false;
- 		score = 0;
- 		activeRoom = Map.getMapRoom(0);
-// 		Map.mapRooms[activeRoom].entities.add(player); 
- 		 player = new Player(activeRoom);
-         addKeyListener(new Keys(player));
- 		timer.start();
+ 		player.setLives(5);
+
  	}
     
     public void paint(Graphics g) { //Funktion zum Zeichnen von Grafiken
@@ -172,13 +174,13 @@ public class MenuStart extends JPanel implements ActionListener {
         				msg = "Hauptmenü";
         				paintMessage(msg,g);
         	}
-        	else if(ingame ==false && win == true)
+        	else if(ingame ==false && win == true && timer.isRunning())
         	{
         		String msg;
         		msg="Spiel Gewonnen";
         		paintMessage(msg,g);
         	}
-        	else
+        	else if(ingame ==false && win == false && timer.isRunning())
         	{
         		String msg;
         		msg="Game Over";
@@ -240,14 +242,19 @@ public void paintMessage(String msg, Graphics g){
 	public void actionPerformed(ActionEvent e) {
 		
 		if(ingame){			
-		//	player.move();		
+		//	player.move(); führt zu java.lang.ArrayIndexOutOfBoundsException:
 		}
-		else if(ingame == false && menu == true){
-			// im Menü - Aufruf bei button
-			String action = e.getActionCommand();
-			//Spiel Start
-			if(action.equals("starten")) initGame();
-			else if(action.equals("beenden")) System.exit(0);	// Programm beenden
+		else if(ingame == false ){
+				//Spiel Start
+				String action = e.getActionCommand();
+				if("starten".equals(action))
+				{
+				initGame();
+				}
+				else if("beenden".equals(action)) 
+				{
+					System.exit(0);	// Programm beenden
+				}
 		}
 		repaint();
 	}
