@@ -5,9 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.lang.Math;
 
-import com.github.propa13.gruppeA3.Map.FieldPosition;
-import com.github.propa13.gruppeA3.Map.Position;
-import com.github.propa13.gruppeA3.Map.Room;
+import com.github.propra13.gruppeA3.Map.FieldPosition;
+import com.github.propra13.gruppeA3.Map.Position;
+import com.github.propra13.gruppeA3.Map.Room;
 
 /**
  * @author Majida Dere 

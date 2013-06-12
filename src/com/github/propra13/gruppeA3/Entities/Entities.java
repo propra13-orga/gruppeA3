@@ -1,5 +1,5 @@
 package com.github.propra13.gruppeA3.Entities;
-import com.github.propa13.gruppeA3.Map.Position;
+import com.github.propra13.gruppeA3.Map.Position;
 /** 
  * 
  * @author Majida Dere

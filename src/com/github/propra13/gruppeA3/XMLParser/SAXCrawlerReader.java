@@ -2,7 +2,7 @@ package com.github.propra13.gruppeA3.XMLParser;
 
 import java.io.File;
 
-import com.github.propa13.gruppeA3.Map.Map;
+import com.github.propra13.gruppeA3.Map.Map;
 
 /** 
  * @author Majida Dere

@@ -3,10 +3,10 @@ package com.github.propra13.gruppeA3.Entities;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import com.github.propa13.gruppeA3.Map.Map;
-import com.github.propa13.gruppeA3.Map.Position;
-import com.github.propa13.gruppeA3.Map.Room;
-import com.github.propa13.gruppeA3.Map.Trigger;
+import com.github.propra13.gruppeA3.Map.Map;
+import com.github.propra13.gruppeA3.Map.Position;
+import com.github.propra13.gruppeA3.Map.Room;
+import com.github.propra13.gruppeA3.Map.Trigger;
 
 /**
  * @author Majida Dere

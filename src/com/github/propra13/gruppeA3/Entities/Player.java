@@ -6,14 +6,14 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.github.propa13.gruppeA3.Map.Field;
-import com.github.propa13.gruppeA3.Map.FieldPosition;
-import com.github.propa13.gruppeA3.Map.Link;
-import com.github.propa13.gruppeA3.Map.Map;
-import com.github.propa13.gruppeA3.Map.Position;
-import com.github.propa13.gruppeA3.Map.Room;
-import com.github.propa13.gruppeA3.Map.Trigger;
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
+import com.github.propra13.gruppeA3.Map.Field;
+import com.github.propra13.gruppeA3.Map.FieldPosition;
+import com.github.propra13.gruppeA3.Map.Link;
+import com.github.propra13.gruppeA3.Map.Map;
+import com.github.propra13.gruppeA3.Map.Position;
+import com.github.propra13.gruppeA3.Map.Room;
+import com.github.propra13.gruppeA3.Map.Trigger;
 import com.github.propra13.gruppeA3.Menu.GameEndWindow;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 

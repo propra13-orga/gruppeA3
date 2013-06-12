@@ -6,9 +6,9 @@ import java.io.IOException;
 
 import javax.swing.JFrame;
 
-import com.github.propa13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Exceptions.InvalidRoomLinkException;
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
+import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 import com.github.propra13.gruppeA3.XMLParser.SAXCrawlerReader;
 

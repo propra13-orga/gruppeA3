@@ -16,15 +16,15 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import com.github.propa13.gruppeA3.Map.Map;
-import com.github.propa13.gruppeA3.Map.Position;
-import com.github.propa13.gruppeA3.Map.Room;
 import com.github.propra13.gruppeA3.GameWindow;
 import com.github.propra13.gruppeA3.Keys;
 import com.github.propra13.gruppeA3.Entities.Entities;
 import com.github.propra13.gruppeA3.Entities.Item;
 import com.github.propra13.gruppeA3.Entities.Monster;
 import com.github.propra13.gruppeA3.Entities.Player;
+import com.github.propra13.gruppeA3.Map.Map;
+import com.github.propra13.gruppeA3.Map.Position;
+import com.github.propra13.gruppeA3.Map.Room;
 
 @SuppressWarnings("serial")
 public class MenuStart extends JPanel implements ActionListener {
