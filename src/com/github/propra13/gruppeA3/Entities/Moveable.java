@@ -21,7 +21,7 @@ public abstract class Moveable extends Entities {
 	private direction direct; 
 	private Position pos;
 	private Room currentroom;
-	private Hitbox hitbox;
+	protected Hitbox hitbox;
 	private int health;
 	private int power;
 	private int armour;
@@ -29,7 +29,7 @@ public abstract class Moveable extends Entities {
 	
 	/* Anzahl der Pixel, die bei einer Bewegung
 	 * mit Speed 1 zurückgelegt werden sollen */
-	final public static int movePx = 3;
+	final public static int movePx = 1;
 	
 	
 	//Konstruktor
@@ -52,26 +52,28 @@ public abstract class Moveable extends Entities {
 	
 	
 	//Kollisionsabfragen
-	//funktioniert grad nicht wegen Umstellung der Liste auf Entities
-	/*public boolean rangeCheck(){
+	public boolean rangeCheck(){
+		System.out.println("rangeCheck!");
 		int xdelta;
 		int ydelta;
 		boolean flag = true;
-		Entities test = null;	//durch alle Entitys der Liste iterieren
+		Entities testent = null;	//durch alle Entitys der Liste iterieren
 		 LinkedList<Entities> tempEntities = getRoom().entities;
 	        Iterator<Entities> iter = tempEntities.iterator();
 		while(iter.hasNext()){
-			if(test != this){
-				test = iter.next();
-				xdelta = this.getPosition().x - test.getPosition().x; //x-Abstand der Mittelpunkte bestimmen
+			if(testent != this){
+				testent = iter.next();
+				//System.out.println(testent.getClass());
+				xdelta = this.getPosition().x - testent.getPosition().x; //x-Abstand der Mittelpunkte bestimmen
 				if(xdelta < 0)
 					xdelta = xdelta * (-1);
-				ydelta = this.getPosition().y - test.getPosition().y; //y-Abstand der Mittelpunkte bestimmen
+				ydelta = this.getPosition().y - testent.getPosition().y; //y-Abstand der Mittelpunkte bestimmen
 				if(ydelta < 0)
 					ydelta = ydelta * (-1);
+				System.out.println("Abstand:"+(Math.sqrt(xdelta*xdelta + ydelta*ydelta)));
 				
-				if(Math.sqrt(xdelta*xdelta + ydelta*ydelta) < 43){	//Wenn wurzel(x^2 + y^2) < 43 ist, auf hitboxkollision prüfen
-					if(hitboxCheck(test) == false){
+				if(Math.sqrt(xdelta*xdelta + ydelta*ydelta) < 50){	//Wenn wurzel(x^2 + y^2) < 50 ist, auf hitboxkollision prüfen
+					if(hitboxCheck(testent) == false){
 						flag = false;
 						return flag;
 					}
@@ -79,26 +81,29 @@ public abstract class Moveable extends Entities {
 			}
 		}
 		return flag;
-	}*/
+	}
 	
 	/**
 	 * Kollisionsabfrage für this mit gegebenem Kollisionsgegner
 	 * "Übersetzer" für allg. Kollisionsabfrage
 	 * @param test Kollisionsgegner
 	 * @return Kollisionswahrheitswert
+	 *TODO:Produziert eine nullpointer exception!
 	 */
-	protected boolean hitboxCheck(Entities test) {
+	protected boolean hitboxCheck(Entities testent) {
+		Entities test = testent;
+		System.out.println("Hitboxcheck!");
 		switch(direct){
 		case LEFT:
-			if(((this.getPosition().x - getHitbox().width/2 - 3) - (test.getPosition().x + test.getHitbox().width/2)) < 0){ //wenn der x-Abstand der Mittelpunkte - der weite des Schrittes - der halben Breite der getHitbox()en kleiner als 0 ist
+			if(((this.getPosition().x - (this.getHitbox().width/2) - 3) - (test.getPosition().x + (test.getHitbox().width/2))) < 0){ //wenn der x-Abstand der Mittelpunkte - der weite des Schrittes - der halben Breite der getHitbox()en kleiner als 0 ist
 				if(this.getPosition().y - test.getPosition().y > 0){ //überprüfe den y-Abstand
-					if(((this.getPosition().y - this.getHitbox().height/2) - (test.getPosition().y + test.getHitbox().height/2) >= 0))
+					if(((this.getPosition().y - (this.getHitbox().height/2)) - (test.getPosition().y + (test.getHitbox().height/2)) >= 0))
 						return true;
 					else
 						return false;
 				}
 				else{
-					if(((test.getPosition().y - test.getHitbox().height/2) - (this.getPosition().y + this.getHitbox().height/2) >= 0))
+					if(((test.getPosition().y - (test.getHitbox().height/2)) - (this.getPosition().y + (this.getHitbox().height/2)) >= 0))
 						return true;
 					else
 						return false;
@@ -108,15 +113,15 @@ public abstract class Moveable extends Entities {
 				return true;
 			
 		case RIGHT:
-			if(((test.getPosition().x + test.getHitbox().width/2 + 3) - (this.getPosition().x - this.getHitbox().width/2)) < 0){
+			if(((test.getPosition().x + (test.getHitbox().width/2) + 3) - (this.getPosition().x - (this.getHitbox().width/2))) < 0){
 				if(this.getPosition().y - test.getPosition().y > 0){
-					if(((this.getPosition().y - this.getHitbox().height/2) - (test.getPosition().y + test.getHitbox().height/2) >= 0))
+					if(((this.getPosition().y - (this.getHitbox().height/2)) - (test.getPosition().y + (test.getHitbox().height/2)) >= 0))
 						return true;
 					else
 						return false;
 				}
 				else{
-					if(((test.getPosition().y - test.getHitbox().height/2) - (this.getPosition().y + this.getHitbox().height/2) >= 0))
+					if(((test.getPosition().y - (test.getHitbox().height/2)) - (this.getPosition().y + (this.getHitbox().height/2)) >= 0))
 						return true;
 					else
 						return false;
@@ -126,15 +131,15 @@ public abstract class Moveable extends Entities {
 				return true;
 			
 		case UP:
-			if(((this.getPosition().y + this.getHitbox().height/2 + 3) - (test.getPosition().y - test.getHitbox().height/2)) < 0){
+			if(((this.getPosition().y + (this.getHitbox().height/2) + 3) - (test.getPosition().y - (test.getHitbox().height/2))) < 0){
 				if(this.getPosition().x - test.getPosition().x > 0){
-					if(((this.getPosition().x - this.getHitbox().width/2) - (test.getPosition().x + test.getHitbox().width/2) >= 0))
+					if(((this.getPosition().x - (this.getHitbox().width/2)) - (test.getPosition().x + (test.getHitbox().width/2)) >= 0))
 						return true;
 					else
 						return false;
 				}
 				else{
-					if(((test.getPosition().x - test.getHitbox().width/2) - (this.getPosition().x + this.getHitbox().width/2) >= 0))
+					if(((test.getPosition().x - (test.getHitbox().width/2)) - (this.getPosition().x + (this.getHitbox().width/2)) >= 0))
 						return true;
 					else
 						return false;
@@ -144,15 +149,15 @@ public abstract class Moveable extends Entities {
 				return true;
 			
 		case DOWN:
-			if(((test.getPosition().y + test.getHitbox().height/2 + 3) - (this.getPosition().y - this.getHitbox().height/2)) < 0){
+			if(((test.getPosition().y + (test.getHitbox().height/2) + 3) - (this.getPosition().y - (this.getHitbox().height/2))) < 0){
 				if(this.getPosition().x - test.getPosition().x > 0){
-					if(((this.getPosition().x - this.getHitbox().width/2) - (test.getPosition().x + test.getHitbox().width/2) >= 0))
+					if(((this.getPosition().x - (this.getHitbox().width/2)) - (test.getPosition().x + (test.getHitbox().width/2)) >= 0))
 						return true;
 					else
 						return false;
 				}
 				else{
-					if(((test.getPosition().x - test.getHitbox().width/2) - (this.getPosition().x + this.getHitbox().width/2) >= 0))
+					if(((test.getPosition().x - (test.getHitbox().width/2)) - (this.getPosition().x + (this.getHitbox().width/2)) >= 0))
 						return true;
 					else
 						return false;
@@ -166,11 +171,12 @@ public abstract class Moveable extends Entities {
 		}
 	}
 	
+	
 	/**
 	 * Diese Methode liefert die aktuelle Position im Raum
 	 * @return liefert die Position im Raum
 	 */	public Position getPosition(){
-		return pos;
+		return this.pos;
 	}
 
 	/**

@@ -38,7 +38,7 @@ public class MenuStart extends JPanel implements ActionListener {
     public static Room activeRoom;
     protected Toolkit tool;
     
-    private int fps = 100;
+    private int fps = 17;
     public Graphics2D g2d;
     
     // Menüelemente
@@ -130,7 +130,7 @@ public class MenuStart extends JPanel implements ActionListener {
             }
         }
         
-        Position pp = player.getPosition().getDrawPosition(Player.hitbox);
+        Position pp = player.getPosition().getDrawPosition(player.getHitbox());
 
         // Malt Entities
         LinkedList<Entities> tempEntities = activeRoom.entities;
@@ -146,17 +146,17 @@ public class MenuStart extends JPanel implements ActionListener {
             if (testEntity instanceof Monster) {
             	monster=(Monster)testEntity;
             	entityPos= monster.getPosition();
-                g2d.drawImage(GameWindow.monsterimg, entityPos.x*32, entityPos.y*32, this);
+                g2d.drawImage(GameWindow.monsterimg, entityPos.x, entityPos.y, this);
             }
             else if (testEntity instanceof Item) {
             	item = (Item)testEntity;
             	entityPos = item.getPosition();
             	switch (item.getType()){
             		case 4:
-            			g2d.drawImage(GameWindow.sword, entityPos.x*32, entityPos.y*32, this);
+            			g2d.drawImage(GameWindow.sword, entityPos.x, entityPos.y, this);
             			break;
             		case 5:
-            			g2d.drawImage(GameWindow.shield, entityPos.x*32, entityPos.y*32, this);
+            			g2d.drawImage(GameWindow.shield, entityPos.x, entityPos.y, this);
             			break;
             	}
             }
@@ -242,7 +242,7 @@ public void paintMessage(String msg, Graphics g){
 	public void actionPerformed(ActionEvent e) {
 		
 		if(ingame){			
-		//	player.move(); führt zu java.lang.ArrayIndexOutOfBoundsException:
+			player.move();		
 		}
 		else if(ingame == false ){
 				//Spiel Start

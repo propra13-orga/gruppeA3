@@ -29,13 +29,14 @@ public class Player extends Moveable {
 	private int money = 0;
 
 	final public static int movePx = Moveable.movePx;
-	final public static Hitbox hitbox = new Hitbox(32, 32);
+	
 
     // Konstruktoren
     public Player(Room room_bind) {
         super(room_bind);
         //+16: damit Player in der Mitte des Felds landet
         setPosition(Map.spawns[0].pos.toPosition().x+16, Map.spawns[0].pos.toPosition().y+16);
+        hitbox = new Hitbox(32, 32);
     }
 
     //Methode überschrieben, prüft für Spieler zusätzlich Trigger und ob bereits ein anderer Spieler auf dem Feld steht
@@ -61,7 +62,7 @@ public class Player extends Moveable {
             		fieldsToWalk[1] = MenuStart.activeRoom.getField(p);
             		
             		// Falls fieldsToWalk[0] und [1] begehbar, beweg dich einfach
-            		if (fieldsToWalk[0].walkable && fieldsToWalk[1].walkable) {
+            		if (fieldsToWalk[0].walkable && fieldsToWalk[1].walkable && rangeCheck()) {
             			setPosition(nextPos);
             			break;
             		// Ansonsten liegt Kollision vor, daher Annäherung an Feldgrenze
@@ -84,7 +85,7 @@ public class Player extends Moveable {
             		fieldsToWalk[1] = MenuStart.activeRoom.getField(p);
 
             		// Falls fieldsToWalk[0] und [1] begehbar, beweg dich einfach
-            		if (fieldsToWalk[0].walkable && fieldsToWalk[1].walkable) {
+            		if (fieldsToWalk[0].walkable && fieldsToWalk[1].walkable && rangeCheck()) {
             			setPosition(nextPos);
             			break;
             		// Ansonsten liegt Kollision vor, daher Annäherung an Feldgrenze
@@ -107,7 +108,7 @@ public class Player extends Moveable {
             		fieldsToWalk[1] = MenuStart.activeRoom.getField(p);
             		
             		// Falls fieldsToWalk[0] und [1] begehbar, beweg dich einfach
-            		if (fieldsToWalk[0].walkable && fieldsToWalk[1].walkable) {
+            		if (fieldsToWalk[0].walkable && fieldsToWalk[1].walkable && rangeCheck()) {
             			setPosition(nextPos);
             			break;
             		// Ansonsten liegt Kollision vor, daher Annäherung an Feldgrenze
@@ -131,7 +132,7 @@ public class Player extends Moveable {
             		
             		// Falls fieldsToWalk[0] und [1] begehbar, beweg dich einfach
             		System.out.println("Darf ich laufen?"+fieldsToWalk[0].walkable+", "+fieldsToWalk[1].walkable);
-            		if (fieldsToWalk[0].walkable && fieldsToWalk[1].walkable) {
+            		if (fieldsToWalk[0].walkable && fieldsToWalk[1].walkable && rangeCheck()) {
             			setPosition(nextPos);
             			break;
             		// Ansonsten liegt Kollision vor, daher Annäherung an Feldgrenze
@@ -153,6 +154,7 @@ public class Player extends Moveable {
         LinkedList<Entities> tempEntities = getRoom().entities;
         Iterator<Entities> iter = tempEntities.iterator();
 
+        /*
         Entities testEntity;
         Monster monster = null;
         Item item = null;
@@ -167,7 +169,7 @@ public class Player extends Moveable {
             		this.death();
             	}
         }
-
+		*/
         // Links
         if(getRoom().roomFields[getFieldPos().x][getFieldPos().y].link != null){
         	System.out.println("Ich bin auf nen Link gelatscht!");

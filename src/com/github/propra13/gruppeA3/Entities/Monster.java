@@ -35,14 +35,14 @@ public class Monster extends Moveable {
 		this.life=life;
 		this.pos=new Position(x,y);
 		this.desc = desc;
-		this.hitbox = new Hitbox(32,32);
+		this.hitbox = new Hitbox();
 	}
 	
 	
 	// Getter Methoden
 	
 	public Hitbox getHitbox() {
-		return hitbox;
+		return this.hitbox;
 	}
 	
 	/** liefert die Schnelligkeit eines Monsters
