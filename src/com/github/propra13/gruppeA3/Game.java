@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import javax.swing.JFrame;
 
+import com.github.propa13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Exceptions.InvalidRoomLinkException;
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
@@ -14,6 +15,7 @@ import com.github.propra13.gruppeA3.XMLParser.SAXCrawlerReader;
 @SuppressWarnings("unused")
 public class Game extends JFrame{
 
+	private static final long serialVersionUID = 1L;
 	private final int MINHEIGHT = 630;
 	private final int MINWIDTH = 800;
 	

@@ -1,9 +1,10 @@
 package com.github.propra13.gruppeA3.XMLParser;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.*;
+
+import com.github.propa13.gruppeA3.Map.Map;
+import com.github.propa13.gruppeA3.Map.Position;
 import com.github.propra13.gruppeA3.Entities.*;
-import com.github.propra13.gruppeA3.Map;
-import com.github.propra13.gruppeA3.Position;
 
 /**
  * @author Majida Dere

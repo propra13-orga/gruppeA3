@@ -3,9 +3,9 @@
  */
 package com.github.propra13.gruppeA3.Entities;
 
-import com.github.propra13.gruppeA3.FieldPosition;
-import com.github.propra13.gruppeA3.Position;
-import com.github.propra13.gruppeA3.Room;
+import com.github.propa13.gruppeA3.Map.FieldPosition;
+import com.github.propa13.gruppeA3.Map.Position;
+import com.github.propa13.gruppeA3.Map.Room;
 
 /**
  * @author Majida Dere

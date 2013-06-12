@@ -6,13 +6,13 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.github.propra13.gruppeA3.Field;
-import com.github.propra13.gruppeA3.FieldPosition;
-import com.github.propra13.gruppeA3.Link;
-import com.github.propra13.gruppeA3.Map;
-import com.github.propra13.gruppeA3.Position;
-import com.github.propra13.gruppeA3.Room;
-import com.github.propra13.gruppeA3.Trigger;
+import com.github.propa13.gruppeA3.Map.Field;
+import com.github.propa13.gruppeA3.Map.FieldPosition;
+import com.github.propa13.gruppeA3.Map.Link;
+import com.github.propa13.gruppeA3.Map.Map;
+import com.github.propa13.gruppeA3.Map.Position;
+import com.github.propa13.gruppeA3.Map.Room;
+import com.github.propa13.gruppeA3.Map.Trigger;
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
 import com.github.propra13.gruppeA3.Menu.GameEndWindow;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
@@ -22,7 +22,7 @@ import com.github.propra13.gruppeA3.Menu.MenuStart;
  *         Diese Klasse definiert einen Spieler und seine Eigenschaften und Methoden.
  */
 
-public class Player extends Moveable implements KeyListener {
+public class Player extends Moveable {
    // Attribute
 	@SuppressWarnings("unused")
 	private int health = 100;
@@ -261,32 +261,6 @@ public class Player extends Moveable implements KeyListener {
     
     public void setMoney(int money){
     	this.money = money;
-    }
-    
-    // KeyListening findet nun hier statt
-	
-	public void keyTyped(KeyEvent e){
-	}
-	
-	public void keyPressed(KeyEvent e){
-        System.out.println("Key pressed: "+e.getKeyCode());
-
-		int pressed = e.getKeyCode();
-		switch(pressed) {
-			case 37: this.setDirection(direction.LEFT);
-					 break;
-			case 38: this.setDirection(direction.UP);
-					 break;
-			case 39: this.setDirection(direction.RIGHT);
-					 break;
-			case 40: this.setDirection(direction.DOWN);
-					 break;		 
-		}
-
-	}
-	
-	public void keyReleased(KeyEvent e){
-		this.setDirection(direction.NONE);
     }
 }
 
