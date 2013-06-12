@@ -21,6 +21,7 @@ public class Item extends Entities {
 	// Vorerst: 1 Leben, 2 Gift, 3 Mana, 4 Schwert, 5 Schild, weitere folgen.
 	private int type;
 	private String desc;
+	private Hitbox hitbox;
 	
 	/**
 	 * @author Majida Dere
@@ -35,6 +36,7 @@ public class Item extends Entities {
 		this.damage = damage;
 		this.type = type;
 		this.desc = desc;
+		this.hitbox = Hitbox.standard;
 	}
 
 	@Override
@@ -54,6 +56,10 @@ public class Item extends Entities {
 	 */
 	public int getType(){
 		return this.type;
+	}
+	
+	public Hitbox getHitbox(){
+		return this.hitbox;
 	}
 
 }

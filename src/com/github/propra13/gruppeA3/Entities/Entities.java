@@ -6,11 +6,13 @@ import com.github.propra13.gruppeA3.Position;
  * Diese Klasse liefert alle Methoden, Attribute für alle Objekte im Dungeon
  */
 
+
 public abstract class Entities {
 	
 
 	// Getter Methoden für alle Entites
 	
 	abstract Position getPosition();
+	abstract Hitbox getHitbox();
 	
 }
