@@ -89,8 +89,8 @@ public class Player extends Moveable implements KeyListener {
             			break;
             		// Ansonsten liegt Kollision vor, daher Annäherung an Feldgrenze
             		} else {
-	        			int distance = getPosition().getCornerTopLeft(hitbox).y - (fieldsToWalk[0].pos.toPosition().y + 32);
-	        			setPosition(getPosition().x, nextPos.y - distance);
+            			int distance = getPosition().getCornerTopLeft(hitbox).y - (fieldsToWalk[0].pos.toPosition().y + 32);
+	        			setPosition(getPosition().x, getPosition().y - distance);
 	        		}
             	}
                 break;
@@ -136,7 +136,7 @@ public class Player extends Moveable implements KeyListener {
             		// Ansonsten liegt Kollision vor, daher Annäherung an Feldgrenze
             		} else {
 	        			int distance = fieldsToWalk[0].pos.toPosition().y - getPosition().getCornerBottomLeft(hitbox).y;
-	        			setPosition(getPosition().x, nextPos.y + distance);
+	        			setPosition(getPosition().x, getPosition().y + distance);
 	        		}
             	}	
                 break;
