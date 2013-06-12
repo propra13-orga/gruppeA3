@@ -1,7 +1,7 @@
 package com.github.propra13.gruppeA3;
 
 public class Link {
-	int ID;
+	public int ID;
 	public Room[] targetRooms = new Room[2];
 	public Field[] targetFields = new Field[2];
 	boolean bidirectional;

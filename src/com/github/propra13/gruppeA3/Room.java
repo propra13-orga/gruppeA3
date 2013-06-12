@@ -289,5 +289,13 @@ public class Room {
 	public Field getField(int x, int y) {
 		return roomFields[x][y];
 	}
+	
+	public int getWidth() {
+		return roomFields.length;
+	}
+	
+	public int getHeight() {
+		return roomFields[0].length;
+	}
 }
 	

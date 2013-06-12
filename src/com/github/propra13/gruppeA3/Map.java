@@ -200,6 +200,10 @@ public class Map {
 	
 	/* TODO: Überprüft die Links zwischen Rooms auf Konsistenz
 	 * Derzeit: Testweise Ausgabe aller Links
+	 * TODO: Kriterien für vernünftige Links:
+	 * 			Ein Feld hinter Link ist frei
+	 * 			Neben Links sind Wände (Links sind einzelne Einbuchtungen in der Randwand)
+	 * 
 	 */
 	private void checkLinks() throws InvalidRoomLinkException {
 		//Iteriert über Räume

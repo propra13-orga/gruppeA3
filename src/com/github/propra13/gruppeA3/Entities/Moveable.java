@@ -81,7 +81,8 @@ public class Moveable extends Entities {
 	
 	
 	//Kollisionsabfragen
-	public boolean rangeCheck(){
+	//funktioniert grad nicht wegen Umstellung der Liste auf Entities
+	/*public boolean rangeCheck(){
 		int xdelta;
 		int ydelta;
 		boolean flag = true;
@@ -107,7 +108,7 @@ public class Moveable extends Entities {
 			}
 		}
 		return flag;
-	}
+	}*/
 	
 	/**
 	 * Kollisionsabfrage für this mit gegebenem Kollisionsgegner
@@ -283,5 +284,10 @@ public class Moveable extends Entities {
 	
 	public void setDirection(direction direct){
 		this.direct = direct;
+	}
+
+	@Override
+	Hitbox getHitbox() {
+		return hitbox;
 	}
 }

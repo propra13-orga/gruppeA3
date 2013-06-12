@@ -20,6 +20,7 @@ import com.github.propra13.gruppeA3.GameWindow;
 import com.github.propra13.gruppeA3.Keys;
 import com.github.propra13.gruppeA3.Map;
 import com.github.propra13.gruppeA3.Position;
+import com.github.propra13.gruppeA3.Room;
 import com.github.propra13.gruppeA3.Entities.Entities;
 import com.github.propra13.gruppeA3.Entities.Item;
 import com.github.propra13.gruppeA3.Entities.Monster;
@@ -34,7 +35,7 @@ public class MenuStart extends JPanel implements ActionListener {
 
 	public static Timer timer;
     public Player player;
-    public static Integer activeRoom;
+    public static Room activeRoom;
     protected Toolkit tool;
     
     private int fps = 100;
@@ -81,9 +82,9 @@ public class MenuStart extends JPanel implements ActionListener {
  		ingame = true;
  		win = false;
  		score = 0;
- 		activeRoom = 0;
+ 		activeRoom = Map.getMapRoom(0);
 // 		Map.mapRooms[activeRoom].entities.add(player); 
- 		 player = new Player(Map.getMapRoom(activeRoom));
+ 		 player = new Player(activeRoom);
          addKeyListener(new Keys(player));
  		timer.start();
  	}
@@ -96,9 +97,9 @@ public class MenuStart extends JPanel implements ActionListener {
         {
 
         //Iteriert über Spalten
-        for (int i = 0; i < Map.mapRooms[activeRoom].roomFields.length; i++) {
+        for (int i = 0; i < activeRoom.roomFields.length; i++) {
             //Iteriert über Zeilen
-            for (int j = 0; j < Map.mapRooms[activeRoom].roomFields[i].length; j++) {
+            for (int j = 0; j < activeRoom.roomFields[i].length; j++) {
                
             	/*
                  * author: J.L
@@ -106,7 +107,7 @@ public class MenuStart extends JPanel implements ActionListener {
                  * [Map.mapRooms[activeRoom].roomFields[i][j].type]
                  */
             	
-            	int walltype = Map.mapRooms[activeRoom].roomFields[i][j].type;
+            	int walltype = activeRoom.roomFields[i][j].type;
             	
             	switch(walltype)
             	{
@@ -130,7 +131,7 @@ public class MenuStart extends JPanel implements ActionListener {
         Position pp = player.getPosition().getDrawPosition(Player.hitbox);
 
         // Malt Entities
-        LinkedList<Entities> tempEntities = Map.mapRooms[activeRoom].entities;
+        LinkedList<Entities> tempEntities = activeRoom.entities;
         Iterator<Entities> iter = tempEntities.iterator();
         Entities testEntity;
         Position entityPos;

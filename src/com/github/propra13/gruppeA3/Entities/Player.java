@@ -13,6 +13,7 @@ import com.github.propra13.gruppeA3.Map;
 import com.github.propra13.gruppeA3.Position;
 import com.github.propra13.gruppeA3.Room;
 import com.github.propra13.gruppeA3.Trigger;
+import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
 import com.github.propra13.gruppeA3.Menu.GameEndWindow;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 
@@ -55,10 +56,10 @@ public class Player extends Moveable implements KeyListener {
             		
             		// Kollision mit Wänden und setPosition
             		Position p = new Position(nextPos.getCornerTopLeft(hitbox).x, nextPos.getCornerTopLeft(hitbox).y +1);
-            		fieldsToWalk[0] = Map.mapRooms[MenuStart.activeRoom].getField(p); //+1: damit Spieler durch Gänge passt
+            		fieldsToWalk[0] = MenuStart.activeRoom.getField(p); //+1: damit Spieler durch Gänge passt
             		
             		p.setPosition(nextPos.getCornerBottomLeft(hitbox).x, nextPos.getCornerBottomLeft(hitbox).y -1);
-            		fieldsToWalk[1] = Map.mapRooms[MenuStart.activeRoom].getField(p);
+            		fieldsToWalk[1] = MenuStart.activeRoom.getField(p);
             		
             		// Falls fieldsToWalk[0] und [1] begehbar, beweg dich einfach
             		if (fieldsToWalk[0].walkable && fieldsToWalk[1].walkable) {
@@ -78,10 +79,10 @@ public class Player extends Moveable implements KeyListener {
             		
             		// Kollision mit Wänden und setPosition
             		Position p = new Position(nextPos.getCornerTopLeft(hitbox).x +1, nextPos.getCornerTopLeft(hitbox).y);
-            		fieldsToWalk[0] = Map.mapRooms[MenuStart.activeRoom].getField(p); //+1: damit Spieler durch Gänge passt
+            		fieldsToWalk[0] = MenuStart.activeRoom.getField(p); //+1: damit Spieler durch Gänge passt
             		
             		p.setPosition(nextPos.getCornerTopRight(hitbox).x -1, nextPos.getCornerTopRight(hitbox).y);
-            		fieldsToWalk[1] = Map.mapRooms[MenuStart.activeRoom].getField(p);
+            		fieldsToWalk[1] = MenuStart.activeRoom.getField(p);
 
             		// Falls fieldsToWalk[0] und [1] begehbar, beweg dich einfach
             		if (fieldsToWalk[0].walkable && fieldsToWalk[1].walkable) {
@@ -96,15 +97,15 @@ public class Player extends Moveable implements KeyListener {
                 break;
 
             case RIGHT:
-            	if(getFieldPos().x < getRoom().roomFields.length - 1) {
+            	if(getFieldPos().x < getRoom().getWidth()) {
             		nextPos.setPosition(getPosition().x + step, getPosition().y);
             		
             		// Kollision mit Wänden und setPosition
             		Position p = new Position(nextPos.getCornerTopRight(hitbox).x, nextPos.getCornerTopRight(hitbox).y +1);
-            		fieldsToWalk[0] = Map.mapRooms[MenuStart.activeRoom].getField(p); //+1: damit Spieler durch Gänge passt
+            		fieldsToWalk[0] = MenuStart.activeRoom.getField(p); //+1: damit Spieler durch Gänge passt
             		
             		p.setPosition(nextPos.getCornerBottomRight(hitbox).x, nextPos.getCornerBottomRight(hitbox).y -1);
-            		fieldsToWalk[1] = Map.mapRooms[MenuStart.activeRoom].getField(p);
+            		fieldsToWalk[1] = MenuStart.activeRoom.getField(p);
             		
             		// Falls fieldsToWalk[0] und [1] begehbar, beweg dich einfach
             		if (fieldsToWalk[0].walkable && fieldsToWalk[1].walkable) {
@@ -119,17 +120,18 @@ public class Player extends Moveable implements KeyListener {
                 break;
 
             case DOWN:
-            	if(getFieldPos().y < getRoom().roomFields[0].length - 1) {
+            	if(getFieldPos().y < getRoom().getHeight()) {
             		nextPos.setPosition(getPosition().x, getPosition().y + step);
             		
             		// Kollision mit Wänden und setPosition
             		Position p = new Position(nextPos.getCornerBottomLeft(hitbox).x +1, nextPos.getCornerBottomLeft(hitbox).y);
-            		fieldsToWalk[0] = Map.mapRooms[MenuStart.activeRoom].getField(p); //+1: damit Spieler durch Gänge passt
+            		fieldsToWalk[0] = MenuStart.activeRoom.getField(p); //+1: damit Spieler durch Gänge passt
             		
             		p.setPosition(nextPos.getCornerBottomRight(hitbox).x -1, nextPos.getCornerBottomRight(hitbox).y);
-            		fieldsToWalk[1] = Map.mapRooms[MenuStart.activeRoom].getField(p);
+            		fieldsToWalk[1] = MenuStart.activeRoom.getField(p);
             		
             		// Falls fieldsToWalk[0] und [1] begehbar, beweg dich einfach
+            		System.out.println("Darf ich laufen?"+fieldsToWalk[0].walkable+", "+fieldsToWalk[1].walkable);
             		if (fieldsToWalk[0].walkable && fieldsToWalk[1].walkable) {
             			setPosition(nextPos);
             			break;
@@ -138,7 +140,7 @@ public class Player extends Moveable implements KeyListener {
 	        			int distance = fieldsToWalk[0].pos.toPosition().y - getPosition().getCornerBottomLeft(hitbox).y;
 	        			setPosition(getPosition().x, getPosition().y + distance);
 	        		}
-            	}	
+            	}
                 break;
             default:
                 //nichts tun
@@ -169,9 +171,14 @@ public class Player extends Moveable implements KeyListener {
 
         // Links
         if(getRoom().roomFields[getFieldPos().x][getFieldPos().y].link != null){
+        	System.out.println("Ich bin auf nen Link gelatscht!");
     	
         	if (getRoom().roomFields[getFieldPos().x][getFieldPos().y].link.isActivated()) {
-        		followLink(getRoom().roomFields[getFieldPos().x][getFieldPos().y].link);
+        		try {
+					followLink(getRoom().roomFields[getFieldPos().x][getFieldPos().y].link);
+				} catch (MapFormatException e) {
+					e.printStackTrace();
+				}
         	}
         }
         
@@ -197,17 +204,47 @@ public class Player extends Moveable implements KeyListener {
     }
     
     // Benutzt einen gegebenen Link; geht in den targetRoom, der nicht der aktuelle ist
-    private void followLink(Link link){
+    private void followLink(Link link) throws MapFormatException {
+    	Room targetRoom;
+    	Position targetPos = new Position(0,0);
     	if(getRoom() == link.targetRooms[0]) {
-    		setRoom(link.targetRooms[1]);	//currentroom auf neuen Raum setzten
-    		this.setPosition(link.targetFields[1].pos.toPosition().x+16, link.targetFields[1].pos.toPosition().y+16);
-    		MenuStart.activeRoom = getRoom().ID;
+    		targetRoom = link.targetRooms[1];
     	}
     	else {
-    		setRoom(link.targetRooms[0]);
-    		this.setPosition(link.targetFields[0].pos.toPosition().x+16, link.targetFields[0].pos.toPosition().y+16);
-    		MenuStart.activeRoom = getRoom().ID;
+    		targetRoom = link.targetRooms[0];
     	}
+    	
+    	//Raumrand finden, wo der Link liegt
+    	FieldPosition field = getPosition().toFieldPos();
+    	boolean followLink = false;
+    	//oben
+    	if(field.y == 0) {
+    		if(getPosition().getCornerTopLeft(hitbox).y == 0)
+    			followLink = true;
+    	//links
+    	} else if(field.x == 0) {
+    		if(getPosition().getCornerTopLeft(hitbox).x == 0)
+    			followLink = true;
+    	//unten
+    	} else if(field.y == MenuStart.activeRoom.getHeight() - 1) {
+    		if(getPosition().getCornerBottomRight(hitbox).y == MenuStart.activeRoom.getHeight()*32 - 1)
+    			followLink = true;
+    	//rechts
+    	} else if(field.x == MenuStart.activeRoom.getWidth() - 1) {
+    		if(getPosition().getCornerBottomRight(hitbox).x == MenuStart.activeRoom.getHeight()*32 - 1)
+    			followLink = true;
+    	} else
+    		//TODO: Links mitten im Raum zulassen
+    		throw new MapFormatException("Link "+link.ID+" in Raum "+MenuStart.activeRoom.ID+" ist nicht am Rand.");
+    	
+    	// Wechsle Raum, falls Spieler direkt am Raumrand
+    	if (followLink) {
+    		System.out.println("Würd gern Raum wechseln");
+    		setRoom(targetRoom);
+    		MenuStart.activeRoom = targetRoom;
+    		this.setPosition(link.targetFields[1].pos.toPosition().x+16, link.targetFields[1].pos.toPosition().y+16);
+    	}
+    		
     }
      
     public int getLives() {
