@@ -269,10 +269,12 @@ public class Player extends Moveable {
     	this.money = money;
     }
 
+    /*
 	@Override
-	Hitbox getHitbox() {
+	public Hitbox getHitbox() {
 		// TODO Auto-generated method stub
-		return null;
+		return hitbox;
 	}
+	*/
 }
 
