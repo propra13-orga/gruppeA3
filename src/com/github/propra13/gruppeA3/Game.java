@@ -14,6 +14,7 @@ import com.github.propra13.gruppeA3.XMLParser.SAXCrawlerReader;
 @SuppressWarnings("unused")
 public class Game extends JFrame{
 
+	private static final long serialVersionUID = 1L;
 	private final int MINHEIGHT = 630;
 	private final int MINWIDTH = 800;
 	

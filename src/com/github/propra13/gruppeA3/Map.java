@@ -201,6 +201,7 @@ public class Map {
 	/* TODO: Überprüft die Links zwischen Rooms auf Konsistenz
 	 * Derzeit: Testweise Ausgabe aller Links
 	 */
+	@SuppressWarnings("unused")
 	private void checkLinks() throws InvalidRoomLinkException {
 		//Iteriert über Räume
 		for (int k=0; k < Map.mapRooms.length; k++) {

@@ -14,7 +14,7 @@ import com.github.propra13.gruppeA3.FieldPosition;
  * Diese Klasse dient als Vorlage für alle bewegbaren Objekte im Spiel.
  *
  */
-public class Moveable extends Entities {
+public abstract class Moveable extends Entities {
 	
 
 	public enum direction{LEFT,RIGHT,UP,DOWN,NONE}
@@ -48,36 +48,7 @@ public class Moveable extends Entities {
 	 * Begehbarkeit des Feldes prüfen
 	 * Wenn begehbar, setposition anwenden
 	 **/
-	/*public void move(){
-		switch(this.direct){
-		case LEFT:
-			if(currentroom.roomFields[this.pos.x - 1][this.pos.y].walkable) {
-				setPosition(this.pos.x - (int)(movePx*speed), this.pos.y);
-			}
-					break;
-					
-		case UP:
-			if(currentroom.roomFields[this.pos.x][this.pos.y + 1].walkable){
-				setPosition(this.pos.x, this.pos.y + (int)(movePx*speed));
-			}
-					break;
-					
-		case RIGHT:
-			if(currentroom.roomFields[this.pos.x + 1][this.pos.y].walkable){
-				setPosition(this.pos.x + (int)(movePx*speed), this.pos.y);
-			}
-					break;
-					
-		case DOWN:
-			if(currentroom.roomFields[this.pos.x][this.pos.y + 1].walkable){
-				setPosition(this.pos.x, this.pos.y + (int)(movePx*speed));
-			}
-					break;
-					
-		default: //nichts tun
-		}
-				
-	}*/
+	public abstract void move();
 	
 	
 	//Kollisionsabfragen
@@ -85,9 +56,9 @@ public class Moveable extends Entities {
 		int xdelta;
 		int ydelta;
 		boolean flag = true;
-		Moveable test = null;	//durch alle Entitys der Liste iterieren
-		 LinkedList<Moveable> tempEntities = getRoom().entities;
-	        Iterator<Moveable> iter = tempEntities.iterator();
+		Entities test = null;	//durch alle Entitys der Liste iterieren
+		 LinkedList<Entities> tempEntities = getRoom().entities;
+	        Iterator<Entities> iter = tempEntities.iterator();
 		while(iter.hasNext()){
 			if(test != this){
 				test = iter.next();
@@ -115,29 +86,18 @@ public class Moveable extends Entities {
 	 * @param test Kollisionsgegner
 	 * @return Kollisionswahrheitswert
 	 */
-	protected boolean hitboxCheck(Moveable test) {
-		return hitboxCheck(this, this.direct, test.getPosition(), test.hitbox);
-	}
-	
-	/**
-	 * Allgemeine Methode für Kollisionsabfragen aller Art
-	 * @param moving Das sich bewegende Moveable, das die Abfrage macht
-	 * @param testPos die Position des Kollisionsgegners
-	 * @param hitbox die Hitbox des Kollisionsgegners
-	 * @return Kollisionswahrheitswert
-	 */
-	protected static boolean hitboxCheck(Moveable moving, direction direct, Position testPos, Hitbox hitbox) {
+	protected boolean hitboxCheck(Entities test) {
 		switch(direct){
 		case LEFT:
-			if(((moving.getPosition().x - hitbox.width/2 - 3) - (testPos.x + hitbox.width/2)) < 0){ //wenn der x-Abstand der Mittelpunkte - der weite des Schrittes - der halben Breite der Hitboxen kleiner als 0 ist
-				if(moving.getPosition().y - testPos.y > 0){ //überprüfe den y-Abstand
-					if(((moving.getPosition().y - moving.hitbox.height/2) - (testPos.y + hitbox.height/2) >= 0))
+			if(((this.getPosition().x - getHitbox().width/2 - 3) - (test.getPosition().x + test.getHitbox().width/2)) < 0){ //wenn der x-Abstand der Mittelpunkte - der weite des Schrittes - der halben Breite der getHitbox()en kleiner als 0 ist
+				if(this.getPosition().y - test.getPosition().y > 0){ //überprüfe den y-Abstand
+					if(((this.getPosition().y - this.getHitbox().height/2) - (test.getPosition().y + test.getHitbox().height/2) >= 0))
 						return true;
 					else
 						return false;
 				}
 				else{
-					if(((testPos.y - hitbox.height/2) - (moving.getPosition().y + moving.hitbox.height/2) >= 0))
+					if(((test.getPosition().y - test.getHitbox().height/2) - (this.getPosition().y + this.getHitbox().height/2) >= 0))
 						return true;
 					else
 						return false;
@@ -147,15 +107,15 @@ public class Moveable extends Entities {
 				return true;
 			
 		case RIGHT:
-			if(((testPos.x + hitbox.width/2 + 3) - (moving.getPosition().x - moving.hitbox.width/2)) < 0){
-				if(moving.getPosition().y - testPos.y > 0){
-					if(((moving.getPosition().y - moving.hitbox.height/2) - (testPos.y + hitbox.height/2) >= 0))
+			if(((test.getPosition().x + test.getHitbox().width/2 + 3) - (this.getPosition().x - this.getHitbox().width/2)) < 0){
+				if(this.getPosition().y - test.getPosition().y > 0){
+					if(((this.getPosition().y - this.getHitbox().height/2) - (test.getPosition().y + test.getHitbox().height/2) >= 0))
 						return true;
 					else
 						return false;
 				}
 				else{
-					if(((testPos.y - hitbox.height/2) - (moving.getPosition().y + moving.hitbox.height/2) >= 0))
+					if(((test.getPosition().y - test.getHitbox().height/2) - (this.getPosition().y + this.getHitbox().height/2) >= 0))
 						return true;
 					else
 						return false;
@@ -165,15 +125,15 @@ public class Moveable extends Entities {
 				return true;
 			
 		case UP:
-			if(((moving.getPosition().y + moving.hitbox.height/2 + 3) - (testPos.y - hitbox.height/2)) < 0){
-				if(moving.getPosition().x - testPos.x > 0){
-					if(((moving.getPosition().x - moving.hitbox.width/2) - (testPos.x + hitbox.width/2) >= 0))
+			if(((this.getPosition().y + this.getHitbox().height/2 + 3) - (test.getPosition().y - test.getHitbox().height/2)) < 0){
+				if(this.getPosition().x - test.getPosition().x > 0){
+					if(((this.getPosition().x - this.getHitbox().width/2) - (test.getPosition().x + test.getHitbox().width/2) >= 0))
 						return true;
 					else
 						return false;
 				}
 				else{
-					if(((testPos.x - hitbox.width/2) - (moving.getPosition().x + moving.hitbox.width/2) >= 0))
+					if(((test.getPosition().x - test.getHitbox().width/2) - (this.getPosition().x + this.getHitbox().width/2) >= 0))
 						return true;
 					else
 						return false;
@@ -183,15 +143,15 @@ public class Moveable extends Entities {
 				return true;
 			
 		case DOWN:
-			if(((testPos.y + hitbox.height/2 + 3) - (moving.getPosition().y - moving.hitbox.height/2)) < 0){
-				if(moving.getPosition().x - testPos.x > 0){
-					if(((moving.getPosition().x - moving.hitbox.width/2) - (testPos.x + hitbox.width/2) >= 0))
+			if(((test.getPosition().y + test.getHitbox().height/2 + 3) - (this.getPosition().y - this.getHitbox().height/2)) < 0){
+				if(this.getPosition().x - test.getPosition().x > 0){
+					if(((this.getPosition().x - this.getHitbox().width/2) - (test.getPosition().x + test.getHitbox().width/2) >= 0))
 						return true;
 					else
 						return false;
 				}
 				else{
-					if(((testPos.x - hitbox.width/2) - (moving.getPosition().x + moving.hitbox.width/2) >= 0))
+					if(((test.getPosition().x - test.getHitbox().width/2) - (this.getPosition().x + this.getHitbox().width/2) >= 0))
 						return true;
 					else
 						return false;
@@ -283,5 +243,8 @@ public class Moveable extends Entities {
 	
 	public void setDirection(direction direct){
 		this.direct = direct;
+	}
+	public Hitbox getHitbox(){
+		return hitbox;
 	}
 }
