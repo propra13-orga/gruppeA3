@@ -64,8 +64,8 @@ public class MenuStart extends JPanel implements ActionListener {
         setDoubleBuffered(true);
         
         activeRoom = Map.getMapRoom(0);
- 		 player = new Player(activeRoom);
-         addKeyListener(new Keys(player));
+ 		player = new Player(activeRoom);
+        addKeyListener(new Keys(player));
         
         menu = true; //wichtig für den ersten Spiel aufruf
         timer = new Timer(fps, this);

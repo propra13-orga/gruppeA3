@@ -51,8 +51,9 @@ public class Player extends Moveable {
 
         switch (this.getDirection()) {
             case LEFT:
-            	if(getFieldPos().x > 0) {
-            		nextPos.setPosition(getPosition().x - step, getPosition().y);
+            	nextPos.setPosition(getPosition().x - step, getPosition().y);
+            	// Checke, ob Spieler aus der Map rauslatscht anhand Hitbox
+            	if(nextPos.getCornerTopLeft(hitbox).x > 0) {
             		
             		// Kollision mit Wänden und setPosition
             		Position p = new Position(nextPos.getCornerTopLeft(hitbox).x, nextPos.getCornerTopLeft(hitbox).y +1);
@@ -70,12 +71,18 @@ public class Player extends Moveable {
             			int distance = getPosition().getCornerTopLeft(hitbox).x - (fieldsToWalk[0].pos.toPosition().x + 32);
 	        			setPosition(getPosition().x - distance, nextPos.y);
             		}
+            		
+            	// ansonsten Annäherung an Raumrand 
+        		} else {
+        			System.out.println("bin am Rand");
+        			setPosition(hitbox.width/2, nextPos.y);
         		}
                 break;
 
             case UP:
-            	if(getFieldPos().y > 0) {
-            		nextPos.setPosition(getPosition().x, getPosition().y - step);
+        		nextPos.setPosition(getPosition().x, getPosition().y - step);
+        		// Checke, ob Spieler aus der Map rauslatscht anhand Hitbox
+            	if(nextPos.getCornerTopLeft(hitbox).y > 0) {
             		
             		// Kollision mit Wänden und setPosition
             		Position p = new Position(nextPos.getCornerTopLeft(hitbox).x +1, nextPos.getCornerTopLeft(hitbox).y);
@@ -93,12 +100,17 @@ public class Player extends Moveable {
             			int distance = getPosition().getCornerTopLeft(hitbox).y - (fieldsToWalk[0].pos.toPosition().y + 32);
 	        			setPosition(getPosition().x, getPosition().y - distance);
 	        		}
-            	}
+            		
+            	// ansonsten Annäherung an Raumrand 
+        		} else {
+        			setPosition(nextPos.x, hitbox.height/2);
+        		}
                 break;
 
             case RIGHT:
-            	if(getFieldPos().x < getRoom().getWidth()) {
-            		nextPos.setPosition(getPosition().x + step, getPosition().y);
+        		nextPos.setPosition(getPosition().x + step, getPosition().y);
+        		// Checke, ob Spieler aus der Map rauslatscht anhand Hitbox
+            	if(nextPos.getCornerTopRight(hitbox).x < getRoom().getWidth()*32) {
             		
             		// Kollision mit Wänden und setPosition
             		Position p = new Position(nextPos.getCornerTopRight(hitbox).x, nextPos.getCornerTopRight(hitbox).y +1);
@@ -116,12 +128,17 @@ public class Player extends Moveable {
 	        			int distance = fieldsToWalk[0].pos.toPosition().x - getPosition().getCornerTopRight(hitbox).x;
 	        			setPosition(getPosition().x + distance, nextPos.y);
 	        		}
-            	}
+            		
+            	// ansonsten Annäherung an Raumrand 
+        		} else {
+        			setPosition(getRoom().getWidth()*32 - hitbox.width/2, nextPos.y);
+        		}
                 break;
 
             case DOWN:
-            	if(getFieldPos().y < getRoom().getHeight()) {
-            		nextPos.setPosition(getPosition().x, getPosition().y + step);
+        		nextPos.setPosition(getPosition().x, getPosition().y + step);
+        		// Checke, ob Spieler aus der Map rauslatscht anhand Hitbox
+            	if(nextPos.getCornerBottomLeft(hitbox).y < getRoom().getHeight()*32) {
             		
             		// Kollision mit Wänden und setPosition
             		Position p = new Position(nextPos.getCornerBottomLeft(hitbox).x +1, nextPos.getCornerBottomLeft(hitbox).y);
@@ -140,7 +157,11 @@ public class Player extends Moveable {
 	        			int distance = fieldsToWalk[0].pos.toPosition().y - getPosition().getCornerBottomLeft(hitbox).y;
 	        			setPosition(getPosition().x, getPosition().y + distance);
 	        		}
-            	}
+            		
+            	// ansonsten Annäherung an Raumrand 
+        		} else {
+        			setPosition(nextPos.x, getRoom().getHeight()*32 - hitbox.height/2);
+        		}
                 break;
             default:
                 //nichts tun
@@ -171,7 +192,7 @@ public class Player extends Moveable {
         }
 		
         // Links
-        if(getRoom().roomFields[getFieldPos().x][getFieldPos().y].link != null){
+        if(getRoom().getField(getFieldPos()).link != null){
         	System.out.println("Ich bin auf nen Link gelatscht!");
     	
         	if (getRoom().roomFields[getFieldPos().x][getFieldPos().y].link.isActivated()) {
@@ -211,8 +232,8 @@ public class Player extends Moveable {
     } 
     // Benutzt einen gegebenen Link; geht in den targetRoom, der nicht der aktuelle ist
     private void followLink(Link link) throws MapFormatException {
+    	System.out.println("Call: followLink()");
     	Room targetRoom;
-    	Position targetPos = new Position(0,0);
     	if(getRoom() == link.targetRooms[0]) {
     		targetRoom = link.targetRooms[1];
     	}
@@ -225,23 +246,25 @@ public class Player extends Moveable {
     	boolean followLink = false;
     	//oben
     	if(field.y == 0) {
-    		if(getPosition().getCornerTopLeft(hitbox).y == 0)
+    		if(getPosition().getCornerTopLeft(hitbox).y <= 1) //1: Gnadensspielraum für Raumwechsel
     			followLink = true;
     	//links
     	} else if(field.x == 0) {
-    		if(getPosition().getCornerTopLeft(hitbox).x == 0)
+    		if(getPosition().getCornerTopLeft(hitbox).x <= 1)
     			followLink = true;
     	//unten
     	} else if(field.y == MenuStart.activeRoom.getHeight() - 1) {
-    		if(getPosition().getCornerBottomRight(hitbox).y == MenuStart.activeRoom.getHeight()*32 - 1)
+    		if(getPosition().getCornerBottomRight(hitbox).y >= MenuStart.activeRoom.getHeight()*32 - 1)
     			followLink = true;
     	//rechts
     	} else if(field.x == MenuStart.activeRoom.getWidth() - 1) {
-    		if(getPosition().getCornerBottomRight(hitbox).x == MenuStart.activeRoom.getHeight()*32 - 1)
+    		if(getPosition().getCornerBottomRight(hitbox).x >= MenuStart.activeRoom.getHeight()*32 - 1)
     			followLink = true;
-    	} else
+    	} else {
     		//TODO: Links mitten im Raum zulassen
+    		System.out.println("Fehler");
     		throw new MapFormatException("Link "+link.ID+" in Raum "+MenuStart.activeRoom.ID+" ist nicht am Rand.");
+    	}
     	
     	// Wechsle Raum, falls Spieler direkt am Raumrand
     	if (followLink) {

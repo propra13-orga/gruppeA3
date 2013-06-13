@@ -191,7 +191,7 @@ public abstract class Moveable extends Entities {
 	}
 	
 	public FieldPosition getFieldPos() {
-		return new FieldPosition(pos.x/32, pos.y/(32));
+		return pos.toFieldPos();
 	}
 	
 	/**
