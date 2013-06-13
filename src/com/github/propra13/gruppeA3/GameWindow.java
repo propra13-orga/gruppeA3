@@ -39,7 +39,7 @@ public class GameWindow {
     wallimg_1_32 = this.getImage(this.GamePath + "/data/images/wall_1_32.png");
     wallimg_2_32 = this.getImage(this.GamePath + "/data/images/wall_2_32.png");
     wallimg_3_32 = this.getImage(this.GamePath + "/data/images/wall_3_32.png");
-    playerimg = this.getImage(this.GamePath + "/data/images/Test_Player.png");
+    playerimg = this.getImage(this.GamePath + "/data/images/Pdown1.png");
     exitimg = this.getImage(this.GamePath + "/data/images/exit.png");
     sword = this.getImage(this.GamePath + "/data/images/sword.png");
     shield = this.getImage(this.GamePath + "/data/images/shield.png");
