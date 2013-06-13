@@ -38,7 +38,7 @@ public class MenuStart extends JPanel implements ActionListener {
     public static Room activeRoom;
     protected Toolkit tool;
     
-    private int delay = 17;
+    public static final int delay = 17;
     public Graphics2D g2d;
     
     // Menüelemente
@@ -136,7 +136,7 @@ public class MenuStart extends JPanel implements ActionListener {
         LinkedList<Entities> tempEntities = activeRoom.entities;
         Iterator<Entities> iter = tempEntities.iterator();
         Entities testEntity;
-        Position entityPos;
+        Position entityPos = new Position(0,0);
         
         // Durchläuft Liste
         Monster monster;
@@ -145,12 +145,12 @@ public class MenuStart extends JPanel implements ActionListener {
             testEntity = iter.next();
             if (testEntity instanceof Monster) {
             	monster=(Monster)testEntity;
-            	entityPos= monster.getPosition();
+            	entityPos.setPosition(monster.getPosition().x - (monster.getHitbox().width/2) , monster.getPosition().y - (monster.getHitbox().height/2));
                 g2d.drawImage(GameWindow.monsterimg, entityPos.x, entityPos.y, this);
             }
             else if (testEntity instanceof Item) {
             	item = (Item)testEntity;
-            	entityPos = item.getPosition();
+            	entityPos.setPosition(item.getPosition().x - (item.getHitbox().width/2), item.getPosition().y - (item.getHitbox().height/2));
             	switch (item.getType()){
             		case 4:
             			g2d.drawImage(GameWindow.sword, entityPos.x, entityPos.y, this);

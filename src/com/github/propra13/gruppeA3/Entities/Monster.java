@@ -33,9 +33,9 @@ public class Monster extends Moveable {
 		this.speed=speed;
 		this.power=power;
 		this.life=life;
-		this.pos=new Position(x,y);
 		this.desc = desc;
 		this.hitbox = new Hitbox();
+		this.pos=new Position(x+(hitbox.width/2),y+(hitbox.height/2));
 	}
 	
 	

@@ -32,11 +32,11 @@ public class Item extends Entities {
 	 */
 	public Item(Room room_bind, int damage, int type, int x, int y, String desc) {
 		this.currentroom = room_bind;
-		this.pos = new Position(x,y);
 		this.damage = damage;
 		this.type = type;
 		this.desc = desc;
 		this.hitbox = Hitbox.standard;
+		this.pos = new Position(x+(hitbox.width/2),y+(hitbox.height/2));
 	}
 
 	@Override
