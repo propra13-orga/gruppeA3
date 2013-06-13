@@ -163,7 +163,7 @@ public class MenuStart extends JPanel implements ActionListener {
         }
 
         // Malt Spieler
-        g2d.drawImage(GameWindow.playerimg, pp.x, pp.y-32 , this);
+        g2d.drawImage(GameWindow.playerimg, pp.x, pp.y , this);
         Score(g2d);
         }
         else
