@@ -27,6 +27,7 @@ public class Player extends Moveable {
 	private int health = 100;
 	private int lives = 7;
 	private int money = 0;
+	private int mana = 100;
 
 	final public static int movePx = Moveable.movePx;
 	
@@ -292,6 +293,13 @@ public class Player extends Moveable {
     	this.money = money;
     }
 
+    public int getMana(){
+    	return mana;
+    }
+    
+    public int setMana(){
+    	return mana;
+    }
     /*
 	@Override
 	public Hitbox getHitbox() {
