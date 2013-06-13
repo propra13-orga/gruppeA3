@@ -38,7 +38,7 @@ public class MenuStart extends JPanel implements ActionListener {
     public static Room activeRoom;
     protected Toolkit tool;
     
-    private int delay = 17;
+    public static final int delay = 17;
     public Graphics2D g2d;
     
     // Menüelemente
@@ -242,7 +242,7 @@ public void paintMessage(String msg, Graphics g){
 	public void actionPerformed(ActionEvent e) {
 		
 		if(ingame){			
-			//player.move();		
+			player.move();		
 		}
 		else if(ingame == false ){
 				//Spiel Start
