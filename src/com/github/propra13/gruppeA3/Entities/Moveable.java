@@ -84,16 +84,15 @@ public abstract class Moveable extends Entities {
 	
 	/**
 	 * Kollisionsabfrage für this mit gegebenem Kollisionsgegner
-	 * "Übersetzer" für allg. Kollisionsabfrage
 	 * @param test Kollisionsgegner
 	 * @return Kollisionswahrheitswert
-	 *TODO:Produziert eine nullpointer exception!
 	 */
 	protected boolean hitboxCheck(Entities testent) {
 		Entities test = testent;
 		switch(direct){
 		case LEFT:
-			if(((this.getPosition().x - (this.getHitbox().width/2) - 3) - (test.getPosition().x + (test.getHitbox().width/2))) < 0){ //wenn der x-Abstand der Mittelpunkte - der weite des Schrittes - der halben Breite der getHitbox()en kleiner als 0 ist
+			System.out.println("Spieler posx: "+ getPosition().x + " Monster posx: " + test.getPosition().x + " Abstand der Hitboxen: " + ((this.getPosition().x - (this.getHitbox().width/2) - (test.getPosition().x + (test.getHitbox().width/2)))));
+			if(((this.getPosition().x - (this.getHitbox().width/2) - (speed*movePx)) - (test.getPosition().x + (test.getHitbox().width/2))) < 0){ //wenn der x-Abstand der Mittelpunkte - der weite des Schrittes - der halben Breite der getHitbox()en kleiner als 0 ist
 				if(this.getPosition().y - test.getPosition().y > 0){ //überprüfe den y-Abstand
 					if(((this.getPosition().y - (this.getHitbox().height/2)) - (test.getPosition().y + (test.getHitbox().height/2)) >= 0))
 						return true;
@@ -111,7 +110,7 @@ public abstract class Moveable extends Entities {
 				return true;
 			
 		case RIGHT:
-			if(((test.getPosition().x + (test.getHitbox().width/2) + 3) - (this.getPosition().x - (this.getHitbox().width/2))) < 0){
+			if(((test.getPosition().x - (test.getHitbox().width/2) - (speed*movePx)) - (this.getPosition().x + (this.getHitbox().width/2))) < 0){
 				if(this.getPosition().y - test.getPosition().y > 0){
 					if(((this.getPosition().y - (this.getHitbox().height/2)) - (test.getPosition().y + (test.getHitbox().height/2)) >= 0))
 						return true;
@@ -129,7 +128,8 @@ public abstract class Moveable extends Entities {
 				return true;
 			
 		case UP:
-			if(((this.getPosition().y + (this.getHitbox().height/2) + 3) - (test.getPosition().y - (test.getHitbox().height/2))) < 0){
+			System.out.println("Spieler posy: "+ getPosition().y + " Monster posy: " + test.getPosition().y + " Abstand der Hitboxen: " + ((this.getPosition().y - (this.getHitbox().height/2)) - (test.getPosition().y + (test.getHitbox().height/2))));
+			if(((this.getPosition().y - (this.getHitbox().height/2) - (speed*movePx)) - (test.getPosition().y + (test.getHitbox().height/2))) < 0){
 				if(this.getPosition().x - test.getPosition().x > 0){
 					if(((this.getPosition().x - (this.getHitbox().width/2)) - (test.getPosition().x + (test.getHitbox().width/2)) >= 0))
 						return true;
@@ -147,7 +147,7 @@ public abstract class Moveable extends Entities {
 				return true;
 			
 		case DOWN:
-			if(((test.getPosition().y + (test.getHitbox().height/2) + 3) - (this.getPosition().y - (this.getHitbox().height/2))) < 0){
+			if(((test.getPosition().y - (test.getHitbox().height/2) - (speed*movePx)) - (this.getPosition().y + (this.getHitbox().height/2))) < 0){
 				if(this.getPosition().x - test.getPosition().x > 0){
 					if(((this.getPosition().x - (this.getHitbox().width/2)) - (test.getPosition().x + (test.getHitbox().width/2)) >= 0))
 						return true;

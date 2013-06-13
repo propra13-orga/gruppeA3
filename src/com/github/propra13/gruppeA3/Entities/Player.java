@@ -64,20 +64,23 @@ public class Player extends Moveable {
             		fieldsToWalk[1] = MenuStart.activeRoom.getField(p);
             		
             		// Falls fieldsToWalk[0] und [1] begehbar, beweg dich einfach
-            		if (fieldsToWalk[0].walkable && fieldsToWalk[1].walkable && rangeCheck()) {
-            			setPosition(nextPos);
-            			break;
-            		// Ansonsten liegt Kollision vor, daher Annäherung an Feldgrenze
-            		} else {
-            			int distance = getPosition().getCornerTopLeft(hitbox).x - (fieldsToWalk[0].pos.toPosition().x + 32);
-	        			setPosition(getPosition().x - distance, nextPos.y);
+            		if(rangeCheck()){
+            			if (fieldsToWalk[0].walkable && fieldsToWalk[1].walkable) {
+            				setPosition(nextPos);
+            				break;
+            				// Ansonsten liegt Kollision vor, daher Annäherung an Feldgrenze
+            			} else {
+            				int distance = getPosition().getCornerTopLeft(hitbox).x - (fieldsToWalk[0].pos.toPosition().x + 32);
+            				setPosition(getPosition().x - distance, nextPos.y);
+            			}
             		}
-            		
             	// ansonsten Annäherung an Raumrand 
-        		} else {
+        		} 
+            	else {
         			System.out.println("bin am Rand");
         			setPosition(hitbox.width/2, nextPos.y);
         		}
+            	
                 break;
 
             case UP:
@@ -93,19 +96,23 @@ public class Player extends Moveable {
             		fieldsToWalk[1] = MenuStart.activeRoom.getField(p);
 
             		// Falls fieldsToWalk[0] und [1] begehbar, beweg dich einfach
-            		if (fieldsToWalk[0].walkable && fieldsToWalk[1].walkable && rangeCheck()) {
-            			setPosition(nextPos);
-            			break;
-            		// Ansonsten liegt Kollision vor, daher Annäherung an Feldgrenze
-            		} else {
-            			int distance = getPosition().getCornerTopLeft(hitbox).y - (fieldsToWalk[0].pos.toPosition().y + 32);
-	        			setPosition(getPosition().x, getPosition().y - distance);
-	        		}
-            		
-            	// ansonsten Annäherung an Raumrand 
-        		} else {
-        			setPosition(nextPos.x, hitbox.height/2);
-        		}
+            		if(rangeCheck()){
+            			if (fieldsToWalk[0].walkable && fieldsToWalk[1].walkable) {
+            				setPosition(nextPos);
+            				break;
+            				// Ansonsten liegt Kollision vor, daher Annäherung an Feldgrenze
+            			} 
+            			else {
+            				int distance = getPosition().getCornerTopLeft(hitbox).y - (fieldsToWalk[0].pos.toPosition().y + 32);
+            				setPosition(getPosition().x, getPosition().y - distance);
+            			}
+            			}
+            		}
+					//ansonsten Annäherung an Raumrand 
+            		else {
+            			setPosition(nextPos.x, hitbox.height/2);
+            		}
+            	
                 break;
 
             case RIGHT:
@@ -121,19 +128,21 @@ public class Player extends Moveable {
             		fieldsToWalk[1] = MenuStart.activeRoom.getField(p);
             		
             		// Falls fieldsToWalk[0] und [1] begehbar, beweg dich einfach
-            		if (fieldsToWalk[0].walkable && fieldsToWalk[1].walkable && rangeCheck()) {
-            			setPosition(nextPos);
-            			break;
-            		// Ansonsten liegt Kollision vor, daher Annäherung an Feldgrenze
-            		} else {
-	        			int distance = fieldsToWalk[0].pos.toPosition().x - getPosition().getCornerTopRight(hitbox).x;
-	        			setPosition(getPosition().x + distance, nextPos.y);
-	        		}
-            		
-            	// ansonsten Annäherung an Raumrand 
-        		} else {
-        			setPosition(getRoom().getWidth()*32 - hitbox.width/2, nextPos.y);
-        		}
+            		if(rangeCheck()){
+            			if (fieldsToWalk[0].walkable && fieldsToWalk[1].walkable){
+            				setPosition(nextPos);
+            				break;
+            				// Ansonsten liegt Kollision vor, daher Annäherung an Feldgrenze
+            			} else {
+            				int distance = fieldsToWalk[0].pos.toPosition().x - getPosition().getCornerTopRight(hitbox).x;
+            				setPosition(getPosition().x + distance, nextPos.y);
+            			}
+            		}
+            	}
+            		else {
+            			setPosition(getRoom().getWidth()*32 - hitbox.width/2, nextPos.y);
+            		}
+            	
                 break;
 
             case DOWN:
@@ -149,20 +158,22 @@ public class Player extends Moveable {
             		fieldsToWalk[1] = MenuStart.activeRoom.getField(p);
             		
             		// Falls fieldsToWalk[0] und [1] begehbar, beweg dich einfach
-            		System.out.println("Darf ich laufen?"+fieldsToWalk[0].walkable+", "+fieldsToWalk[1].walkable);
-            		if (fieldsToWalk[0].walkable && fieldsToWalk[1].walkable && rangeCheck()) {
-            			setPosition(nextPos);
-            			break;
-            		// Ansonsten liegt Kollision vor, daher Annäherung an Feldgrenze
-            		} else {
-	        			int distance = fieldsToWalk[0].pos.toPosition().y - getPosition().getCornerBottomLeft(hitbox).y;
-	        			setPosition(getPosition().x, getPosition().y + distance);
-	        		}
-            		
-            	// ansonsten Annäherung an Raumrand 
-        		} else {
-        			setPosition(nextPos.x, getRoom().getHeight()*32 - hitbox.height/2);
-        		}
+            		if(rangeCheck()){
+            			if (fieldsToWalk[0].walkable && fieldsToWalk[1].walkable) {
+            				setPosition(nextPos);
+            				break;
+            				// Ansonsten liegt Kollision vor, daher Annäherung an Feldgrenze
+            			} else {
+            				int distance = fieldsToWalk[0].pos.toPosition().y - getPosition().getCornerBottomLeft(hitbox).y;
+            				setPosition(getPosition().x, getPosition().y + distance);
+            			}
+            		}
+            	}
+            	else {
+            			setPosition(nextPos.x, getRoom().getHeight()*32 - hitbox.height/2);	
+            	}
+            	
+
                 break;
             default:
                 //nichts tun
