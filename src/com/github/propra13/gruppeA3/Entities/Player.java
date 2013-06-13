@@ -27,6 +27,7 @@ public class Player extends Moveable {
 	private int mana = 100;
 	
 	public Buff buff;
+	private Field lastField; //Feld, wo der Spieler vor dem aktuellen Movement war
 
 	final public static int movePx = Moveable.movePx;
 	
@@ -180,17 +181,18 @@ public class Player extends Moveable {
             case NONE:
             	Field field = getRoom().getField(getPosition());
             	int swimStep = (int)((double)movePx*1.5);
-            	if(field.type == 3) { //Wasser
-            		int moveNegFactor = -1; // Wird je nach Fließrichtung 1 oder -1
+            	if(field.type == 3 /*|| (lastField.type == 3 && field.link != null && field.link.isActivated()) */) { //Wasser oder Link nach Wasser
+            		int moveDirection = -1; // Wird je nach Fließrichtung 1 oder -1
             		switch(field.attribute1) {
             			//Fließrichtung horizontal
-            			case 1: // Rechts
-            				moveNegFactor = moveNegFactor * (-1);
+            			case 1: // Rechts; moveD umdrehen
+            				moveDirection = moveDirection * (-1);
             			case 3: // Links
             				/* Falls Abstand zur Mitte des Flusses != 0, treibe zur Flussmitte
             				 * Distance < 0: Spieler über Fluss
             				 * Distance > 0: Spieler unter Fluss */
-            				int distance = getPosition().y - field.pos.toPosition().y + 16;
+            				int distance = getPosition().y - (field.pos.toPosition().y + 16);
+            				System.out.println("distance: "+getPosition().y+" - ("+field.pos.toPosition().y+" + 16) = "+distance);
             				if(getPosition().y - distance != 0)
             					// Falls relativ nah an Flussmitte, setze auf Flussmitte
             					if(Math.abs(distance) <= swimStep)
@@ -201,16 +203,18 @@ public class Player extends Moveable {
             						int negFactor = 1;
             						if (distance < 0)
             							negFactor = -1;
-            						setPosition(getPosition().x, getPosition().y + swimStep*negFactor);
+            						System.out.println("Setpos: "+getPosition().x+", "+getPosition().y+" - "+swimStep+"*"+negFactor);
+            						setPosition(getPosition().x, getPosition().y - swimStep*negFactor);
             					}
             				// Ansonsten normale Schwimmbewegung mit Flussrichtung
-            				else
-            					setPosition(getPosition().x + swimStep * moveNegFactor, getPosition().y);
+            				else 
+            					System.out.println("Normales Schwimmen");
+            					setPosition(getPosition().x + swimStep * moveDirection, getPosition().y);
             				break;
             		}
             	}
             	else
-            		wannaPrint = false;
+            		setPosition(getPosition());
             	
             default:
                 //nichts tun
@@ -354,6 +358,12 @@ public class Player extends Moveable {
     
     public void setMana(int mana){
     	this.mana = mana;
+    }
+    
+    @Override
+    public void setPosition(int x, int y) {
+    	
+    	getPosition().setPosition(x, y);
     }
     /*
 	@Override

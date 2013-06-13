@@ -272,11 +272,12 @@ public abstract class Moveable extends Entities {
 	 * @param y Y-Achse
 	 */
 	public void setPosition(int x, int y) { 
+		System.out.println("Ich bin setpos moveable");
 		pos.setPosition(x, y);
 	}
 	
 	public void setPosition(Position pos) {
-		this.pos = pos;
+		setPosition(pos.x, pos.y);;
 	}
 	
 	public FieldPosition getFieldPos() {
