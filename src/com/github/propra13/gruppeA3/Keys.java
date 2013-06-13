@@ -47,8 +47,8 @@ public class Keys implements KeyListener {
 					//player.move();
 					break;
 					
-				case  KeyEvent.VK_SPACE:
-					//angriffsfunktion hier
+				case  KeyEvent.VK_A:
+					player.attack();
 					break;
 					
 				case KeyEvent.VK_1:

@@ -14,5 +14,6 @@ public abstract class Entities {
 	
 	abstract Position getPosition();
 	abstract Hitbox getHitbox();
-	
+	abstract void setHealth(int health);
+	abstract int getHealth();
 }
