@@ -42,6 +42,7 @@ public abstract class Moveable extends Entities {
 		this.power = 0;
 		this.speed = 1; 
 		this.armour = 0;
+		this.facedirect = direction.NONE;
 	}
 
 	/** 

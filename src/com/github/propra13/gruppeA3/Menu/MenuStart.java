@@ -163,7 +163,24 @@ public class MenuStart extends JPanel implements ActionListener {
         }
 
         // Malt Spieler
-        g2d.drawImage(GameWindow.playerimg, pp.x, pp.y , this);
+        switch(player.getFaceDirection()){
+        case UP: 
+        	g2d.drawImage(GameWindow.playerimg_up, pp.x, pp.y , this);
+        	break;
+        case DOWN:
+        	g2d.drawImage(GameWindow.playerimg_down, pp.x, pp.y , this);
+        	break;
+        case LEFT:
+        	g2d.drawImage(GameWindow.playerimg_left, pp.x, pp.y , this);
+        	break;
+        case RIGHT:
+        	g2d.drawImage(GameWindow.playerimg_right, pp.x, pp.y , this);
+        	break;	
+        default:
+        	g2d.drawImage(GameWindow.playerimg_down, pp.x, pp.y , this);
+        	break;
+        }
+        
         Score(g2d);
         }
         else

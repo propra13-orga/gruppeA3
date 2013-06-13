@@ -16,7 +16,10 @@ public class GameWindow {
     public static Image wallimg_1_32;
     public static Image wallimg_2_32;
     public static Image wallimg_3_32;
-    public static Image playerimg;
+    public static Image playerimg_left;
+    public static Image playerimg_right;
+    public static Image playerimg_up;
+    public static Image playerimg_down;
     public static Image exitimg;
     public static Image heart;
     public static Image coin;
@@ -39,7 +42,10 @@ public class GameWindow {
     wallimg_1_32 = this.getImage(this.GamePath + "/data/images/wall_1_32.png");
     wallimg_2_32 = this.getImage(this.GamePath + "/data/images/wall_2_32.png");
     wallimg_3_32 = this.getImage(this.GamePath + "/data/images/wall_3_32.png");
-    playerimg = this.getImage(this.GamePath + "/data/images/Pdown1.png");
+    playerimg_down = this.getImage(this.GamePath + "/data/images/Pdown1.png");
+    playerimg_up = this.getImage(this.GamePath + "/data/images/Pup1.png");
+    playerimg_left = this.getImage(this.GamePath + "/data/images/Pleft1.png");
+    playerimg_right = this.getImage(this.GamePath + "/data/images/Pright1.png");
     exitimg = this.getImage(this.GamePath + "/data/images/exit.png");
     sword = this.getImage(this.GamePath + "/data/images/sword.png");
     shield = this.getImage(this.GamePath + "/data/images/shield.png");
