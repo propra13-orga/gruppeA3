@@ -38,7 +38,7 @@ public class MenuStart extends JPanel implements ActionListener {
     public static Room activeRoom;
     protected Toolkit tool;
     
-    private int fps = 17;
+    private int delay = 17;
     public Graphics2D g2d;
     
     // Menüelemente
@@ -68,7 +68,7 @@ public class MenuStart extends JPanel implements ActionListener {
          addKeyListener(new Keys(player));
         
         menu = true; //wichtig für den ersten Spiel aufruf
-        timer = new Timer(fps, this);
+        timer = new Timer(delay, this);
         timer.start();
         
      // Menü vorbereiten
