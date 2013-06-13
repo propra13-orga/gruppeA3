@@ -62,4 +62,10 @@ public class Item extends Entities {
 		return this.hitbox;
 	}
 
+	public void setHealth(int health){
+	}
+	
+	public int getHealth(){
+		return 0;
+	}
 }
