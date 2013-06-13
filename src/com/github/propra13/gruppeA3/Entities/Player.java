@@ -1,10 +1,7 @@
 package com.github.propra13.gruppeA3.Entities;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
 import com.github.propra13.gruppeA3.Map.Field;
@@ -44,14 +41,14 @@ public class Player extends Moveable {
 
     //Methode überschrieben, prüft für Spieler zusätzlich Trigger und ob bereits ein anderer Spieler auf dem Feld steht
     public void move() {
-    	System.out.println("Setze Richtung auf "+this.getDirection());
+    	if (this.getDirection() != direction.NONE)
+    		System.out.println("Setze Richtung auf "+this.getDirection());
 
     	int step = (int)(movePx * getSpeed());
     	Position nextPos = new Position(0,0); //Position, auf die gelaufen werden soll
     	Field[] fieldsToWalk = new Field[2];  // Felder, die betreten werden sollen
-    	Position fieldPos = new Position(0,0);
-    	boolean collision;
 
+    	boolean wannaPrint = true;
         switch (this.getDirection()) {
             case LEFT:
             	nextPos.setPosition(getPosition().x - step, getPosition().y);
@@ -172,15 +169,53 @@ public class Player extends Moveable {
             		}
             	}
             	else {
-            			setPosition(nextPos.x, getRoom().getHeight()*32 - hitbox.height/2);	
+            		setPosition(nextPos.x, getRoom().getHeight()*32 - hitbox.height/2);	
             	}
             	
 
                 break;
+                
+            // Wasser-Check
+            case NONE:
+            	Field field = getRoom().getField(getPosition());
+            	int swimStep = (int)((double)movePx*1.5);
+            	if(field.type == 3) { //Wasser
+            		int moveNegFactor = -1; // Wird je nach Fließrichtung 1 oder -1
+            		switch(field.attribute1) {
+            			//Fließrichtung horizontal
+            			case 1: // Rechts
+            				moveNegFactor = moveNegFactor * (-1);
+            			case 3: // Links
+            				/* Falls Abstand zur Mitte des Flusses != 0, treibe zur Flussmitte
+            				 * Distance < 0: Spieler über Fluss
+            				 * Distance > 0: Spieler unter Fluss */
+            				int distance = getPosition().y - field.pos.toPosition().y + 16;
+            				if(getPosition().y - distance != 0)
+            					// Falls relativ nah an Flussmitte, setze auf Flussmitte
+            					if(Math.abs(distance) <= swimStep)
+            						setPosition(getPosition().x, getPosition().y - distance);
+            					// Ansonsten normale Schwimmbewegung zur Flussmitte
+            					else {
+            						System.out.println("Schwimme richtung Mitte");
+            						int negFactor = 1;
+            						if (distance < 0)
+            							negFactor = -1;
+            						setPosition(getPosition().x, getPosition().y + swimStep*negFactor);
+            					}
+            				// Ansonsten normale Schwimmbewegung mit Flussrichtung
+            				else
+            					setPosition(getPosition().x + swimStep * moveNegFactor, getPosition().y);
+            				break;
+            		}
+            	}
+            	else
+            		wannaPrint = false;
+            	
             default:
                 //nichts tun
         }
-        System.out.println("Spielerpos: "+getPosition().x+":"+getPosition().y);
+        if (wannaPrint)
+        	System.out.println("Spielerpos: "+getPosition().x+":"+getPosition().y);
 
         /**
          * Die Entitites Liste soll durchlaufen werden, um zu überprüfen, ob an der Position xy des Spielers ein Monster ist.
@@ -192,7 +227,8 @@ public class Player extends Moveable {
         
         Entities testEntity;
         Monster monster = null;
-        Item item = null;
+        @SuppressWarnings("unused")
+		Item item = null;
         while (iter.hasNext()) {
             testEntity = iter.next();
             if (testEntity instanceof Monster)
@@ -238,7 +274,7 @@ public class Player extends Moveable {
     	int lives = getLives();
     	lives --;
     	setLives(lives);
-    	 setPosition(Map.spawns[0].pos.toPosition().x+16, Map.spawns[0].pos.toPosition().y+16);
+    	setPosition(Map.spawns[0].pos.toPosition().x+16, Map.spawns[0].pos.toPosition().y+16);
     	if(lives == 0){
     	MenuStart.win=false;
     	MenuStart.ingame=false;
