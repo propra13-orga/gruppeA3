@@ -241,8 +241,11 @@ public void paintMessage(String msg, Graphics g){
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
+		// Tasks für Timer in dieser if-condition eintragen
 		if(ingame){			
-			player.move();		
+			player.move();
+			if (player.buff != null)
+				player.buff.tick();
 		}
 		else if(ingame == false ){
 				//Spiel Start

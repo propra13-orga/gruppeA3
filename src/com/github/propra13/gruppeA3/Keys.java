@@ -48,7 +48,7 @@ public class Keys implements KeyListener {
 					break;
 					
 				case KeyEvent.VK_1:
-					//Zauber 1 hier
+					player.setSpeedBuff();
 					break;
 					
 				case KeyEvent.VK_2:

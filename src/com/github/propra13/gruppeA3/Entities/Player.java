@@ -28,6 +28,8 @@ public class Player extends Moveable {
 	private int lives = 7;
 	private int money = 0;
 	private int mana = 100;
+	
+	public Buff buff;
 
 	final public static int movePx = Moveable.movePx;
 	
@@ -276,6 +278,11 @@ public class Player extends Moveable {
     	}
     		
     }
+    
+    public void setSpeedBuff() {
+    	if (getMana() -  SpeedBuff.manaCost >= 0)
+    		buff = new SpeedBuff(this, 3, 5);
+    }
      
     public int getLives() {
     	return lives;
@@ -297,8 +304,8 @@ public class Player extends Moveable {
     	return mana;
     }
     
-    public int setMana(){
-    	return mana;
+    public void setMana(int mana){
+    	this.mana = mana;
     }
     /*
 	@Override
