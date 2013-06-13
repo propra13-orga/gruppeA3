@@ -18,7 +18,8 @@ public abstract class Moveable extends Entities {
 	
 
 	public enum direction{LEFT,RIGHT,UP,DOWN,NONE}
-	private direction direct; 
+	private direction direct;
+	private direction facedirect;
 	private Position pos;
 	private Room currentroom;
 	protected Hitbox hitbox;
@@ -29,7 +30,7 @@ public abstract class Moveable extends Entities {
 	
 	/* Anzahl der Pixel, die bei einer Bewegung
 	 * mit Speed 1 zurückgelegt werden sollen */
-	final public static int movePx = 1;
+	final public static int movePx = 2;
 	
 	
 	//Konstruktor
@@ -70,8 +71,6 @@ public abstract class Moveable extends Entities {
 				ydelta = this.getPosition().y - testent.getPosition().y; //y-Abstand der Mittelpunkte bestimmen
 				if(ydelta < 0)
 					ydelta = ydelta * (-1);
-				System.out.println("Abstand:"+(Math.sqrt(xdelta*xdelta + ydelta*ydelta)));
-				
 				if(Math.sqrt(xdelta*xdelta + ydelta*ydelta) < 50){	//Wenn wurzel(x^2 + y^2) < 50 ist, auf hitboxkollision prüfen
 					if(hitboxCheck(testent) == false){
 						flag = false;
@@ -92,7 +91,6 @@ public abstract class Moveable extends Entities {
 	 */
 	protected boolean hitboxCheck(Entities testent) {
 		Entities test = testent;
-		System.out.println("Hitboxcheck!");
 		switch(direct){
 		case LEFT:
 			if(((this.getPosition().x - (this.getHitbox().width/2) - 3) - (test.getPosition().x + (test.getHitbox().width/2))) < 0){ //wenn der x-Abstand der Mittelpunkte - der weite des Schrittes - der halben Breite der getHitbox()en kleiner als 0 ist
@@ -254,5 +252,13 @@ public abstract class Moveable extends Entities {
 	@Override
 	public Hitbox getHitbox(){
 		return hitbox;
+	}
+	
+	public direction getFaceDirection(){
+		return facedirect;
+	}
+	
+	public void setFaceDirection(direction direct){
+		facedirect = direct;
 	}
 }

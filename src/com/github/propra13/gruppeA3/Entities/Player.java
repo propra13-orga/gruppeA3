@@ -154,14 +154,14 @@ public class Player extends Moveable {
         LinkedList<Entities> tempEntities = getRoom().entities;
         Iterator<Entities> iter = tempEntities.iterator();
 
-        /*
+        
         Entities testEntity;
         Monster monster = null;
         Item item = null;
         while (iter.hasNext()) {
             testEntity = iter.next();
             if (testEntity instanceof Monster)
-            	if ((getFieldPos().x == testEntity.getPosition().x) && (getFieldPos().y == testEntity.getPosition().y)){
+            	if ((getFieldPos().x == (testEntity.getPosition().x)/32) && (getFieldPos().y == (testEntity.getPosition().y)/32)){
             		//funktioniert nicht mehr JPanel
             		monster = (Monster)testEntity;
             		System.out.println("Monster: "+monster.getPosition().x+", "+monster.getPosition().y);
@@ -169,7 +169,7 @@ public class Player extends Moveable {
             		this.death();
             	}
         }
-		*/
+		
         // Links
         if(getRoom().roomFields[getFieldPos().x][getFieldPos().y].link != null){
         	System.out.println("Ich bin auf nen Link gelatscht!");
