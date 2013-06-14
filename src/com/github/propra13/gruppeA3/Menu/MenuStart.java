@@ -1,4 +1,4 @@
-﻿package com.github.propra13.gruppeA3.Menu;
+package com.github.propra13.gruppeA3.Menu;
 
 import java.awt.Color;
 import java.awt.Font;
