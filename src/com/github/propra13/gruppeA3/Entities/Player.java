@@ -40,12 +40,12 @@ public class Player extends Moveable {
         hitbox = new Hitbox(28, 28);
         setFaceDirection(direction.DOWN);
         setPower(1);
+        getRoom().entities.add(this);
     }
 
     //Methode überschrieben, prüft für Spieler zusätzlich Trigger und ob bereits ein anderer Spieler auf dem Feld steht
     public void move() {
     	if (this.getDirection() != direction.NONE)
-    		System.out.println("Setze Richtung auf "+this.getDirection());
 
     	int step = (int)(movePx * getSpeed());
     	Position nextPos = new Position(0,0); //Position, auf die gelaufen werden soll
@@ -255,29 +255,6 @@ public class Player extends Moveable {
         	System.out.println("Spielerpos: "+getPosition().x+":"+getPosition().y);
         	wannaPrint = false;
         }
-        /**
-         * Die Entitites Liste soll durchlaufen werden, um zu überprüfen, ob an der Position xy des Spielers ein Monster ist.
-         * TODO: Pixelkoordinatensystemkollisionsabfrage
-         *
-        LinkedList<Entities> tempEntities = getRoom().entities;
-        Iterator<Entities> iter = tempEntities.iterator();
-
-        
-        Entities testEntity;
-        Monster monster = null;
-        @SuppressWarnings("unused")
-		Item item = null;
-        while (iter.hasNext()) {
-            testEntity = iter.next();
-            if (testEntity instanceof Monster)
-            	if ((getFieldPos().x == (testEntity.getPosition().x)/32) && (getFieldPos().y == (testEntity.getPosition().y)/32)){
-            		monster = (Monster)testEntity;
-            		System.out.println("Monster: "+monster.getPosition().x+", "+monster.getPosition().y);
-            		System.out.println("Monster: "+getPosition().x+", "+getPosition().y);
-            		this.death();
-            	}
-        }
-		*/
         // Links
         if(getRoom().getField(getFieldPos()).link != null){
         	System.out.println("Ich bin auf nen Link gelatscht!");
