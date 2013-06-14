@@ -44,7 +44,6 @@ public class Player extends Moveable {
 
     //Methode überschrieben, prüft für Spieler zusätzlich Trigger und ob bereits ein anderer Spieler auf dem Feld steht
     public void move() {
-    	if (this.getDirection() != direction.NONE)
 
     	int step = (int)(movePx * getSpeed());
     	Position nextPos = new Position(0,0); //Position, auf die gelaufen werden soll
