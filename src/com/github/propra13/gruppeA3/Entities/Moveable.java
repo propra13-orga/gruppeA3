@@ -427,7 +427,6 @@ public abstract class Moveable extends Entities {
 	    	Field nextField = getRoom().getField(x/32, y/32);
 	    	if (lastField == null || nextField != actualField) { // initial oder falls Feldwechsel vorliegt
 	    		lastField = actualField;
-	    		System.out.println("Setze lastField: "+lastField.getRoom().ID+":"+lastField.pos.x+":"+lastField.pos.y);
 	    	}
 	    	getPosition().setPosition(x, y);
 	    }

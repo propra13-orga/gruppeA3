@@ -6,6 +6,7 @@ public class SpeedBuff extends Buff{
 	
 	final public static int manaCost = 15;
 	
+	private double factor;
 	private int tickCounter;
 	Player player;
 	
@@ -18,6 +19,8 @@ public class SpeedBuff extends Buff{
 	public SpeedBuff(Player player, double factor, int time) {
 		this.player = player;
 		player.setSpeed(factor);
+		
+		this.factor = factor;
 		tickCounter = (int)((double)(1000.0 / MenuStart.delay)) * time;
 		player.setMana(player.getMana() - manaCost);
 	}
@@ -31,6 +34,6 @@ public class SpeedBuff extends Buff{
 	
 	public void terminate() {
 		player.setBuff(null);
-		player.setSpeed(1);
+		player.setSpeed((int)(Math.round((double)player.getPower()/factor)));
 	}
 }

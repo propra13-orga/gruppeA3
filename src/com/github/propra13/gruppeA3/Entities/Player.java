@@ -25,7 +25,6 @@ public class Player extends Moveable {
 	private int lives = 7;
 	private int money = 0;
 	private int mana = 100;
-	private int attack = 1;
 	
 	private Buff buff;
 
@@ -198,7 +197,8 @@ public class Player extends Moveable {
             				 * Distance < 0: Spieler über Fluss
             				 * Distance > 0: Spieler unter Fluss */
             				distance = getPosition().y - (field.pos.toPosition().y + 16);
-            				if(getPosition().y - distance != 0)
+            				if(distance != 0) {
+            					System.out.println("distance: "+distance);
             					// Falls relativ nah an Flussmitte, setze auf Flussmitte
             					if(Math.abs(distance) <= swimStep)
             						setPosition(getPosition().x, getPosition().y - distance);
@@ -210,9 +210,12 @@ public class Player extends Moveable {
             							negFactor = -1;
             						setPosition(getPosition().x, getPosition().y - swimStep*negFactor);
             					}
+            				}
             				// Ansonsten normale Schwimmbewegung mit Flussrichtung
-            				else
+            				else {
             					setPosition(getPosition().x + swimStep * moveDirection, getPosition().y);
+            					System.out.println("Schwimme in Flussrichtung");
+            				}
             				break;
             				
             				
@@ -225,7 +228,7 @@ public class Player extends Moveable {
             				 * Distance > 0: Spieler rechts vom Fluss */
             				distance = getPosition().x - (field.pos.toPosition().x + 16);
             				System.out.println("distance: "+getPosition().x+" - ("+field.pos.toPosition().x+" + 16) = "+distance);
-            				if(getPosition().x - distance != 0)
+            				if(distance != 0)
             					// Falls relativ nah an Flussmitte, setze auf Flussmitte
             					if(Math.abs(distance) <= swimStep)
             						setPosition(getPosition().x - distance, getPosition().y);
@@ -368,11 +371,10 @@ public class Player extends Moveable {
     }
     
     public void setBuff(Buff buff) {
-    	if(this.buff == null)
-    		this.buff = buff;
-    	else
+    	// Falls der Buff durch einen anderen ersetzt werden soll
+    	if(this.buff != null && buff != null)
     		this.buff.terminate();
-    		this.setBuff(null);
+    	this.buff = buff;
     }
     
     public Buff getBuff(){
@@ -381,7 +383,12 @@ public class Player extends Moveable {
     
     public void setSpeedBuff() {
     	if (getMana() -  SpeedBuff.manaCost >= 0)
-    		buff = new SpeedBuff(this, 3, 5);
+    		buff = new SpeedBuff(this, 2.0, 5);
+    }
+    
+    public void setAttackBuff() {
+    	if (getMana() -  SpeedBuff.manaCost >= 0)
+    		buff = new AttackBuff(this, 1.5, 5);
     }
      
     public int getLives() {

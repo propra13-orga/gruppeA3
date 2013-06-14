@@ -8,8 +8,8 @@
 
 	<!-- Monster in Room -->
 		<monster type="1" name="Monster-Snake" speed="3.0" power="3" life="10" posx="3" posy="3" />
-		<monster type="2" name="Spider-Man" speed="1.0" power="3" life="11" posx="7" posy="8" />
-		<monster type="3" name="Pinky the Rat" speed="4.0" power="7" life="1" posx="5" posy="3" />   
+		<monster type="2" name="Spider-Man" speed="1.0" power="3" life="15" posx="7" posy="8" />
+		<monster type="3" name="Pinky the Rat" speed="4.0" power="7" life="3" posx="5" posy="3" />   
 		
 		
 		<!-- Items in Room -->
