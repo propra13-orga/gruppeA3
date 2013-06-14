@@ -192,9 +192,12 @@ public abstract class Moveable extends Entities {
             	
 
                 break;
+        
+            default:
+            	break;
+	
         }
 	}
-	
 	
 	//Kollisionsabfragen
 	public boolean rangeCheck(){
@@ -374,7 +377,6 @@ public abstract class Moveable extends Entities {
 				break;
 			}
 			
-			System.out.println("AttackCheck!");
 			int xdelta;
 			int ydelta;
 			Entities testent = null;	//durch alle Entitys der Liste iterieren

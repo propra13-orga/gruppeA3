@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Random;
 
 
 import javax.swing.JButton;
@@ -21,10 +22,12 @@ import com.github.propra13.gruppeA3.Keys;
 import com.github.propra13.gruppeA3.Entities.Entities;
 import com.github.propra13.gruppeA3.Entities.Item;
 import com.github.propra13.gruppeA3.Entities.Monster;
+import com.github.propra13.gruppeA3.Entities.Moveable.direction;
 import com.github.propra13.gruppeA3.Entities.Player;
 import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Map.Position;
 import com.github.propra13.gruppeA3.Map.Room;
+import com.github.propra13.gruppeA3.Entities.Moveable;
 
 @SuppressWarnings("serial")
 public class MenuStart extends JPanel implements ActionListener {
@@ -37,6 +40,8 @@ public class MenuStart extends JPanel implements ActionListener {
     public Player player;
     public static Room activeRoom;
     protected Toolkit tool;
+    private Random randomgen;
+    private int movecounter = 0;
     
     public static final int delay = 17;
     public Graphics2D g2d;
@@ -67,9 +72,12 @@ public class MenuStart extends JPanel implements ActionListener {
  		player = new Player(activeRoom);
         addKeyListener(new Keys(player));
         
+        randomgen = new Random(System.currentTimeMillis());
+        		
         menu = true; //wichtig für den ersten Spiel aufruf
         timer = new Timer(delay, this);
         timer.start();
+        
         
      // Menü vorbereiten
      	buttonstart = new JButton("Spiel starten");
@@ -261,8 +269,14 @@ public void paintMessage(String msg, Graphics g){
 		// Tasks für Timer in dieser if-condition eintragen
 		if(ingame){			
 			player.move();
+			moveEnemys();
 			if (player.buff != null)
 				player.buff.tick();
+			
+			if(movecounter == 0)
+				movecounter = 60;
+			else
+				movecounter--;
 		}
 		else if(ingame == false ){
 				//Spiel Start
@@ -279,5 +293,43 @@ public void paintMessage(String msg, Graphics g){
 		repaint();
 	}
 
+	private void moveEnemys(){
+		Entities testent = null;	//durch alle Entitys der Liste iterieren
+		Monster testmonster = null;
+		 LinkedList<Entities> tempEntities = player.getRoom().entities;
+	        Iterator<Entities> iter = tempEntities.iterator();
+		while(iter.hasNext()){
+			testent = iter.next();
+			if(testent instanceof Monster){
+				testmonster = (Monster) testent;
+				if(testmonster != null){
+					if(movecounter == 0){
+						generateDirection(testmonster);
+					}
+					testmonster.move();
 
+				}
+			}
+		}
+	}
+	
+	private void generateDirection(Monster monster){
+		int rndnumber = randomgen.nextInt();
+		switch(rndnumber%6){
+			case 0:
+				monster.setDirection(direction.UP);
+				break;
+			case 1:
+				monster.setDirection(direction.DOWN);
+				break;
+			case 2:
+				monster.setDirection(direction.LEFT);
+				break;
+			case 3:
+				monster.setDirection(direction.RIGHT);
+				
+			default:
+				monster.setDirection(direction.NONE);
+		}
+	}
 }
