@@ -35,6 +35,7 @@ public class Field {
 		this.attribute1 = attr1;
 		this.attribute2 = attr2;
 		this.pos = pos;
+		this.room = room;
 		
 		//Walkable setzen
 		for (int i=0; i < walkables.length; i++) {

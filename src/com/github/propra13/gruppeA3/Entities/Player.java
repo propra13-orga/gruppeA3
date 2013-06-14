@@ -27,7 +27,6 @@ public class Player extends Moveable {
 	private int mana = 100;
 	
 	public Buff buff;
-	private Field lastField; //Feld, wo der Spieler vor dem aktuellen Movement war
 
 	final public static int movePx = Moveable.movePx;
 	
@@ -49,10 +48,10 @@ public class Player extends Moveable {
     	int step = (int)(movePx * getSpeed());
     	Position nextPos = new Position(0,0); //Position, auf die gelaufen werden soll
     	Field[] fieldsToWalk = new Field[2];  // Felder, die betreten werden sollen
-
-    	boolean wannaPrint = true;
+    	boolean wannaPrint = false;
         switch (this.getDirection()) {
             case LEFT:
+            	wannaPrint = true;
             	nextPos.setPosition(getPosition().x - step, getPosition().y);
             	// Checke, ob Spieler aus der Map rauslatscht anhand Hitbox
             	if(nextPos.getCornerTopLeft(hitbox).x > 0) {
@@ -85,6 +84,7 @@ public class Player extends Moveable {
                 break;
 
             case UP:
+            	wannaPrint = true;
         		nextPos.setPosition(getPosition().x, getPosition().y - step);
         		// Checke, ob Spieler aus der Map rauslatscht anhand Hitbox
             	if(nextPos.getCornerTopLeft(hitbox).y > 0) {
@@ -117,6 +117,7 @@ public class Player extends Moveable {
                 break;
 
             case RIGHT:
+            	wannaPrint = true;
         		nextPos.setPosition(getPosition().x + step, getPosition().y);
         		// Checke, ob Spieler aus der Map rauslatscht anhand Hitbox
             	if(nextPos.getCornerTopRight(hitbox).x < getRoom().getWidth()*32) {
@@ -147,6 +148,7 @@ public class Player extends Moveable {
                 break;
 
             case DOWN:
+            	wannaPrint = true;
         		nextPos.setPosition(getPosition().x, getPosition().y + step);
         		// Checke, ob Spieler aus der Map rauslatscht anhand Hitbox
             	if(nextPos.getCornerBottomLeft(hitbox).y < getRoom().getHeight()*32) {
@@ -183,6 +185,7 @@ public class Player extends Moveable {
             	int swimStep = (int)((double)movePx*1.5);
             	if(field.type == 3 /*|| (lastField.type == 3 && field.link != null && field.link.isActivated()) */) { //Wasser oder Link nach Wasser
             		int moveDirection = -1; // Wird je nach Fließrichtung 1 oder -1
+            		wannaPrint = true;
             		switch(field.attribute1) {
             			//Fließrichtung horizontal
             			case 1: // Rechts; moveD umdrehen
@@ -219,9 +222,10 @@ public class Player extends Moveable {
             default:
                 //nichts tun
         }
-        if (wannaPrint)
+        if (wannaPrint) {
         	System.out.println("Spielerpos: "+getPosition().x+":"+getPosition().y);
-
+        	wannaPrint = false;
+        }
         /**
          * Die Entitites Liste soll durchlaufen werden, um zu überprüfen, ob an der Position xy des Spielers ein Monster ist.
          * TODO: Pixelkoordinatensystemkollisionsabfrage
@@ -238,7 +242,6 @@ public class Player extends Moveable {
             testEntity = iter.next();
             if (testEntity instanceof Monster)
             	if ((getFieldPos().x == (testEntity.getPosition().x)/32) && (getFieldPos().y == (testEntity.getPosition().y)/32)){
-            		//funktioniert nicht mehr JPanel
             		monster = (Monster)testEntity;
             		System.out.println("Monster: "+monster.getPosition().x+", "+monster.getPosition().y);
             		System.out.println("Monster: "+getPosition().x+", "+getPosition().y);
@@ -249,10 +252,10 @@ public class Player extends Moveable {
         // Links
         if(getRoom().getField(getFieldPos()).link != null){
         	System.out.println("Ich bin auf nen Link gelatscht!");
-    	
-        	if (getRoom().roomFields[getFieldPos().x][getFieldPos().y].link.isActivated()) {
+        	System.out.println("lastField: "+lastField.getRoom().ID+":"+lastField.pos.x+":"+lastField.pos.y+", link: "+lastField.link);
+        	if (getRoom().getField(getFieldPos()).link.isActivated() && lastField.link == null) {
         		try {
-					followLink(getRoom().roomFields[getFieldPos().x][getFieldPos().y].link);
+					followLink(getRoom().getField(getFieldPos()).link);
 				} catch (MapFormatException e) {
 					e.printStackTrace();
 				}
@@ -289,11 +292,14 @@ public class Player extends Moveable {
     private void followLink(Link link) throws MapFormatException {
     	System.out.println("Call: followLink()");
     	Room targetRoom;
+    	Field targetField/* = new Field()*/;
     	if(getRoom() == link.targetRooms[0]) {
     		targetRoom = link.targetRooms[1];
+    		targetField = link.targetFields[1];
     	}
     	else {
     		targetRoom = link.targetRooms[0];
+    		targetField = link.targetFields[0];
     	}
     	
     	//Raumrand finden, wo der Link liegt
@@ -322,11 +328,12 @@ public class Player extends Moveable {
     	}
     	
     	// Wechsle Raum, falls Spieler direkt am Raumrand
+    	// WICHTIG! Erst Position wechseln, dann Raum, ansonsten stimmt lastField nicht
     	if (followLink) {
     		System.out.println("Würd gern Raum wechseln");
+    		this.setPosition(targetField.pos.toPosition().x+16, targetField.pos.toPosition().y+16);
     		setRoom(targetRoom);
     		MenuStart.activeRoom = targetRoom;
-    		this.setPosition(link.targetFields[1].pos.toPosition().x+16, link.targetFields[1].pos.toPosition().y+16);
     	}
     		
     }
@@ -358,12 +365,6 @@ public class Player extends Moveable {
     
     public void setMana(int mana){
     	this.mana = mana;
-    }
-    
-    @Override
-    public void setPosition(int x, int y) {
-    	
-    	getPosition().setPosition(x, y);
     }
     /*
 	@Override

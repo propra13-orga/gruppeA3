@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.lang.Math;
 
+import com.github.propra13.gruppeA3.Map.Field;
 import com.github.propra13.gruppeA3.Map.FieldPosition;
 import com.github.propra13.gruppeA3.Map.Position;
 import com.github.propra13.gruppeA3.Map.Room;
@@ -27,6 +28,9 @@ public abstract class Moveable extends Entities {
 	private int power;
 	private int armour;
 	private double speed; 
+	
+	protected Field actualField; //Feld, wo das Ding derzeit ist
+	protected Field lastField; //Feld, wo das Ding vor dem aktuellen Movement war
 	
 	/* Anzahl der Pixel, die bei einer Bewegung
 	 * mit Speed 1 zurückgelegt werden sollen */
@@ -271,10 +275,16 @@ public abstract class Moveable extends Entities {
 	 * @param x X-Achse
 	 * @param y Y-Achse
 	 */
-	public void setPosition(int x, int y) { 
-		System.out.println("Ich bin setpos moveable");
-		pos.setPosition(x, y);
-	}
+	 public void setPosition(int x, int y) {
+	    	// lastField, actualField setzten
+	    	actualField = getRoom().getField(getPosition());
+	    	Field nextField = getRoom().getField(x/32, y/32);
+	    	if (lastField == null || nextField != actualField) { // initial oder falls Feldwechsel vorliegt
+	    		lastField = actualField;
+	    		System.out.println("Setze lastField: "+lastField.getRoom().ID+":"+lastField.pos.x+":"+lastField.pos.y);
+	    	}
+	    	getPosition().setPosition(x, y);
+	    }
 	
 	public void setPosition(Position pos) {
 		setPosition(pos.x, pos.y);;
@@ -329,7 +339,10 @@ public abstract class Moveable extends Entities {
 	}
 	
 	public void setRoom(Room room){
-		this.currentroom = room;
+		//lastField richtig setzen
+		lastField = currentroom.getField(lastField.pos.x, lastField.pos.y);
+		actualField = room.getField(actualField.pos.x, actualField.pos.y);
+		currentroom = room;
 	}
 	
 	public direction getDirection(){
