@@ -55,7 +55,6 @@ public abstract class Moveable extends Entities {
 	
 	//Kollisionsabfragen
 	public boolean rangeCheck(){
-		System.out.println("rangeCheck!");
 		int xdelta;
 		int ydelta;
 		boolean flag = true;
@@ -93,7 +92,6 @@ public abstract class Moveable extends Entities {
 		switch(direct){
 		case LEFT:
 			if(this.getPosition().x > test.getPosition().x){
-			System.out.println("Spieler posx: "+ getPosition().x + " Monster posx: " + test.getPosition().x + " Abstand der Hitboxen: " + ((this.getPosition().x - (this.getHitbox().width/2) - (test.getPosition().x + (test.getHitbox().width/2)))));
 			if(((pos.x - (this.getHitbox().width/2) - (speed*movePx)) - (test.getPosition().x + (test.getHitbox().width/2))) < 0){ //wenn der x-Abstand der Mittelpunkte - der weite des Schrittes - der halben Breite der getHitbox()en kleiner als 0 ist
 				if(pos.y - test.getPosition().y > 0){ //überprüfe den y-Abstand
 					if(((pos.y - (this.getHitbox().height/2)) - (test.getPosition().y + (test.getHitbox().height/2)) >= 0))
@@ -134,7 +132,6 @@ public abstract class Moveable extends Entities {
 			return true;
 		case UP:
 			if(this.getPosition().y > test.getPosition().y){
-			System.out.println("Spieler posy: "+ getPosition().y + " Monster posy: " + test.getPosition().y + " Abstand der Hitboxen: " + ((pos.y - (this.getHitbox().height/2)) - (test.getPosition().y + (test.getHitbox().height/2))));
 			if(((pos.y - (this.getHitbox().height/2) - (speed*movePx)) - (test.getPosition().y + (test.getHitbox().height/2))) < 0){
 				if(pos.x - test.getPosition().x > 0){
 					if(((pos.x - (this.getHitbox().width/2)) - (test.getPosition().x + (test.getHitbox().width/2)) >= 0))
@@ -237,12 +234,12 @@ public abstract class Moveable extends Entities {
 			int xdelta;
 			int ydelta;
 			Entities testent = null;	//durch alle Entitys der Liste iterieren
+			Entities removeEnt = null;
 			 LinkedList<Entities> tempEntities = getRoom().entities;
 		        Iterator<Entities> iter = tempEntities.iterator();
 			while(iter.hasNext()){
 				if(testent != this){
 					testent = iter.next();
-					//System.out.println(testent.getClass());
 					xdelta = temp.x - testent.getPosition().x; //x-Abstand der Mittelpunkte bestimmen
 					if(xdelta < 0)
 						xdelta = xdelta * (-1);
@@ -251,11 +248,17 @@ public abstract class Moveable extends Entities {
 						ydelta = ydelta * (-1);
 					if(Math.sqrt(xdelta*xdelta + ydelta*ydelta) < 50){	//Wenn wurzel(x^2 + y^2) < 50 ist, auf hitboxkollision prüfen
 						if(hitboxCheck(temp, testent) == false){
-						testent.setHealth(testent.getHealth() - this.power);	
-							
+						testent.setHealth(testent.getHealth() - this.power);
+							if(testent.getHealth() <= 0){
+								removeEnt = testent;
+							}
 						}
 					}
 				}
+			}
+			if(removeEnt != null){
+				currentroom.entities.remove(removeEnt);
+				removeEnt = null;
 			}
 		}
 	
@@ -272,7 +275,6 @@ public abstract class Moveable extends Entities {
 	 * @param y Y-Achse
 	 */
 	public void setPosition(int x, int y) { 
-		System.out.println("Ich bin setpos moveable");
 		pos.setPosition(x, y);
 	}
 	

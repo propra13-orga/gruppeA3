@@ -66,6 +66,6 @@ public class Item extends Entities {
 	}
 	
 	public int getHealth(){
-		return 0;
+		return 1;
 	}
 }
