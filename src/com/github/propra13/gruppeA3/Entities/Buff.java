@@ -7,4 +7,6 @@ public abstract class Buff {
 	 * @param time Geschwindigkeit des Timers an
 	 */
 	public abstract void tick();
+	
+	public abstract void terminate();
 }

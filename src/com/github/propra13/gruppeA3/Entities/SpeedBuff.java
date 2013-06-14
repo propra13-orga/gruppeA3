@@ -4,8 +4,9 @@ import com.github.propra13.gruppeA3.Menu.MenuStart;
 
 public class SpeedBuff extends Buff{
 	
-	private int tickCounter;
 	final public static int manaCost = 15;
+	
+	private int tickCounter;
 	Player player;
 	
 	/**
@@ -24,9 +25,12 @@ public class SpeedBuff extends Buff{
 	@Override
 	public void tick() {
 		tickCounter--;
-		if(tickCounter == 0) {
-			player.buff = null;
-			player.setSpeed(1);
-		}
+		if(tickCounter == 0)
+			terminate();
+	}
+	
+	public void terminate() {
+		player.setBuff(null);
+		player.setSpeed(1);
 	}
 }

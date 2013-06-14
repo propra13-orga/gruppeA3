@@ -25,8 +25,9 @@ public class Player extends Moveable {
 	private int lives = 7;
 	private int money = 0;
 	private int mana = 100;
+	private int attack = 1;
 	
-	public Buff buff;
+	private Buff buff;
 
 	final public static int movePx = Moveable.movePx;
 	
@@ -186,6 +187,7 @@ public class Player extends Moveable {
             	int swimStep = (int)((double)movePx*1.5);
             	if(field.type == 3 /*|| (lastField.type == 3 && field.link != null && field.link.isActivated()) */) { //Wasser oder Link nach Wasser
             		int moveDirection = -1; // Wird je nach Fließrichtung 1 oder -1
+            		int distance;
             		wannaPrint = true;
             		switch(field.attribute1) {
             			//Fließrichtung horizontal
@@ -195,8 +197,7 @@ public class Player extends Moveable {
             				/* Falls Abstand zur Mitte des Flusses != 0, treibe zur Flussmitte
             				 * Distance < 0: Spieler über Fluss
             				 * Distance > 0: Spieler unter Fluss */
-            				int distance = getPosition().y - (field.pos.toPosition().y + 16);
-            				System.out.println("distance: "+getPosition().y+" - ("+field.pos.toPosition().y+" + 16) = "+distance);
+            				distance = getPosition().y - (field.pos.toPosition().y + 16);
             				if(getPosition().y - distance != 0)
             					// Falls relativ nah an Flussmitte, setze auf Flussmitte
             					if(Math.abs(distance) <= swimStep)
@@ -207,13 +208,40 @@ public class Player extends Moveable {
             						int negFactor = 1;
             						if (distance < 0)
             							negFactor = -1;
-            						System.out.println("Setpos: "+getPosition().x+", "+getPosition().y+" - "+swimStep+"*"+negFactor);
             						setPosition(getPosition().x, getPosition().y - swimStep*negFactor);
             					}
             				// Ansonsten normale Schwimmbewegung mit Flussrichtung
-            				else 
-            					System.out.println("Normales Schwimmen");
+            				else
             					setPosition(getPosition().x + swimStep * moveDirection, getPosition().y);
+            				break;
+            				
+            				
+            				//Fließrichtung vertikal
+            			case 2: // Rechts; moveD umdrehen
+            				moveDirection = moveDirection * (-1);
+            			case 0: // Links
+            				/* Falls Abstand zur Mitte des Flusses != 0, treibe zur Flussmitte
+            				 * Distance < 0: Spieler links vom Fluss
+            				 * Distance > 0: Spieler rechts vom Fluss */
+            				distance = getPosition().x - (field.pos.toPosition().x + 16);
+            				System.out.println("distance: "+getPosition().x+" - ("+field.pos.toPosition().x+" + 16) = "+distance);
+            				if(getPosition().x - distance != 0)
+            					// Falls relativ nah an Flussmitte, setze auf Flussmitte
+            					if(Math.abs(distance) <= swimStep)
+            						setPosition(getPosition().x - distance, getPosition().y);
+            					// Ansonsten normale Schwimmbewegung zur Flussmitte
+            					else {
+            						System.out.println("Schwimme richtung Mitte");
+            						int negFactor = 1;
+            						if (distance < 0)
+            							negFactor = -1;
+            						System.out.println("Setpos: "+getPosition().x+" - "+swimStep+"*"+negFactor+", "+getPosition().y);
+            						setPosition(getPosition().x - swimStep*negFactor, getPosition().y);
+            					}
+            				// Ansonsten normale Schwimmbewegung mit Flussrichtung
+            				else
+            					System.out.println("Normales Schwimmen");
+            					setPosition(getPosition().x, getPosition().y + swimStep * moveDirection);
             				break;
             		}
             	}
@@ -337,6 +365,14 @@ public class Player extends Moveable {
     		MenuStart.activeRoom = targetRoom;
     	}
     		
+    }
+    
+    public void setBuff(Buff buff) {
+    	if(this.buff == null)
+    		this.buff = buff;
+    	else
+    		this.buff.terminate();
+    		this.setBuff(null);
     }
     
     public void setSpeedBuff() {
