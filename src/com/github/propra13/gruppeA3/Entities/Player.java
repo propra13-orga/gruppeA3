@@ -375,6 +375,10 @@ public class Player extends Moveable {
     		this.setBuff(null);
     }
     
+    public Buff getBuff(){
+    	return buff;
+    }
+    
     public void setSpeedBuff() {
     	if (getMana() -  SpeedBuff.manaCost >= 0)
     		buff = new SpeedBuff(this, 3, 5);
