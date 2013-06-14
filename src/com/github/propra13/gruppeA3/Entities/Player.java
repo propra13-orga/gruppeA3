@@ -38,6 +38,7 @@ public class Player extends Moveable {
         setPosition(Map.spawns[0].pos.toPosition().x+16, Map.spawns[0].pos.toPosition().y+16);
         hitbox = new Hitbox(28, 28);
         setFaceDirection(direction.DOWN);
+        setPower(1);
     }
 
     //Methode überschrieben, prüft für Spieler zusätzlich Trigger und ob bereits ein anderer Spieler auf dem Feld steht
