@@ -258,7 +258,7 @@ public class Player extends Moveable {
         /**
          * Die Entitites Liste soll durchlaufen werden, um zu überprüfen, ob an der Position xy des Spielers ein Monster ist.
          * TODO: Pixelkoordinatensystemkollisionsabfrage
-         */
+         *
         LinkedList<Entities> tempEntities = getRoom().entities;
         Iterator<Entities> iter = tempEntities.iterator();
 
@@ -277,7 +277,7 @@ public class Player extends Moveable {
             		this.death();
             	}
         }
-		
+		*/
         // Links
         if(getRoom().getField(getFieldPos()).link != null){
         	System.out.println("Ich bin auf nen Link gelatscht!");
@@ -373,6 +373,10 @@ public class Player extends Moveable {
     	else
     		this.buff.terminate();
     		this.setBuff(null);
+    }
+    
+    public Buff getBuff(){
+    	return buff;
     }
     
     public void setSpeedBuff() {
