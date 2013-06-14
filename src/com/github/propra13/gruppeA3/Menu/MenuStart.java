@@ -270,8 +270,8 @@ public void paintMessage(String msg, Graphics g){
 		if(ingame){			
 			player.move();
 			moveEnemys();
-			if (player.buff != null)
-				player.buff.tick();
+			if (player.getBuff() != null)
+				player.getBuff().tick();
 			
 			if(movecounter == 0)
 				movecounter = 60;
