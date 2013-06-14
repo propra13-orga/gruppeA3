@@ -22,7 +22,7 @@ import com.github.propra13.gruppeA3.Keys;
 import com.github.propra13.gruppeA3.Entities.Entities;
 import com.github.propra13.gruppeA3.Entities.Item;
 import com.github.propra13.gruppeA3.Entities.Monster;
-import com.github.propra13.gruppeA3.Entities.Moveable.direction;
+import com.github.propra13.gruppeA3.Entities.Moveable.Direction;
 import com.github.propra13.gruppeA3.Entities.Player;
 import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Map.Position;
@@ -317,19 +317,19 @@ public void paintMessage(String msg, Graphics g){
 		int rndnumber = randomgen.nextInt();
 		switch(rndnumber%6){
 			case 0:
-				monster.setDirection(direction.UP);
+				monster.setDirection(Direction.UP);
 				break;
 			case 1:
-				monster.setDirection(direction.DOWN);
+				monster.setDirection(Direction.DOWN);
 				break;
 			case 2:
-				monster.setDirection(direction.LEFT);
+				monster.setDirection(Direction.LEFT);
 				break;
 			case 3:
-				monster.setDirection(direction.RIGHT);
+				monster.setDirection(Direction.RIGHT);
 				
 			default:
-				monster.setDirection(direction.NONE);
+				monster.setDirection(Direction.NONE);
 		}
 	}
 }

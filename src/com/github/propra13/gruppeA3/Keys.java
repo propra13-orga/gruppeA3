@@ -3,7 +3,7 @@ package com.github.propra13.gruppeA3;
 import java.awt.event.*;
 
 import com.github.propra13.gruppeA3.Entities.Player;
-import com.github.propra13.gruppeA3.Entities.Moveable.direction;
+import com.github.propra13.gruppeA3.Entities.Moveable.Direction;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 
 public class Keys implements KeyListener {
@@ -24,26 +24,26 @@ public class Keys implements KeyListener {
 		{
 			switch(pressed){
 				case KeyEvent.VK_LEFT:
-					player.setDirection(direction.LEFT);
-					player.setFaceDirection(direction.LEFT);
+					player.setDirection(Direction.LEFT);
+					player.setFaceDirection(Direction.LEFT);
 					//player.move();
 					break;
 				
 				case KeyEvent.VK_RIGHT:
-					player.setDirection(direction.RIGHT);
-					player.setFaceDirection(direction.RIGHT);
+					player.setDirection(Direction.RIGHT);
+					player.setFaceDirection(Direction.RIGHT);
 					//player.move();
 					break;
 					
 				case KeyEvent.VK_UP:
-					player.setDirection(direction.UP);
-					player.setFaceDirection(direction.UP);
+					player.setDirection(Direction.UP);
+					player.setFaceDirection(Direction.UP);
 					//player.move();
 					break;
 				
 				case KeyEvent.VK_DOWN:
-					player.setDirection(direction.DOWN);
-					player.setFaceDirection(direction.DOWN);
+					player.setDirection(Direction.DOWN);
+					player.setFaceDirection(Direction.DOWN);
 					//player.move();
 					break;
 					
@@ -71,6 +71,6 @@ public class Keys implements KeyListener {
 	}
 	
 	public void keyReleased(KeyEvent e){
-		player.setDirection(direction.NONE);
+		player.setDirection(Direction.NONE);
     }
 }

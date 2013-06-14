@@ -28,7 +28,7 @@ public class Monster extends Moveable {
 		this.desc = desc;
 		this.hitbox = new Hitbox();
 		setPosition(x+(hitbox.width/2),y+(hitbox.height/2));
-		setDirection(direction.NONE);
+		setDirection(Direction.NONE);
 	}
 	
 	

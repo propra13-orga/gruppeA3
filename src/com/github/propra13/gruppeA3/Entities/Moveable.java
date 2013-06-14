@@ -19,9 +19,9 @@ import com.github.propra13.gruppeA3.Menu.MenuStart;
 public abstract class Moveable extends Entities {
 	
 
-	public enum direction{LEFT,RIGHT,UP,DOWN,NONE}
-	private direction direct;
-	private direction facedirect;
+	public static enum Direction{LEFT,RIGHT,UP,DOWN,NONE}
+	protected Direction direct;
+	private Direction facedirect;
 	private Position pos;
 	private Room currentroom;
 	protected Hitbox hitbox;
@@ -40,14 +40,13 @@ public abstract class Moveable extends Entities {
 	
 	//Konstruktor
 	public Moveable(Room room_bind){
-		//System.out.println("Moveable"); //nicht erreichbar - wtf
 		this.pos = new Position(0,0);
 		this.currentroom = room_bind;
-		this.direct = direction.NONE;
+		this.direct = Direction.NONE;
 		this.power = 0;
 		this.speed = 1; 
 		this.armour = 0;
-		this.facedirect = direction.NONE;
+		this.facedirect = Direction.NONE;
 	}
 
 	/** 
@@ -56,16 +55,12 @@ public abstract class Moveable extends Entities {
 	 * Wenn begehbar, setposition anwenden
 	 **/
 	public void move() {
-    	if (this.getDirection() != direction.NONE)
-    		System.out.println("Setze Richtung auf "+this.getDirection());
 
     	int step = (int)(movePx * getSpeed());
     	Position nextPos = new Position(0,0); //Position, auf die gelaufen werden soll
     	Field[] fieldsToWalk = new Field[2];  // Felder, die betreten werden sollen
-    	boolean wannaPrint = false;
         switch (this.getDirection()) {
             case LEFT:
-            	wannaPrint = true;
             	nextPos.setPosition(getPosition().x - step, getPosition().y);
             	// Checke, ob Spieler aus der Map rauslatscht anhand Hitbox
             	if(nextPos.getCornerTopLeft(hitbox).x > 0) {
@@ -98,7 +93,6 @@ public abstract class Moveable extends Entities {
                 break;
 
             case UP:
-            	wannaPrint = true;
         		nextPos.setPosition(getPosition().x, getPosition().y - step);
         		// Checke, ob Spieler aus der Map rauslatscht anhand Hitbox
             	if(nextPos.getCornerTopLeft(hitbox).y > 0) {
@@ -131,7 +125,6 @@ public abstract class Moveable extends Entities {
                 break;
 
             case RIGHT:
-            	wannaPrint = true;
         		nextPos.setPosition(getPosition().x + step, getPosition().y);
         		// Checke, ob Spieler aus der Map rauslatscht anhand Hitbox
             	if(nextPos.getCornerTopRight(hitbox).x < getRoom().getWidth()*32) {
@@ -162,7 +155,6 @@ public abstract class Moveable extends Entities {
                 break;
 
             case DOWN:
-            	wannaPrint = true;
         		nextPos.setPosition(getPosition().x, getPosition().y + step);
         		// Checke, ob Spieler aus der Map rauslatscht anhand Hitbox
             	if(nextPos.getCornerBottomLeft(hitbox).y < getRoom().getHeight()*32) {
@@ -490,11 +482,11 @@ public abstract class Moveable extends Entities {
 		currentroom = room;
 	}
 	
-	public direction getDirection(){
+	public Direction getDirection(){
 		return this.direct;
 	}
 	
-	public void setDirection(direction direct){
+	public void setDirection(Direction direct){
 		this.direct = direct;
 	}
 	@Override
@@ -502,11 +494,11 @@ public abstract class Moveable extends Entities {
 		return hitbox;
 	}
 	
-	public direction getFaceDirection(){
+	public Direction getFaceDirection(){
 		return facedirect;
 	}
 	
-	public void setFaceDirection(direction direct){
+	public void setFaceDirection(Direction direct){
 		facedirect = direct;
 	}
 }
