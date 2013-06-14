@@ -122,17 +122,17 @@ public class MenuStart extends JPanel implements ActionListener {
             	switch(walltype)
             	{
             	case 1:
-            		 g2d.drawImage(GameWindow.wallimg_1_32, i*32, j*32, this);
+            		 g2d.drawImage(GameWindow.backgroundimg_1, i*32, j*32, this);
             		 break;
             	
             	case 2:
-            		g2d.drawImage(GameWindow.wallimg_2_32, i*32, j*32, this);
+            		g2d.drawImage(GameWindow.backgroundimg_2, i*32, j*32, this);
             		break;
             	case 3:
-            		g2d.drawImage(GameWindow.wallimg_3_32, i*32, j*32, this);
+            		g2d.drawImage(GameWindow.backgroundimg_3, i*32, j*32, this);
             		break;
             	default:
-            		g2d.drawImage(GameWindow.backgroundimg, i*32, j*32, this);
+            		g2d.drawImage(GameWindow.backgroundimg_4, i*32, j*32, this);
             		break;
             	}
             }
@@ -173,19 +173,19 @@ public class MenuStart extends JPanel implements ActionListener {
         // Malt Spieler
         switch(player.getFaceDirection()){
         case UP: 
-        	g2d.drawImage(GameWindow.playerimg_up, pp.x, pp.y , this);
+        	g2d.drawImage(GameWindow.playerimg_up1, pp.x, pp.y , this);
         	break;
         case DOWN:
-        	g2d.drawImage(GameWindow.playerimg_down, pp.x, pp.y , this);
+        	g2d.drawImage(GameWindow.playerimg_down1, pp.x, pp.y , this);
         	break;
         case LEFT:
-        	g2d.drawImage(GameWindow.playerimg_left, pp.x, pp.y , this);
+        	g2d.drawImage(GameWindow.playerimg_left1, pp.x, pp.y , this);
         	break;
         case RIGHT:
-        	g2d.drawImage(GameWindow.playerimg_right, pp.x, pp.y , this);
+        	g2d.drawImage(GameWindow.playerimg_right1, pp.x, pp.y , this);
         	break;	
         default:
-        	g2d.drawImage(GameWindow.playerimg_down, pp.x, pp.y , this);
+        	g2d.drawImage(GameWindow.playerimg_down1, pp.x, pp.y , this);
         	break;
         }
         

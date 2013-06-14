@@ -11,15 +11,31 @@ import java.awt.Toolkit;
 
 public class GameWindow {
 	
-    public static Image monsterimg;
-    public static Image backgroundimg;
-    public static Image wallimg_1_32;
-    public static Image wallimg_2_32;
-    public static Image wallimg_3_32;
-    public static Image playerimg_left;
-    public static Image playerimg_right;
-    public static Image playerimg_up;
-    public static Image playerimg_down;
+	public static Image monsterimg;
+    public static Image backgroundimg_1;
+    public static Image backgroundimg_2;
+    public static Image backgroundimg_3;
+    public static Image backgroundimg_4;
+    public static Image playerimg_left1;
+    public static Image playerimg_left2;
+    public static Image playerimg_right1;
+    public static Image playerimg_right2;
+    public static Image playerimg_up1;
+    public static Image playerimg_up2;
+    public static Image playerimg_down1;
+    public static Image playerimg_down2;
+    public static Image kampfimg_left1;
+    public static Image kampfimg_left2;
+    public static Image kampfimg_right1;
+    public static Image kampfimg_right2;
+    public static Image kampfimg_up1;
+    public static Image kampfimg_up2;
+    public static Image kampfimg_down1;
+    public static Image kampfimg_down2;
+    public static Image kampfimg_shieldL;
+    public static Image kampfimg_shieldR;
+    public static Image kampfimg_shieldU;
+    public static Image kampfimg_shieldD;
     public static Image exitimg;
     public static Image heart;
     public static Image coin;
@@ -37,20 +53,44 @@ public class GameWindow {
 	public GameWindow(){
 	GamePath = System.getProperty("user.dir");
     tool = Toolkit.getDefaultToolkit();
-    monsterimg = this.getImage(this.GamePath + "/data/images/Test_Monster.png");
-    backgroundimg = this.getImage(this.GamePath + "/data/images/Test_Wand.png");
-    wallimg_1_32 = this.getImage(this.GamePath + "/data/images/wall_1_32.png");
-    wallimg_2_32 = this.getImage(this.GamePath + "/data/images/wall_2_32.png");
-    wallimg_3_32 = this.getImage(this.GamePath + "/data/images/wall_3_32.png");
-    playerimg_down = this.getImage(this.GamePath + "/data/images/Pdown1.png");
-    playerimg_up = this.getImage(this.GamePath + "/data/images/Pup1.png");
-    playerimg_left = this.getImage(this.GamePath + "/data/images/Pleft1.png");
-    playerimg_right = this.getImage(this.GamePath + "/data/images/Pright1.png");
-    exitimg = this.getImage(this.GamePath + "/data/images/exit.png");
-    sword = this.getImage(this.GamePath + "/data/images/sword.png");
-    shield = this.getImage(this.GamePath + "/data/images/shield.png");
-    heart = this.getImage(this.GamePath + "/data/images/herz.png");
-    coin = this.getImage(this.GamePath + "/data/images/coin.png");
+    //Monster
+    monsterimg = this.getImage(this.GamePath + "/data/images/Monster/M1.png");
+    //Hintergrund
+    backgroundimg_4= this.getImage(this.GamePath + "/data/images/Exit.png");
+    backgroundimg_1= this.getImage(this.GamePath + "/data/images/UG1.png");
+    backgroundimg_2= this.getImage(this.GamePath + "/data/images/UG2.png");
+    backgroundimg_3 = this.getImage(this.GamePath + "/data/images/Fluss.png");
+    //Player läuft
+    playerimg_left1 = this.getImage(this.GamePath + "/data/images/Spieler läuft/Pleft1.png");
+    playerimg_left2 = this.getImage(this.GamePath + "/data/images/Spieler läuft/Pleft2.png");
+    playerimg_right1 = this.getImage(this.GamePath + "/data/images/Spieler läuft/Pright1.png");
+    playerimg_right2 = this.getImage(this.GamePath + "/data/images/Spieler läuft/Pright2.png");
+    playerimg_up1 = this.getImage(this.GamePath + "/data/images/Spieler läuft/Pup1.png");
+    playerimg_up2 = this.getImage(this.GamePath + "/data/images/Spieler läuft/Pup2.png");
+    playerimg_down1 = this.getImage(this.GamePath + "/data/images/Spieler läuft/Pdown1.png");
+    playerimg_down1 = this.getImage(this.GamePath + "/data/images/Spieler läuft/Pdown2.png");
+    //Player kämpft
+    kampfimg_left1 = this.getImage(this.GamePath +"/data/images/Spieler kampf/Kleft1");
+    kampfimg_left2 = this.getImage(this.GamePath +"/data/images/Spieler kampf/Kleft2");
+    kampfimg_right1 = this.getImage(this.GamePath +"/data/images/Spieler kampf/Kright1");
+    kampfimg_right2 = this.getImage(this.GamePath +"/data/images/Spieler kampf/Kright2");
+    kampfimg_up1 = this.getImage(this.GamePath +"/data/images/Spieler kampf/Kup1");
+    kampfimg_up2 = this.getImage(this.GamePath +"/data/images/Spieler kampf/Kup2");
+    kampfimg_down1 = this.getImage(this.GamePath +"/data/images/Spieler kampf/Kdown1");
+    kampfimg_down2 = this.getImage(this.GamePath +"/data/images/Spieler kampf/Kdown2");
+    kampfimg_shieldL = this.getImage(this.GamePath + "/data/images/Spieler kampf/Sleft1");
+    kampfimg_shieldR = this.getImage(this.GamePath + "/data/images/Spieler kampf/Sright1");
+    kampfimg_shieldU = this.getImage(this.GamePath + "/data/images/Spieler kampf/Sup1");
+    kampfimg_shieldD = this.getImage(this.GamePath + "/data/images/Spieler kampf/Sdown1");
+    //Player zaubert 
+    //NPC
+    //Room-Items
+    sword = this.getImage(this.GamePath + "/data/images/items room/W1.png");
+    shield = this.getImage(this.GamePath + "/data/images/items room/S1.png");
+    //Infoleiste 
+    heart = this.getImage(this.GamePath + "/data/images/infoleiste/herz.png");
+    coin = this.getImage(this.GamePath + "/data/images/infoleiste/coin.png");
+    
 	}
 	
     protected Image getImage(String path) {
