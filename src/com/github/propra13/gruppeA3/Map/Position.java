@@ -65,4 +65,8 @@ public class Position {
 		this.x = x;
 		this.y = y;
 	}
+	
+	public boolean equals(Position checkPos){
+		return (this.x/32 == checkPos.x/32) && (this.y/32 == checkPos.y/32); 
+	}
 }

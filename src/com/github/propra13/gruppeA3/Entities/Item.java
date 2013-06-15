@@ -1,9 +1,5 @@
-/**
- * 
- */
 package com.github.propra13.gruppeA3.Entities;
 
-import com.github.propra13.gruppeA3.Map.FieldPosition;
 import com.github.propra13.gruppeA3.Map.Position;
 import com.github.propra13.gruppeA3.Map.Room;
 
@@ -22,6 +18,7 @@ public class Item extends Entities {
 	private int type;
 	private String desc;
 	private Hitbox hitbox;
+	private int value;
 	
 	/**
 	 * @author Majida Dere

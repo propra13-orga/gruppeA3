@@ -25,6 +25,7 @@ public class Player extends Moveable {
 	private int lives = 7;
 	private int money = 0;
 	private int mana = 100;
+	private LinkedList<Item> items = null;
 	
 	private Buff buff;
 
@@ -40,6 +41,7 @@ public class Player extends Moveable {
         setFaceDirection(Direction.DOWN);
         setPower(1);
         getRoom().entities.add(this);
+        this.items = new LinkedList<Item>();
     }
 
     //Methode 체berschrieben, pr체ft f체r Spieler zus채tzlich Trigger und ob bereits ein anderer Spieler auf dem Feld steht
@@ -279,6 +281,25 @@ public class Player extends Moveable {
         if (trigger != null) {
         	trigger.trigger();
     	}
+        
+        /** Items aufsammeln, wenn man sie ber웘rt **/
+        LinkedList<Entities> list = getRoom().entities;
+        Iterator<Entities> iter = list.iterator();
+        Entities testEntity = null;
+        while(iter.hasNext()) {
+        	testEntity = iter.next();
+        	//System.out.println("("+this.getPosition().x+","+this.getPosition().y+")"+" ("+testEntity.getPosition().x+","+testEntity.getPosition().y+")");
+        	if (testEntity instanceof Item){
+        		if(this.getPosition().equals(testEntity.getPosition()))
+        		{	
+        				//System.out.println("B");
+        		
+        		this.items.add((Item) testEntity);
+        		iter.remove();
+        		System.out.println("Item aufgenommen und entfernt");
+        		}
+        	}
+        }
     }
     private void win() {
     	MenuStart.win=true;

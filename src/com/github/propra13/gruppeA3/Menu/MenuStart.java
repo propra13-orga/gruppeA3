@@ -296,8 +296,8 @@ public void paintMessage(String msg, Graphics g){
 	private void moveEnemys(){
 		Entities testent = null;	//durch alle Entitys der Liste iterieren
 		Monster testmonster = null;
-		 LinkedList<Entities> tempEntities = player.getRoom().entities;
-	        Iterator<Entities> iter = tempEntities.iterator();
+		LinkedList<Entities> tempEntities = player.getRoom().entities;
+	    Iterator<Entities> iter = tempEntities.iterator();
 		while(iter.hasNext()){
 			testent = iter.next();
 			if(testent instanceof Monster){

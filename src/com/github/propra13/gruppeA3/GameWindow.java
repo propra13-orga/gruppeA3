@@ -61,14 +61,14 @@ public class GameWindow {
     backgroundimg_2= this.getImage(this.GamePath + "/data/images/UG2.png");
     backgroundimg_3 = this.getImage(this.GamePath + "/data/images/Fluss.png");
     //Player läuft
-    playerimg_left1 = this.getImage(this.GamePath + "/data/images/Spieler läuft/Pleft1.png");
-    playerimg_left2 = this.getImage(this.GamePath + "/data/images/Spieler läuft/Pleft2.png");
-    playerimg_right1 = this.getImage(this.GamePath + "/data/images/Spieler läuft/Pright1.png");
-    playerimg_right2 = this.getImage(this.GamePath + "/data/images/Spieler läuft/Pright2.png");
-    playerimg_up1 = this.getImage(this.GamePath + "/data/images/Spieler läuft/Pup1.png");
-    playerimg_up2 = this.getImage(this.GamePath + "/data/images/Spieler läuft/Pup2.png");
-    playerimg_down1 = this.getImage(this.GamePath + "/data/images/Spieler läuft/Pdown1.png");
-    playerimg_down1 = this.getImage(this.GamePath + "/data/images/Spieler läuft/Pdown2.png");
+    playerimg_left1 = this.getImage(this.GamePath + "/data/images/Spieler laeuft/Pleft1.png");
+    playerimg_left2 = this.getImage(this.GamePath + "/data/images/Spieler laeuft/Pleft2.png");
+    playerimg_right1 = this.getImage(this.GamePath + "/data/images/Spieler laeuft/Pright1.png");
+    playerimg_right2 = this.getImage(this.GamePath + "/data/images/Spieler laeuft/Pright2.png");
+    playerimg_up1 = this.getImage(this.GamePath + "/data/images/Spieler laeuft/Pup1.png");
+    playerimg_up2 = this.getImage(this.GamePath + "/data/images/Spieler laeuft/Pup2.png");
+    playerimg_down1 = this.getImage(this.GamePath + "/data/images/Spieler laeuft/Pdown1.png");
+    playerimg_down1 = this.getImage(this.GamePath + "/data/images/Spieler laeuft/Pdown2.png");
     //Player kämpft
     kampfimg_left1 = this.getImage(this.GamePath +"/data/images/Spieler kampf/Kleft1");
     kampfimg_left2 = this.getImage(this.GamePath +"/data/images/Spieler kampf/Kleft2");
