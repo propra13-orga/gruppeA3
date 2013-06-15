@@ -31,27 +31,12 @@ public class Game extends JFrame{
 		setLocation((int)((d.getWidth() - this.getWidth()) / 2), (int)((d.getHeight() - this.getHeight()) / 2));
 
 		//Game Start
-		MenuStart MS = new MenuStart();
+		MenuStart MS = new MenuStart(this);
 		add(MS);
 		setVisible(true);
 	}
 	
 	public static void main(String[] args){
-		try {
-			Map.initialize("Map02");
-		} catch (InvalidRoomLinkException | IOException | MapFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        
-		//Übergebe map an XML Parser, sodass wir immer dieselbe map benutzen.
-		SAXCrawlerReader reader=new SAXCrawlerReader();
-		try {
-			reader.read("data/levels/level1.xml");
-			
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 		
 		new Game();
 	}
