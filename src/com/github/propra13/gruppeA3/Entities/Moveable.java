@@ -47,9 +47,10 @@ public abstract class Moveable extends Entities {
 		this.pos = new Position(0,0);
 		this.currentroom = room_bind;
 		this.direct = Direction.NONE;
-		this.power = 0;
+		this.power = 1;
 		this.speed = 1; 
 		this.armour = 0;
+		this.health = 1;
 		this.facedirect = Direction.NONE;
 		this.attackcounter = 0;
 		this.castcounter = 0;
@@ -422,8 +423,8 @@ public abstract class Moveable extends Entities {
 			LinkedList<Entities> tempEntities = getRoom().entities;
 		    Iterator<Entities> iter = tempEntities.iterator();
 			while(iter.hasNext()){
-				if(testent != this){
-					testent = iter.next();
+				testent = iter.next();
+				if(testent != this){	
 					xdelta = temp.x - testent.getPosition().x; //x-Abstand der Mittelpunkte bestimmen
 					if(xdelta < 0)
 						xdelta = xdelta * (-1);
