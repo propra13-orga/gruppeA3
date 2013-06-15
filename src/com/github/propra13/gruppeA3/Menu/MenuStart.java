@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
@@ -306,7 +307,11 @@ public void paintMessage(String msg, Graphics g){
 		LinkedList<Entities> tempEntities = player.getRoom().entities;
 	    Iterator<Entities> iter = tempEntities.iterator();
 		while(iter.hasNext()){
-			testent = iter.next();
+			try {
+				testent = iter.next();
+			} catch (ConcurrentModificationException e) {
+				e.printStackTrace();
+			}
 			if(testent instanceof Monster) {
 				testmonster = (Monster) testent;
 				if(testmonster != null){
