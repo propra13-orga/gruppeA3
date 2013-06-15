@@ -4,7 +4,6 @@ import org.xml.sax.*;
 
 import com.github.propra13.gruppeA3.Entities.*;
 import com.github.propra13.gruppeA3.Map.Map;
-import com.github.propra13.gruppeA3.Map.Position;
 
 /**
  * @author Majida Dere
@@ -19,6 +18,7 @@ public class CrawlerSAX extends DefaultHandler{
 	//	public static Entities[][] map;
 	public static String title;
 	private int roomID;
+	private String parentElement=null, childElement=null;
 	
 	/**
 	 * @author Majida Dere
@@ -44,6 +44,9 @@ public class CrawlerSAX extends DefaultHandler{
 	public void startElement (String uri, String localName, 
 								String qName,Attributes attrs)
 										throws SAXException {
+		parentElement=childElement;
+		childElement=parentElement;
+		
 		if(qName.equals("level")){
 			//System.out.println(attrs.getValue("id"));
 			title = new String(attrs.getValue("desc"));
@@ -71,6 +74,8 @@ public class CrawlerSAX extends DefaultHandler{
 
 		}
 		else if(qName.equals("item")){
+			System.out.println("uri: "+uri);
+			System.out.println("localName: "+localName);
 			int damage = Integer.parseInt(attrs.getValue("damage"));
 			int type = Integer.parseInt(attrs.getValue("type"));
 			int posx = Integer.parseInt(attrs.getValue("posx"))*32;
@@ -81,6 +86,11 @@ public class CrawlerSAX extends DefaultHandler{
 
 			Map.getMapRoom(roomID).entities.add(item);
 		}
+	}
+	
+	public void characters(char[] ch, int start, int length)
+            							throws SAXException{
+		
 	}
 	
 	@Override

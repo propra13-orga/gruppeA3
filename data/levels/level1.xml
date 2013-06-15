@@ -7,9 +7,9 @@
 	<rooms id="0" length="8" height="8">
 
 	<!-- Monster in Room -->
-		<monster type="1" name="Monster-Snake" speed="3.0" power="3" life="10" posx="3" posy="3" />
+		<monster type="1" name="Monster-Snake" speed="3.0" power="3" life="10" posx="3" posy="2" />
 		<monster type="2" name="Spider-Man" speed="1.0" power="3" life="15" posx="7" posy="8" />
-		<monster type="3" name="Pinky the Rat" speed="4.0" power="7" life="3" posx="5" posy="3" />   
+		<monster type="3" name="Pinky the Rat" speed="4.0" power="7" life="3" posx="5" posy="2" />   
 		
 		
 		<!-- Items in Room -->
@@ -32,6 +32,9 @@
 		<lines>S        F     #</lines>
 		<lines>################</lines>
 		-->
+		<npc>
+			<item type="5" name="shield" desc="A way to protect." damage="5" posx="2" posy="6" />
+		</npc>
 	</rooms>
 
 
