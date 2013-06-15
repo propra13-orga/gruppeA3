@@ -96,7 +96,7 @@ public class MenuStart extends JPanel implements ActionListener {
  		menu=false;
  		ingame = true;
  		win = false;
- 		player.setLives(5);
+ 		player.setLives(3);
 
  	}
     
@@ -241,20 +241,23 @@ public void initMenu(){
 	add(buttonbeenden);
 }
 
-//score + life
+//Socre and set Leben
 public void Score(Graphics2D g) {
-    int i,x;
-    String s;
+    int i,x,s;
 
     g.setFont(smallfont);
-    g.setColor(Color.GREEN);
-    s = "Score: " + score;
-    g.drawString(s, 700, 590); //Zeile 32 spalte 25
-   for (i = 0; i < player.getLives(); i++) {
+    g.setColor(Color.BLACK);
+    s = score;
+  //  System.out.println(s);
+    g.drawImage(GameWindow.coin, 720, 543, this);
+    g.drawString(Integer.toString(s), 750, 563);
+    //auslesen der Spieler leben über die getter player.getLives()
+    for (i = 0; i < player.getLives(); i++) {
 	   x = i * 32 + 8 ;
-	   //System.out.println(x);
-        g.drawImage(GameWindow.heart, x, 573, this);
+        g.drawImage(GameWindow.heart, x, 542, this);
     }
+   g.drawString("Health: ", 120, 563);
+   g.drawString(Integer.toString(player.getHealth()),170,563);
 }
 
 public void paintMessage(String msg, Graphics g){
