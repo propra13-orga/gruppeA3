@@ -66,6 +66,11 @@ public class Keys implements KeyListener {
 				case KeyEvent.VK_4:
 					player.fireAOEPlasma();
 					break;
+					
+				// Setzt Mana wieder auf 100 (zum Testen)
+				case KeyEvent.VK_M:
+					player.setMana(100);
+					break;
 			}
 		}
 	}

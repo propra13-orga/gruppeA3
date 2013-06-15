@@ -1,17 +1,11 @@
 package com.github.propra13.gruppeA3.Entities;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-
 import com.github.propra13.gruppeA3.Map.Room;
 
 public abstract class Projectile extends Moveable {
 	
 	Moveable.Direction direct1;
 	Moveable.Direction direct2;
-	
-	// Aus Synchrogründen werden hier Projektile, die zu entfernen sind, gespeichert
-	private static LinkedList<Projectile> removeCandidates = new LinkedList<Projectile>();
 
 	/**
 	 * Schießt Projektil durch die Gegend
@@ -33,27 +27,12 @@ public abstract class Projectile extends Moveable {
 		if(entity instanceof Monster) {
 			entity = (Monster)entity;
 			entity.setHealth(entity.getHealth() - getDamage());
-			getRoom().entities.remove(this);
+			terminate();
 		}
 	}
 	
 	public void terminate() {
-		removeCandidates.add(this);
-	}
-	
-	public static void removeProjectiles(Room room) {
-		Projectile toRemove = null;
-		Iterator<Projectile> itprj = removeCandidates.iterator();
-		while (itprj.hasNext()) {
-			toRemove = itprj.next();
-			Entities testent = null;	//durch alle Entitys der Liste iterieren
-		    Iterator<Entities> itent = room.entities.iterator();
-			while(itent.hasNext()){
-				testent = itent.next();
-				if(testent == toRemove)
-					itent.remove();
-			}
-		}
+		getRoom().removeCandidates.add(this);
 	}
 	
 	public void tick() {
@@ -72,7 +51,7 @@ public abstract class Projectile extends Moveable {
 				pos.getCornerBottomLeft(hitbox).y >= getRoom().getHeight()*32)
 		{
 			System.out.println("Ich bin ein Projektil und löse mich auf.");
-			getRoom().entities.remove(this);
+			terminate();
 		}
 		System.out.println("Ich bin ein Projektil! Ich bewege mich nach "+this.pos.x+":"+this.pos.y);
 	}

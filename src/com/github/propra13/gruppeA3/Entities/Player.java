@@ -295,7 +295,7 @@ public class Player extends Moveable {
         				//System.out.println("B");
         		
         		this.items.add((Item) testEntity);
-        		iter.remove();
+        		getRoom().removeCandidates.add(testEntity);
         		System.out.println("Item aufgenommen und entfernt");
         		}
         	}

@@ -411,9 +411,8 @@ public abstract class Moveable extends Entities {
 			int xdelta;
 			int ydelta;
 			Entities testent = null;	//durch alle Entitys der Liste iterieren
-			Entities removeEnt = null;
-			 LinkedList<Entities> tempEntities = getRoom().entities;
-		        Iterator<Entities> iter = tempEntities.iterator();
+			LinkedList<Entities> tempEntities = getRoom().entities;
+		    Iterator<Entities> iter = tempEntities.iterator();
 			while(iter.hasNext()){
 				if(testent != this){
 					testent = iter.next();
@@ -427,15 +426,11 @@ public abstract class Moveable extends Entities {
 						if(hitboxCheck(temp, testent) == false){
 							testent.setHealth(testent.getHealth() - this.power);
 							if(testent.getHealth() <= 0){
-								removeEnt = testent;
+								getRoom().removeCandidates.add(testent);
 							}
 						}
 					}
 				}
-			}
-			if(removeEnt != null){
-				currentroom.entities.remove(removeEnt);
-				removeEnt = null;
 			}
 		}
 	
@@ -476,6 +471,8 @@ public abstract class Moveable extends Entities {
 	 */
 	public void setHealth(int health){
 		this.health = health;
+		if (this.health <= 0 && ! (this instanceof Player))
+			getRoom().removeCandidates.add(this);
 	}
 
 	/**

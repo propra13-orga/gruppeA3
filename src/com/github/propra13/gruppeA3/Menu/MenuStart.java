@@ -276,6 +276,7 @@ public void paintMessage(String msg, Graphics g){
 		if(ingame){			
 			player.move();
 			moveEnemies();
+			activeRoom.removeEntities();
 			if (player.getBuff() != null)
 				player.getBuff().tick();
 			
@@ -322,7 +323,6 @@ public void paintMessage(String msg, Graphics g){
 				testproj.tick();
 			}
 		}
-		Projectile.removeProjectiles(activeRoom);
 	}
 	
 	private void generateDirection(Monster monster){
