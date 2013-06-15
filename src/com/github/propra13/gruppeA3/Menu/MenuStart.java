@@ -207,12 +207,14 @@ public class MenuStart extends JPanel implements ActionListener {
         	}
         	else if(ingame ==false && win == true && timer.isRunning())
         	{
+        		setBackground(Color.BLACK);
         		String msg;
         		msg="Spiel Gewonnen";
         		paintMessage(msg,g);
         	}
         	else if(ingame ==false && win == false && timer.isRunning())
         	{
+        		setBackground(Color.BLACK);
         		String msg;
         		msg="Game Over";
         		paintMessage(msg,g);
