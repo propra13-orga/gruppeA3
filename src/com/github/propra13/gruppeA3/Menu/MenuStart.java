@@ -14,15 +14,12 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
 
-
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import com.github.propra13.gruppeA3.GameWindow;
 import com.github.propra13.gruppeA3.Keys;
-//import com.github.propra13.gruppeA3.Editor.MapEditor;
 import com.github.propra13.gruppeA3.Entities.Entities;
 import com.github.propra13.gruppeA3.Entities.Item;
 import com.github.propra13.gruppeA3.Entities.Monster;
@@ -65,15 +62,26 @@ public class MenuStart extends JPanel implements ActionListener {
 	public static boolean menu = false;
 	public static boolean win = false;
 	public static boolean editor = false;
-	
-	private JFrame frame;
 
 	//score infoleiste
 	public static int score;
 	Font smallfont = new Font("Helvetica", Font.BOLD, 14);
 	
-    public MenuStart(JFrame frame) {
-    	this.frame = frame;
+    public MenuStart() {
+    	// Lese Map
+    			try {
+    				Map.initialize("Map02");
+    			} catch (InvalidRoomLinkException | IOException | MapFormatException e) {
+    				e.printStackTrace();
+    			}
+    			
+    			SAXCrawlerReader reader=new SAXCrawlerReader();
+    			try {
+    				reader.read("data/levels/level1.xml");
+    				
+    			} catch (Exception e) {
+    					e.printStackTrace();
+    			}
     	setLayout(null);
     	setFocusable(true);
     	new GameWindow();  
@@ -82,7 +90,13 @@ public class MenuStart extends JPanel implements ActionListener {
         setDoubleBuffered(true);
         
         randomgen = new Random(System.currentTimeMillis());
-        		
+        	
+        activeRoom = Map.getMapRoom(0);
+ 		player = new Player(activeRoom);
+
+ 		
+        addKeyListener(new Keys(player));
+        
         menu = true; //wichtig für den ersten Spiel aufruf
         timer = new Timer(delay, this);
         timer.start();
@@ -107,56 +121,15 @@ public class MenuStart extends JPanel implements ActionListener {
  		menu=false;
  		ingame = true;
  		win = false;
-
- 		// Lese Map
-		try {
-			Map.initialize("Map02");
-		} catch (InvalidRoomLinkException | IOException | MapFormatException e) {
-			e.printStackTrace();
-		}
-		
-		SAXCrawlerReader reader=new SAXCrawlerReader();
-		try {
-			reader.read("data/levels/level1.xml");
-			
-		} catch (Exception e) {
-				e.printStackTrace();
-		}
-		
-        activeRoom = Map.getMapRoom(0);
- 		player = new Player(activeRoom);
  		player.setLives(3);
  		
-        addKeyListener(new Keys(player));
+		
+
 
  	}
  
- 	public static void paintRoom(Graphics2D g2d, JPanel panel, Room room) {
- 		//Iteriert über Spalten
-        for (int i = 0; i < room.roomFields.length; i++) {
-            //Iteriert über Zeilen
-            for (int j = 0; j < room.roomFields[i].length; j++) {
-            	
-            	int walltype = room.roomFields[i][j].type;
-            	
-            	switch(walltype)
-            	{
-            	case 1:
-            		 g2d.drawImage(GameWindow.backgroundimg_1, i*32, j*32, panel);
-            		 break;
-            	
-            	case 2:
-            		g2d.drawImage(GameWindow.backgroundimg_2, i*32, j*32, panel);
-            		break;
-            	case 3:
-            		g2d.drawImage(GameWindow.backgroundimg_3, i*32, j*32, panel);
-            		break;
-            	default:
-            		g2d.drawImage(GameWindow.backgroundimg_4, i*32, j*32, panel);
-            		break;
-            	}
-            }
-        }
+ 	public static void paintRoom(Graphics2D g2d, Room room) {
+ 		
  	}
     
     public void paint(Graphics g) { //Funktion zum Zeichnen von Grafiken
@@ -165,9 +138,38 @@ public class MenuStart extends JPanel implements ActionListener {
         
         if(ingame)
         {
-
-        paintRoom(g2d, this, activeRoom);
-        
+        setBackground(Color.WHITE);
+      //Iteriert über Spalten
+        for (int i = 0; i < activeRoom.roomFields.length; i++) {
+            //Iteriert über Zeilen
+            for (int j = 0; j < activeRoom.roomFields[i].length; j++) {
+               
+            	/*
+                 * author: J.L
+                 * +32 damit die zeile nicht abgeschnitten wird das gleiche bei Monster
+                 * [Map.mapRooms[activeRoom].roomFields[i][j].type]
+                 */
+            	
+            	int walltype = activeRoom.roomFields[i][j].type;
+            	
+            	switch(walltype)
+            	{
+            	case 1:
+            		 g2d.drawImage(GameWindow.backgroundimg_1, i*32, j*32, this);
+            		 break;
+            	
+            	case 2:
+            		g2d.drawImage(GameWindow.backgroundimg_2, i*32, j*32, this);
+            		break;
+            	case 3:
+            		g2d.drawImage(GameWindow.backgroundimg_3, i*32, j*32, this);
+            		break;
+            	default:
+            		g2d.drawImage(GameWindow.backgroundimg_4, i*32, j*32, this);
+            		break;
+            	}
+            }
+        }        
         Position pp = player.getPosition().getDrawPosition(player.getHitbox());
 
         // Malt Entities
@@ -276,12 +278,6 @@ public void initMenu(){
 	add(buttonbeenden);
 }
 
-public void initEditor() {
-//	frame.add(new MapEditor());
-	frame.remove(this);
-	frame.repaint();
-}
-
 //Score and set Leben
 public void Score(Graphics2D g) {
 	int s;
@@ -334,7 +330,13 @@ public void paintMessage(String msg, Graphics g){
 				initGame();
 				}
 				else if("editor".equals(action)) {
-					initEditor();
+					/*
+					 * Hier kannst du gerne deinen eigenen Editor 
+					 * aufrufen, mit einem Jframe. Aber lass die Finger
+					 * von der MenuStart mit der JPANEL TECHNIK hier hat 
+					 * kein JFRAME ETWAS VERLOREN!!
+					 */
+					//initEditor();
 				}
 				else if("beenden".equals(action)) 
 				{
