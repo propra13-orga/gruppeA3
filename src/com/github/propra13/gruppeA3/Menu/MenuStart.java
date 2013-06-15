@@ -243,7 +243,7 @@ public void initMenu(){
 
 //Socre and set Leben
 public void Score(Graphics2D g) {
-    int i,x,s;
+    int i,s;
 
     g.setFont(smallfont);
     g.setColor(Color.BLACK);
@@ -251,15 +251,14 @@ public void Score(Graphics2D g) {
   //  System.out.println(s);
     g.drawImage(GameWindow.coin, 720, 543, this);
     g.drawString(Integer.toString(s), 750, 563);
+    g.drawImage(GameWindow.heart, 5, 542, this);
+    g.drawString("x",35,562);
+    g.drawString(Integer.toString(player.getLives()), 50,562);
     //auslesen der Spieler leben über die getter player.getLives()
-    for (i = 0; i < player.getLives(); i++) {
-	   x = i * 32 + 8 ;
-        g.drawImage(GameWindow.heart, x, 542, this);
-    }
-   g.drawString("Health: ", 120, 563);
-   g.drawString(Integer.toString(player.getHealth()),170,563);
+   
+   g.drawString("Health: ", 70, 563);
+   g.drawString(Integer.toString(player.getHealth()),125,563);
 }
-
 public void paintMessage(String msg, Graphics g){
 	// Mache Buttons wieder sichtbar
 	buttonstart.setVisible(true);
