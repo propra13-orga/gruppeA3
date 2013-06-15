@@ -20,8 +20,6 @@ import com.github.propra13.gruppeA3.Menu.MenuStart;
 
 public class Player extends Moveable {
    // Attribute
-	@SuppressWarnings("unused")
-	private int health = 100;
 	private int lives = 7;
 	private int money = 0;
 	private int mana = 100;
@@ -40,6 +38,7 @@ public class Player extends Moveable {
         hitbox = new Hitbox(28, 28);
         setFaceDirection(Direction.DOWN);
         setPower(1);
+        setHealth(100);
         getRoom().entities.add(this);
         this.items = new LinkedList<Item>();
     }
@@ -302,9 +301,9 @@ public class Player extends Moveable {
         }
     }
     private void win() {
+    	setPosition(Map.spawns[0].pos.toPosition().x+16, Map.spawns[0].pos.toPosition().y+16);
     	MenuStart.win=true;
     	MenuStart.ingame=false;
-    	MenuStart.menu=false;
     }
     
     private void death() {

@@ -76,7 +76,7 @@ public class MenuStart extends JPanel implements ActionListener {
     	setLayout(null);
     	setFocusable(true);
     	new GameWindow();  
-    	setBackground(Color.WHITE);
+    	setBackground(Color.BLACK);
         setSize(GameMinSizeX, GameMinSizeY);
         setDoubleBuffered(true);
         
@@ -124,7 +124,7 @@ public class MenuStart extends JPanel implements ActionListener {
 		
         activeRoom = Map.getMapRoom(0);
  		player = new Player(activeRoom);
- 		player.setLives(5);
+ 		player.setLives(3);
  		
         addKeyListener(new Keys(player));
 
@@ -235,12 +235,14 @@ public class MenuStart extends JPanel implements ActionListener {
         	}
         	else if(ingame ==false && win == true && timer.isRunning())
         	{
+        		setBackground(Color.BLACK);
         		String msg;
         		msg="Spiel Gewonnen";
         		paintMessage(msg,g);
         	}
         	else if(ingame ==false && win == false && timer.isRunning())
         	{
+        		setBackground(Color.BLACK);
         		String msg;
         		msg="Game Over";
         		paintMessage(msg,g);
@@ -279,20 +281,23 @@ public void initEditor() {
 	frame.repaint();
 }
 
-//score + life
+//Score and set Leben
 public void Score(Graphics2D g) {
-    int i,x;
-    String s;
+	int s;
 
-    g.setFont(smallfont);
-    g.setColor(Color.GREEN);
-    s = "Score: " + score;
-    g.drawString(s, 700, 590); //Zeile 32 spalte 25
-    for (i = 0; i < player.getLives(); i++) {
-	   x = i * 32 + 8 ;
-	   //System.out.println(x);
-        g.drawImage(GameWindow.heart, x, 573, this);
-    }
+	g.setFont(smallfont);
+	g.setColor(Color.BLACK);
+	s = score;
+	// System.out.println(s);
+	g.drawImage(GameWindow.coin, 720, 543, this);
+	g.drawString(Integer.toString(s), 750, 563);
+	g.drawImage(GameWindow.heart, 5, 542, this);
+	g.drawString("x",35,562);
+	g.drawString(Integer.toString(player.getLives()), 50,562);
+	//auslesen der Spieler leben über die getter player.getLives()
+	
+	g.drawString("Health: ", 70, 563);
+	g.drawString(Integer.toString(player.getHealth()),125,563);
 }
 
 public void paintMessage(String msg, Graphics g){
@@ -303,7 +308,7 @@ public void paintMessage(String msg, Graphics g){
 	Font small = new Font("Arial", Font.BOLD, 20);
 	FontMetrics metr = this.getFontMetrics(small);
 
-	g.setColor(Color.decode("#8E0202"));
+	g.setColor(Color.WHITE);
 	g.setFont(small);
 	g.drawString(msg, (GameMinSizeX - metr.stringWidth(msg))/2, 80);
 
@@ -316,13 +321,9 @@ public void paintMessage(String msg, Graphics g){
 			player.move();
 			moveEnemies();
 			activeRoom.removeEntities();
-			if (player.getBuff() != null)
-				player.getBuff().tick();
-			
-			if(movecounter == 0)
-				movecounter = 60;
-			else
-				movecounter--;
+			executePlayerAttacks();
+			tickCounters();
+
 		}
 		else if(ingame == false ){
 				//Spiel Start
@@ -386,4 +387,68 @@ public void paintMessage(String msg, Graphics g){
 				monster.setDirection(Direction.NONE);
 		}
 	}
+	
+	
+	private void executePlayerAttacks(){
+		if((player.getAttackCount() == 0) && (player.getAttack() == true)){
+			player.attack();
+			player.setAttackCount(30);
+			player.setAttack(false);
+		}
+		else if(player.getCastCount() == 0){
+			switch(player.getCast()){
+				case "SpeedBuff":
+					player.setSpeedBuff();
+					player.setCastCount(30);
+					player.setCast("");
+					break;
+					
+				case "AttackBuff":
+					player.setAttackBuff();
+					player.setCastCount(30);
+					player.setCast("");
+					break;
+					
+				case "firePlasma":
+					player.firePlasma();
+					player.setCastCount(30);
+					player.setCast("");
+					break;
+					
+				case "fireAOEPlasma":
+					player.fireAOEPlasma();
+					player.setCastCount(30);
+					player.setCast("");
+					break;
+					
+				default:
+					break;
+			}
+		}
+	}
+	
+	private void tickCounters(){
+		if (player.getBuff() != null){
+			player.getBuff().tick();
+		}
+		
+		if(movecounter == 0){
+			movecounter = 60;
+		}
+		
+		else{
+			movecounter--;
+		}
+		
+		if(player.getAttackCount() > 0){
+			player.setAttackCount(player.getAttackCount()-1);
+		}
+		
+		if(player.getCastCount() > 0){
+			player.setCastCount(player.getCastCount()-1);
+		}
+		
+	}
+	
+	
 }
