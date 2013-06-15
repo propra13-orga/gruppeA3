@@ -9,6 +9,9 @@ public abstract class Projectile extends Moveable {
 	
 	Moveable.Direction direct1;
 	Moveable.Direction direct2;
+	
+	// Aus Synchrogründen werden hier Projektile, die zu entfernen sind, gespeichert
+	private static LinkedList<Projectile> removeCandidates = new LinkedList<Projectile>();
 
 	/**
 	 * Schießt Projektil durch die Gegend
@@ -35,12 +38,21 @@ public abstract class Projectile extends Moveable {
 	}
 	
 	public void terminate() {
-		Entities testent = null;	//durch alle Entitys der Liste iterieren
-	    Iterator<Entities> iter = getRoom().entities.iterator();
-		while(iter.hasNext()){
-			testent = iter.next();
-			if(testent == this)
-				iter.remove();
+		removeCandidates.add(this);
+	}
+	
+	public static void removeProjectiles(Room room) {
+		Projectile toRemove = null;
+		Iterator<Projectile> itprj = removeCandidates.iterator();
+		while (itprj.hasNext()) {
+			toRemove = itprj.next();
+			Entities testent = null;	//durch alle Entitys der Liste iterieren
+		    Iterator<Entities> itent = room.entities.iterator();
+			while(itent.hasNext()){
+				testent = itent.next();
+				if(testent == toRemove)
+					itent.remove();
+			}
 		}
 	}
 	

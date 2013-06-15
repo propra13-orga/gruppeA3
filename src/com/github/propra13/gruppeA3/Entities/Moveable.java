@@ -453,14 +453,14 @@ public abstract class Moveable extends Entities {
 	 */
 
 	 public void setPosition(int x, int y) {
-	    	// lastField, actualField setzten
-	    	actualField = getRoom().getField(getPosition());
-	    	Field nextField = getRoom().getField(x/32, y/32);
-	    	if (lastField == null || nextField != actualField) { // initial oder falls Feldwechsel vorliegt
-	    		lastField = actualField;
-	    	}
-	    	getPosition().setPosition(x, y);
-	    }
+    	// lastField, actualField setzten
+    	actualField = getRoom().getField(getPosition());
+    	Field nextField = getRoom().getField(x/32, y/32);
+    	if (lastField == null || nextField != actualField) { // initial oder falls Feldwechsel vorliegt
+    		lastField = actualField;
+    	}
+    	getPosition().setPosition(x, y);
+    }
 	
 	public void setPosition(Position pos) {
 		setPosition(pos.x, pos.y);;

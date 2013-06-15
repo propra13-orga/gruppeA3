@@ -25,10 +25,10 @@ import com.github.propra13.gruppeA3.Entities.Monster;
 import com.github.propra13.gruppeA3.Entities.Moveable.Direction;
 import com.github.propra13.gruppeA3.Entities.PlasmaBall;
 import com.github.propra13.gruppeA3.Entities.Player;
+import com.github.propra13.gruppeA3.Entities.Projectile;
 import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Map.Position;
 import com.github.propra13.gruppeA3.Map.Room;
-import com.github.propra13.gruppeA3.Entities.Moveable;
 
 @SuppressWarnings("serial")
 public class MenuStart extends JPanel implements ActionListener {
@@ -302,11 +302,12 @@ public void paintMessage(String msg, Graphics g){
 	private void moveEnemies(){
 		Entities testent = null;	//durch alle Entitys der Liste iterieren
 		Monster testmonster = null;
+		Projectile testproj = null;
 		LinkedList<Entities> tempEntities = player.getRoom().entities;
 	    Iterator<Entities> iter = tempEntities.iterator();
 		while(iter.hasNext()){
 			testent = iter.next();
-			if(testent instanceof Monster){
+			if(testent instanceof Monster) {
 				testmonster = (Monster) testent;
 				if(testmonster != null){
 					if(movecounter == 0){
@@ -316,10 +317,12 @@ public void paintMessage(String msg, Graphics g){
 
 				}
 			}
-			else if(testent instanceof PlasmaBall) {
-				((PlasmaBall) testent).tick();
+			else if(testent instanceof Projectile) {
+				testproj = (PlasmaBall) testent;
+				testproj.tick();
 			}
 		}
+		Projectile.removeProjectiles(activeRoom);
 	}
 	
 	private void generateDirection(Monster monster){
