@@ -67,6 +67,10 @@ public class Position {
 	}
 	
 	public boolean equals(Position checkPos){
-		return (this.x/32 == checkPos.x/32) && (this.y/32 == checkPos.y/32); 
+		return (this.x == checkPos.x) && (this.y == checkPos.y); 
+	}
+	
+	public String toString() {
+		return x+":"+y;
 	}
 }

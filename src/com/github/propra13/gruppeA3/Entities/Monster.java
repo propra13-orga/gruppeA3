@@ -37,4 +37,10 @@ public class Monster extends Moveable {
 	public Hitbox getHitbox() {
 		return this.hitbox;
 	}
+	
+	//Dummies
+	@Override
+	public void tick() {}
+	@Override
+	public void collision(Entities entity) {}
 }

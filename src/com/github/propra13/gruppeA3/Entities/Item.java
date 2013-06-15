@@ -65,4 +65,10 @@ public class Item extends Entities {
 	public int getHealth(){
 		return 1;
 	}
+
+	//Dummies
+	@Override
+	public void tick() {}
+	@Override
+	public void collision(Entities entity) {}
 }

@@ -282,7 +282,7 @@ public class Player extends Moveable {
         	trigger.trigger();
     	}
         
-        /** Items aufsammeln, wenn man sie berŸhrt **/
+        /** Items aufsammeln, wenn man sie berï¿½hrt **/
         LinkedList<Entities> list = getRoom().entities;
         Iterator<Entities> iter = list.iterator();
         Entities testEntity = null;
@@ -290,7 +290,7 @@ public class Player extends Moveable {
         	testEntity = iter.next();
         	//System.out.println("("+this.getPosition().x+","+this.getPosition().y+")"+" ("+testEntity.getPosition().x+","+testEntity.getPosition().y+")");
         	if (testEntity instanceof Item){
-        		if(this.getPosition().equals(testEntity.getPosition()))
+        		if(this.getPosition().toFieldPos(). equals(testEntity.getPosition().toFieldPos()))
         		{	
         				//System.out.println("B");
         		
@@ -317,6 +317,7 @@ public class Player extends Moveable {
     	MenuStart.ingame=false;
     	}
     } 
+    
     // Benutzt einen gegebenen Link; geht in den targetRoom, der nicht der aktuelle ist
     private void followLink(Link link) throws MapFormatException {
     	System.out.println("Call: followLink()");
@@ -365,6 +366,13 @@ public class Player extends Moveable {
     		MenuStart.activeRoom = targetRoom;
     	}
     		
+    }
+    
+    public void firePlasma() {
+    	if (mana - PlasmaBall.manaCost >= 0) {
+    		mana = mana - PlasmaBall.manaCost;
+    		new PlasmaBall(getRoom(), getPosition(), getFaceDirection());
+    	}
     }
     
     public void setBuff(Buff buff) {
@@ -418,5 +426,11 @@ public class Player extends Moveable {
 		return hitbox;
 	}
 	*/
+
+    //Dummies
+  	@Override
+  	public void tick() {}
+  	@Override
+  	public void collision(Entities entity) {}
 }
 

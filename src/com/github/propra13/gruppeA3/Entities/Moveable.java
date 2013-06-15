@@ -22,7 +22,7 @@ public abstract class Moveable extends Entities {
 	public static enum Direction{LEFT,RIGHT,UP,DOWN,NONE}
 	protected Direction direct;
 	private Direction facedirect;
-	private Position pos;
+	protected Position pos;
 	private Room currentroom;
 	protected Hitbox hitbox;
 	private int health;
@@ -80,11 +80,17 @@ public abstract class Moveable extends Entities {
             				// Ansonsten liegt Kollision vor, daher Annäherung an Feldgrenze
             			} else {
             				int distance = getPosition().getCornerTopLeft(hitbox).x - (fieldsToWalk[0].pos.toPosition().x + 32);
-            				setPosition(getPosition().x - distance, nextPos.y);
+            				if (distance != 0)
+            					setPosition(getPosition().x - distance, nextPos.y);
+            				//Projektile verpuffen an Wand
+            				else if(this instanceof Projectile){
+            					Projectile proj = (Projectile)this;
+            					proj.terminate();
+            				}
             			}
             		}
-            	// ansonsten Annäherung an Raumrand 
-        		} 
+            	}
+            	// ansonsten Annäherung an Raumrand
             	else {
         			System.out.println("bin am Rand");
         			setPosition(hitbox.width/2, nextPos.y);
@@ -94,7 +100,9 @@ public abstract class Moveable extends Entities {
 
             case UP:
         		nextPos.setPosition(getPosition().x, getPosition().y - step);
-        		// Checke, ob Spieler aus der Map rauslatscht anhand Hitbox
+        		if (this instanceof Projectile)
+        			System.out.println("Versuche, nach "+nextPos+" zu fliegen");
+        		// Checke, ob Moveable aus der Map rauslatscht anhand Hitbox
             	if(nextPos.getCornerTopLeft(hitbox).y > 0) {
             		
             		// Kollision mit Wänden und setPosition
@@ -109,20 +117,27 @@ public abstract class Moveable extends Entities {
             			if (fieldsToWalk[0].walkable && fieldsToWalk[1].walkable) {
             				setPosition(nextPos);
             				break;
-            				// Ansonsten liegt Kollision vor, daher Annäherung an Feldgrenze
+            				
+            			// Ansonsten liegt Kollision vor, daher Annäherung an Feldgrenze
             			} 
             			else {
             				int distance = getPosition().getCornerTopLeft(hitbox).y - (fieldsToWalk[0].pos.toPosition().y + 32);
-            				setPosition(getPosition().x, getPosition().y - distance);
-            			}
+            				if (distance != 0)
+            					setPosition(getPosition().x, getPosition().y - distance);
+            				// Projektile verpuffen an Wand
+            				else if(this instanceof Projectile) {
+            					Projectile proj = (Projectile)this;
+            					proj.terminate();
+            				}
             			}
             		}
-					//ansonsten Annäherung an Raumrand 
+					//ansonsten Annäherung an Raumrand
             		else {
             			setPosition(nextPos.x, hitbox.height/2);
             		}
+            	}
             	
-                break;
+            	break;
 
             case RIGHT:
         		nextPos.setPosition(getPosition().x + step, getPosition().y);
@@ -144,13 +159,20 @@ public abstract class Moveable extends Entities {
             				// Ansonsten liegt Kollision vor, daher Annäherung an Feldgrenze
             			} else {
             				int distance = fieldsToWalk[0].pos.toPosition().x - getPosition().getCornerTopRight(hitbox).x;
-            				setPosition(getPosition().x + distance, nextPos.y);
+            				if (distance != 0)
+            					setPosition(getPosition().x + distance, nextPos.y);
+            				//Projektile verpuffen an Wand
+            				else if(this instanceof Projectile){
+            					Projectile proj = (Projectile)this;
+            					proj.terminate();
+            				}
             			}
             		}
             	}
-            		else {
-            			setPosition(getRoom().getWidth()*32 - hitbox.width/2, nextPos.y);
-            		}
+            	//ansonsten Annäherung an Raumrand
+            	else {
+            		setPosition(getRoom().getWidth()*32 - hitbox.width/2, nextPos.y);
+            	}
             	
                 break;
 
@@ -174,16 +196,22 @@ public abstract class Moveable extends Entities {
             				// Ansonsten liegt Kollision vor, daher Annäherung an Feldgrenze
             			} else {
             				int distance = fieldsToWalk[0].pos.toPosition().y - getPosition().getCornerBottomLeft(hitbox).y;
-            				setPosition(getPosition().x, getPosition().y + distance);
+            				if (distance != 0)
+            					setPosition(getPosition().x, getPosition().y + distance);
+            				//Projektile verpuffen an Wand
+            				else if(this instanceof Projectile){
+            					Projectile proj = (Projectile)this;
+            					proj.terminate();
+            				}
             			}
             		}
             	}
+            	//ansonsten Annäherung an Raumrand
             	else {
             		setPosition(nextPos.x, getRoom().getHeight()*32 - hitbox.height/2);	
             	}
             	
-
-                break;
+            	break;
         
             default:
             	break;
@@ -201,7 +229,9 @@ public abstract class Moveable extends Entities {
 	        Iterator<Entities> iter = tempEntities.iterator();
 		while(iter.hasNext()){
 			testent = iter.next();
-			if(testent != this && !(testent instanceof Item)){
+			if(testent != this && !(testent instanceof Item) &&
+				//einem Projektil ist die Kollision mit dem Player egal
+				!(this instanceof Projectile && testent instanceof Player)){
 
 				//System.out.println(testent.getClass());
 				xdelta = this.getPosition().x - testent.getPosition().x; //x-Abstand der Mittelpunkte bestimmen
@@ -212,8 +242,12 @@ public abstract class Moveable extends Entities {
 					ydelta = ydelta * (-1);
 				if(Math.sqrt(xdelta*xdelta + ydelta*ydelta) < 50){	//Wenn wurzel(x^2 + y^2) < 50 ist, auf hitboxkollision prüfen
 					if(hitboxCheck(this.getPosition(), testent) == false){
-						flag = false;
-						return flag;
+						
+						if(this instanceof Projectile) {
+							Projectile proj = (Projectile)this;
+							proj.collision(testent);
+						}
+						return false;
 					}
 				}
 			}
@@ -227,6 +261,9 @@ public abstract class Moveable extends Entities {
 	 * @return Kollisionswahrheitswert
 	 */
 	protected boolean hitboxCheck(Position pos, Entities testent) {
+		if (this instanceof Projectile) {
+			System.out.println("Ich bin ein Projektil und mache Hitboxcheck mit "+testent);
+		}
 		Entities test = testent;
 		switch(direct){
 		case LEFT:
@@ -261,8 +298,10 @@ public abstract class Moveable extends Entities {
 				else{
 					if(((test.getPosition().y - (test.getHitbox().height/2)) - (pos.y + (this.getHitbox().height/2)) >= 0))
 						return true;
-					else
+					else {
+						collision(test);
 						return false;
+					}
 				}
 			}
 			else
@@ -386,7 +425,7 @@ public abstract class Moveable extends Entities {
 						ydelta = ydelta * (-1);
 					if(Math.sqrt(xdelta*xdelta + ydelta*ydelta) < 50){	//Wenn wurzel(x^2 + y^2) < 50 ist, auf hitboxkollision prüfen
 						if(hitboxCheck(temp, testent) == false){
-						testent.setHealth(testent.getHealth() - this.power);
+							testent.setHealth(testent.getHealth() - this.power);
 							if(testent.getHealth() <= 0){
 								removeEnt = testent;
 							}

@@ -23,6 +23,7 @@ import com.github.propra13.gruppeA3.Entities.Entities;
 import com.github.propra13.gruppeA3.Entities.Item;
 import com.github.propra13.gruppeA3.Entities.Monster;
 import com.github.propra13.gruppeA3.Entities.Moveable.Direction;
+import com.github.propra13.gruppeA3.Entities.PlasmaBall;
 import com.github.propra13.gruppeA3.Entities.Player;
 import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Map.Position;
@@ -168,6 +169,11 @@ public class MenuStart extends JPanel implements ActionListener {
             			break;
             	}
             }
+            else if (testEntity instanceof PlasmaBall) {
+            	entityPos.setPosition(testEntity.getPosition().x - (testEntity.getHitbox().width/2) , testEntity.getPosition().y - (testEntity.getHitbox().height/2));
+            	g2d.drawImage(GameWindow.plasma, entityPos.x, entityPos.y, this);
+            	
+            }
         }
 
         // Malt Spieler
@@ -258,7 +264,7 @@ public void paintMessage(String msg, Graphics g){
 	Font small = new Font("Arial", Font.BOLD, 20);
 	FontMetrics metr = this.getFontMetrics(small);
 
-	g.setColor(Color.RED);
+	g.setColor(Color.decode("#8E0202"));
 	g.setFont(small);
 	g.drawString(msg, (GameMinSizeX - metr.stringWidth(msg))/2, 80);
 
@@ -269,7 +275,7 @@ public void paintMessage(String msg, Graphics g){
 		// Tasks für Timer in dieser if-condition eintragen
 		if(ingame){			
 			player.move();
-			moveEnemys();
+			moveEnemies();
 			if (player.getBuff() != null)
 				player.getBuff().tick();
 			
@@ -293,7 +299,7 @@ public void paintMessage(String msg, Graphics g){
 		repaint();
 	}
 
-	private void moveEnemys(){
+	private void moveEnemies(){
 		Entities testent = null;	//durch alle Entitys der Liste iterieren
 		Monster testmonster = null;
 		LinkedList<Entities> tempEntities = player.getRoom().entities;
@@ -309,6 +315,9 @@ public void paintMessage(String msg, Graphics g){
 					testmonster.move();
 
 				}
+			}
+			else if(testent instanceof PlasmaBall) {
+				((PlasmaBall) testent).tick();
 			}
 		}
 	}

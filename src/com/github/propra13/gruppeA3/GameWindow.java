@@ -40,6 +40,8 @@ public class GameWindow {
     public static Image heart;
     public static Image coin;
     
+    public static Image plasma;
+    
     // Item images
     public static Image lifePosion;
     public static Image deadlyPosion;
@@ -69,6 +71,7 @@ public class GameWindow {
     playerimg_up2 = this.getImage(this.GamePath + "/data/images/Spieler laeuft/Pup2.png");
     playerimg_down1 = this.getImage(this.GamePath + "/data/images/Spieler laeuft/Pdown1.png");
     playerimg_down1 = this.getImage(this.GamePath + "/data/images/Spieler laeuft/Pdown2.png");
+    
     //Player kämpft
     kampfimg_left1 = this.getImage(this.GamePath +"/data/images/Spieler kampf/Kleft1");
     kampfimg_left2 = this.getImage(this.GamePath +"/data/images/Spieler kampf/Kleft2");
@@ -82,7 +85,10 @@ public class GameWindow {
     kampfimg_shieldR = this.getImage(this.GamePath + "/data/images/Spieler kampf/Sright1");
     kampfimg_shieldU = this.getImage(this.GamePath + "/data/images/Spieler kampf/Sup1");
     kampfimg_shieldD = this.getImage(this.GamePath + "/data/images/Spieler kampf/Sdown1");
+    
     //Player zaubert 
+    plasma = this.getImage(this.GamePath + "/data/images/Plasma.png");
+    
     //NPC
     //Room-Items
     sword = this.getImage(this.GamePath + "/data/images/items room/W1.png");

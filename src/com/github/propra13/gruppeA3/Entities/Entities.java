@@ -12,8 +12,10 @@ public abstract class Entities {
 
 	// Getter Methoden für alle Entites
 	
-	abstract Position getPosition();
-	abstract Hitbox getHitbox();
+	public abstract Position getPosition();
+	public abstract Hitbox getHitbox();
 	abstract void setHealth(int health);
 	abstract int getHealth();
+	abstract void tick();
+	abstract void collision(Entities entity);
 }
