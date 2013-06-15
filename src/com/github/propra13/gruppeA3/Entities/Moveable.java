@@ -28,7 +28,11 @@ public abstract class Moveable extends Entities {
 	private int health;
 	private int power;
 	private int armour;
-	private double speed; 
+	private double speed;
+	private int attackcounter;
+	private int castcounter;
+	private boolean attack;
+	private String cast;
 	
 	protected Field actualField; //Feld, wo das Ding derzeit ist
 	protected Field lastField; //Feld, wo das Ding vor dem aktuellen Movement war
@@ -47,6 +51,10 @@ public abstract class Moveable extends Entities {
 		this.speed = 1; 
 		this.armour = 0;
 		this.facedirect = Direction.NONE;
+		this.attackcounter = 0;
+		this.castcounter = 0;
+		this.attack = false;
+		this.cast = "";
 	}
 
 	/** 
@@ -536,5 +544,37 @@ public abstract class Moveable extends Entities {
 	
 	public void setFaceDirection(Direction direct){
 		facedirect = direct;
+	}
+	
+	public int getAttackCount(){
+		return attackcounter;
+	}
+	
+	public void setAttackCount(int count){
+		attackcounter = count;
+	}
+	
+	public int getCastCount(){
+		return castcounter;
+	}
+	
+	public void setCastCount(int count){
+		castcounter = count;
+	}
+	
+	public void setAttack(boolean attack){
+		this.attack = attack;
+	}
+	
+	public boolean getAttack(){
+		return attack;
+	}
+	
+	public void setCast(String cast){
+		this.cast = cast;
+	}
+	
+	public String getCast(){
+		return cast;
 	}
 }

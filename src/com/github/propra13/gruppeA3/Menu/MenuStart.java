@@ -281,13 +281,9 @@ public void paintMessage(String msg, Graphics g){
 			player.move();
 			moveEnemies();
 			activeRoom.removeEntities();
-			if (player.getBuff() != null)
-				player.getBuff().tick();
-			
-			if(movecounter == 0)
-				movecounter = 60;
-			else
-				movecounter--;
+			executePlayerAttacks();
+			tickCounters();
+
 		}
 		else if(ingame == false ){
 				//Spiel Start
@@ -348,4 +344,68 @@ public void paintMessage(String msg, Graphics g){
 				monster.setDirection(Direction.NONE);
 		}
 	}
+	
+	
+	private void executePlayerAttacks(){
+		if((player.getAttackCount() == 0) && (player.getAttack() == true)){
+			player.attack();
+			player.setAttackCount(30);
+			player.setAttack(false);
+		}
+		else if(player.getCastCount() == 0){
+			switch(player.getCast()){
+				case "SpeedBuff":
+					player.setSpeedBuff();
+					player.setCastCount(30);
+					player.setCast("");
+					break;
+					
+				case "AttackBuff":
+					player.setAttackBuff();
+					player.setCastCount(30);
+					player.setCast("");
+					break;
+					
+				case "firePlasma":
+					player.firePlasma();
+					player.setCastCount(30);
+					player.setCast("");
+					break;
+					
+				case "fireAOEPlasma":
+					player.fireAOEPlasma();
+					player.setCastCount(30);
+					player.setCast("");
+					break;
+					
+				default:
+					break;
+			}
+		}
+	}
+	
+	private void tickCounters(){
+		if (player.getBuff() != null){
+			player.getBuff().tick();
+		}
+		
+		if(movecounter == 0){
+			movecounter = 60;
+		}
+		
+		else{
+			movecounter--;
+		}
+		
+		if(player.getAttackCount() > 0){
+			player.setAttackCount(player.getAttackCount()-1);
+		}
+		
+		if(player.getCastCount() > 0){
+			player.setCastCount(player.getCastCount()-1);
+		}
+		
+	}
+	
+	
 }
