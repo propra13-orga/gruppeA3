@@ -302,9 +302,9 @@ public class Player extends Moveable {
         }
     }
     private void win() {
+    	setPosition(Map.spawns[0].pos.toPosition().x+16, Map.spawns[0].pos.toPosition().y+16);
     	MenuStart.win=true;
     	MenuStart.ingame=false;
-    	MenuStart.menu=false;
     }
     
     private void death() {
