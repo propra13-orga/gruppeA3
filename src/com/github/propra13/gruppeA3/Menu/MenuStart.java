@@ -65,7 +65,7 @@ public class MenuStart extends JPanel implements ActionListener {
     	setLayout(null);
     	setFocusable(true);
     	new GameWindow();  
-    	setBackground(Color.WHITE);
+    	setBackground(Color.BLACK);
         setSize(GameMinSizeX, GameMinSizeY);
         setDoubleBuffered(true);
         
@@ -106,7 +106,7 @@ public class MenuStart extends JPanel implements ActionListener {
         
         if(ingame)
         {
-
+        	setBackground(Color.WHITE);
         //Iteriert über Spalten
         for (int i = 0; i < activeRoom.roomFields.length; i++) {
             //Iteriert über Zeilen
@@ -266,7 +266,7 @@ public void paintMessage(String msg, Graphics g){
 	Font small = new Font("Arial", Font.BOLD, 20);
 	FontMetrics metr = this.getFontMetrics(small);
 
-	g.setColor(Color.decode("#8E0202"));
+	g.setColor(Color.WHITE);
 	g.setFont(small);
 	g.drawString(msg, (GameMinSizeX - metr.stringWidth(msg))/2, 80);
 
