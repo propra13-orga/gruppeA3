@@ -19,7 +19,7 @@ public class RoomTab extends JPanel {
 	
 	public void paint(Graphics g) {
 		Graphics2D g2d = (Graphics2D)g;
-		MenuStart.paintRoom(g2d, this, room);
+//		MenuStart.paintRoom(g2d, this, room);
 		
 	}
 
