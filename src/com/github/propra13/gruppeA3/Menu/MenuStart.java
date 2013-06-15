@@ -8,18 +8,24 @@ import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+<<<<<<< HEAD
 import java.util.ConcurrentModificationException;
+=======
+import java.io.IOException;
+>>>>>>> 624bc36a82e14c7323bfc08921807c27daf88937
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
 
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import com.github.propra13.gruppeA3.GameWindow;
 import com.github.propra13.gruppeA3.Keys;
+import com.github.propra13.gruppeA3.Editor.MapEditor;
 import com.github.propra13.gruppeA3.Entities.Entities;
 import com.github.propra13.gruppeA3.Entities.Item;
 import com.github.propra13.gruppeA3.Entities.Monster;
@@ -27,9 +33,12 @@ import com.github.propra13.gruppeA3.Entities.Moveable.Direction;
 import com.github.propra13.gruppeA3.Entities.PlasmaBall;
 import com.github.propra13.gruppeA3.Entities.Player;
 import com.github.propra13.gruppeA3.Entities.Projectile;
+import com.github.propra13.gruppeA3.Exceptions.InvalidRoomLinkException;
+import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
 import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Map.Position;
 import com.github.propra13.gruppeA3.Map.Room;
+import com.github.propra13.gruppeA3.XMLParser.SAXCrawlerReader;
 
 @SuppressWarnings("serial")
 public class MenuStart extends JPanel implements ActionListener {
@@ -51,28 +60,29 @@ public class MenuStart extends JPanel implements ActionListener {
     // Menüelemente
     	private JButton buttonstart;
     	private JButton buttonbeenden;
+    	private JButton buttoneditor;
     	private int buttonPosX;
     	private int buttonPosY;
        
 	public static boolean ingame = false;
 	public static boolean menu = false;
 	public static boolean win = false;
+	public static boolean editor = false;
+	
+	private JFrame frame;
 
 	//score infoleiste
 	public static int score;
 	Font smallfont = new Font("Helvetica", Font.BOLD, 14);
 	
-    public MenuStart() {
+    public MenuStart(JFrame frame) {
+    	this.frame = frame;
     	setLayout(null);
     	setFocusable(true);
     	new GameWindow();  
-    	setBackground(Color.WHITE);
+    	setBackground(Color.BLACK);
         setSize(GameMinSizeX, GameMinSizeY);
         setDoubleBuffered(true);
-        
-        activeRoom = Map.getMapRoom(0);
- 		player = new Player(activeRoom);
-        addKeyListener(new Keys(player));
         
         randomgen = new Random(System.currentTimeMillis());
         		
@@ -83,6 +93,7 @@ public class MenuStart extends JPanel implements ActionListener {
         
      // Menü vorbereiten
      	buttonstart = new JButton("Spiel starten");
+     	buttoneditor = new JButton("Karteneditor");
      	buttonbeenden = new JButton("Beenden");
      	initMenu();
     }
@@ -91,14 +102,64 @@ public class MenuStart extends JPanel implements ActionListener {
  public void initGame(){
 	// Buttons ausblenden
 		buttonstart.setVisible(false);
+		buttoneditor.setVisible(false);
 		buttonbeenden.setVisible(false);
 		
 	 // Spielablaufparameter setzen
+		editor = false;
  		menu=false;
  		ingame = true;
  		win = false;
- 		player.setLives(5);
 
+ 		// Lese Map
+		try {
+			Map.initialize("Map02");
+		} catch (InvalidRoomLinkException | IOException | MapFormatException e) {
+			e.printStackTrace();
+		}
+		
+		SAXCrawlerReader reader=new SAXCrawlerReader();
+		try {
+			reader.read("data/levels/level1.xml");
+			
+		} catch (Exception e) {
+				e.printStackTrace();
+		}
+		
+        activeRoom = Map.getMapRoom(0);
+ 		player = new Player(activeRoom);
+ 		player.setLives(3);
+ 		
+        addKeyListener(new Keys(player));
+
+ 	}
+ 
+ 	public static void paintRoom(Graphics2D g2d, JPanel panel, Room room) {
+ 		//Iteriert über Spalten
+        for (int i = 0; i < room.roomFields.length; i++) {
+            //Iteriert über Zeilen
+            for (int j = 0; j < room.roomFields[i].length; j++) {
+            	
+            	int walltype = room.roomFields[i][j].type;
+            	
+            	switch(walltype)
+            	{
+            	case 1:
+            		 g2d.drawImage(GameWindow.backgroundimg_1, i*32, j*32, panel);
+            		 break;
+            	
+            	case 2:
+            		g2d.drawImage(GameWindow.backgroundimg_2, i*32, j*32, panel);
+            		break;
+            	case 3:
+            		g2d.drawImage(GameWindow.backgroundimg_3, i*32, j*32, panel);
+            		break;
+            	default:
+            		g2d.drawImage(GameWindow.backgroundimg_4, i*32, j*32, panel);
+            		break;
+            	}
+            }
+        }
  	}
     
     public void paint(Graphics g) { //Funktion zum Zeichnen von Grafiken
@@ -108,37 +169,7 @@ public class MenuStart extends JPanel implements ActionListener {
         if(ingame)
         {
 
-        //Iteriert über Spalten
-        for (int i = 0; i < activeRoom.roomFields.length; i++) {
-            //Iteriert über Zeilen
-            for (int j = 0; j < activeRoom.roomFields[i].length; j++) {
-               
-            	/*
-                 * author: J.L
-                 * +32 damit die zeile nicht abgeschnitten wird das gleiche bei Monster
-                 * [Map.mapRooms[activeRoom].roomFields[i][j].type]
-                 */
-            	
-            	int walltype = activeRoom.roomFields[i][j].type;
-            	
-            	switch(walltype)
-            	{
-            	case 1:
-            		 g2d.drawImage(GameWindow.backgroundimg_1, i*32, j*32, this);
-            		 break;
-            	
-            	case 2:
-            		g2d.drawImage(GameWindow.backgroundimg_2, i*32, j*32, this);
-            		break;
-            	case 3:
-            		g2d.drawImage(GameWindow.backgroundimg_3, i*32, j*32, this);
-            		break;
-            	default:
-            		g2d.drawImage(GameWindow.backgroundimg_4, i*32, j*32, this);
-            		break;
-            	}
-            }
-        }
+        paintRoom(g2d, this, activeRoom);
         
         Position pp = player.getPosition().getDrawPosition(player.getHitbox());
 
@@ -208,12 +239,14 @@ public class MenuStart extends JPanel implements ActionListener {
         	}
         	else if(ingame ==false && win == true && timer.isRunning())
         	{
+        		setBackground(Color.BLACK);
         		String msg;
         		msg="Spiel Gewonnen";
         		paintMessage(msg,g);
         	}
         	else if(ingame ==false && win == false && timer.isRunning())
         	{
+        		setBackground(Color.BLACK);
         		String msg;
         		msg="Game Over";
         		paintMessage(msg,g);
@@ -230,42 +263,56 @@ public void initMenu(){
 	buttonPosY = GameMinSizeY/2-100;
 	// bestimme Position und Größe
 	buttonstart.setBounds(buttonPosX,buttonPosY,200,30);
-	buttonbeenden.setBounds(buttonPosX,buttonPosY+40,200,30);
+	buttoneditor.setBounds(buttonPosX,buttonPosY+40,200,30);
+	buttonbeenden.setBounds(buttonPosX,buttonPosY+80,200,30);
 	// benenne Aktionen
 	buttonbeenden.setActionCommand("beenden");
+	buttoneditor.setActionCommand("editor");
 	buttonstart.setActionCommand("starten");
 	// ActionListener hinzufügen
 	buttonstart.addActionListener(this);
+	buttoneditor.addActionListener(this);
 	buttonbeenden.addActionListener(this);
 	// füge Buttons zum Panel hinzu
 	add(buttonstart);
+	add(buttoneditor);
 	add(buttonbeenden);
 }
 
-//score + life
-public void Score(Graphics2D g) {
-    int i,x;
-    String s;
+public void initEditor() {
+	frame.add(new MapEditor());
+	frame.remove(this);
+	frame.repaint();
+}
 
-    g.setFont(smallfont);
-    g.setColor(Color.GREEN);
-    s = "Score: " + score;
-    g.drawString(s, 700, 590); //Zeile 32 spalte 25
-   for (i = 0; i < player.getLives(); i++) {
-	   x = i * 32 + 8 ;
-	   //System.out.println(x);
-        g.drawImage(GameWindow.heart, x, 573, this);
-    }
+//Score and set Leben
+public void Score(Graphics2D g) {
+	int s;
+
+	g.setFont(smallfont);
+	g.setColor(Color.BLACK);
+	s = score;
+	// System.out.println(s);
+	g.drawImage(GameWindow.coin, 720, 543, this);
+	g.drawString(Integer.toString(s), 750, 563);
+	g.drawImage(GameWindow.heart, 5, 542, this);
+	g.drawString("x",35,562);
+	g.drawString(Integer.toString(player.getLives()), 50,562);
+	//auslesen der Spieler leben über die getter player.getLives()
+	
+	g.drawString("Health: ", 70, 563);
+	g.drawString(Integer.toString(player.getHealth()),125,563);
 }
 
 public void paintMessage(String msg, Graphics g){
 	// Mache Buttons wieder sichtbar
 	buttonstart.setVisible(true);
+	buttoneditor.setVisible(true);
 	buttonbeenden.setVisible(true);
 	Font small = new Font("Arial", Font.BOLD, 20);
 	FontMetrics metr = this.getFontMetrics(small);
 
-	g.setColor(Color.decode("#8E0202"));
+	g.setColor(Color.WHITE);
 	g.setFont(small);
 	g.drawString(msg, (GameMinSizeX - metr.stringWidth(msg))/2, 80);
 
@@ -277,13 +324,10 @@ public void paintMessage(String msg, Graphics g){
 		if(ingame){			
 			player.move();
 			moveEnemies();
-			if (player.getBuff() != null)
-				player.getBuff().tick();
-			
-			if(movecounter == 0)
-				movecounter = 60;
-			else
-				movecounter--;
+			activeRoom.removeEntities();
+			executePlayerAttacks();
+			tickCounters();
+
 		}
 		else if(ingame == false ){
 				//Spiel Start
@@ -291,6 +335,9 @@ public void paintMessage(String msg, Graphics g){
 				if("starten".equals(action))
 				{
 				initGame();
+				}
+				else if("editor".equals(action)) {
+					initEditor();
 				}
 				else if("beenden".equals(action)) 
 				{
@@ -327,7 +374,6 @@ public void paintMessage(String msg, Graphics g){
 				testproj.tick();
 			}
 		}
-		Projectile.removeProjectiles(activeRoom);
 	}
 	
 	private void generateDirection(Monster monster){
@@ -349,4 +395,68 @@ public void paintMessage(String msg, Graphics g){
 				monster.setDirection(Direction.NONE);
 		}
 	}
+	
+	
+	private void executePlayerAttacks(){
+		if((player.getAttackCount() == 0) && (player.getAttack() == true)){
+			player.attack();
+			player.setAttackCount(30);
+			player.setAttack(false);
+		}
+		else if(player.getCastCount() == 0){
+			switch(player.getCast()){
+				case "SpeedBuff":
+					player.setSpeedBuff();
+					player.setCastCount(30);
+					player.setCast("");
+					break;
+					
+				case "AttackBuff":
+					player.setAttackBuff();
+					player.setCastCount(30);
+					player.setCast("");
+					break;
+					
+				case "firePlasma":
+					player.firePlasma();
+					player.setCastCount(30);
+					player.setCast("");
+					break;
+					
+				case "fireAOEPlasma":
+					player.fireAOEPlasma();
+					player.setCastCount(30);
+					player.setCast("");
+					break;
+					
+				default:
+					break;
+			}
+		}
+	}
+	
+	private void tickCounters(){
+		if (player.getBuff() != null){
+			player.getBuff().tick();
+		}
+		
+		if(movecounter == 0){
+			movecounter = 60;
+		}
+		
+		else{
+			movecounter--;
+		}
+		
+		if(player.getAttackCount() > 0){
+			player.setAttackCount(player.getAttackCount()-1);
+		}
+		
+		if(player.getCastCount() > 0){
+			player.setCastCount(player.getCastCount()-1);
+		}
+		
+	}
+	
+	
 }

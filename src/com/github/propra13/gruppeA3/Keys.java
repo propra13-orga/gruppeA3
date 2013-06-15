@@ -48,23 +48,28 @@ public class Keys implements KeyListener {
 					break;
 					
 				case  KeyEvent.VK_A:
-					player.attack();
+					player.setAttack(true);
 					break;
 					
 				case KeyEvent.VK_1:
-					player.setSpeedBuff();
+					player.setCast("SpeedBuff");
 					break;
 					
 				case KeyEvent.VK_2:
-					player.setAttackBuff();
+					player.setCast("AttackBuff");
 					break;
 					
 				case KeyEvent.VK_3:
-					player.firePlasma();
+					player.setCast("firePlasma");
 					break;
 					
 				case KeyEvent.VK_4:
-					player.fireAOEPlasma();
+					player.setCast("fireAOEPlasma");
+					break;
+					
+				// Setzt Mana wieder auf 100 (zum Testen)
+				case KeyEvent.VK_M:
+					player.setMana(100);
 					break;
 			}
 		}

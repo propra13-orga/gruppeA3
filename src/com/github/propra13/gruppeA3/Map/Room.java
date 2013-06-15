@@ -2,7 +2,6 @@ package com.github.propra13.gruppeA3.Map;
 
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
 import com.github.propra13.gruppeA3.Entities.Entities;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,6 +15,7 @@ public class Room {
 	public int ID;
 	public Field[][] roomFields;	//roomFields[Spalte][Zeile]
 	public LinkedList<Entities> entities = new LinkedList<Entities>();
+	public LinkedList<Entities> removeCandidates = new LinkedList<Entities>();
 	public Field[] spawns = null;
 	final static int fieldBytes = 4;
 	
@@ -267,6 +267,21 @@ public class Room {
 				}
 			}
         }
+	}
+	
+	public void removeEntities() {
+		Entities toRemove = null;
+		Iterator<Entities> itprj = removeCandidates.iterator();
+		while (itprj.hasNext()) {
+			toRemove = itprj.next();
+			Entities testent = null;	//durch alle Entitys der Liste iterieren
+		    Iterator<Entities> itent = entities.iterator();
+			while(itent.hasNext()){
+				testent = itent.next();
+				if(testent == toRemove)
+					itent.remove();
+			}
+		}
 	}
 
 	/**
