@@ -7,11 +7,10 @@ public class PlasmaBall extends Projectile {
 	
 	private final static int damage = 5;
 	public final static int manaCost = 10;
-	public PlasmaBall(Room room_bind, Position pos, Moveable.Direction direct) {
-		super(room_bind, damage);
+	public PlasmaBall(Room room_bind, Position pos, Moveable.Direction direct1, Moveable.Direction direct2) {
+		super(room_bind, direct1, direct2);
 		
 		hitbox = new Hitbox(6, 6);
-		this.direct = direct;
 		this.pos = new Position(0,0);
 		room_bind.entities.add(this);
 		setSpeed(4.0);

@@ -64,7 +64,7 @@ public class Keys implements KeyListener {
 					break;
 					
 				case KeyEvent.VK_4:
-					//Zauber 4 hier
+					player.fireAOEPlasma();
 					break;
 			}
 		}

@@ -371,7 +371,24 @@ public class Player extends Moveable {
     public void firePlasma() {
     	if (mana - PlasmaBall.manaCost >= 0) {
     		mana = mana - PlasmaBall.manaCost;
-    		new PlasmaBall(getRoom(), getPosition(), getFaceDirection());
+    		new PlasmaBall(getRoom(), getPosition(), getFaceDirection(), getFaceDirection());
+    	}
+    }
+    
+    // Acht Plasmakugeln in alle Richtungen
+    public void fireAOEPlasma() {
+    	if (mana - 4*PlasmaBall.manaCost >= 0) {
+    		mana = mana - 4*PlasmaBall.manaCost;
+    		
+    		//acht Richtungen
+    		new PlasmaBall(getRoom(), getPosition(), Moveable.Direction.LEFT, Moveable.Direction.LEFT);
+    		new PlasmaBall(getRoom(), getPosition(), Moveable.Direction.DOWN, Moveable.Direction.LEFT);
+    		new PlasmaBall(getRoom(), getPosition(), Moveable.Direction.DOWN, Moveable.Direction.DOWN);
+    		new PlasmaBall(getRoom(), getPosition(), Moveable.Direction.RIGHT, Moveable.Direction.DOWN);
+    		new PlasmaBall(getRoom(), getPosition(), Moveable.Direction.RIGHT, Moveable.Direction.RIGHT);
+    		new PlasmaBall(getRoom(), getPosition(), Moveable.Direction.UP, Moveable.Direction.RIGHT);
+    		new PlasmaBall(getRoom(), getPosition(), Moveable.Direction.UP, Moveable.Direction.UP);
+    		new PlasmaBall(getRoom(), getPosition(), Moveable.Direction.LEFT, Moveable.Direction.UP);
     	}
     }
     
