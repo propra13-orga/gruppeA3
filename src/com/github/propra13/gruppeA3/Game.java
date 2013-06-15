@@ -31,7 +31,7 @@ public class Game extends JFrame{
 		setLocation((int)((d.getWidth() - this.getWidth()) / 2), (int)((d.getHeight() - this.getHeight()) / 2));
 
 		//Game Start
-		MenuStart MS = new MenuStart(this);
+		MenuStart MS = new MenuStart();
 		add(MS);
 		setVisible(true);
 	}
