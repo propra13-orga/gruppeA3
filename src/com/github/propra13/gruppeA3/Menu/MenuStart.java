@@ -8,11 +8,8 @@ import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-<<<<<<< HEAD
 import java.util.ConcurrentModificationException;
-=======
 import java.io.IOException;
->>>>>>> 624bc36a82e14c7323bfc08921807c27daf88937
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
@@ -25,7 +22,7 @@ import javax.swing.Timer;
 
 import com.github.propra13.gruppeA3.GameWindow;
 import com.github.propra13.gruppeA3.Keys;
-import com.github.propra13.gruppeA3.Editor.MapEditor;
+//import com.github.propra13.gruppeA3.Editor.MapEditor;
 import com.github.propra13.gruppeA3.Entities.Entities;
 import com.github.propra13.gruppeA3.Entities.Item;
 import com.github.propra13.gruppeA3.Entities.Monster;
@@ -280,7 +277,7 @@ public void initMenu(){
 }
 
 public void initEditor() {
-	frame.add(new MapEditor());
+//	frame.add(new MapEditor());
 	frame.remove(this);
 	frame.repaint();
 }
