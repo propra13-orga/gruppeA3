@@ -235,11 +235,11 @@ public abstract class Moveable extends Entities {
 		int ydelta;
 		boolean flag = true;
 		Entities testent = null;	//durch alle Entitys der Liste iterieren
-		 LinkedList<Entities> tempEntities = getRoom().entities;
-	        Iterator<Entities> iter = tempEntities.iterator();
+		LinkedList<Entities> tempEntities = (LinkedList<Entities>) getRoom().entities.clone();
+	    Iterator<Entities> iter = tempEntities.iterator();
 		while(iter.hasNext()){
 			testent = iter.next();
-			if(testent != this && !(testent instanceof Item) &&
+			if(testent != this && !(testent instanceof Item) && !(testent instanceof Coin) &&
 				//einem Projektil ist die Kollision mit dem Player egal
 				!(this instanceof Projectile && testent instanceof Player)){
 
