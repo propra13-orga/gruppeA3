@@ -26,25 +26,21 @@ public class Keys implements KeyListener {
 				case KeyEvent.VK_LEFT:
 					player.setDirection(Direction.LEFT);
 					player.setFaceDirection(Direction.LEFT);
-					//player.move();
 					break;
 				
 				case KeyEvent.VK_RIGHT:
 					player.setDirection(Direction.RIGHT);
 					player.setFaceDirection(Direction.RIGHT);
-					//player.move();
 					break;
 					
 				case KeyEvent.VK_UP:
 					player.setDirection(Direction.UP);
 					player.setFaceDirection(Direction.UP);
-					//player.move();
 					break;
 				
 				case KeyEvent.VK_DOWN:
 					player.setDirection(Direction.DOWN);
 					player.setFaceDirection(Direction.DOWN);
-					//player.move();
 					break;
 					
 				case  KeyEvent.VK_A:

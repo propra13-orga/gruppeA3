@@ -1,8 +1,9 @@
 package com.github.propra13.gruppeA3.Entities;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
+import java.util.NoSuchElementException;
 import java.lang.Math;
 
 import com.github.propra13.gruppeA3.Map.Field;
@@ -420,10 +421,20 @@ public abstract class Moveable extends Entities {
 			int xdelta;
 			int ydelta;
 			Entities testent = null;	//durch alle Entitys der Liste iterieren
-			LinkedList<Entities> tempEntities = getRoom().entities;
+			LinkedList<Entities> tempEntities = (LinkedList<Entities>) getRoom().entities.clone();
 		    Iterator<Entities> iter = tempEntities.iterator();
+		    Monster monster = null;
+		    Coin coin = null;
 			while(iter.hasNext()){
-				testent = iter.next();
+				try {
+					testent = iter.next();
+				} catch (ConcurrentModificationException e) {
+					e.printStackTrace();
+					System.out.println("ConcurrentModificationException");
+				} catch (NoSuchElementException e){
+					e.printStackTrace();
+					System.out.println("NoSuchElementException");
+				}
 				if(testent != this){	
 					xdelta = temp.x - testent.getPosition().x; //x-Abstand der Mittelpunkte bestimmen
 					if(xdelta < 0)
@@ -435,7 +446,13 @@ public abstract class Moveable extends Entities {
 						if(hitboxCheck(temp, testent) == false){
 							testent.setHealth(testent.getHealth() - this.power);
 							if(testent.getHealth() <= 0){
-								getRoom().removeCandidates.add(testent);
+								if(testent instanceof Monster){
+									monster = (Monster)testent;
+									coin = monster.getCoin();
+									coin.setPosition(monster.getPosition());
+									getRoom().removeCandidates.add(monster);
+									getRoom().entities.add(coin);
+								}
 							}
 						}
 					}

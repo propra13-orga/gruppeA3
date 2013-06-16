@@ -289,13 +289,9 @@ public class Player extends Moveable {
         	testEntity = iter.next();
         	//System.out.println("("+this.getPosition().x+","+this.getPosition().y+")"+" ("+testEntity.getPosition().x+","+testEntity.getPosition().y+")");
         	if (testEntity instanceof Item){
-        		if(this.getPosition().toFieldPos(). equals(testEntity.getPosition().toFieldPos()))
-        		{	
-        				//System.out.println("B");
-        		
-        		this.items.add((Item) testEntity);
-        		getRoom().removeCandidates.add(testEntity);
-        		System.out.println("Item aufgenommen und entfernt");
+        		if(this.getPosition().toFieldPos(). equals(testEntity.getPosition().toFieldPos())){	        		
+        			this.items.add((Item) testEntity);
+        			getRoom().removeCandidates.add(testEntity);
         		}
         	}
         }
@@ -307,13 +303,11 @@ public class Player extends Moveable {
     }
     
     private void death() {
-    	int lives = getLives();
-    	lives --;
-    	setLives(lives);
+    	setLives(getLives()-1);
     	setPosition(Map.spawns[0].pos.toPosition().x+16, Map.spawns[0].pos.toPosition().y+16);
-    	if(lives == 0){
-    	MenuStart.win=false;
-    	MenuStart.ingame=false;
+    	if(getLives() == 0){
+    		MenuStart.win=false;
+    		MenuStart.ingame=false;
     	}
     } 
     

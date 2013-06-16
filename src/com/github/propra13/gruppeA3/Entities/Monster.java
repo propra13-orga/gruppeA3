@@ -17,10 +17,12 @@ public class Monster extends Moveable {
 
 	// Attribute
 	private String desc;
+	private Coin coins=null;
 	
 	//Konstruktor
 	
-	public Monster (Room room_bind, double speed, int power, int type, int life, int x, int y, String desc){
+	public Monster (Room room_bind, double speed, int power, int type, int life, 
+					int x, int y, String desc, int coinValue, int coinType){
 		super(room_bind);
 		setSpeed(speed);
 		setPower(power);
@@ -29,6 +31,7 @@ public class Monster extends Moveable {
 		this.hitbox = new Hitbox();
 		setPosition(x+(hitbox.width/2),y+(hitbox.height/2));
 		setDirection(Direction.NONE);
+		coins=new Coin(coinValue, coinType, this.pos);
 	}
 	
 	
@@ -36,6 +39,14 @@ public class Monster extends Moveable {
 	
 	public Hitbox getHitbox() {
 		return this.hitbox;
+	}
+
+	/**
+	 * Liefert die Coins, die das Monster beherbergt.
+	 * @return Coin
+	 */
+	public Coin getCoin(){
+		return this.coins;
 	}
 	
 	//Dummies

@@ -62,9 +62,11 @@ public class CrawlerSAX extends DefaultHandler{
 			int posx = Integer.parseInt(attrs.getValue("posx"))*32;
 			int posy = Integer.parseInt(attrs.getValue("posy"))*32;
 			String desc = new String(attrs.getValue("name"));
+			int coinValue = Integer.parseInt(attrs.getValue("coinValue"));
+			int coinType = Integer.parseInt(attrs.getValue("coinType"));
 
 			// Es wird ein neues Monster erzeugt mit den zuvor ausgelesenen Informationen aus level.xml
-			Monster monster=new Monster(Map.getMapRoom(roomID), speed, power, type, life, posx, posy, desc);
+			Monster monster=new Monster(Map.getMapRoom(roomID), speed, power, type, life, posx, posy, desc, coinValue, coinType);
 			//MAP
 			//System.out.println("Monster");
 			Map.getMapRoom(roomID).entities.add(monster);

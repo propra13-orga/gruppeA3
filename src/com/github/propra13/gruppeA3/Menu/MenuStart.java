@@ -20,6 +20,7 @@ import javax.swing.Timer;
 
 import com.github.propra13.gruppeA3.GameWindow;
 import com.github.propra13.gruppeA3.Keys;
+import com.github.propra13.gruppeA3.Entities.Coin;
 import com.github.propra13.gruppeA3.Entities.Entities;
 import com.github.propra13.gruppeA3.Entities.Item;
 import com.github.propra13.gruppeA3.Entities.Monster;
@@ -173,7 +174,7 @@ public class MenuStart extends JPanel implements ActionListener {
         Position pp = player.getPosition().getDrawPosition(player.getHitbox());
 
         // Malt Entities
-        LinkedList<Entities> tempEntities = activeRoom.entities;
+        LinkedList<Entities> tempEntities = (LinkedList<Entities>) activeRoom.entities.clone();
         Iterator<Entities> iter = tempEntities.iterator();
         Entities testEntity;
         Position entityPos = new Position(0,0);
@@ -181,6 +182,7 @@ public class MenuStart extends JPanel implements ActionListener {
         // Durchläuft Liste
         Monster monster;
         Item item;
+        Coin coin;
         while (iter.hasNext()) {
             testEntity = iter.next();
             if (testEntity instanceof Monster) {
@@ -199,6 +201,11 @@ public class MenuStart extends JPanel implements ActionListener {
             			g2d.drawImage(GameWindow.shield, entityPos.x, entityPos.y, this);
             			break;
             	}
+            }
+            else if (testEntity instanceof Coin){
+            	coin = (Coin)testEntity;
+            	entityPos.setPosition(coin.getPosition().x - (coin.getHitbox().width/2), coin.getPosition().y - (coin.getHitbox().height/2));
+            	g2d.drawImage(GameWindow.coin, entityPos.x, entityPos.y, this);
             }
             else if (testEntity instanceof PlasmaBall) {
             	entityPos.setPosition(testEntity.getPosition().x - (testEntity.getHitbox().width/2) , testEntity.getPosition().y - (testEntity.getHitbox().height/2));
