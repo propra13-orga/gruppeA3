@@ -440,9 +440,9 @@ public abstract class Moveable extends Entities {
 					if(Math.sqrt(xdelta*xdelta + ydelta*ydelta) < 50){	//Wenn wurzel(x^2 + y^2) < 50 ist, auf hitboxkollision prüfen
 						if(hitboxCheck(temp, testent) == false){
 							if(testent instanceof Monster){
-								testent.setHealth(testent.getHealth() - this.power);
+								monster = (Monster)testent;
+								testent.setHealth(testent.getHealth() - (this.power - monster.getArmour()));
 								if(testent.getHealth() <= 0){
-									monster = (Monster)testent;
 									coin = monster.getCoin();
 									coin.setPosition(monster.getPosition());
 									getRoom().removeCandidates.add(monster);
