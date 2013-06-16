@@ -94,7 +94,12 @@ public class Monster extends Moveable {
 						if(testent instanceof Player){
 							if(this.getAttackCount() == 0){
 								player = (Player) testent;
-								player.setHealth(player.getHealth() - (this.getPower() - player.getArmour()));
+								if((this.getPower() - player.getArmour()) > 0){
+									player.setHealth(player.getHealth() - (this.getPower() - player.getArmour()));
+								}
+								else{
+									player.setHealth(player.getHealth() -1);
+								}
 								if(player.getHealth() <= 0){
 									player.death();
 								}

@@ -363,7 +363,7 @@ public class Player extends Moveable {
         			switch(item.getType()){
         				case 1:
         					if(this.getHealth()<100){
-        						this.setHealth(this.getHealth() - item.getDamage());
+        						this.setHealth(this.getHealth() + item.getDamage());
         						if(this.getHealth() > 100){
         							this.setHealth(100);
         						}

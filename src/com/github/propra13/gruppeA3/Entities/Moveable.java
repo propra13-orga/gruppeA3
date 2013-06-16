@@ -441,7 +441,12 @@ public abstract class Moveable extends Entities {
 						if(hitboxCheck(temp, testent) == false){
 							if(testent instanceof Monster){
 								monster = (Monster)testent;
-								testent.setHealth(testent.getHealth() - (this.power - monster.getArmour()));
+								if((this.power - monster.getArmour()) > 0 ){
+									testent.setHealth(testent.getHealth() - (this.power - monster.getArmour()));
+								}
+								else{
+									testent.setHealth(testent.getHealth() -1 );
+								}
 								if(testent.getHealth() <= 0){
 									coin = monster.getCoin();
 									coin.setPosition(monster.getPosition());
