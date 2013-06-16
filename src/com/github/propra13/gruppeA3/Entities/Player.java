@@ -344,6 +344,7 @@ public class Player extends Moveable {
     		this.setPosition(targetField.pos.toPosition().x+16, targetField.pos.toPosition().y+16);
     		setRoom(targetRoom);
     		MenuStart.activeRoom = targetRoom;
+    		getRoom().entities.add(this);
     	}
     }
     
