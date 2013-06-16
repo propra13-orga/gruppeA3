@@ -37,7 +37,6 @@ public class GameWindow {
     public static Image kampfimg_shieldU;
     public static Image kampfimg_shieldD;
     public static Image exitimg;
-    public static Image heart;
     public static Image coin;
     public static Image npc1;
     public static Image npc2;
@@ -45,6 +44,13 @@ public class GameWindow {
     public static Image npc4;
     
     public static Image plasma;
+    
+        //infoleiste
+    public static Image plasma;
+    public static Image mana;
+    public static Image infosword;
+    public static Image infoshield;
+    public static Image heart;
     
     // Item images
     public static Image lifePosion;
@@ -104,6 +110,10 @@ public class GameWindow {
     //Infoleiste 
     heart = this.getImage(this.GamePath + "/data/images/infoleiste/herz.png");
     coin = this.getImage(this.GamePath + "/data/images/infoleiste/coin.png");
+    mana = this.getImage(this.GamePath + "/data/images/infoleiste/mana.png");
+    infosword = this.getImage(this.GamePath + "/data/images/infoleiste/schwert.png");
+    infoshield = this.getImage(this.GamePath + "/data/images/infoleiste/schild.png");
+    
     
 	}
 	
