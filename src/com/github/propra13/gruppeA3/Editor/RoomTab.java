@@ -3,25 +3,51 @@ package com.github.propra13.gruppeA3.Editor;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.LinkedList;
 
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
 
+import com.github.propra13.gruppeA3.Map.Field;
+import com.github.propra13.gruppeA3.Map.Position;
 import com.github.propra13.gruppeA3.Map.Room;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 
-public class RoomTab extends JPanel implements MouseListener {
+
+public class RoomTab extends JPanel implements MouseListener, ActionListener {
 	private static final long serialVersionUID = 1L;
 	
-	Room room;
+	JPopupMenu dropdown;
+	
+	private Field affectedField;
+	public Room room;
+	private int lastFieldType = 2; //speichert letzte Feldkonvertierung für Linksklick
+	
+	private JMenuItem type1;
+	private JMenuItem type2;
+	private LinkedList<JMenuItem> removeCandidates;
 
 	public RoomTab(Room room) {
 		setBackground(Color.GREEN);
 		System.out.println("Ich bin der RoomTab des Raums "+room.ID);
 		this.room = room;
+		
+		// Kontextmenü mit Standardfeldern versehen
+		dropdown = new JPopupMenu();
+		type1 = new JMenuItem("Ändere Typ: Boden");
+		type1.addActionListener(this);
+		dropdown.add(type1);
+		
+		type2 = new JMenuItem("Ändere Typ: Wand");
+		type2.addActionListener(this);
+		dropdown.add(type2);
+		
 		addMouseListener(this);
 		setVisible(true);
 	}
@@ -31,17 +57,49 @@ public class RoomTab extends JPanel implements MouseListener {
 		MenuStart.paintRoom(g2d, room, this);
 		
 	}
+	
+	// Ändert den Typ eines Felds
+	public void changeFieldType(int type) {
+		//Simple Felder; Boden und Wand
+		if(type == 1 || type == 2) {
+			affectedField.type = type;
+			lastFieldType = type;
+		}
+		
+		repaint();
+	}
+	
+	// Zeigt das Kontextmenü an der Cursor-Position
+	private void dropdown(MouseEvent e) {
+		System.out.println("Klick: "+e.getX()+":"+e.getY());
+		dropdown.show(this, e.getX(), e.getY());
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == this.type1){
+            changeFieldType(1);
+        }
+		else if(e.getSource() == this.type2) {
+			changeFieldType(2);
+		}
+	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println("Klick: "+e.getX()+":"+e.getY());
-		JPopupMenu pop = new JPopupMenu();
-		pop.setLocation(e.getLocationOnScreen());
-		JMenuItem item = new JMenuItem("Eintrag 0");
-		pop.add(item);
-		pop.setVisible(true);
+		affectedField = room.getField(new Position(e.getX(), e.getY()));
+		if(SwingUtilities.isRightMouseButton(e)) {
+			if (dropdown != null)
+				this.remove(dropdown);
+			dropdown(e);
+		}
+		else if(SwingUtilities.isLeftMouseButton(e)) {
+			changeFieldType(lastFieldType);
+		}
 	}
 
+	
+	
 	// Dummies (interface-Methoden wo nichts passiert)
 	@Override
 	public void mouseEntered(MouseEvent arg0) {}
@@ -54,5 +112,7 @@ public class RoomTab extends JPanel implements MouseListener {
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {}
+
+	
 
 }
