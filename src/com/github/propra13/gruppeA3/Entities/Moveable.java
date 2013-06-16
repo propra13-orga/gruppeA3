@@ -272,7 +272,7 @@ public abstract class Moveable extends Entities {
 	 * @param test Kollisionsgegner
 	 * @return Kollisionswahrheitswert
 	 */
-	protected boolean hitboxCheck(Position pos, Entities testent) {
+	public boolean hitboxCheck(Position pos, Entities testent) {
 		if (this instanceof Projectile) {
 			System.out.println("Ich bin ein Projektil und mache Hitboxcheck mit "+testent);
 		}
@@ -440,17 +440,19 @@ public abstract class Moveable extends Entities {
 					if(Math.sqrt(xdelta*xdelta + ydelta*ydelta) < 50){	//Wenn wurzel(x^2 + y^2) < 50 ist, auf hitboxkollision prüfen
 						if(hitboxCheck(temp, testent) == false){
 							if(testent instanceof Monster){
-								testent.setHealth(testent.getHealth() - this.power);
+								monster = (Monster)testent;
+								if((this.power - monster.getArmour()) > 0 ){
+									testent.setHealth(testent.getHealth() - (this.power - monster.getArmour()));
+								}
+								else{
+									testent.setHealth(testent.getHealth() -1 );
+								}
 								if(testent.getHealth() <= 0){
-									monster = (Monster)testent;
 									coin = monster.getCoin();
 									coin.setPosition(monster.getPosition());
 									getRoom().removeCandidates.add(monster);
 									getRoom().entities.add(coin);
 								}
-							}else if(testent instanceof NPC){
-								npc = (NPC)testent;
-								JOptionPane.showMessageDialog(null, npc.getText(), npc.getName(), JOptionPane.PLAIN_MESSAGE);
 							}
 						}
 					}

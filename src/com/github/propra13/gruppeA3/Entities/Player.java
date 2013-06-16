@@ -280,26 +280,7 @@ public class Player extends Moveable {
         if (trigger != null) {
         	trigger.trigger();
     	}
-        
-        /** Items aufsammeln, wenn man sie ber�hrt **/
-        LinkedList<Entities> list = (LinkedList<Entities>) getRoom().entities.clone();
-        Iterator<Entities> iter = list.iterator();
-        Entities testEntity = null;
-        while(iter.hasNext()) {
-        	testEntity = iter.next();
-        	//System.out.println("("+this.getPosition().x+","+this.getPosition().y+")"+" ("+testEntity.getPosition().x+","+testEntity.getPosition().y+")");
-        	if (testEntity instanceof Item){
-        		if(this.getPosition().toFieldPos(). equals(testEntity.getPosition().toFieldPos())){	        		
-        			this.items.add((Item) testEntity);
-        			getRoom().removeCandidates.add(testEntity);
-        		}
-        	} else if(testEntity instanceof Coin){
-        		if(this.getPosition().toFieldPos(). equals(testEntity.getPosition().toFieldPos())){
-        			this.setMoney(getMoney() + ((Coin)testEntity).getValue());
-        			getRoom().removeCandidates.add(testEntity);
-        		}
-        	}
-        }
+        pickupItems();
     }
     private void win() {
     	setPosition(Map.spawns[0].pos.toPosition().x+16, Map.spawns[0].pos.toPosition().y+16);
@@ -307,9 +288,10 @@ public class Player extends Moveable {
     	MenuStart.ingame=false;
     }
     
-    private void death() {
+    public void death() {
     	setLives(getLives()-1);
     	setPosition(Map.spawns[0].pos.toPosition().x+16, Map.spawns[0].pos.toPosition().y+16);
+    	setHealth(100);
     	if(getLives() == 0){
     		MenuStart.win=false;
     		MenuStart.ingame=false;
@@ -362,8 +344,69 @@ public class Player extends Moveable {
     		this.setPosition(targetField.pos.toPosition().x+16, targetField.pos.toPosition().y+16);
     		setRoom(targetRoom);
     		MenuStart.activeRoom = targetRoom;
+    		getRoom().entities.add(this);
     	}
-    		
+    }
+    
+    private void pickupItems(){
+    	 /** Items aufsammeln, wenn man sie ber�hrt **/
+        LinkedList<Entities> list = (LinkedList<Entities>) getRoom().entities.clone();
+        Iterator<Entities> iter = list.iterator();
+        Entities testEntity = null;
+        while(iter.hasNext()) {
+        	testEntity = iter.next();
+        	//System.out.println("("+this.getPosition().x+","+this.getPosition().y+")"+" ("+testEntity.getPosition().x+","+testEntity.getPosition().y+")");
+        	if (testEntity instanceof Item){
+        		if(this.getPosition().toFieldPos(). equals(testEntity.getPosition().toFieldPos())){
+        			Item item = (Item) testEntity;
+        			this.items.add(item);
+        			switch(item.getType()){
+        				case 1:
+        					if(this.getHealth()<100){
+        						this.setHealth(this.getHealth() + item.getDamage());
+        						if(this.getHealth() > 100){
+        							this.setHealth(100);
+        						}
+        					}
+        					break;
+        					
+        				case 2:
+        					this.setHealth(this.getHealth() - item.getDamage());
+        					if(this.getHealth() < 100){
+        						this.death();
+        					}
+        					break;
+        					
+        				case 3:
+        					if(this.getMana() < 100){
+        						this.setMana(this.getMana() + item.getDamage());
+        						if(this.getMana() > 100){
+        							this.setMana(100);
+        						}
+        					}
+        					break;
+        					
+        				case 4:
+        					this.setPower(this.getPower() + item.getDamage());
+        					break;
+        					
+        				case 5:
+        					this.setArmour(this.getArmour() + item.getDamage());
+        					break;
+        					
+        				default:
+        					break;
+        			}
+        			getRoom().removeCandidates.add(testEntity);
+        			
+        	}
+        	} else if(testEntity instanceof Coin){
+        		if(this.getPosition().toFieldPos(). equals(testEntity.getPosition().toFieldPos())){
+        			this.setMoney(getMoney() + ((Coin)testEntity).getValue());
+        			getRoom().removeCandidates.add(testEntity);
+        		}
+        	}
+        }
     }
     
     public void firePlasma() {

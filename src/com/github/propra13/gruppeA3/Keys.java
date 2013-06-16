@@ -67,6 +67,10 @@ public class Keys implements KeyListener {
 				case KeyEvent.VK_M:
 					player.setMana(100);
 					break;
+					
+				case KeyEvent.VK_E:
+					MenuStart.talk = true;
+					break;
 			}
 		}
 	}

@@ -54,4 +54,63 @@ public class Monster extends Moveable {
 	public void tick() {}
 	@Override
 	public void collision(Entities entity) {}
+
+	public void attack(){
+		Position temp = new Position(this.getPosition().x,this.getPosition().y);
+		switch(this.getFaceDirection()){
+		case UP:
+			temp.setPosition(temp.x , temp.y -6);
+			break;
+		case DOWN:
+			temp.setPosition(temp.x , temp.y +6);
+			break;
+		case LEFT:
+			temp.setPosition(temp.x - 6 , temp.y);
+			break;
+		case RIGHT:
+			temp.setPosition(temp.x + 6 , temp.y);
+			break;
+		default:
+			break;
+		}
+		
+		int xdelta;
+		int ydelta;
+		Entities testent = null;	//durch alle Entitys der Liste iterieren
+		LinkedList<Entities> tempEntities = (LinkedList<Entities>) getRoom().entities.clone();
+	    Iterator<Entities> iter = tempEntities.iterator();
+	    Player player = null;
+		while(iter.hasNext()){
+			testent = iter.next();
+			if(testent != this){	
+				xdelta = temp.x - testent.getPosition().x; //x-Abstand der Mittelpunkte bestimmen
+				if(xdelta < 0)
+					xdelta = xdelta * (-1);
+				ydelta = temp.y - testent.getPosition().y; //y-Abstand der Mittelpunkte bestimmen
+				if(ydelta < 0)
+					ydelta = ydelta * (-1);
+				if(Math.sqrt(xdelta*xdelta + ydelta*ydelta) < 50){	//Wenn wurzel(x^2 + y^2) < 50 ist, auf hitboxkollision prüfen
+					if(hitboxCheck(temp, testent) == false){
+						if(testent instanceof Player){
+							if(this.getAttackCount() == 0){
+								player = (Player) testent;
+								if((this.getPower() - player.getArmour()) > 0){
+									player.setHealth(player.getHealth() - (this.getPower() - player.getArmour()));
+								}
+								else{
+									player.setHealth(player.getHealth() -1);
+								}
+								if(player.getHealth() <= 0){
+									player.death();
+								}
+								this.setAttackCount(30);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }
+	
+

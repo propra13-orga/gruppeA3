@@ -16,6 +16,7 @@ import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -46,6 +47,7 @@ public class MenuStart extends JPanel implements ActionListener {
     protected Toolkit tool;
     private Random randomgen;
     private int movecounter = 0;
+    public static boolean talk = false;
     
     public static final int delay = 17;
     public Graphics2D g2d;
@@ -219,7 +221,24 @@ public class MenuStart extends JPanel implements ActionListener {
             if (testEntity instanceof Monster) {
             	monster=(Monster)testEntity;
             	entityPos.setPosition(monster.getPosition().x - (monster.getHitbox().width/2) , monster.getPosition().y - (monster.getHitbox().height/2));
-                g2d.drawImage(GameWindow.monsterimg, entityPos.x, entityPos.y, this);
+               // g2d.drawImage(GameWindow.monsterimg_1left, entityPos.x, entityPos.y, this);
+                switch(monster.getFaceDirection()){
+                case UP: 
+                	g2d.drawImage(GameWindow.monsterimg_1up, entityPos.x, entityPos.y , this);
+                	break;
+                case DOWN:
+                	g2d.drawImage(GameWindow.monsterimg_1down, entityPos.x, entityPos.y , this);
+                	break;
+                case LEFT:
+                	g2d.drawImage(GameWindow.monsterimg_1left, entityPos.x, entityPos.y , this);
+                	break;
+                case RIGHT:
+                	g2d.drawImage(GameWindow.monsterimg_1right, entityPos.x, entityPos.y , this);
+                	break;	
+                default:
+                	g2d.drawImage(GameWindow.monsterimg_1down, entityPos.x, entityPos.y , this);
+                	break;
+                }
             }
             else if (testEntity instanceof Item) {
             	item = (Item)testEntity;
@@ -331,8 +350,6 @@ public void initMenu(){
 
 //Score and set Leben
 public void Score(Graphics2D g) {
-	// int s nur so lange keine get funktion vorhanden ist für schwert und schild
-	int s = 0;
 	g.setFont(smallfont);
 	g.setColor(Color.BLACK);
 	g.drawImage(GameWindow.coin, 720, 543, this);
@@ -346,9 +363,9 @@ public void Score(Graphics2D g) {
 	g.drawImage(GameWindow.mana, 160, 543,this);
 	g.drawString(Integer.toString(player.getMana()),185,563);
 	g.drawImage(GameWindow.infosword, 220, 543,this);
-	g.drawString(Integer.toString(s),245,563);
+	g.drawString(Integer.toString(player.getPower()),245,563);
 	g.drawImage(GameWindow.infoshield, 270, 543,this);
-	g.drawString(Integer.toString(s),305,563);
+	g.drawString(Integer.toString(player.getArmour()),305,563);
 	
 }
 
@@ -371,8 +388,9 @@ public void paintMessage(String msg, Graphics g){
 		// Tasks für Timer in dieser if-condition eintragen
 		if(ingame) {
 			player.move();
-			moveEnemies();
+			executeEnemieActions();
 			activeRoom.removeEntities();
+			executeTalk();
 			executePlayerAttacks();
 			tickCounters();
 
@@ -383,14 +401,7 @@ public void paintMessage(String msg, Graphics g){
 			if("starten".equals(action))
 				initGame();
 			else if("editor".equals(action))
-				/*
-				 * Hier kannst du gerne deinen eigenen Editor 
-				 * aufrufen, mit einem Jframe. Aber lass die Finger
-				 * von der MenuStart mit der JPANEL TECHNIK hier hat 
-				 * kein JFRAME ETWAS VERLOREN!!
-				 * 
-				 * Chill mal.
-				 */
+
 				initEditor();
 			else if("beenden".equals(action)) 
 				System.exit(0);	// Programm beenden
@@ -398,7 +409,7 @@ public void paintMessage(String msg, Graphics g){
 		repaint();
 	}
 
-	private void moveEnemies(){
+	private void executeEnemieActions(){
 		Entities testent = null;	//durch alle Entitys der Liste iterieren
 		Monster testmonster = null;
 		Projectile testproj = null;
@@ -416,8 +427,8 @@ public void paintMessage(String msg, Graphics g){
 					if(movecounter == 0){
 						generateDirection(testmonster);
 					}
+					testmonster.attack();
 					testmonster.move();
-
 				}
 			}
 			else if(testent instanceof Projectile) {
@@ -432,21 +443,24 @@ public void paintMessage(String msg, Graphics g){
 		switch(rndnumber%6) {
 			case 0:
 				monster.setDirection(Direction.UP);
+				monster.setFaceDirection(Direction.UP);
 				break;
 			case 1:
 				monster.setDirection(Direction.DOWN);
+				monster.setFaceDirection(Direction.DOWN);
 				break;
 			case 2:
 				monster.setDirection(Direction.LEFT);
+				monster.setFaceDirection(Direction.LEFT);
 				break;
 			case 3:
 				monster.setDirection(Direction.RIGHT);
+				monster.setFaceDirection(Direction.RIGHT);
 				
 			default:
 				monster.setDirection(Direction.NONE);
 		}
 	}
-	
 	
 	private void executePlayerAttacks(){
 		if((player.getAttackCount() == 0) && (player.getAttack() == true)){
@@ -507,7 +521,72 @@ public void paintMessage(String msg, Graphics g){
 			player.setCastCount(player.getCastCount()-1);
 		}
 		
+		Monster monster = null;
+		Entities testent = null;	//durch alle Entitys der Liste iterieren
+		LinkedList<Entities> tempEntities = (LinkedList<Entities>) player.getRoom().entities.clone();
+	    Iterator<Entities> iter = tempEntities.iterator();
+	    while(iter.hasNext()){
+	    	testent = iter.next();
+	    	if(testent instanceof Monster){
+	    		monster = (Monster) testent;
+	    		if(monster != null){
+	    			if(monster.getAttackCount() > 0){
+	    				monster.setAttackCount(monster.getAttackCount() - 1);
+	    			}
+	    		}
+	    	}
+	    }
+		
 	}
 	
-	
+	private void executeTalk(){
+		if(talk == true){
+			Position temp = new Position(player.getPosition().x,player.getPosition().y);
+			switch(player.getFaceDirection()){
+			case UP:
+				temp.setPosition(temp.x , temp.y -6);
+				break;
+			case DOWN:
+				temp.setPosition(temp.x , temp.y +6);
+				break;
+			case LEFT:
+				temp.setPosition(temp.x - 6 , temp.y);
+				break;
+			case RIGHT:
+				temp.setPosition(temp.x + 6 , temp.y);
+				break;
+			default:
+				break;
+			}
+			int xdelta;
+			int ydelta;
+			Entities testent = null;	//durch alle Entitys der Liste iterieren
+			LinkedList<Entities> tempEntities = (LinkedList<Entities>) player.getRoom().entities.clone();
+		    Iterator<Entities> iter = tempEntities.iterator();
+		    NPC npc = null;
+			while(iter.hasNext()){
+				testent = iter.next();
+				if(testent instanceof NPC){	
+					xdelta = temp.x - testent.getPosition().x; //x-Abstand der Mittelpunkte bestimmen
+					if(xdelta < 0)
+						xdelta = xdelta * (-1);
+					ydelta = temp.y - testent.getPosition().y; //y-Abstand der Mittelpunkte bestimmen
+					if(ydelta < 0)
+						ydelta = ydelta * (-1);
+					if(Math.sqrt(xdelta*xdelta + ydelta*ydelta) < 50){	//Wenn wurzel(x^2 + y^2) < 50 ist, auf hitboxkollision prüfen
+						if(player.hitboxCheck(temp, testent) == false){
+							 if(testent instanceof NPC){
+								npc = (NPC)testent;
+								JOptionPane.showMessageDialog(null, npc.getText(), npc.getName(), JOptionPane.PLAIN_MESSAGE);
+								talk = false;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }
+	
+	
+
