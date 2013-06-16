@@ -362,7 +362,7 @@ public class Player extends Moveable {
         			switch(item.getType()){
         				case 1:
         					if(this.getHealth()<100){
-        						this.setHealth(this.getHealth()+item.getDamage());
+        						this.setHealth(this.getHealth() - item.getDamage());
         						if(this.getHealth() > 100){
         							this.setHealth(100);
         						}
@@ -370,7 +370,7 @@ public class Player extends Moveable {
         					break;
         					
         				case 2:
-        					this.setHealth(this.getHealth()- item.getDamage());
+        					this.setHealth(this.getHealth() - item.getDamage());
         					if(this.getHealth() < 100){
         						this.death();
         					}
@@ -378,7 +378,7 @@ public class Player extends Moveable {
         					
         				case 3:
         					if(this.getMana() < 100){
-        						this.setMana(this.getMana()+item.getDamage());
+        						this.setMana(this.getMana() + item.getDamage());
         						if(this.getMana() > 100){
         							this.setMana(100);
         						}
@@ -386,11 +386,11 @@ public class Player extends Moveable {
         					break;
         					
         				case 4:
-        					this.setPower(this.getPower()+item.getDamage());
+        					this.setPower(this.getPower() + item.getDamage());
         					break;
         					
         				case 5:
-        					this.setArmour(this.getArmour()+item.getDamage());
+        					this.setArmour(this.getArmour() + item.getDamage());
         					break;
         					
         				default:
