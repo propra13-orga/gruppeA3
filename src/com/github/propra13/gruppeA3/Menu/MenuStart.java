@@ -134,7 +134,7 @@ public class MenuStart extends JPanel implements ActionListener {
  			Game.frame.validate();
 		}
 		
-		// Falls keine Map ausgewhlt wurde, mach Menü wieder an
+		// Falls keine Map ausgewählt wurde, mach Menü wieder an
 		else {
 			editor = false;
 			menu = true;

@@ -52,6 +52,7 @@ public class Editor extends JTabbedPane {
 
 		MenuStart.editor = false;
 		MenuStart.menu = true;
+		setVisible(false);
 		Game.Menu.remove(this);
 		Game.Menu.setVisible(true);
 	}
