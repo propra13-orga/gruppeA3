@@ -39,6 +39,10 @@ public class GameWindow {
     public static Image exitimg;
     public static Image heart;
     public static Image coin;
+    public static Image npc1;
+    public static Image npc2;
+    public static Image npc3;
+    public static Image npc4;
     
     public static Image plasma;
     
@@ -90,6 +94,10 @@ public class GameWindow {
     plasma = this.getImage(this.GamePath + "/data/images/Plasma.png");
     
     //NPC
+    npc1 = this.getImage(this.GamePath + "/data/images/npc/npc1.png");
+    npc2 = this.getImage(this.GamePath + "/data/images/npc/npc2.png");
+    npc3 = this.getImage(this.GamePath + "/data/images/npc/npc3.png");
+    npc4 = this.getImage(this.GamePath + "/data/images/npc/npc4.png");
     //Room-Items
     sword = this.getImage(this.GamePath + "/data/images/items room/W1.png");
     shield = this.getImage(this.GamePath + "/data/images/items room/S1.png");

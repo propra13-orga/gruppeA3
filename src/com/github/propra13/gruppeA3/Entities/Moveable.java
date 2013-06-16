@@ -235,11 +235,11 @@ public abstract class Moveable extends Entities {
 		int ydelta;
 		boolean flag = true;
 		Entities testent = null;	//durch alle Entitys der Liste iterieren
-		 LinkedList<Entities> tempEntities = getRoom().entities;
-	        Iterator<Entities> iter = tempEntities.iterator();
+		LinkedList<Entities> tempEntities = (LinkedList<Entities>) getRoom().entities.clone();
+	    Iterator<Entities> iter = tempEntities.iterator();
 		while(iter.hasNext()){
 			testent = iter.next();
-			if(testent != this && !(testent instanceof Item) &&
+			if(testent != this && !(testent instanceof Item) && !(testent instanceof Coin) &&
 				//einem Projektil ist die Kollision mit dem Player egal
 				!(this instanceof Projectile && testent instanceof Player)){
 
@@ -425,16 +425,9 @@ public abstract class Moveable extends Entities {
 		    Iterator<Entities> iter = tempEntities.iterator();
 		    Monster monster = null;
 		    Coin coin = null;
+		    NPC npc = null;
 			while(iter.hasNext()){
-				try {
-					testent = iter.next();
-				} catch (ConcurrentModificationException e) {
-					e.printStackTrace();
-					System.out.println("ConcurrentModificationException");
-				} catch (NoSuchElementException e){
-					e.printStackTrace();
-					System.out.println("NoSuchElementException");
-				}
+				testent = iter.next();
 				if(testent != this){	
 					xdelta = temp.x - testent.getPosition().x; //x-Abstand der Mittelpunkte bestimmen
 					if(xdelta < 0)
@@ -444,15 +437,19 @@ public abstract class Moveable extends Entities {
 						ydelta = ydelta * (-1);
 					if(Math.sqrt(xdelta*xdelta + ydelta*ydelta) < 50){	//Wenn wurzel(x^2 + y^2) < 50 ist, auf hitboxkollision prüfen
 						if(hitboxCheck(temp, testent) == false){
-							testent.setHealth(testent.getHealth() - this.power);
-							if(testent.getHealth() <= 0){
-								if(testent instanceof Monster){
+							if(testent instanceof Monster){
+								testent.setHealth(testent.getHealth() - this.power);
+								if(testent.getHealth() <= 0){
 									monster = (Monster)testent;
 									coin = monster.getCoin();
 									coin.setPosition(monster.getPosition());
 									getRoom().removeCandidates.add(monster);
 									getRoom().entities.add(coin);
 								}
+							}else if(testent instanceof NPC){
+								npc = (NPC)testent;
+								System.out.print(npc.getName());
+								System.out.println(npc.getText());
 							}
 						}
 					}

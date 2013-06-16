@@ -13,10 +13,10 @@
 		
 		
 		<!-- Items in Room -->
-<!--		<item type="1" name="Life Drink" desc="A fresh drink." damage="2" posx="3" posy="4" />
-		<item type="2" name="Posion Drink" desc="Deadly Posion" damage="-2" posx="3" posy="5" />
- --> 		<item type="4" name="sword" desc="A strong protection." damage="10" posx="7" posy="9" />
-		<item type="5" name="shield" desc="A way to protect." damage="5" posx="2" posy="6" />
+<!--		<item type="1" name="Life Drink" desc="A fresh drink." damage="2" posx="3" posy="4" value="2" />
+		<item type="2" name="Posion Drink" desc="Deadly Posion" damage="-2" posx="3" posy="5" value="2" />
+ --> 		<item type="4" name="sword" desc="A strong protection." damage="10" posx="7" posy="9" value="5" />
+		<item type="5" name="shield" desc="A way to protect." damage="5" posx="2" posy="6" value="5" />
 
 	<!-- Idee um Punkt 1.2 zu realisieren, da unsere aktuellen Raum dateien diesen Punkt nicht erfüllen.
 		<lines>################</lines>
@@ -32,8 +32,8 @@
 		<lines>S        F     #</lines>
 		<lines>################</lines>
 		-->
-		<npc>
-			<item type="5" name="shield" desc="A way to protect." damage="5" posx="2" posy="6" />
+		<npc type="1" name="Nancy" desc="The nurse" posx="5" posy="6" >
+			<text>AAAAAAAAAARGH\n ich habe keinen Text!</text>
 		</npc>
 	</rooms>
 
@@ -42,7 +42,10 @@
 		
 		<monster type="1" name="Monster-Snake" speed="3.0" power="3" life="2" posx="2" posy="1" coinValue="5" coinType="1" />
 		<monster type="2" name="Spider-Man" speed="1.0" power="3" life="4" posx="5" posy="4" coinValue="5" coinType="1" />
-		
+		<npc type="2" name="Harald" desc="The barbarian" posx="3" posy="6" >
+			<text>AAAAAAAAAARGH!!!\n ich habe meinen Text vergessen!</text>
+			<item type="5" name="shield" desc="A way to protect." damage="5" posx="2" posy="6" value="10" />
+		</npc>
 	</rooms>
 	
 	<rooms id="2" length="12" height="10">

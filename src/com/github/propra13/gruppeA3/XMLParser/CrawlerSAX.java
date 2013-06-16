@@ -1,10 +1,11 @@
 package com.github.propra13.gruppeA3.XMLParser;
+import java.util.LinkedList;
+
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.*;
 
 import com.github.propra13.gruppeA3.Entities.*;
 import com.github.propra13.gruppeA3.Map.Map;
-import com.github.propra13.gruppeA3.Map.Position;
 
 /**
  * @author Majida Dere
@@ -17,8 +18,10 @@ public class CrawlerSAX extends DefaultHandler{
 	// Attribute
 	
 	//	public static Entities[][] map;
-	public static String title;
-	private int roomID;
+	//public static String title;
+	private int roomID=0;
+	private boolean checkNPC=false;
+	private NPC npc=null;
 	
 	/**
 	 * @author Majida Dere
@@ -32,26 +35,25 @@ public class CrawlerSAX extends DefaultHandler{
 	
 	/**
 	 * Der SAX Crawler erzeugt für zwei Elementknoten zwei Ereignisse,
-	 * eines wenn das öffnende Tag des Elements gefunden ist, und eines beim SChließen des tags.
+	 * eines wenn das öffnende Tag des Elements gefunden ist, und eines beim Schließen des tags.
 	 * Die Paramter
-	 * @param uri,
-	 * @param localName,
-	 * @param qName,
-	 * @param attrs,
-	 * geben genaue Informationen über den Tagnamen.
-	 */
+	 * @param uri, ist null
+	 * @param localName, ist null
+	 * @param qName, beinhaltet den String des Tags
+	 * @param attrs, beinhaltet die Attribute eines Tags
+	 * 
+	 **/
 	@Override
 	public void startElement (String uri, String localName, 
 								String qName,Attributes attrs)
 										throws SAXException {
 		if(qName.equals("level")){
 			//System.out.println(attrs.getValue("id"));
-			title = new String(attrs.getValue("desc"));
+			//title = new String(attrs.getValue("desc"));
 			//System.out.println(attrs.getValue("player"));
 		}
 		else if (qName.equals("rooms")){
 			roomID = Integer.parseInt(attrs.getValue("id"));
-			//map = new Entities [Integer.parseInt(attrs.getValue("height"))][Integer.parseInt(attrs.getValue("length"))];
 		}
 		else if(qName.equals("monster")){
 			//int size = Integer.parseInt(attrs.getValue("size"));
@@ -78,10 +80,25 @@ public class CrawlerSAX extends DefaultHandler{
 			int posx = Integer.parseInt(attrs.getValue("posx"))*32;
 			int posy = Integer.parseInt(attrs.getValue("posy"))*32;
 			String desc = new String(attrs.getValue("desc"));
+			String name = new String(attrs.getValue("name"));
+			int value = Integer.parseInt(attrs.getValue("value"));
 
-			Item item=new Item(Map.getMapRoom(roomID), damage, type, posx, posy, desc);
-
-			Map.getMapRoom(roomID).entities.add(item);
+			Item item=new Item(Map.getMapRoom(roomID), damage, type, posx, posy, desc, name, value);
+			
+			if(checkNPC){
+				npc.getItems().add(item);
+			}else
+				Map.getMapRoom(roomID).entities.add(item);
+		}
+		else if(qName.equals("npc")){
+			checkNPC = true;
+			int type = Integer.parseInt(attrs.getValue("type"));
+			int posx = Integer.parseInt(attrs.getValue("posx"))*32;
+			int posy = Integer.parseInt(attrs.getValue("posy"))*32;
+			String desc = new String(attrs.getValue("desc"));
+			String name = new String(attrs.getValue("name"));
+			
+			npc = new NPC(Map.getMapRoom(roomID), type, desc, name, posx, posy);
 		}
 	}
 	
@@ -89,21 +106,18 @@ public class CrawlerSAX extends DefaultHandler{
 	public void endElement(String uri,String localN,String qName)
 										throws SAXException {
 		
-		
-		/*if(qName.equals("rooms"))
-		System.out.println("rooms: "+qName.toString());
-		
-		else if(qName.equals("level"))
-		System.out.println("level: "+qName.toString());*/
-		
-		
-		
-		//	else if(qName.equals("entry"))
-		//System.out.println("entry: "+qName.toString());
-		//	else if (qName.equals("exit"))
-		//System.out.println("exit: "+qName.toString());
-		//	else if (qName.equals("walls"))
-		//System.out.println("walls: "+qName.toString());
+		if(qName.equals("npc")){
+			checkNPC=false;
+			Map.getMapRoom(roomID).entities.add(npc);
+		}
 
 	}	
+	
+    @Override
+    public void characters(char ch[], int start, int length){
+    	String text = new String(ch, start, length);
+    	if(checkNPC && (null != text)){
+    		npc.setText(text);
+    	}
+     }
 }	

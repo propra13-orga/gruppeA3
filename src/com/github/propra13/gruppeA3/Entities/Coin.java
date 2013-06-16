@@ -2,6 +2,13 @@ package com.github.propra13.gruppeA3.Entities;
 
 import com.github.propra13.gruppeA3.Map.Position;
 
+/**
+ * 
+ * @author Majida Dere
+ * Diese Klasse erzeugt einen Coin, welcher von einem Monster gedroppt wird.
+ * Beim Aufsammeln wird der Wert auf die Geldeinheit vom Spieler hinzuaddiert.
+ *
+ */
 public class Coin extends Entities {
 
 	private int value=0;

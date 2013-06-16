@@ -52,7 +52,7 @@ public class Player extends Moveable {
     	boolean wannaPrint = false;
         switch (this.getDirection()) {
             case LEFT:
-            	wannaPrint = true;
+            	wannaPrint = false;
             	nextPos.setPosition(getPosition().x - step, getPosition().y);
             	// Checke, ob Spieler aus der Map rauslatscht anhand Hitbox
             	if(nextPos.getCornerTopLeft(hitbox).x > 0) {
@@ -85,7 +85,7 @@ public class Player extends Moveable {
                 break;
 
             case UP:
-            	wannaPrint = true;
+            	wannaPrint = false;
         		nextPos.setPosition(getPosition().x, getPosition().y - step);
         		// Checke, ob Spieler aus der Map rauslatscht anhand Hitbox
             	if(nextPos.getCornerTopLeft(hitbox).y > 0) {
@@ -118,7 +118,7 @@ public class Player extends Moveable {
                 break;
 
             case RIGHT:
-            	wannaPrint = true;
+            	wannaPrint = false;
         		nextPos.setPosition(getPosition().x + step, getPosition().y);
         		// Checke, ob Spieler aus der Map rauslatscht anhand Hitbox
             	if(nextPos.getCornerTopRight(hitbox).x < getRoom().getWidth()*32) {
@@ -149,7 +149,7 @@ public class Player extends Moveable {
                 break;
 
             case DOWN:
-            	wannaPrint = true;
+            	wannaPrint = false;
         		nextPos.setPosition(getPosition().x, getPosition().y + step);
         		// Checke, ob Spieler aus der Map rauslatscht anhand Hitbox
             	if(nextPos.getCornerBottomLeft(hitbox).y < getRoom().getHeight()*32) {
@@ -187,7 +187,7 @@ public class Player extends Moveable {
             	if(field.type == 3 /*|| (lastField.type == 3 && field.link != null && field.link.isActivated()) */) { //Wasser oder Link nach Wasser
             		int moveDirection = -1; // Wird je nach Fließrichtung 1 oder -1
             		int distance;
-            		wannaPrint = true;
+            		wannaPrint = false;
             		switch(field.attribute1) {
             			//Fließrichtung horizontal
             			case 1: // Rechts; moveD umdrehen
@@ -295,8 +295,10 @@ public class Player extends Moveable {
         		}
         	} else if(testEntity instanceof Coin){
         		if(this.getPosition().toFieldPos(). equals(testEntity.getPosition().toFieldPos())){
+        			System.out.println("Coin wird aufgelesen, alter Wert: "+this.getMoney());
         			this.setMoney(getMoney() + ((Coin)testEntity).getValue());
         			getRoom().removeCandidates.add(testEntity);
+        			System.out.println("Coin wurde aufgelesen, neuer Wert: "+this.getMoney());
         		}
         	}
         }
