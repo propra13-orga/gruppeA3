@@ -16,6 +16,7 @@ import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -45,6 +46,7 @@ public class MenuStart extends JPanel implements ActionListener {
     protected Toolkit tool;
     private Random randomgen;
     private int movecounter = 0;
+    public static boolean talk = false;
     
     public static final int delay = 17;
     public Graphics2D g2d;
@@ -372,6 +374,7 @@ public void paintMessage(String msg, Graphics g){
 			player.move();
 			moveEnemies();
 			activeRoom.removeEntities();
+			executeTalk();
 			executePlayerAttacks();
 			tickCounters();
 
@@ -508,5 +511,54 @@ public void paintMessage(String msg, Graphics g){
 		
 	}
 	
-	
+	private void executeTalk(){
+		if(talk == true){
+			Position temp = new Position(player.getPosition().x,player.getPosition().y);
+			switch(player.getFaceDirection()){
+			case UP:
+				temp.setPosition(temp.x , temp.y -6);
+				break;
+			case DOWN:
+				temp.setPosition(temp.x , temp.y +6);
+				break;
+			case LEFT:
+				temp.setPosition(temp.x - 6 , temp.y);
+				break;
+			case RIGHT:
+				temp.setPosition(temp.x + 6 , temp.y);
+				break;
+			default:
+				break;
+			}
+			int xdelta;
+			int ydelta;
+			Entities testent = null;	//durch alle Entitys der Liste iterieren
+			LinkedList<Entities> tempEntities = (LinkedList<Entities>) player.getRoom().entities.clone();
+		    Iterator<Entities> iter = tempEntities.iterator();
+		    NPC npc = null;
+			while(iter.hasNext()){
+				testent = iter.next();
+				if(testent instanceof NPC){	
+					xdelta = temp.x - testent.getPosition().x; //x-Abstand der Mittelpunkte bestimmen
+					if(xdelta < 0)
+						xdelta = xdelta * (-1);
+					ydelta = temp.y - testent.getPosition().y; //y-Abstand der Mittelpunkte bestimmen
+					if(ydelta < 0)
+						ydelta = ydelta * (-1);
+					if(Math.sqrt(xdelta*xdelta + ydelta*ydelta) < 50){	//Wenn wurzel(x^2 + y^2) < 50 ist, auf hitboxkollision prüfen
+						if(player.hitboxCheck(temp, testent) == false){
+							 if(testent instanceof NPC){
+								npc = (NPC)testent;
+								JOptionPane.showMessageDialog(null, npc.getText(), npc.getName(), JOptionPane.PLAIN_MESSAGE);
+								talk = false;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }
+	
+	
+

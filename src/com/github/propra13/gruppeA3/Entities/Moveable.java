@@ -272,7 +272,7 @@ public abstract class Moveable extends Entities {
 	 * @param test Kollisionsgegner
 	 * @return Kollisionswahrheitswert
 	 */
-	protected boolean hitboxCheck(Position pos, Entities testent) {
+	public boolean hitboxCheck(Position pos, Entities testent) {
 		if (this instanceof Projectile) {
 			System.out.println("Ich bin ein Projektil und mache Hitboxcheck mit "+testent);
 		}
@@ -448,9 +448,6 @@ public abstract class Moveable extends Entities {
 									getRoom().removeCandidates.add(monster);
 									getRoom().entities.add(coin);
 								}
-							}else if(testent instanceof NPC){
-								npc = (NPC)testent;
-								JOptionPane.showMessageDialog(null, npc.getText(), npc.getName(), JOptionPane.PLAIN_MESSAGE);
 							}
 						}
 					}
