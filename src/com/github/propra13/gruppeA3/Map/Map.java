@@ -25,6 +25,8 @@ public class Map {
 	final static String roomEnding = "room";
 	final static String metaEnding = "xml";
 	
+	protected static FieldNotifier notifier;
+	
 	// Temporäre Sammellisten
 	private static LinkedList<Link> linkBuffer = new LinkedList<Link>();
 	private static LinkedList<Field> checkpointFieldsToBuild = new LinkedList<Field>();
@@ -37,10 +39,11 @@ public class Map {
 	/* Baut Map aus gegebenem Verzeichnisnamen.
 	 * Interpretiert alle durchnummerierten "xy.room"-Dateien als Rooms.
 	 */
-	public static void initialize(String dirName) 
+	public static void initialize(String dirName, FieldNotifier notifier) 
 			throws FileNotFoundException, MapFormatException, IOException, InvalidRoomLinkException {
 		
 		spawns[0] = spawns[1] = null;
+		Map.notifier = notifier;
 		
 		//Map einlesen
 		mapRooms = readRooms(dirName);

@@ -27,6 +27,7 @@ import com.github.propra13.gruppeA3.Entities.*;
 import com.github.propra13.gruppeA3.Entities.Moveable.Direction;
 import com.github.propra13.gruppeA3.Exceptions.InvalidRoomLinkException;
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
+import com.github.propra13.gruppeA3.Map.FieldNotifier;
 import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Map.Position;
 import com.github.propra13.gruppeA3.Map.Room;
@@ -68,7 +69,7 @@ public class MenuStart extends JPanel implements ActionListener {
     public MenuStart() {
     	// Lese Map
     	try {
-    		Map.initialize("Map02");
+    		Map.initialize("Map02", null);
     	} catch (InvalidRoomLinkException | IOException | MapFormatException e) {
     		e.printStackTrace();
     	}

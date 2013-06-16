@@ -9,28 +9,35 @@ import javax.swing.JTabbedPane;
 import com.github.propra13.gruppeA3.Game;
 import com.github.propra13.gruppeA3.Exceptions.InvalidRoomLinkException;
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
+import com.github.propra13.gruppeA3.Map.Field;
+import com.github.propra13.gruppeA3.Map.FieldNotifier;
+import com.github.propra13.gruppeA3.Map.Link;
 import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 
 /* @author CK
  * Hauptklasse des Map-Editors
  */
-public class Editor extends JTabbedPane {
+public class Editor extends JTabbedPane implements FieldNotifier {
   
 	private static final long serialVersionUID = 1L;
+	
+	protected static Editor editor;
 	
 	private String mapName;
 	@SuppressWarnings("unused")
 	private LinkedList<JPanel> roomTabs = new LinkedList<JPanel>();
+	public LinkedList<Link> mapLinks = new LinkedList<Link>();
 
 	public Editor(String mapName) {
 		super(JTabbedPane.TOP);
-		System.out.println("Ich bin ein Editor!");
+		
+		editor = this;
 		this.mapName = mapName;
 		
 		// init Map
 		try {
-			Map.initialize(this.mapName);
+			Map.initialize(this.mapName, this);
 		} catch (MapFormatException | IOException | InvalidRoomLinkException e) {
 			e.printStackTrace();
 		}
@@ -43,11 +50,12 @@ public class Editor extends JTabbedPane {
 			String title = ""+i;
 			addTab(title, new RoomTab(Map.getMapRoom(i)));
 		}
-		
+		setSelectedIndex(1);
 		repaint();
 		setVisible(true);
 	}
 	
+	// Beendet den Editor und holt Hauptmenü wieder aus der Versenkung
 	public void exit() {
 
 		MenuStart.editor = false;
@@ -55,5 +63,11 @@ public class Editor extends JTabbedPane {
 		setVisible(false);
 		Game.Menu.remove(this);
 		Game.Menu.setVisible(true);
+	}
+
+	@Override
+	public void notify(Field field) {
+		if (field.link != null)
+			mapLinks.add(field.link);
 	}
 } 

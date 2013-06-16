@@ -168,6 +168,8 @@ public class Room {
 					FieldPosition pos=new FieldPosition(j, i);
 					room[j][i] = new Field(
 							this, type, texture, attr1, attr2, pos);
+					if (Map.notifier != null)
+						Map.notifier.notify(room[j][i]);
 				}
 				
 				// Checkpoints, Trigger, Spawns und Links setzen

@@ -16,15 +16,15 @@ import com.github.propra13.gruppeA3.XMLParser.SAXCrawlerReader;
 public class Game extends JFrame{
 
 	private static final long serialVersionUID = 1L;
-	private final int MINHEIGHT = 600;
-	private final int MINWIDTH = 800;
+	public final static int MINHEIGHT = 600;
+	public final static int MINWIDTH = 800;
 	
 	public static JFrame frame;
 	public static MenuStart Menu;
 	
 	public Game(){
 		setTitle("Dungeon Crawler");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	//schlie�en button belegt
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	//schließen button belegt
 		setSize(MINWIDTH,MINHEIGHT);
 		setResizable(false);
 		// Zentrierung des Fensters
