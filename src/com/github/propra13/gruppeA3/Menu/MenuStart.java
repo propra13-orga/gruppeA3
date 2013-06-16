@@ -15,6 +15,7 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -100,7 +101,7 @@ public class MenuStart extends JPanel implements ActionListener {
         timer.start();
         
         
-     // Menü vorbereiten
+        // Menü vorbereiten
      	buttonstart = new JButton("Spiel starten");
      	buttoneditor = new JButton("Karteneditor");
      	buttonbeenden = new JButton("Beenden");
@@ -114,7 +115,31 @@ public class MenuStart extends JPanel implements ActionListener {
  		win = false;
  		
  		setVisible(false);
- 		Game.frame.add(new Editor());
+ 	    
+		//zu bearbeitende Map wählen
+ 		String mapName = "Map02";
+ 		
+		JFileChooser fc = new JFileChooser();
+		fc.setCurrentDirectory(new java.io.File("./data/maps"));
+		fc.setDialogTitle("Karte wählen");
+		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		fc.setAcceptAllFileFilterUsed(false);
+		add(fc);
+		
+		// Falls Map ausgewählt wurde, wirf Editor an
+		if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) { 
+			mapName = fc.getSelectedFile().getName();
+			System.out.println("Karte: "+mapName);
+			Game.frame.add(new Editor(mapName));
+ 			Game.frame.validate();
+		}
+		
+		// Falls keine Map ausgewhlt wurde, mach Menü wieder an
+		else {
+			editor = false;
+			menu = true;
+			setVisible(true);
+		}
     }
     
  // Startet Spiel
@@ -335,7 +360,7 @@ public void paintMessage(String msg, Graphics g){
 	public void actionPerformed(ActionEvent e) {
 		
 		// Tasks für Timer in dieser if-condition eintragen
-		if(ingame){			
+		if(ingame) {
 			player.move();
 			moveEnemies();
 			activeRoom.removeEntities();
@@ -343,7 +368,7 @@ public void paintMessage(String msg, Graphics g){
 			tickCounters();
 
 		}
-		else if(ingame == false ){
+		else if(ingame == false ) {
 			//Spiel Start
 			String action = e.getActionCommand();
 			if("starten".equals(action))

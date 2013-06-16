@@ -20,6 +20,7 @@ public class Game extends JFrame{
 	private final int MINWIDTH = 800;
 	
 	public static JFrame frame;
+	public static MenuStart Menu;
 	
 	public Game(){
 		setTitle("Dungeon Crawler");
@@ -33,8 +34,8 @@ public class Game extends JFrame{
 		setLocation((int)((d.getWidth() - this.getWidth()) / 2), (int)((d.getHeight() - this.getHeight()) / 2));
 
 		//Game Start
-		MenuStart MS = new MenuStart();
-		add(MS);
+		Menu = new MenuStart();
+		add(Menu);
 		setVisible(true);
 	}
 	
