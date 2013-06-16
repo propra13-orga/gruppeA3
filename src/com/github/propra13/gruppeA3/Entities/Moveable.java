@@ -448,7 +448,7 @@ public abstract class Moveable extends Entities {
 								}
 							}else if(testent instanceof NPC){
 								npc = (NPC)testent;
-								System.out.print(npc.getName());
+								System.out.print(npc.getName()+" ");
 								System.out.println(npc.getText());
 							}
 						}

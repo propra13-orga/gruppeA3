@@ -295,10 +295,8 @@ public class Player extends Moveable {
         		}
         	} else if(testEntity instanceof Coin){
         		if(this.getPosition().toFieldPos(). equals(testEntity.getPosition().toFieldPos())){
-        			System.out.println("Coin wird aufgelesen, alter Wert: "+this.getMoney());
         			this.setMoney(getMoney() + ((Coin)testEntity).getValue());
         			getRoom().removeCandidates.add(testEntity);
-        			System.out.println("Coin wurde aufgelesen, neuer Wert: "+this.getMoney());
         		}
         	}
         }

@@ -22,6 +22,7 @@ public class CrawlerSAX extends DefaultHandler{
 	private int roomID=0;
 	private boolean checkNPC=false;
 	private NPC npc=null;
+	private String text=null;
 	
 	/**
 	 * @author Majida Dere
@@ -106,7 +107,11 @@ public class CrawlerSAX extends DefaultHandler{
 	public void endElement(String uri,String localN,String qName)
 										throws SAXException {
 		
-		if(qName.equals("npc")){
+		if(qName.equals("text")){
+	    	if(checkNPC && !text.equals("")){
+	    		npc.setText(text);
+	    	}
+		} else if(qName.equals("npc")){
 			checkNPC=false;
 			Map.getMapRoom(roomID).entities.add(npc);
 		}
@@ -115,9 +120,6 @@ public class CrawlerSAX extends DefaultHandler{
 	
     @Override
     public void characters(char ch[], int start, int length){
-    	String text = new String(ch, start, length);
-    	if(checkNPC && (null != text)){
-    		npc.setText(text);
-    	}
+    	this.text = new String(ch, start, length);
      }
 }	
