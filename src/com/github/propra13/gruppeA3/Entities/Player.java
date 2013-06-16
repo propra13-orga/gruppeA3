@@ -282,7 +282,7 @@ public class Player extends Moveable {
     	}
         
         /** Items aufsammeln, wenn man sie ber�hrt **/
-        LinkedList<Entities> list = getRoom().entities;
+        LinkedList<Entities> list = (LinkedList<Entities>) getRoom().entities.clone();
         Iterator<Entities> iter = list.iterator();
         Entities testEntity = null;
         while(iter.hasNext()) {
@@ -291,6 +291,11 @@ public class Player extends Moveable {
         	if (testEntity instanceof Item){
         		if(this.getPosition().toFieldPos(). equals(testEntity.getPosition().toFieldPos())){	        		
         			this.items.add((Item) testEntity);
+        			getRoom().removeCandidates.add(testEntity);
+        		}
+        	} else if(testEntity instanceof Coin){
+        		if(this.getPosition().toFieldPos(). equals(testEntity.getPosition().toFieldPos())){
+        			this.setMoney(getMoney() + ((Coin)testEntity).getValue());
         			getRoom().removeCandidates.add(testEntity);
         		}
         	}
