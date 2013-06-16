@@ -19,6 +19,8 @@ public class Game extends JFrame{
 	private final int MINHEIGHT = 600;
 	private final int MINWIDTH = 800;
 	
+	public static JFrame frame;
+	
 	public Game(){
 		setTitle("Dungeon Crawler");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	//schlie�en button belegt
@@ -38,6 +40,6 @@ public class Game extends JFrame{
 	
 	public static void main(String[] args){
 		
-		new Game();
+		frame = new Game();
 	}
 }

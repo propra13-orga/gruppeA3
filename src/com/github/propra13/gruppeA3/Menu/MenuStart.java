@@ -18,8 +18,10 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import com.github.propra13.gruppeA3.Game;
 import com.github.propra13.gruppeA3.GameWindow;
 import com.github.propra13.gruppeA3.Keys;
+import com.github.propra13.gruppeA3.Editor.Editor;
 import com.github.propra13.gruppeA3.Entities.Coin;
 import com.github.propra13.gruppeA3.Entities.Entities;
 import com.github.propra13.gruppeA3.Entities.Item;
@@ -70,19 +72,20 @@ public class MenuStart extends JPanel implements ActionListener {
 	
     public MenuStart() {
     	// Lese Map
-    			try {
-    				Map.initialize("Map02");
-    			} catch (InvalidRoomLinkException | IOException | MapFormatException e) {
-    				e.printStackTrace();
-    			}
+    	try {
+    		Map.initialize("Map02");
+    	} catch (InvalidRoomLinkException | IOException | MapFormatException e) {
+    		e.printStackTrace();
+    	}
+    	
+    	SAXCrawlerReader reader=new SAXCrawlerReader();
+    	try {
+    		reader.read("data/levels/level1.xml");
+    		
+    	} catch (Exception e) {
+    			e.printStackTrace();
+    	}
     			
-    			SAXCrawlerReader reader=new SAXCrawlerReader();
-    			try {
-    				reader.read("data/levels/level1.xml");
-    				
-    			} catch (Exception e) {
-    					e.printStackTrace();
-    			}
     	setLayout(null);
     	setFocusable(true);
     	new GameWindow();  
@@ -110,6 +113,16 @@ public class MenuStart extends JPanel implements ActionListener {
      	initMenu();
     }
     
+    private void initEditor() {
+    	editor = true;
+ 		menu=false;
+ 		ingame = false;
+ 		win = false;
+ 		
+ 		setVisible(false);
+ 		Game.frame.add(new Editor());
+    }
+    
  // Startet Spiel
  public void initGame(){
 	// Buttons ausblenden
@@ -129,8 +142,32 @@ public class MenuStart extends JPanel implements ActionListener {
 
  	}
  
- 	public static void paintRoom(Graphics2D g2d, Room room) {
- 		
+ 	public static void paintRoom(Graphics2D g2d, Room room, JPanel panel) {
+ 		//Iteriert über Spalten
+        for (int i = 0; i < room.roomFields.length; i++) {
+            //Iteriert über Zeilen
+            for (int j = 0; j < room.roomFields[i].length; j++) {
+            	
+            	int walltype = room.roomFields[i][j].type;
+            	
+            	switch(walltype)
+            	{
+            	case 1:
+            		 g2d.drawImage(GameWindow.backgroundimg_1, i*32, j*32, panel);
+            		 break;
+            	
+            	case 2:
+            		g2d.drawImage(GameWindow.backgroundimg_2, i*32, j*32, panel);
+            		break;
+            	case 3:
+            		g2d.drawImage(GameWindow.backgroundimg_3, i*32, j*32, panel);
+            		break;
+            	default:
+            		g2d.drawImage(GameWindow.backgroundimg_4, i*32, j*32, panel);
+            		break;
+            	}
+            }
+        }        
  	}
     
     public void paint(Graphics g) { //Funktion zum Zeichnen von Grafiken
@@ -139,38 +176,11 @@ public class MenuStart extends JPanel implements ActionListener {
         
         if(ingame)
         {
+        	
+        paintRoom(g2d, activeRoom, this);
+        
         setBackground(Color.WHITE);
-      //Iteriert über Spalten
-        for (int i = 0; i < activeRoom.roomFields.length; i++) {
-            //Iteriert über Zeilen
-            for (int j = 0; j < activeRoom.roomFields[i].length; j++) {
-               
-            	/*
-                 * author: J.L
-                 * +32 damit die zeile nicht abgeschnitten wird das gleiche bei Monster
-                 * [Map.mapRooms[activeRoom].roomFields[i][j].type]
-                 */
-            	
-            	int walltype = activeRoom.roomFields[i][j].type;
-            	
-            	switch(walltype)
-            	{
-            	case 1:
-            		 g2d.drawImage(GameWindow.backgroundimg_1, i*32, j*32, this);
-            		 break;
-            	
-            	case 2:
-            		g2d.drawImage(GameWindow.backgroundimg_2, i*32, j*32, this);
-            		break;
-            	case 3:
-            		g2d.drawImage(GameWindow.backgroundimg_3, i*32, j*32, this);
-            		break;
-            	default:
-            		g2d.drawImage(GameWindow.backgroundimg_4, i*32, j*32, this);
-            		break;
-            	}
-            }
-        }        
+        
         Position pp = player.getPosition().getDrawPosition(player.getHitbox());
 
         // Malt Entities
@@ -239,9 +249,9 @@ public class MenuStart extends JPanel implements ActionListener {
         {
         	if(ingame == false && menu == true)
         	{
-        				String msg;
-        				msg = "Hauptmenü";
-        				paintMessage(msg,g);
+        		String msg;
+        		msg = "Hauptmenü";
+        		paintMessage(msg,g);
         	}
         	else if(ingame ==false && win == true && timer.isRunning())
         	{
@@ -258,8 +268,8 @@ public class MenuStart extends JPanel implements ActionListener {
         		paintMessage(msg,g);
         	}
         
-        			Toolkit.getDefaultToolkit().sync();
-        			g.dispose();
+        	Toolkit.getDefaultToolkit().sync();
+        	g.dispose();
         } 
     }
 public void initMenu(){
@@ -330,25 +340,22 @@ public void paintMessage(String msg, Graphics g){
 
 		}
 		else if(ingame == false ){
-				//Spiel Start
-				String action = e.getActionCommand();
-				if("starten".equals(action))
-				{
+			//Spiel Start
+			String action = e.getActionCommand();
+			if("starten".equals(action))
 				initGame();
-				}
-				else if("editor".equals(action)) {
-					/*
-					 * Hier kannst du gerne deinen eigenen Editor 
-					 * aufrufen, mit einem Jframe. Aber lass die Finger
-					 * von der MenuStart mit der JPANEL TECHNIK hier hat 
-					 * kein JFRAME ETWAS VERLOREN!!
-					 */
-					//initEditor();
-				}
-				else if("beenden".equals(action)) 
-				{
-					System.exit(0);	// Programm beenden
-				}
+			else if("editor".equals(action))
+				/*
+				 * Hier kannst du gerne deinen eigenen Editor 
+				 * aufrufen, mit einem Jframe. Aber lass die Finger
+				 * von der MenuStart mit der JPANEL TECHNIK hier hat 
+				 * kein JFRAME ETWAS VERLOREN!!
+				 * 
+				 * Chill mal.
+				 */
+				initEditor();
+			else if("beenden".equals(action)) 
+				System.exit(0);	// Programm beenden
 		}
 		repaint();
 	}
@@ -384,7 +391,7 @@ public void paintMessage(String msg, Graphics g){
 	
 	private void generateDirection(Monster monster){
 		int rndnumber = randomgen.nextInt();
-		switch(rndnumber%6){
+		switch(rndnumber%6) {
 			case 0:
 				monster.setDirection(Direction.UP);
 				break;
