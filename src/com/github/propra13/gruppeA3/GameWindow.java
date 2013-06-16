@@ -43,8 +43,6 @@ public class GameWindow {
     public static Image npc3;
     public static Image npc4;
     
-    public static Image plasma;
-    
         //infoleiste
     public static Image plasma;
     public static Image mana;
