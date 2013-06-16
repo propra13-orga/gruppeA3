@@ -307,9 +307,10 @@ public class Player extends Moveable {
     	MenuStart.ingame=false;
     }
     
-    private void death() {
+    public void death() {
     	setLives(getLives()-1);
     	setPosition(Map.spawns[0].pos.toPosition().x+16, Map.spawns[0].pos.toPosition().y+16);
+    	setHealth(100);
     	if(getLives() == 0){
     		MenuStart.win=false;
     		MenuStart.ingame=false;

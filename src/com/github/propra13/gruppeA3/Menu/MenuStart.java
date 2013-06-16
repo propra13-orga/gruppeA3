@@ -372,7 +372,7 @@ public void paintMessage(String msg, Graphics g){
 		// Tasks für Timer in dieser if-condition eintragen
 		if(ingame) {
 			player.move();
-			moveEnemies();
+			executeEnemieActions();
 			activeRoom.removeEntities();
 			executeTalk();
 			executePlayerAttacks();
@@ -385,14 +385,7 @@ public void paintMessage(String msg, Graphics g){
 			if("starten".equals(action))
 				initGame();
 			else if("editor".equals(action))
-				/*
-				 * Hier kannst du gerne deinen eigenen Editor 
-				 * aufrufen, mit einem Jframe. Aber lass die Finger
-				 * von der MenuStart mit der JPANEL TECHNIK hier hat 
-				 * kein JFRAME ETWAS VERLOREN!!
-				 * 
-				 * Chill mal.
-				 */
+
 				initEditor();
 			else if("beenden".equals(action)) 
 				System.exit(0);	// Programm beenden
@@ -400,7 +393,7 @@ public void paintMessage(String msg, Graphics g){
 		repaint();
 	}
 
-	private void moveEnemies(){
+	private void executeEnemieActions(){
 		Entities testent = null;	//durch alle Entitys der Liste iterieren
 		Monster testmonster = null;
 		Projectile testproj = null;
@@ -418,8 +411,8 @@ public void paintMessage(String msg, Graphics g){
 					if(movecounter == 0){
 						generateDirection(testmonster);
 					}
+					testmonster.attack();
 					testmonster.move();
-
 				}
 			}
 			else if(testent instanceof Projectile) {
@@ -434,21 +427,24 @@ public void paintMessage(String msg, Graphics g){
 		switch(rndnumber%6) {
 			case 0:
 				monster.setDirection(Direction.UP);
+				monster.setFaceDirection(Direction.UP);
 				break;
 			case 1:
 				monster.setDirection(Direction.DOWN);
+				monster.setFaceDirection(Direction.DOWN);
 				break;
 			case 2:
 				monster.setDirection(Direction.LEFT);
+				monster.setFaceDirection(Direction.LEFT);
 				break;
 			case 3:
 				monster.setDirection(Direction.RIGHT);
+				monster.setFaceDirection(Direction.RIGHT);
 				
 			default:
 				monster.setDirection(Direction.NONE);
 		}
 	}
-	
 	
 	private void executePlayerAttacks(){
 		if((player.getAttackCount() == 0) && (player.getAttack() == true)){
@@ -508,6 +504,22 @@ public void paintMessage(String msg, Graphics g){
 		if(player.getCastCount() > 0){
 			player.setCastCount(player.getCastCount()-1);
 		}
+		
+		Monster monster = null;
+		Entities testent = null;	//durch alle Entitys der Liste iterieren
+		LinkedList<Entities> tempEntities = (LinkedList<Entities>) player.getRoom().entities.clone();
+	    Iterator<Entities> iter = tempEntities.iterator();
+	    while(iter.hasNext()){
+	    	testent = iter.next();
+	    	if(testent instanceof Monster){
+	    		monster = (Monster) testent;
+	    		if(monster != null){
+	    			if(monster.getAttackCount() > 0){
+	    				monster.setAttackCount(monster.getAttackCount() - 1);
+	    			}
+	    		}
+	    	}
+	    }
 		
 	}
 	
