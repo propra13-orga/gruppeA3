@@ -10,8 +10,11 @@ import java.awt.Toolkit;
 
 
 public class GameWindow {
-	
-	public static Image monsterimg;
+	//Room
+	public static Image monsterimg_1left;
+	public static Image monsterimg_1right;
+	public static Image monsterimg_1up;
+	public static Image monsterimg_1down;
     public static Image backgroundimg_1;
     public static Image backgroundimg_2;
     public static Image backgroundimg_3;
@@ -64,11 +67,14 @@ public class GameWindow {
 	GamePath = System.getProperty("user.dir");
     tool = Toolkit.getDefaultToolkit();
     //Monster
-    monsterimg = this.getImage(this.GamePath + "/data/images/Monster/M1.png");
-    //Hintergrund
-    backgroundimg_4= this.getImage(this.GamePath + "/data/images/Exit.png");
-    backgroundimg_1= this.getImage(this.GamePath + "/data/images/UG1.png");
-    backgroundimg_2= this.getImage(this.GamePath + "/data/images/UG2.png");
+    monsterimg_1left = this.getImage(this.GamePath + "/data/images/Monster/M1left.png");
+    monsterimg_1right = this.getImage(this.GamePath + "/data/images/Monster/M1right.png");
+    monsterimg_1up = this.getImage(this.GamePath + "/data/images/Monster/M1up.png");
+    monsterimg_1down = this.getImage(this.GamePath + "/data/images/Monster/M1down.png");
+    //Hintergrundis
+    backgroundimg_4 = this.getImage(this.GamePath + "/data/images/Exit.png");
+    backgroundimg_1 = this.getImage(this.GamePath + "/data/images/UG1.png");
+    backgroundimg_2 = this.getImage(this.GamePath + "/data/images/UG2.png");
     backgroundimg_3 = this.getImage(this.GamePath + "/data/images/Fluss.png");
     //Player läuft
     playerimg_left1 = this.getImage(this.GamePath + "/data/images/Spieler laeuft/Pleft1.png");

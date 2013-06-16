@@ -220,7 +220,24 @@ public class MenuStart extends JPanel implements ActionListener {
             if (testEntity instanceof Monster) {
             	monster=(Monster)testEntity;
             	entityPos.setPosition(monster.getPosition().x - (monster.getHitbox().width/2) , monster.getPosition().y - (monster.getHitbox().height/2));
-                g2d.drawImage(GameWindow.monsterimg, entityPos.x, entityPos.y, this);
+               // g2d.drawImage(GameWindow.monsterimg_1left, entityPos.x, entityPos.y, this);
+                switch(monster.getFaceDirection()){
+                case UP: 
+                	g2d.drawImage(GameWindow.monsterimg_1up, entityPos.x, entityPos.y , this);
+                	break;
+                case DOWN:
+                	g2d.drawImage(GameWindow.monsterimg_1down, entityPos.x, entityPos.y , this);
+                	break;
+                case LEFT:
+                	g2d.drawImage(GameWindow.monsterimg_1left, entityPos.x, entityPos.y , this);
+                	break;
+                case RIGHT:
+                	g2d.drawImage(GameWindow.monsterimg_1right, entityPos.x, entityPos.y , this);
+                	break;	
+                default:
+                	g2d.drawImage(GameWindow.monsterimg_1down, entityPos.x, entityPos.y , this);
+                	break;
+                }
             }
             else if (testEntity instanceof Item) {
             	item = (Item)testEntity;
