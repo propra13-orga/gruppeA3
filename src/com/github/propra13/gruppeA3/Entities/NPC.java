@@ -90,5 +90,9 @@ public class NPC extends Moveable {
 	public String getText(){
 		return this.text;
 	}
+	
+	public int getType(){
+		return this.type;
+	}
 
 }

@@ -22,14 +22,8 @@ import com.github.propra13.gruppeA3.Game;
 import com.github.propra13.gruppeA3.GameWindow;
 import com.github.propra13.gruppeA3.Keys;
 import com.github.propra13.gruppeA3.Editor.Editor;
-import com.github.propra13.gruppeA3.Entities.Coin;
-import com.github.propra13.gruppeA3.Entities.Entities;
-import com.github.propra13.gruppeA3.Entities.Item;
-import com.github.propra13.gruppeA3.Entities.Monster;
+import com.github.propra13.gruppeA3.Entities.*;
 import com.github.propra13.gruppeA3.Entities.Moveable.Direction;
-import com.github.propra13.gruppeA3.Entities.PlasmaBall;
-import com.github.propra13.gruppeA3.Entities.Player;
-import com.github.propra13.gruppeA3.Entities.Projectile;
 import com.github.propra13.gruppeA3.Exceptions.InvalidRoomLinkException;
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
 import com.github.propra13.gruppeA3.Map.Map;
@@ -193,6 +187,7 @@ public class MenuStart extends JPanel implements ActionListener {
         Monster monster;
         Item item;
         Coin coin;
+        NPC npc;
         while (iter.hasNext()) {
             testEntity = iter.next();
             if (testEntity instanceof Monster) {
@@ -216,6 +211,18 @@ public class MenuStart extends JPanel implements ActionListener {
             	coin = (Coin)testEntity;
             	entityPos.setPosition(coin.getPosition().x - (coin.getHitbox().width/2), coin.getPosition().y - (coin.getHitbox().height/2));
             	g2d.drawImage(GameWindow.coin, entityPos.x, entityPos.y, this);
+            }
+            else if (testEntity instanceof NPC){
+            	npc = (NPC)testEntity;
+            	entityPos.setPosition(npc.getPosition().x - (npc.getHitbox().width/2), npc.getPosition().y - (npc.getHitbox().height/2));
+            	switch (npc.getType()){
+            		case 1:
+            			g2d.drawImage(GameWindow.npc3, entityPos.x, entityPos.y, this);
+            			break;
+            		case 2:
+            			g2d.drawImage(GameWindow.npc2, entityPos.x, entityPos.y, this);
+            			break;
+            	}
             }
             else if (testEntity instanceof PlasmaBall) {
             	entityPos.setPosition(testEntity.getPosition().x - (testEntity.getHitbox().width/2) , testEntity.getPosition().y - (testEntity.getHitbox().height/2));
