@@ -3,14 +3,14 @@ package com.github.propra13.gruppeA3.Editor;
 import java.io.IOException;
 import java.util.LinkedList;
 
-import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import com.github.propra13.gruppeA3.Game;
 import com.github.propra13.gruppeA3.Exceptions.InvalidRoomLinkException;
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
 import com.github.propra13.gruppeA3.Map.Map;
-import com.github.propra13.gruppeA3.Map.Room;
+import com.github.propra13.gruppeA3.Menu.MenuStart;
 
 /* @author CK
  * Hauptklasse des Map-Editors
@@ -18,34 +18,27 @@ import com.github.propra13.gruppeA3.Map.Room;
 public class Editor extends JTabbedPane {
   
 	private static final long serialVersionUID = 1L;
-  
-	private Room activeRoom;
-	private JPanel activeTab;
-	private String mapName = "Map02";
+	
+	private String mapName;
 	@SuppressWarnings("unused")
 	private LinkedList<JPanel> roomTabs = new LinkedList<JPanel>();
 
-	public Editor() {
+	public Editor(String mapName) {
 		super(JTabbedPane.TOP);
-    
-		/*//zu bearbeitende Map wählen
-		JFileChooser fc = new JFileChooser(); 
-		fc.setCurrentDirectory(new java.io.File("./data/maps"));
-		fc.setDialogTitle("Karte wählen");
-		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		fc.setAcceptAllFileFilterUsed(false);
-		if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) { 
-			mapName = fc.getSelectedFile().getName();
-			System.out.println("Karte: "+mapName);
-		}*/
+		System.out.println("Ich bin ein Editor!");
+		this.mapName = mapName;
 		
 		// init Map
 		try {
-			Map.initialize(mapName);
+			Map.initialize(this.mapName);
 		} catch (MapFormatException | IOException | InvalidRoomLinkException e) {
 			e.printStackTrace();
 		}
 		
+		//Menü-Tab
+		addTab("Menü", new Menu(this));
+		
+		//Raum-Tabs
 		for(int i=0; i < Map.mapRooms.length; i++) {
 			String title = ""+i;
 			addTab(title, new RoomTab(Map.getMapRoom(i)));
@@ -53,5 +46,13 @@ public class Editor extends JTabbedPane {
 		
 		repaint();
 		setVisible(true);
-  }
+	}
+	
+	public void exit() {
+
+		MenuStart.editor = false;
+		MenuStart.menu = true;
+		Game.Menu.remove(this);
+		Game.Menu.setVisible(true);
+	}
 } 
