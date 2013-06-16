@@ -327,9 +327,11 @@ public void initMenu(){
 	add(buttonbeenden);
 }
 
+
 //Score and set Leben
 public void Score(Graphics2D g) {
-
+	// int s nur so lange keine get funktion vorhanden ist für schwert und schild
+	int s = 0;
 	g.setFont(smallfont);
 	g.setColor(Color.BLACK);
 	g.drawImage(GameWindow.coin, 720, 543, this);
@@ -338,9 +340,15 @@ public void Score(Graphics2D g) {
 	g.drawString("x",35,562);
 	g.drawString(Integer.toString(player.getLives()), 50,562);
 	//auslesen der Spieler leben über die getter player.getLives()
-	
 	g.drawString("Health: ", 70, 563);
 	g.drawString(Integer.toString(player.getHealth()),125,563);
+	g.drawImage(GameWindow.mana, 160, 543,this);
+	g.drawString(Integer.toString(player.getMana()),185,563);
+	g.drawImage(GameWindow.infosword, 220, 543,this);
+	g.drawString(Integer.toString(s),245,563);
+	g.drawImage(GameWindow.infoshield, 270, 543,this);
+	g.drawString(Integer.toString(s),305,563);
+	
 }
 
 public void paintMessage(String msg, Graphics g){

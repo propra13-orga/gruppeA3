@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.lang.Math;
 
+import javax.swing.JOptionPane;
+
 import com.github.propra13.gruppeA3.Map.Field;
 import com.github.propra13.gruppeA3.Map.FieldPosition;
 import com.github.propra13.gruppeA3.Map.Position;
@@ -448,8 +450,7 @@ public abstract class Moveable extends Entities {
 								}
 							}else if(testent instanceof NPC){
 								npc = (NPC)testent;
-								System.out.print(npc.getName());
-								System.out.println(npc.getText());
+								JOptionPane.showMessageDialog(null, npc.getText(), npc.getName(), JOptionPane.PLAIN_MESSAGE);
 							}
 						}
 					}
