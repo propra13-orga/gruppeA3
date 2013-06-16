@@ -304,14 +304,11 @@ public void initMenu(){
 
 //Score and set Leben
 public void Score(Graphics2D g) {
-	int s;
 
 	g.setFont(smallfont);
 	g.setColor(Color.BLACK);
-	s = score;
-	// System.out.println(s);
 	g.drawImage(GameWindow.coin, 720, 543, this);
-	g.drawString(Integer.toString(s), 750, 563);
+	g.drawString(Integer.toString(player.getMoney()), 750, 563);
 	g.drawImage(GameWindow.heart, 5, 542, this);
 	g.drawString("x",35,562);
 	g.drawString(Integer.toString(player.getLives()), 50,562);
