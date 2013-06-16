@@ -94,5 +94,9 @@ public class NPC extends Moveable {
 	public int getType(){
 		return this.type;
 	}
+	
+	public String getName(){
+		return this.name;
+	}
 
 }
