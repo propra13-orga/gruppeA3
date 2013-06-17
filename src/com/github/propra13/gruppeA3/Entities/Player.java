@@ -371,8 +371,8 @@ public class Player extends Moveable {
         					break;
         					
         				case 2:
-        					this.setHealth(this.getHealth() - item.getDamage());
-        					if(this.getHealth() < 100){
+        					this.setHealth(this.getHealth() + item.getDamage());
+        					if(this.getHealth() < 1){
         						this.death();
         					}
         					break;

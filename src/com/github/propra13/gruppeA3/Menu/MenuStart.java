@@ -8,7 +8,6 @@ import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ConcurrentModificationException;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -28,7 +27,6 @@ import com.github.propra13.gruppeA3.Entities.*;
 import com.github.propra13.gruppeA3.Entities.Moveable.Direction;
 import com.github.propra13.gruppeA3.Exceptions.InvalidRoomLinkException;
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
-import com.github.propra13.gruppeA3.Map.FieldNotifier;
 import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Map.Position;
 import com.github.propra13.gruppeA3.Map.Room;
@@ -244,6 +242,15 @@ public class MenuStart extends JPanel implements ActionListener {
             	item = (Item)testEntity;
             	entityPos.setPosition(item.getPosition().x - (item.getHitbox().width/2), item.getPosition().y - (item.getHitbox().height/2));
             	switch (item.getType()){
+            		case 1:
+        				g2d.drawImage(GameWindow.lifePosion, entityPos.x, entityPos.y, this);
+        				break;
+            		case 2:
+        				g2d.drawImage(GameWindow.deadlyPosion, entityPos.x, entityPos.y, this);
+        				break;
+            		case 3:
+            			g2d.drawImage(GameWindow.manaPosion, entityPos.x, entityPos.y, this);
+            			break;
             		case 4:
             			g2d.drawImage(GameWindow.sword, entityPos.x, entityPos.y, this);
             			break;
@@ -370,18 +377,19 @@ public void Score(Graphics2D g) {
 }
 
 public void paintMessage(String msg, Graphics g){
-	// Mache Buttons wieder sichtbar
-	buttonstart.setVisible(true);
-	buttoneditor.setVisible(true);
-	buttonbeenden.setVisible(true);
-	Font small = new Font("Arial", Font.BOLD, 20);
-	FontMetrics metr = this.getFontMetrics(small);
+		// Mache Buttons wieder sichtbar
+		buttonstart.setVisible(true);
+		buttoneditor.setVisible(true);
+		buttonbeenden.setVisible(true);
+		Font small = new Font("Arial", Font.BOLD, 20);
+		FontMetrics metr = this.getFontMetrics(small);
 
-	g.setColor(Color.WHITE);
-	g.setFont(small);
-	g.drawString(msg, (GameMinSizeX - metr.stringWidth(msg))/2, 80);
+		g.setColor(Color.WHITE);
+		g.setFont(small);
+		g.drawString(msg, (GameMinSizeX - metr.stringWidth(msg))/2, 80);
 
-}
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
@@ -413,14 +421,10 @@ public void paintMessage(String msg, Graphics g){
 		Entities testent = null;	//durch alle Entitys der Liste iterieren
 		Monster testmonster = null;
 		Projectile testproj = null;
-		LinkedList<Entities> tempEntities = player.getRoom().entities;
+		LinkedList<Entities> tempEntities = (LinkedList<Entities>) player.getRoom().entities.clone();
 	    Iterator<Entities> iter = tempEntities.iterator();
 		while(iter.hasNext()){
-			try {
-				testent = iter.next();
-			} catch (ConcurrentModificationException e) {
-				e.printStackTrace();
-			}
+			testent = iter.next();
 			if(testent instanceof Monster) {
 				testmonster = (Monster) testent;
 				if(testmonster != null){
@@ -577,8 +581,22 @@ public void paintMessage(String msg, Graphics g){
 						if(player.hitboxCheck(temp, testent) == false){
 							 if(testent instanceof NPC){
 								npc = (NPC)testent;
-								JOptionPane.showMessageDialog(null, npc.getText(), npc.getName(), JOptionPane.PLAIN_MESSAGE);
-								talk = false;
+								switch(npc.getType()){
+									case 1:System.out.println("Type 1");
+										JOptionPane.showMessageDialog(null, npc.getText(), npc.getName(), JOptionPane.PLAIN_MESSAGE);
+										talk = false;
+										break;
+									case 2:
+										if(npc.getItems().isEmpty()){
+											System.out.println("Type 2 Empty");
+											JOptionPane.showMessageDialog(null, "Ich besitze keine Ware mehr", npc.getName(), JOptionPane.PLAIN_MESSAGE);
+										} else{
+											System.out.println("Type 2 with Item");
+											Shop shop = new Shop(this.player, npc);
+										}
+										talk = false;
+										break;
+								}
 							}
 						}
 					}
@@ -587,6 +605,3 @@ public void paintMessage(String msg, Graphics g){
 		}
 	}
 }
-	
-	
-
