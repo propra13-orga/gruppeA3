@@ -109,6 +109,9 @@ public class GameWindow {
     npc3 = this.getImage(this.GamePath + "/data/images/npc/npc3.png");
     npc4 = this.getImage(this.GamePath + "/data/images/npc/npc4.png");
     //Room-Items
+    lifePosion = this.getImage(this.GamePath + "/data/images/items room/T1.png");
+    deadlyPosion = this.getImage(this.GamePath + "/data/images/items room/T2.png");
+    manaPosion = this.getImage(this.GamePath + "/data/images/items room/T3.png");
     sword = this.getImage(this.GamePath + "/data/images/items room/W1.png");
     shield = this.getImage(this.GamePath + "/data/images/items room/S1.png");
     //Infoleiste 
