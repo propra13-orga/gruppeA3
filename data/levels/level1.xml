@@ -33,12 +33,7 @@
 		<lines>################</lines>
 		-->
 		<npc type="1" name="Nancy" desc="The nurse" posx="5" posy="6" >
-			<text>
-			Willkommen Abenteurer, hier lauern viele Gefahren,
-			also lerne zu kämpfen Jüngling!! 
-			(benutze A)
-			 
-			 Gute Reise!</text>
+			<text>Willkommen Abenteurer,\n\nhier lauern viele Gefahren,\nalso lerne zu kämpfen Jüngling!!\n\n(benutze A)\n\nGute Reise!</text>
 		</npc>
 	</rooms>
 
@@ -48,8 +43,7 @@
 		<monster type="1" name="Monster-Snake" speed="3.0" power="3" life="2" posx="2" posy="1" coinValue="5" coinType="1" />
 		<monster type="2" name="Spider-Man" speed="1.0" power="3" life="4" posx="5" posy="4" coinValue="5" coinType="1" />
 		<npc type="2" name="Harald" desc="The barbarian" posx="3" posy="6" >
-			<text>Hallo Unbekannter, halte die Augen offen nach wertvollen
-			Dingen, falls du Gold findest , ich hörte man kann es tauschen</text>
+			<text>Hallo Unbekannter,\n\nhalte die Augen offen nach wertvollen Dingen,\nfalls du Gold findest, ich hörte man kann es tauschen</text>
 			<item type="5" name="shield" desc="A way to protect." damage="5" posx="2" posy="6" value="10" />
 		</npc>
 	</rooms>

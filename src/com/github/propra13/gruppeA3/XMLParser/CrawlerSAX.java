@@ -121,5 +121,8 @@ public class CrawlerSAX extends DefaultHandler{
     @Override
     public void characters(char ch[], int start, int length){
     	this.text = new String(ch, start, length);
+    	System.out.println(text);
+    	this.text = this.text.replace("\\n", "\n");
+    	System.out.println(text);
      }
 }	
