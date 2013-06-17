@@ -581,8 +581,22 @@ public void paintMessage(String msg, Graphics g){
 						if(player.hitboxCheck(temp, testent) == false){
 							 if(testent instanceof NPC){
 								npc = (NPC)testent;
-								JOptionPane.showMessageDialog(null, npc.getText(), npc.getName(), JOptionPane.PLAIN_MESSAGE);
-								talk = false;
+								switch(npc.getType()){
+									case 1:System.out.println("Type 1");
+										JOptionPane.showMessageDialog(null, npc.getText(), npc.getName(), JOptionPane.PLAIN_MESSAGE);
+										talk = false;
+										break;
+									case 2:
+										if(npc.getItems().isEmpty()){
+											System.out.println("Type 2 Empty");
+											JOptionPane.showMessageDialog(null, "Ich besitze keine Ware mehr", npc.getName(), JOptionPane.PLAIN_MESSAGE);
+										} else{
+											System.out.println("Type 2 with Item");
+											Shop shop = new Shop(this.player, npc);
+										}
+										talk = false;
+										break;
+								}
 							}
 						}
 					}

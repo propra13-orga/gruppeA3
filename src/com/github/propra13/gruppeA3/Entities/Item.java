@@ -68,7 +68,19 @@ public class Item extends Entities {
 	public int getHealth(){
 		return 1;
 	}
+	
+	public String getDesc(){
+		return this.desc;
+	}
+	
+	public String getName(){
+		return this.name;
+	}
 
+	public int getValue(){
+		return this.value;
+	}
+	
 	//Dummies
 	@Override
 	public void tick() {}
