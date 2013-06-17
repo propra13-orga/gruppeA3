@@ -150,10 +150,15 @@ public class Map {
 		
 		// Sucht Link mit der höchsten ID
 		int highID = 0;
+		Link testLink;
+		
 		for (Iterator<Link> i = linkBuffer.iterator(); i.hasNext();) {
+			testLink = i.next();
+			System.out.println("Checke: Link "+testLink.ID);
 			//TODO: LinkedList.next() checken (erstes Element abgedeckt?)
-			if (i.next().ID > highID)
-				highID = i.next().ID;
+			if (testLink.ID > highID) {
+				highID = testLink.ID;
+			}
 		}
 		
 		//System.out.println(highID);

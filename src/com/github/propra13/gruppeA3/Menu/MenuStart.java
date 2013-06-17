@@ -71,7 +71,7 @@ public class MenuStart extends JPanel implements ActionListener {
     public MenuStart() {
     	// Lese Map
     	try {
-    		Map.initialize("Map02", null);
+    		Map.initialize("Testmap", null);
     	} catch (InvalidRoomLinkException | IOException | MapFormatException e) {
     		e.printStackTrace();
     	}
