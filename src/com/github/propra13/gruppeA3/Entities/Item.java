@@ -20,6 +20,8 @@ public class Item extends Entities {
 	private String name=null;
 	private Hitbox hitbox=null;
 	private int value=0;
+	// Soll später zur eindeutigen Identifizierung benutzt werden.
+	private int uuid=0;
 	
 	/**
 	 * @author Majida Dere
@@ -66,7 +68,7 @@ public class Item extends Entities {
 	}
 	
 	public int getHealth(){
-		return 1;
+		return 0;
 	}
 	
 	public String getDesc(){
@@ -79,6 +81,15 @@ public class Item extends Entities {
 
 	public int getValue(){
 		return this.value;
+	}
+	
+	public void setValue(int value){
+		this.value = value;
+	}
+	
+	@Override
+	public String toString() {
+		return "Coins "+getValue()+": "+getName()+" - "+getDesc();
 	}
 	
 	//Dummies

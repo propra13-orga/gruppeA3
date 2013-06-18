@@ -4,6 +4,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -23,8 +24,7 @@ import com.github.propra13.gruppeA3.Entities.NPC;
 import com.github.propra13.gruppeA3.Entities.Player;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.Window.Type;
-import java.awt.Dialog.ModalExclusionType;
+import java.awt.Font;
 
 public class Shop extends JFrame 
 				  implements ListSelectionListener{
@@ -46,7 +46,7 @@ public class Shop extends JFrame
 	/**
 	 * Create the panel.
 	 */
-	public Shop(Player player, NPC npc) {
+	public Shop(final Player player, final NPC npc) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setAlwaysOnTop(true);
 		setResizable(false);
@@ -54,7 +54,6 @@ public class Shop extends JFrame
 		setTitle(npc.getName()+"s Shop");
 		setSize(450,300);
 		setLocationRelativeTo(null);
-		//setBounds(100, 100, 450, 300);
 		
 		items = npc.getItems();
 		Item item;
@@ -63,17 +62,17 @@ public class Shop extends JFrame
 		
 		while(iter.hasNext()){
 			item = (Item)iter.next();
-			listModel.addElement(item.getName()+"       "+item.getDesc()+"   -    "+item.getValue()+" Coins");
+			listModel.addElement(item);		
 		}
 		
         //Liste mit Scrolling.
         list = new JList(listModel);
-        list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        list.setSelectedIndex(0);
+        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        //list.setSelectedIndex(0);
         list.addListSelectionListener(this);
-        list.setVisibleRowCount(5);
+        list.setVisibleRowCount(10);
         JScrollPane listScrollPane = new JScrollPane(list);
- 
+
         sellButton = new JButton("Verkaufen");
         sellButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
@@ -84,15 +83,34 @@ public class Shop extends JFrame
         sellButton.setEnabled(false);
  
         buyButton = new JButton("Kaufen");
+        buyButton.setActionCommand(buyString);
         buyButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+        		Item tempItem = (Item)list.getSelectedValue();
+        		
+        		if(player.getMoney() >= tempItem.getValue()){
+        			player.useItem(tempItem);
+        			listModel.removeElement(tempItem);
+        			player.setMoney(player.getMoney()-tempItem.getValue());
+        			tempItem.setValue(tempItem.getValue()/5);
+        			npc.getItems().remove(tempItem);
+        			text.setText("Vielen Dank für den Einkauf!");
+        		} else {
+					text.setText("Du besitzt nicht genug Münzen!");
+        		}
+        		
+        		if(listModel.isEmpty()){
+        			buyButton.setEnabled(false);
+        		} else buyButton.setEnabled(true);
         	}
         });
  
-        buyButton.setActionCommand(buyString);
  
         text = new JTextField(10);
-
+        text.setFont(new Font("Arial Black", Font.BOLD, 11));
+        text.setEditable(false);
+        text.setEnabled(false);
+        text.setText("Der Spieler besitzt "+player.getMoney()+" Coins!");
  
         JPanel buttonPane = new JPanel();
         buttonPane.setLayout(new BoxLayout(buttonPane,

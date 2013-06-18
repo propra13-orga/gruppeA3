@@ -588,10 +588,9 @@ public void paintMessage(String msg, Graphics g){
 										break;
 									case 2:
 										if(npc.getItems().isEmpty()){
-											System.out.println("Type 2 Empty");
 											JOptionPane.showMessageDialog(null, "Ich besitze keine Ware mehr", npc.getName(), JOptionPane.PLAIN_MESSAGE);
 										} else{
-											System.out.println("Type 2 with Item");
+											JOptionPane.showMessageDialog(null, npc.getText(), npc.getName(), JOptionPane.PLAIN_MESSAGE);
 											Shop shop = new Shop(this.player, npc);
 										}
 										talk = false;

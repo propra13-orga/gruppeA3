@@ -355,48 +355,9 @@ public class Player extends Moveable {
         Entities testEntity = null;
         while(iter.hasNext()) {
         	testEntity = iter.next();
-        	//System.out.println("("+this.getPosition().x+","+this.getPosition().y+")"+" ("+testEntity.getPosition().x+","+testEntity.getPosition().y+")");
         	if (testEntity instanceof Item){
         		if(this.getPosition().toFieldPos(). equals(testEntity.getPosition().toFieldPos())){
-        			Item item = (Item) testEntity;
-        			this.items.add(item);
-        			switch(item.getType()){
-        				case 1:
-        					if(this.getHealth()<100){
-        						this.setHealth(this.getHealth() + item.getDamage());
-        						if(this.getHealth() > 100){
-        							this.setHealth(100);
-        						}
-        					}
-        					break;
-        					
-        				case 2:
-        					this.setHealth(this.getHealth() + item.getDamage());
-        					if(this.getHealth() < 1){
-        						this.death();
-        					}
-        					break;
-        					
-        				case 3:
-        					if(this.getMana() < 100){
-        						this.setMana(this.getMana() + item.getDamage());
-        						if(this.getMana() > 100){
-        							this.setMana(100);
-        						}
-        					}
-        					break;
-        					
-        				case 4:
-        					this.setPower(this.getPower() + item.getDamage());
-        					break;
-        					
-        				case 5:
-        					this.setArmour(this.getArmour() + item.getDamage());
-        					break;
-        					
-        				default:
-        					break;
-        			}
+        			useItem((Item) testEntity);
         			getRoom().removeCandidates.add(testEntity);
         			
         	}
@@ -477,6 +438,49 @@ public class Player extends Moveable {
     public void setMana(int mana){
     	this.mana = mana;
     }
+    
+    public void useItem(Item item){
+    	switch(item.getType()){
+    	case 1:
+			if(this.getHealth()<100){
+				this.setHealth(this.getHealth() + item.getDamage());
+				if(this.getHealth() > 100){
+					this.setHealth(100);
+				}
+			}
+			break;
+			
+		case 2:
+			this.setHealth(this.getHealth() + item.getDamage());
+			if(this.getHealth() < 1){
+				this.death();
+			}
+			break;
+			
+		case 3:
+			if(this.getMana() < 100){
+				this.setMana(this.getMana() + item.getDamage());
+				if(this.getMana() > 100){
+					this.setMana(100);
+				}
+			}
+			break;
+			
+		case 4:
+			this.setPower(this.getPower() + item.getDamage());
+			this.items.add(item);
+			break;
+			
+		case 5:
+			this.setArmour(this.getArmour() + item.getDamage());
+			this.items.add(item);
+			break;
+			
+		default:
+			break;
+    	}
+    }
+    
     /*
 	@Override
 	public Hitbox getHitbox() {
