@@ -11,6 +11,7 @@ import java.awt.Toolkit;
 
 public class GameWindow {
 	//Room
+	public static Image bossimg_1down;
 	public static Image monsterimg_1left;
 	public static Image monsterimg_1right;
 	public static Image monsterimg_1up;
@@ -66,6 +67,10 @@ public class GameWindow {
 	public GameWindow(){
 	GamePath = System.getProperty("user.dir");
     tool = Toolkit.getDefaultToolkit();
+    
+    //Boss
+    bossimg_1down = this.getImage(this.GamePath + "/data/images/Monster/B1.png");
+    
     //Monster
     monsterimg_1left = this.getImage(this.GamePath + "/data/images/Monster/M1left.png");
     monsterimg_1right = this.getImage(this.GamePath + "/data/images/Monster/M1right.png");

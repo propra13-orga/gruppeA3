@@ -18,6 +18,7 @@ public class Monster extends Moveable {
 	// Attribute
 	private String desc;
 	private Coin coins=null;
+	private int type;
 	
 	//Konstruktor
 	
@@ -33,7 +34,11 @@ public class Monster extends Moveable {
 		setPosition(x+(hitbox.width/2),y+(hitbox.height/2));
 		setDirection(Direction.NONE);
 		coins=new Coin(coinValue, coinType, this.pos);
-		
+		this.type = type;
+		if(type == 5){
+			this.hitbox.height = 48;
+			this.hitbox.width  = 48;
+		}
 	}
 	
 	
@@ -49,6 +54,14 @@ public class Monster extends Moveable {
 	 */
 	public Coin getCoin(){
 		return this.coins;
+	}
+	
+	public int getType(){
+		return type;
+	}
+	
+	public String getDescription(){
+		return desc;
 	}
 	
 	//Dummies
