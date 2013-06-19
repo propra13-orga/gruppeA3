@@ -69,7 +69,7 @@ public class MenuStart extends JPanel implements ActionListener {
     public MenuStart() {
     	// Lese Map
     	try {
-    		Map.initialize("Testmap", null);
+    		Map.initialize("Testmap");
     	} catch (InvalidRoomLinkException | IOException | MapFormatException e) {
     		e.printStackTrace();
     	}
@@ -527,6 +527,7 @@ public void paintMessage(String msg, Graphics g){
 		
 		Monster monster = null;
 		Entities testent = null;	//durch alle Entitys der Liste iterieren
+		@SuppressWarnings("unchecked")
 		LinkedList<Entities> tempEntities = (LinkedList<Entities>) player.getRoom().entities.clone();
 	    Iterator<Entities> iter = tempEntities.iterator();
 	    while(iter.hasNext()){

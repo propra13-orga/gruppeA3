@@ -24,8 +24,8 @@ public class Monster extends Moveable {
 	public Monster (Room room_bind, double speed, int power, int type, int life, 
 					int x, int y, String desc, int coinValue, int coinType){
 		super(room_bind);
-		setSpeed(speed);
-		setPower(power);
+		addSpeedFactor(speed);
+		addAttackFactor(power);
 		setHealth(life);
 		this.desc = desc;
 		this.hitbox = new Hitbox();

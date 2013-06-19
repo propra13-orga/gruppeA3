@@ -13,7 +13,7 @@ public class PlasmaBall extends Projectile {
 		hitbox = new Hitbox(6, 6);
 		this.pos = new Position(0,0);
 		room_bind.entities.add(this);
-		setSpeed(4.0);
+		addSpeedFactor(4.0);
 		
 		// Position bestimmen; soll am Hitboxrand losfliegen
 		switch(direct) {
@@ -34,8 +34,6 @@ public class PlasmaBall extends Projectile {
 			this.pos.setPosition(pos.x, pos.y);
 			break;
 		}
-		
-		System.out.println("Ich bin ein Plasmaball! Ich sitze auf "+this.pos.x+":"+this.pos.y+" und fliege nach "+direct);
 	}
 	
 	@Override

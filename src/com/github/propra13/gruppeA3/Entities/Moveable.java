@@ -1,12 +1,8 @@
 package com.github.propra13.gruppeA3.Entities;
 
-import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.NoSuchElementException;
 import java.lang.Math;
-
-import javax.swing.JOptionPane;
 
 import com.github.propra13.gruppeA3.Map.Field;
 import com.github.propra13.gruppeA3.Map.FieldPosition;
@@ -29,13 +25,17 @@ public abstract class Moveable extends Entities {
 	private Room currentroom;
 	protected Hitbox hitbox;
 	private int health;
-	private int power;
+	private int attack;
 	private int armour;
 	private double speed;
 	private int attackcounter;
 	private int castcounter;
-	private boolean attack;
+	private boolean isAttacking;
 	private String cast;
+	
+	private LinkedList<Double> speedFactors = new LinkedList<Double>();
+	private LinkedList<Double> attackFactors = new LinkedList<Double>();
+	private LinkedList<Integer> attackSummands = new LinkedList<Integer>();
 	
 	protected Field actualField; //Feld, wo das Ding derzeit ist
 	protected Field lastField; //Feld, wo das Ding vor dem aktuellen Movement war
@@ -50,14 +50,14 @@ public abstract class Moveable extends Entities {
 		this.pos = new Position(0,0);
 		this.currentroom = room_bind;
 		this.direct = Direction.NONE;
-		this.power = 1;
+		this.attack = 1;
 		this.speed = 1; 
 		this.armour = 0;
 		this.health = 1;
 		this.facedirect = Direction.NONE;
 		this.attackcounter = 0;
 		this.castcounter = 0;
-		this.attack = false;
+		this.isAttacking = false;
 		this.cast = "";
 	}
 
@@ -104,7 +104,6 @@ public abstract class Moveable extends Entities {
             	}
             	// ansonsten Annäherung an Raumrand
             	else {
-        			System.out.println("bin am Rand");
         			setPosition(hitbox.width/2, nextPos.y);
         		}
             	
@@ -237,6 +236,7 @@ public abstract class Moveable extends Entities {
 		int ydelta;
 		boolean flag = true;
 		Entities testent = null;	//durch alle Entitys der Liste iterieren
+		@SuppressWarnings("unchecked")
 		LinkedList<Entities> tempEntities = (LinkedList<Entities>) getRoom().entities.clone();
 	    Iterator<Entities> iter = tempEntities.iterator();
 		while(iter.hasNext()){
@@ -423,6 +423,7 @@ public abstract class Moveable extends Entities {
 			int xdelta;
 			int ydelta;
 			Entities testent = null;	//durch alle Entitys der Liste iterieren
+			@SuppressWarnings("unchecked")
 			LinkedList<Entities> tempEntities = (LinkedList<Entities>) getRoom().entities.clone();
 		    Iterator<Entities> iter = tempEntities.iterator();
 		    Monster monster = null;
@@ -441,8 +442,8 @@ public abstract class Moveable extends Entities {
 						if(hitboxCheck(temp, testent) == false){
 							if(testent instanceof Monster){
 								monster = (Monster)testent;
-								if((this.power - monster.getArmour()) > 0 ){
-									testent.setHealth(testent.getHealth() - (this.power - monster.getArmour()));
+								if((this.attack - monster.getArmour()) > 0 ){
+									testent.setHealth(testent.getHealth() - (this.attack - monster.getArmour()));
 								}
 								else{
 									testent.setHealth(testent.getHealth() -1 );
@@ -510,18 +511,14 @@ public abstract class Moveable extends Entities {
 	}
 	
 	public int getPower(){
-		return power;
-	}
-	
-	public void setPower(int power){
-		this.power = power;
+		return attack;
 	}
 	
 	public int getArmour(){
 		return armour;
 	}
 	
-	public void setArmour(int armour){
+	public void setArmour(int armour) {
 		this.armour = armour;
 	}
 	
@@ -529,9 +526,56 @@ public abstract class Moveable extends Entities {
 		return speed;
 	}
 	
-	public void setSpeed(double speed){
-		this.speed = speed;
+	
+	/* Faktor-Methoden: Fügen zu Speed, Angriff und Rüstung
+	 * Faktoren hinzu, sodass Faktoren ordnungsgemäß hinzugefügt
+	 * und wieder entfernt werden können.
+	 * reset() multipliziert jeweils die Faktoren zusammen.
+	 */
+	public void addSpeedFactor(double factor) {
+		speedFactors.add(factor);
+		resetSpeed();
 	}
+	
+	public void delSpeedFactor(double factor) {
+		if (! speedFactors.remove(factor)) {
+			System.out.println("Speedfaktorliste: Sollte "+factor+" entfernen, habs aber nicht gefunden.");
+		}
+		resetSpeed();
+	}
+	
+	public void resetSpeed() {
+		speed = 1.0;
+		for(Iterator<Double> iter = speedFactors.iterator(); iter.hasNext();)
+			speed = speed*iter.next();
+		System.out.println("resetSpeed(); neuer Speed: "+speed);
+	}
+	
+	public void addAttackFactor(double factor) {
+		attackFactors.add(factor);
+		resetAttack();
+	}
+	
+	public void addAttackSummand(int summand) {
+		attackSummands.add(summand);
+		resetAttack();
+	}
+	
+	public void delAttackFactor(double factor) {
+		attackFactors.remove(factor);
+		resetAttack();
+	}
+	
+	public void resetAttack() {
+		attack = 1;
+		for(Iterator<Double> iter = attackFactors.iterator(); iter.hasNext();)
+			attack = (int)((double)attack*iter.next());
+		for(Iterator<Integer> iter = attackSummands.iterator(); iter.hasNext();) {
+			attack = attack + iter.next();
+		}
+	}
+	
+	
 	
 	public Room getRoom(){
 		return currentroom;
@@ -580,12 +624,12 @@ public abstract class Moveable extends Entities {
 		castcounter = count;
 	}
 	
-	public void setAttack(boolean attack){
-		this.attack = attack;
+	public void setAttack(boolean isAttacking){
+		this.isAttacking = isAttacking;
 	}
 	
 	public boolean getAttack(){
-		return attack;
+		return isAttacking;
 	}
 	
 	public void setCast(String cast){

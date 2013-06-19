@@ -37,7 +37,7 @@ public class Player extends Moveable {
         setPosition(Map.spawns[0].pos.toPosition().x+16, Map.spawns[0].pos.toPosition().y+16);
         hitbox = new Hitbox(28, 28);
         setFaceDirection(Direction.DOWN);
-        setPower(1);
+        resetAttack();
         setHealth(100);
         getRoom().entities.add(this);
         this.items = new LinkedList<Item>();
@@ -78,7 +78,6 @@ public class Player extends Moveable {
             	// ansonsten Annäherung an Raumrand 
         		} 
             	else {
-        			System.out.println("bin am Rand");
         			setPosition(hitbox.width/2, nextPos.y);
         		}
             	
@@ -204,7 +203,6 @@ public class Player extends Moveable {
             						setPosition(getPosition().x, getPosition().y - distance);
             					// Ansonsten normale Schwimmbewegung zur Flussmitte
             					else {
-            						System.out.println("Schwimme richtung Mitte");
             						int negFactor = 1;
             						if (distance < 0)
             							negFactor = -1;
@@ -212,10 +210,8 @@ public class Player extends Moveable {
             					}
             				}
             				// Ansonsten normale Schwimmbewegung mit Flussrichtung
-            				else {
+            				else
             					setPosition(getPosition().x + swimStep * moveDirection, getPosition().y);
-            					System.out.println("Schwimme in Flussrichtung");
-            				}
             				break;
             				
             				
@@ -234,7 +230,6 @@ public class Player extends Moveable {
             						setPosition(getPosition().x - distance, getPosition().y);
             					// Ansonsten normale Schwimmbewegung zur Flussmitte
             					else {
-            						System.out.println("Schwimme richtung Mitte");
             						int negFactor = 1;
             						if (distance < 0)
             							negFactor = -1;
@@ -243,7 +238,6 @@ public class Player extends Moveable {
             					}
             				// Ansonsten normale Schwimmbewegung mit Flussrichtung
             				else
-            					System.out.println("Normales Schwimmen");
             					setPosition(getPosition().x, getPosition().y + swimStep * moveDirection);
             				break;
             		}
@@ -467,7 +461,7 @@ public class Player extends Moveable {
 			break;
 			
 		case 4:
-			this.setPower(this.getPower() + item.getDamage());
+			this.addAttackSummand(item.getDamage());
 			this.items.add(item);
 			break;
 			

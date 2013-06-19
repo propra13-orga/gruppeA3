@@ -50,9 +50,7 @@ public abstract class Projectile extends Moveable {
 				pos.getCornerTopRight(hitbox).x >= getRoom().getWidth()*32 ||
 				pos.getCornerBottomLeft(hitbox).y >= getRoom().getHeight()*32)
 		{
-			System.out.println("Ich bin ein Projektil und löse mich auf.");
 			terminate();
 		}
-		System.out.println("Ich bin ein Projektil! Ich bewege mich nach "+this.pos.x+":"+this.pos.y);
 	}
 }

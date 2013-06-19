@@ -7,8 +7,10 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import com.github.propra13.gruppeA3.Editor.Editor;
 import com.github.propra13.gruppeA3.Exceptions.*;
 import com.github.propra13.gruppeA3.Map.Map;
+import com.github.propra13.gruppeA3.Menu.MenuStart;
 
 public class Map {
 	/**
@@ -25,8 +27,6 @@ public class Map {
 	final static String roomEnding = "room";
 	final static String metaEnding = "xml";
 	
-	protected static FieldNotifier notifier;
-	
 	// Temporäre Sammellisten
 	private static LinkedList<Link> linkBuffer = new LinkedList<Link>();
 	private static LinkedList<Field> checkpointFieldsToBuild = new LinkedList<Field>();
@@ -39,11 +39,10 @@ public class Map {
 	/* Baut Map aus gegebenem Verzeichnisnamen.
 	 * Interpretiert alle durchnummerierten "xy.room"-Dateien als Rooms.
 	 */
-	public static void initialize(String dirName, FieldNotifier notifier) 
+	public static void initialize(String dirName) 
 			throws FileNotFoundException, MapFormatException, IOException, InvalidRoomLinkException {
 		
 		spawns[0] = spawns[1] = null;
-		Map.notifier = notifier;
 		
 		//Map einlesen
 		mapRooms = readRooms(dirName);
@@ -198,6 +197,8 @@ public class Map {
 			targetFields[1] = targetRooms[1].roomFields[halfLinks[i][0].pos.x][halfLinks[i][0].pos.y];
 			
 			Link link = new Link(i, targetRooms, targetFields, bidirectional, ! halfLinks[i][0].isActivated());
+			if (MenuStart.editor)
+				Editor.editor.notify(link);
 			
 			//Setzt ganze Links auf Felder
 			targetFields[0].setLink(link);
