@@ -18,15 +18,29 @@ import com.github.propra13.gruppeA3.Map.Room;
  **/
 public class NPC extends Moveable {
 
-	// Attribute
+	/**
+	 * Attribute:
+	 * 			type: Typ des NPCs (Erzähler, Shop, ...)
+	 * 		    desc: Beschreibung des NPCs (Beispiel: "the babarian")
+	 * 			name: Name des NPCs (Nancy, Harold, ...)
+	 * 			text: Das, was die NPCs aufsagen.
+	 * 			items: Falls der NPCs einen Shop darstellt, besitzt es eine Liste mit Items
+	 */		
 	private int type=1;
 	private String desc=null;
 	private String name=null;
 	private String text=null;
 	private LinkedList<Item> items=null;
 	
-	//Konstruktor
-	
+	/**
+	 * Der Konstruktor erzeugt einen NPC mit folgenden Paramtern
+	 * @param room_bind Der Raum, in dem sich der NPC befindet
+	 * @param type Typ des NPCs
+	 * @param desc Beschreibung des NPCs
+	 * @param name Name des NPCs
+	 * @param x Position X Achse
+	 * @param y Position Y Achse
+	 */	
 	public NPC (Room room_bind, int type, String desc, String name, int x, int y){
 		super(room_bind);
 		this.desc = desc;
@@ -73,10 +87,6 @@ public class NPC extends Moveable {
 	void collision(Entities entity) {
 		// TODO Auto-generated method stub
 
-	}
-	
-	public void setItems(LinkedList<Item> items){
-		this.items = items;
 	}
 	
 	public void setText(String text){

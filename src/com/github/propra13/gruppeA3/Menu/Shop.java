@@ -26,7 +26,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Font;
 
 /**
- * Diese Klasse erzeugt einen Shop in einem Eigenen Fenster
+ * Diese Klasse erzeugt einen Shop in einem eigenen Fenster
  * Es werden der Spieler und der Shop-NPC übergeben
  * @author Majida Dere
  *

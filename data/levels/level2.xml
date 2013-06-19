@@ -7,21 +7,21 @@
 	<rooms id="0" length="8" height="8">
 
 	<!-- Monster in Room -->
-		<monster type="1" name="Monster-Snake" speed="1.0" power="3" life="10" posx="3" posy="2" coinValue="10" coinType="2" armour="1" />
-		<monster type="2" name="Spider-Man" speed="1.0" power="3" life="15" posx="7" posy="8" coinValue="15" coinType="2" armour="1" />
-		<monster type="3" name="Pinky the Rat" speed="1.0" power="5" life="5" posx="9" posy="2" coinValue="5" coinType="1" armour="0" />   
-		<monster type="3" name="Pinky the Rat" speed="1.0" power="5" life="5" posx="16" posy="6" coinValue="5" coinType="1" armour="0" />   
-		<monster type="3" name="Pinky the Rat" speed="1.0" power="5" life="5" posx="12" posy="5" coinValue="5" coinType="1" armour="0" />   
+		<monster type="1" name="Monster-Snake" speed="1.0" power="3" life="10" posx="9" posy="9" coinValue="10" coinType="2" armour="1" />
+		<monster type="2" name="Spider-Man" speed="1.0" power="3" life="15" posx="9" posy="14" coinValue="15" coinType="2" armour="1" />
+		<monster type="3" name="Pinky the Rat" speed="1.0" power="5" life="5" posx="6" posy="15" coinValue="5" coinType="1" armour="0" />   
+		<monster type="3" name="Pinky the Rat" speed="1.0" power="5" life="5" posx="4" posy="11" coinValue="5" coinType="1" armour="0" />   
+		<monster type="3" name="Pinky the Rat" speed="1.0" power="5" life="5" posx="20" posy="10" coinValue="5" coinType="1" armour="0" />   
 		
 		
 		<!-- Items in Room -->
-		<item type="1" name="Life Drink" desc="A fresh drink." damage="10" posx="2" posy="4" value="2" />
+		<item type="1" name="Life Drink" desc="A fresh drink." damage="10" posx="1" posy="3" value="2" />
 		<item type="2" name="Posion Drink" desc="Deadly Posion" damage="-2" posx="4" posy="5" value="2" />
-  		<item type="4" name="sword" desc="A strong protection." damage="2" posx="7" posy="9" value="5" />
-		<item type="5" name="shield" desc="A way to protect." damage="2" posx="2" posy="6" value="5" />
+  		<item type="4" name="sword" desc="A strong protection." damage="2" posx="5" posy="14" value="5" />
+		<item type="5" name="shield" desc="A way to protect." damage="2" posx="20" posy="5" value="5" />
 		
-		<npc type="1" name="Nancy" desc="The nurse" posx="5" posy="6" >
-			<text>Willkommen Abenteurer,\n\nhier lauern viele Gefahren,\nalso lerne zu kämpfen Jüngling!!\n\n(benutze A)\n\nGute Reise!</text>
+		<npc type="1" name="Nancy" desc="The nurse" posx="5" posy="8" >
+			<text>Ah ....du bist der Unbekannte\n Eins sage ich dir ,\n die Monster sind hier stärker!!</text>
 		</npc>
 	</rooms>
 

@@ -11,11 +11,24 @@ import com.github.propra13.gruppeA3.Map.Position;
  */
 public class Coin extends Entities {
 
+	/**
+	 * Attribute:
+	 * 			value: Werteinheit der Münze
+	 * 			type: Typ der Münze (es kann sein, dass es später verschiedene Münztypen gibt.)
+	 * 			pos: Position der Münze im Raum
+	 * 			hitbox: Die Hitbox der Münze
+	 */
 	private int value=0;
 	private int type=1;
 	private Position pos = null;
 	private Hitbox hitbox = null;
 	
+	/**
+	 * Der Konstruktor erzeugt eine neue Münze
+	 * @param value Wert der Münze
+	 * @param type Typ der Münze
+	 * @param pos Position der Münze
+	 */
 	public Coin(int value, int type, Position pos){
 		this.value = value;
 		this.type = type;

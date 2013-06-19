@@ -3,10 +3,8 @@ package com.github.propra13.gruppeA3.Entities;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Map.Position;
 import com.github.propra13.gruppeA3.Map.Room;
-import com.github.propra13.gruppeA3.Map.Trigger;
 
 /**
  * @author Majida Dere
@@ -15,13 +13,31 @@ import com.github.propra13.gruppeA3.Map.Trigger;
 
 public class Monster extends Moveable {
 
-	// Attribute
+	/**
+	 * Attribute:
+	 * 			desc: Beschreibung des Monsters
+	 * 			coins: Die Münze, die das Monster droppt, wenn es stirbt.
+	 * 			type: Typ des Monsters
+	 */
 	private String desc;
 	private Coin coins=null;
 	private int type;
 	
-	//Konstruktor
-	
+	/**
+	 * Der Konstruktor erzeugt ein Monster mit folgenden Parametern
+	 * @param room_bind	Der Raum, in dem das Monster sich befindet
+	 * @param speed Geschwindigkeit des Monsters
+	 * @param power Kampfkraft des Monsters
+	 * @param type Typ des Monsters
+	 * @param life Lebenseinheit des Monsters
+	 * @param x Position X Achse
+	 * @param y Position Y Achse
+	 * @param desc Beschreibung des Monsters
+	 * @param coinValue Wert der Münze
+	 * @param coinType Typ der Münze
+	 * @param armour Rüstung des Monsters
+	 * 
+	 */
 	public Monster (Room room_bind, double speed, int power, int type, int life, 
 					int x, int y, String desc, int coinValue, int coinType, int armour, boolean isBoss){
 		super(room_bind);
@@ -36,7 +52,10 @@ public class Monster extends Moveable {
 		setDirection(Direction.NONE);
 		coins=new Coin(coinValue, coinType, this.pos);
 		this.type = type;
-		if(type == 5){
+		/**
+		 * Diese Abfrage ist für Bossmonster, die größer sind als gewöhnliche Monster
+		 */
+		if(type == 5){ 
 			this.hitbox.height = 48;
 			this.hitbox.width  = 48;
 		}
@@ -61,7 +80,7 @@ public class Monster extends Moveable {
 		return type;
 	}
 	
-	public String getDescription(){
+	public String getDesc(){
 		return desc;
 	}
 	

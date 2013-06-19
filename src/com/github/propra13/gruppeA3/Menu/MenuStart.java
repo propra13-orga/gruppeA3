@@ -152,7 +152,7 @@ public class MenuStart extends JPanel implements ActionListener {
 	 	
 	 	SAXCrawlerReader reader=new SAXCrawlerReader();
 	 	try {
-	 		reader.read("data/levels/level"+mapNr+"+.xml");
+	 		reader.read("data/levels/level"+mapNr+".xml");
 	 		
 	 	} catch (Exception e) {
 	 			e.printStackTrace();
