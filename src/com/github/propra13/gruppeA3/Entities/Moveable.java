@@ -548,7 +548,6 @@ public abstract class Moveable extends Entities {
 		speed = 1.0;
 		for(Iterator<Double> iter = speedFactors.iterator(); iter.hasNext();)
 			speed = speed*iter.next();
-		System.out.println("resetSpeed(); neuer Speed: "+speed);
 	}
 	
 	public void addAttackFactor(double factor) {
@@ -563,6 +562,11 @@ public abstract class Moveable extends Entities {
 	
 	public void delAttackFactor(double factor) {
 		attackFactors.remove(factor);
+		resetAttack();
+	}
+	
+	public void delAttackSummand(int summand) {
+		attackSummands.remove(summand);
 		resetAttack();
 	}
 	

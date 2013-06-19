@@ -20,7 +20,7 @@ public class Keys implements KeyListener {
 	
 	public void keyPressed(KeyEvent e){
 		int pressed = e.getKeyCode();
-		if(MenuStart.ingame)
+		if(MenuStart.gameStatus == MenuStart.GameStatus.INGAME)
 		{
 			switch(pressed){
 				case KeyEvent.VK_LEFT:

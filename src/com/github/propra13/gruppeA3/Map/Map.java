@@ -52,6 +52,11 @@ public class Map {
 		buildLinks();
 		buildCheckpoints();
 		
+
+		linkBuffer.clear();
+		checkpointFieldsToBuild.clear();
+		checkpointLinksToBuild.clear();
+		
 		System.out.println("Map gebaut!");
 		//checkLinks();
 	}
@@ -175,7 +180,6 @@ public class Map {
 			else
 				throw new InvalidRoomLinkException("dritten halben Link gefunden; Link-ID: "+link.ID+", Position: "+link.pos.x+":"+link.pos.y+", Ziel: Room "+link.targetRoomID);
 		}
-		linkBuffer.clear();
 		
 		// Fügt halbe Links zu ganzen zusammen
 		for (int i=0; i < halfLinks.length; i++) {
@@ -197,7 +201,7 @@ public class Map {
 			targetFields[1] = targetRooms[1].roomFields[halfLinks[i][0].pos.x][halfLinks[i][0].pos.y];
 			
 			Link link = new Link(i, targetRooms, targetFields, bidirectional, ! halfLinks[i][0].isActivated());
-			if (MenuStart.editor)
+			if (MenuStart.gameStatus == MenuStart.GameStatus.EDITOR)
 				Editor.editor.notify(link);
 			
 			//Setzt ganze Links auf Felder

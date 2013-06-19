@@ -12,6 +12,7 @@ import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
 import com.github.propra13.gruppeA3.Map.Link;
 import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
+import com.github.propra13.gruppeA3.Menu.MenuStart.GameStatus;
 
 /* @author CK
  * Hauptklasse des Map-Editors
@@ -53,11 +54,11 @@ public class Editor extends JTabbedPane {
 		setVisible(true);
 	}
 	
-	// Beendet den Editor und holt Hauptmenü wieder aus der Versenkung
+	/** Beendet den Editor und holt Hauptmenü wieder aus der Versenkung
+	 */
 	public void exit() {
 
-		MenuStart.editor = false;
-		MenuStart.menu = true;
+		MenuStart.gameStatus = GameStatus.MAINMENU;
 		setVisible(false);
 		Game.Menu.remove(this);
 		Game.Menu.setVisible(true);

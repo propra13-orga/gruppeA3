@@ -51,36 +51,24 @@ public class MenuStart extends JPanel implements ActionListener {
     public Graphics2D g2d;
     
     // Menüelemente
-    	private JButton buttonstart;
-    	private JButton buttonbeenden;
-    	private JButton buttoneditor;
-    	private int buttonPosX;
-    	private int buttonPosY;
-       
-	public static boolean ingame = false;
-	public static boolean menu = false;
-	public static boolean win = false;
-	public static boolean editor = false;
+	private JButton buttonnewgame;
+	private JButton buttonnextmap;
+	private JButton buttonbeenden;
+	private JButton buttoneditor;
+	private int buttonPosX;
+	private int buttonPosY;
+    	
+    public static enum GameStatus {INGAME,MAINMENU,EDITOR,GAMEWON,GAMEOVER,MAPWON}
+    public static GameStatus gameStatus;
+	
+	private static int nextMap = 1;
 
 	//score infoleiste
 	public static int score;
 	Font smallfont = new Font("Helvetica", Font.BOLD, 14);
 	
+	
     public MenuStart() {
-    	// Lese Map
-    	try {
-    		Map.initialize("Testmap");
-    	} catch (InvalidRoomLinkException | IOException | MapFormatException e) {
-    		e.printStackTrace();
-    	}
-    	
-    	SAXCrawlerReader reader=new SAXCrawlerReader();
-    	try {
-    		reader.read("data/levels/level1.xml");
-    		
-    	} catch (Exception e) {
-    			e.printStackTrace();
-    	}
     			
     	setLayout(null);
     	setFocusable(true);
@@ -89,31 +77,39 @@ public class MenuStart extends JPanel implements ActionListener {
         setSize(GameMinSizeX, GameMinSizeY);
         setDoubleBuffered(true);
         
-        randomgen = new Random(System.currentTimeMillis());
-        	
-        activeRoom = Map.getMapRoom(0);
- 		player = new Player(activeRoom);
-
- 		
-        addKeyListener(new Keys(player));
-        
-        menu = true; //wichtig für den ersten Spiel aufruf
+        gameStatus = GameStatus.MAINMENU; //wichtig für den ersten Spiel aufruf
         timer = new Timer(delay, this);
         timer.start();
         
         
         // Menü vorbereiten
-     	buttonstart = new JButton("Spiel starten");
+     	buttonnewgame = new JButton("Neues Spiel");
+     	buttonnextmap = new JButton("Nächste Karte");
      	buttoneditor = new JButton("Karteneditor");
      	buttonbeenden = new JButton("Beenden");
+     	
+     	// benenne Aktionen
+    	buttonbeenden.setActionCommand("exit");
+    	buttonnextmap.setActionCommand("nextmap");
+    	buttoneditor.setActionCommand("editor");
+    	buttonnewgame.setActionCommand("newgame");
+    	
+    	// ActionListener hinzufügen
+    	buttonnewgame.addActionListener(this);
+    	buttonnextmap.addActionListener(this);
+    	buttoneditor.addActionListener(this);
+    	buttonbeenden.addActionListener(this);
+    	
+    	// füge Buttons zum Panel hinzu
+    	add(buttonnewgame);
+    	add(buttoneditor);
+    	add(buttonbeenden);
+    	add(buttonnextmap);
      	initMenu();
     }
     
     private void initEditor() {
-    	editor = true;
- 		menu=false;
- 		ingame = false;
- 		win = false;
+    	gameStatus = GameStatus.EDITOR;
  		
  		setVisible(false);
  	    
@@ -137,29 +133,44 @@ public class MenuStart extends JPanel implements ActionListener {
 		
 		// Falls keine Map ausgewählt wurde, mach Menü wieder an
 		else {
-			editor = false;
-			menu = true;
+			gameStatus = GameStatus.MAINMENU;
 			setVisible(true);
 		}
     }
     
- // Startet Spiel
- public void initGame(){
-	// Buttons ausblenden
-		buttonstart.setVisible(false);
+    // Startet Spiel
+    public void initGame(String mapName){
+
+    	// Lese Map
+	 	try {
+	 		Map.initialize(mapName);
+	 	} catch (InvalidRoomLinkException | IOException | MapFormatException e) {
+	 		e.printStackTrace();
+	 	}
+	 	
+	 	SAXCrawlerReader reader=new SAXCrawlerReader();
+	 	try {
+	 		reader.read("data/levels/level1.xml");
+	 		
+	 	} catch (Exception e) {
+	 			e.printStackTrace();
+	 	}
+	 	
+	 	randomgen = new Random(System.currentTimeMillis());
+		activeRoom = Map.getMapRoom(0);
+		player = new Player(activeRoom);
+		addKeyListener(new Keys(player));
+		
+		
+		// Buttons ausblenden
+		buttonnewgame.setVisible(false);
+		buttonnextmap.setVisible(false);
 		buttoneditor.setVisible(false);
 		buttonbeenden.setVisible(false);
-		
-	 // Spielablaufparameter setzen
-		editor = false;
- 		menu=false;
- 		ingame = true;
- 		win = false;
- 		player.setLives(3);
- 		
-		
-
-
+			
+		 // Spielablaufparameter setzen
+		gameStatus = GameStatus.INGAME;
+		player.setLives(3);
  	}
  
  	public static void paintRoom(Graphics2D g2d, Room room, JPanel panel) {
@@ -194,7 +205,7 @@ public class MenuStart extends JPanel implements ActionListener {
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
         
-        if(ingame)
+        if(gameStatus == GameStatus.INGAME)
         {
         	
         paintRoom(g2d, activeRoom, this);
@@ -319,25 +330,27 @@ public class MenuStart extends JPanel implements ActionListener {
         }
         else
         {
-        	if(ingame == false && menu == true)
+        	initMenu();
+        	if(gameStatus == GameStatus.MAINMENU)
         	{
         		String msg;
         		msg = "Hauptmenü";
         		paintMessage(msg,g);
         	}
-        	else if(ingame ==false && win == true && timer.isRunning())
+        	else if(gameStatus == GameStatus.GAMEWON && timer.isRunning())
         	{
         		setBackground(Color.BLACK);
-        		String msg;
-        		msg="Spiel Gewonnen";
-        		paintMessage(msg,g);
+        		paintMessage("Spiel gewonnen!",g);
+        		
         	}
-        	else if(ingame ==false && win == false && timer.isRunning())
+        	else if(gameStatus == GameStatus.MAPWON && timer.isRunning()) {
+        		setBackground(Color.BLACK);
+        		paintMessage("Karte gemeistert!",g);
+        	}
+        	else if(gameStatus == GameStatus.GAMEOVER && timer.isRunning())
         	{
         		setBackground(Color.BLACK);
-        		String msg;
-        		msg="Game Over";
-        		paintMessage(msg,g);
+        		paintMessage("Game Over",g);
         	}
         
         	Toolkit.getDefaultToolkit().sync();
@@ -349,22 +362,24 @@ public void initMenu(){
 	// Lege Standartpositionen für Buttons fest
 	buttonPosX = GameMinSizeX/2-100;
 	buttonPosY = GameMinSizeY/2-100;
+	
 	// bestimme Position und Größe
-	buttonstart.setBounds(buttonPosX,buttonPosY,200,30);
-	buttoneditor.setBounds(buttonPosX,buttonPosY+40,200,30);
-	buttonbeenden.setBounds(buttonPosX,buttonPosY+80,200,30);
-	// benenne Aktionen
-	buttonbeenden.setActionCommand("beenden");
-	buttoneditor.setActionCommand("editor");
-	buttonstart.setActionCommand("starten");
-	// ActionListener hinzufügen
-	buttonstart.addActionListener(this);
-	buttoneditor.addActionListener(this);
-	buttonbeenden.addActionListener(this);
-	// füge Buttons zum Panel hinzu
-	add(buttonstart);
-	add(buttoneditor);
-	add(buttonbeenden);
+	
+	//Falls schon eine Karte gemeistert wurde, Nächste-Karte-Button anzeigen
+	if(nextMap > 1 && nextMap < 4) {
+		buttonnextmap.setVisible(true);
+		buttonnextmap.setBounds(buttonPosX,buttonPosY,    200,30);
+		buttonnewgame.setBounds(buttonPosX,buttonPosY+40, 200,30);
+		buttoneditor.setBounds(buttonPosX, buttonPosY+80, 200,30);
+		buttonbeenden.setBounds(buttonPosX,buttonPosY+120,200,30);
+	}
+	else {
+		buttonnextmap.setVisible(false);
+		buttonnewgame.setBounds(buttonPosX,buttonPosY,   200,30);
+		buttoneditor.setBounds(buttonPosX, buttonPosY+40,200,30);
+		buttonbeenden.setBounds(buttonPosX,buttonPosY+80,200,30);
+	}
+	
 }
 
 
@@ -389,9 +404,9 @@ public void Score(Graphics2D g) {
 	
 }
 
-public void paintMessage(String msg, Graphics g){
+	public void paintMessage(String msg, Graphics g){
 		// Mache Buttons wieder sichtbar
-		buttonstart.setVisible(true);
+		buttonnewgame.setVisible(true);
 		buttoneditor.setVisible(true);
 		buttonbeenden.setVisible(true);
 		Font small = new Font("Arial", Font.BOLD, 20);
@@ -407,30 +422,44 @@ public void paintMessage(String msg, Graphics g){
 	public void actionPerformed(ActionEvent e) {
 		
 		// Tasks für Timer in dieser if-condition eintragen
-		if(ingame) {
+		if(gameStatus == GameStatus.INGAME) {
 			player.move();
-			executeEnemieActions();
+			executeEnemyActions();
 			activeRoom.removeEntities();
 			executeTalk();
 			executePlayerAttacks();
 			tickCounters();
 
 		}
-		else if(ingame == false ) {
+		else {
 			//Spiel Start
 			String action = e.getActionCommand();
-			if("starten".equals(action))
-				initGame();
+			if("newgame".equals(action)) {
+				nextMap = 1;
+				initGame("Story01");
+			}
+			else if("nextmap".equals(action)) {
+				//mapName zusammenbauen
+				String mapName;
+				if (nextMap < 10)
+					mapName = "0"+nextMap;
+				else
+					mapName = nextMap+"";
+				mapName = "Story"+mapName;
+				
+				initGame(mapName);
+			}
 			else if("editor".equals(action))
-
 				initEditor();
-			else if("beenden".equals(action)) 
+			else if("exit".equals(action)) 
 				System.exit(0);	// Programm beenden
+			else
+				System.out.println("Unbekannte Aktion: "+action);
 		}
 		repaint();
 	}
 
-	private void executeEnemieActions(){
+	private void executeEnemyActions(){
 		Entities testent = null;	//durch alle Entitys der Liste iterieren
 		Monster testmonster = null;
 		Projectile testproj = null;
@@ -555,6 +584,19 @@ public void paintMessage(String msg, Graphics g){
 	    	}
 	    }
 		
+	}
+	
+	public static void death() {
+		gameStatus = GameStatus.GAMEOVER;
+		nextMap = 1; // Reset des Spiels
+	}
+	
+	public static void winMap() {
+		nextMap++;
+		if (nextMap > 3)
+			gameStatus = GameStatus.GAMEWON;
+		else
+			gameStatus = GameStatus.MAPWON;
 	}
 	
 	private void executeTalk(){

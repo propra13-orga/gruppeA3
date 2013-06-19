@@ -12,6 +12,7 @@ import com.github.propra13.gruppeA3.Map.Position;
 import com.github.propra13.gruppeA3.Map.Room;
 import com.github.propra13.gruppeA3.Map.Trigger;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
+import com.github.propra13.gruppeA3.Menu.MenuStart.GameStatus;
 
 /**
  * @author Majida Dere
@@ -278,8 +279,7 @@ public class Player extends Moveable {
     }
     private void win() {
     	setPosition(Map.spawns[0].pos.toPosition().x+16, Map.spawns[0].pos.toPosition().y+16);
-    	MenuStart.win=true;
-    	MenuStart.ingame=false;
+    	MenuStart.winMap();
     }
     
     public void death() {
@@ -289,8 +289,7 @@ public class Player extends Moveable {
     	MenuStart.activeRoom = Map.getMapRoom(0);
     	setHealth(100);
     	if(getLives() == 0){
-    		MenuStart.win=false;
-    		MenuStart.ingame=false;
+    		MenuStart.death();
     	}
     } 
     
