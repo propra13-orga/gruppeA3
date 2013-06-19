@@ -5,6 +5,9 @@ import com.github.propra13.gruppeA3.Map.Room;
 
 /**
  * @author Majida Dere
+ * Die Klasse Item erzeugt ein Item, welches entweder auf der Map liegt 
+ * oder der Spieler mit sich trägt 
+ * oder im Shop gekauft werden kann.
  *
  */
 public class Item extends Entities {
@@ -25,7 +28,6 @@ public class Item extends Entities {
 	 * 			name: Der Name des Items aus der XML
 	 * 			hitbox: Die Hitbox des Items
 	 * 			value: Der Wert, den jedes Item haben kann, wichtig beim Kauf/Verkauf
-	 * 			uid: Unique ID uid soll später zur eindeutigen Identifizierung benutzt werden
 	 */
 	private Room currentRoom;
 	private Position pos;
@@ -35,7 +37,6 @@ public class Item extends Entities {
 	private String name=null;
 	private Hitbox hitbox=null;
 	private int value=0;
-	private int uid=0;
 	
 	
 	/**
@@ -74,7 +75,7 @@ public class Item extends Entities {
 	}
 	
 	/**
-	 * Liefert den Typen zurück
+	 * @return Liefert den Typen zurück
 	 */
 	public int getType(){
 		return this.type;
@@ -91,24 +92,42 @@ public class Item extends Entities {
 		return 0;
 	}
 	
+	/**
+	 * 
+	 * @return liefert die Beschreibung des Items
+	 */
 	public String getDesc(){
 		return this.desc;
 	}
 	
+	/**
+	 * 
+	 * @return liefert den Namen des Items
+	 */
 	public String getName(){
 		return this.name;
 	}
+	
+	/**
+	 *
+	 * @return liefert den Wert des Items zurück
+	 */
 
 	public int getValue(){
 		return this.value;
 	}
 	
+	/**
+	 * Ändert den Wert des Items, meist durch Shopverkäufe
+	 * @param value neuer Wert
+	 */
 	public void setValue(int value){
 		this.value = value;
 	}
 	
 	/**
 	 * Diese Methode aus Object wird nur für den Shop benutzt
+	 * @return Text für den Shop
 	 */
 	@Override
 	public String toString() {

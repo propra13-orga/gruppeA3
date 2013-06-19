@@ -1,6 +1,4 @@
 package com.github.propra13.gruppeA3.XMLParser;
-import java.util.LinkedList;
-
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.*;
 
@@ -104,12 +102,14 @@ public class CrawlerSAX extends DefaultHandler{
 		}
 	}
 	
+	
+	
 	@Override
 	public void endElement(String uri,String localN,String qName)
 										throws SAXException {
 		
 		if(qName.equals("text")){
-	    	if(checkNPC && !text.equals("")){
+	    	if(true==checkNPC && !text.equals("")){
 	    		npc.setText(text);
 	    	}
 		} else if(qName.equals("npc")){

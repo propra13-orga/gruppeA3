@@ -12,7 +12,6 @@ import com.github.propra13.gruppeA3.Map.Position;
 import com.github.propra13.gruppeA3.Map.Room;
 import com.github.propra13.gruppeA3.Map.Trigger;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
-import com.github.propra13.gruppeA3.Menu.MenuStart.GameStatus;
 
 /**
  * @author Majida Dere
@@ -356,6 +355,7 @@ public class Player extends Moveable {
         			getRoom().removeCandidates.add(testEntity);
         			
         	}
+        		/** Coins aufsammeln, wenn Monster tot **/
         	} else if(testEntity instanceof Coin){
         		if(this.getPosition().toFieldPos(). equals(testEntity.getPosition().toFieldPos())){
         			this.setMoney(getMoney() + ((Coin)testEntity).getValue());
@@ -434,6 +434,10 @@ public class Player extends Moveable {
     	this.mana = mana;
     }
     
+    /**
+     * Items werden nach dem Aufsammeln direkt benutzt
+     * @param item
+     */
     public void useItem(Item item){
     	switch(item.getType()){
     	case 1:
