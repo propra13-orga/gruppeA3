@@ -567,12 +567,13 @@ public abstract class Moveable extends Entities {
 	}
 	
 	public void resetAttack() {
-		attack = 1;
+		attack = 0;
+		for(Iterator<Integer> iter = attackSummands.iterator(); iter.hasNext();)
+			attack = attack + iter.next();
+		if(attack == 0) //Keine Summanden vorrätig
+			attack = 1; //wg Multiplikation
 		for(Iterator<Double> iter = attackFactors.iterator(); iter.hasNext();)
 			attack = (int)((double)attack*iter.next());
-		for(Iterator<Integer> iter = attackSummands.iterator(); iter.hasNext();) {
-			attack = attack + iter.next();
-		}
 	}
 	
 	
