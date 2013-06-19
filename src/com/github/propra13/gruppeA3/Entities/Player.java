@@ -266,7 +266,7 @@ public class Player extends Moveable {
         }
         
         // Win
-        if(getRoom().roomFields[getPosition().toFieldPos().x][getPosition().toFieldPos().y]== Map.end)
+        if(getRoom().roomFields[getPosition().toFieldPos().x][getPosition().toFieldPos().y]== Map.end && Map.endIsOpen)
         	this.win();
         
         // Trigger

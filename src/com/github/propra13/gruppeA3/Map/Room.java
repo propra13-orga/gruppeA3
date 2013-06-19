@@ -197,7 +197,7 @@ public class Room {
 						}
 						break;
 						
-					//Link
+					//Link und Ziel
 					case 5:
 						if (attr2 != 254) 
 							new Link(attr1, attr2, room[j][i].pos, false);

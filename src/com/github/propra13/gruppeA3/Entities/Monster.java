@@ -39,7 +39,7 @@ public class Monster extends Moveable {
 	 * 
 	 */
 	public Monster (Room room_bind, double speed, int power, int type, int life, 
-					int x, int y, String desc, int coinValue, int coinType, int armour){
+					int x, int y, String desc, int coinValue, int coinType, int armour, boolean isBoss){
 		super(room_bind);
 		addSpeedFactor(speed);
 		addAttackFactor(power);
@@ -47,6 +47,7 @@ public class Monster extends Moveable {
 		setArmour(armour);
 		this.desc = desc;
 		this.hitbox = new Hitbox();
+		this.isBoss = isBoss;
 		setPosition(x+(hitbox.width/2),y+(hitbox.height/2));
 		setDirection(Direction.NONE);
 		coins=new Coin(coinValue, coinType, this.pos);
