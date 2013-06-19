@@ -4,7 +4,6 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -26,16 +25,34 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 
+/**
+ * Diese Klasse erzeugt einen Shop in einem Eigenen Fenster
+ * Es werden der Spieler und der Shop-NPC übergeben
+ * @author Majida Dere
+ *
+ */
 public class Shop extends JFrame 
 				  implements ListSelectionListener{
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7205764559861185949L;
+	/**
+	 * Attribute:
+	 * 			serialVersionUID: Vom Compiler generierte ID, wird nicht benutzt.
+	 * 			items: Liste die Items enthält, die der NPC mit sicht führt
+	 * 			list: Die Items aus der LinkedList items, werden hier graphisch dargestellt
+	 * 			listModel: Das Model für die JList
+	 * 			buyString: String, was auf buyButton zu sehen ist
+	 * 			sellString: String, was auf sellButton zu sehen ist
+	 * 			buyButton: Ein graphischer Knopf zum Kaufen von Items aus dem Shop
+	 * 			sellButton: Ein graphischer Button zum Verkaufen von Items an den Shop (noch unbenutzt)
+	 * 			text: Ein graphisches Textfeld zum Anzeigen von Informationen
+	 */
+	private static final long serialVersionUID = 3397250190749280364L;
 	private LinkedList<Item> items;
-	private JList list;
-	private DefaultListModel listModel;
+	private JList<Item> list;
+	private DefaultListModel<Item> listModel;
     private static final String buyString = "Kaufen";
     private static final String sellString = "Verkaufen";
     private JButton buyButton;
@@ -44,7 +61,9 @@ public class Shop extends JFrame
 	
 
 	/**
-	 * Create the panel.
+	 * Der Konstruktor erzeugt ein JFrame
+	 * @param player Das Spieler Objekt
+	 * @param npc Das Shop-NPC Objekt
 	 */
 	public Shop(final Player player, final NPC npc) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -57,8 +76,8 @@ public class Shop extends JFrame
 		
 		items = npc.getItems();
 		Item item;
-		listModel = new DefaultListModel();
-		Iterator iter = items.iterator();
+		listModel = new DefaultListModel<Item>();
+		Iterator<Item> iter = items.iterator();
 		
 		while(iter.hasNext()){
 			item = (Item)iter.next();
@@ -66,7 +85,7 @@ public class Shop extends JFrame
 		}
 		
         //Liste mit Scrolling.
-        list = new JList(listModel);
+        list = new JList<Item>(listModel);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         //list.setSelectedIndex(0);
         list.addListSelectionListener(this);
@@ -88,11 +107,16 @@ public class Shop extends JFrame
         	public void actionPerformed(ActionEvent e) {
         		Item tempItem = (Item)list.getSelectedValue();
         		
+        		/**
+        		 * Der Wert des zu Kaufenden Objektes wird mit dem Vermögen des Players verglichen
+        		 * Falls Der Spieler genug Münze besitzt, wird das Objekt aus der Liste entfernt und vom Spieler benutzt.
+        		 * Wiederverkaufbare Objekte verlieren ihren Wert für den Wiederverkauf
+        		 */
         		if(player.getMoney() >= tempItem.getValue()){
         			player.useItem(tempItem);
         			listModel.removeElement(tempItem);
         			player.setMoney(player.getMoney()-tempItem.getValue());
-        			tempItem.setValue(tempItem.getValue()/5);
+        			tempItem.setValue(tempItem.getValue()/2);
         			npc.getItems().remove(tempItem);
         			text.setText("Vielen Dank für den Einkauf!");
         		} else {
