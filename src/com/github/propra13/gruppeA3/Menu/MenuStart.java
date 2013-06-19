@@ -57,10 +57,12 @@ public class MenuStart extends JPanel implements ActionListener {
 	private JButton buttoneditor;
 	private int buttonPosX;
 	private int buttonPosY;
-    	
+    
+	// Status, in dem sich das Spiel befindet
     public static enum GameStatus {INGAME,MAINMENU,EDITOR,GAMEWON,GAMEOVER,MAPWON}
     public static GameStatus gameStatus;
 	
+    // Zähler, welche Map die jeweils nächste ist
 	private static int nextMap = 1;
 
 	//score infoleiste
@@ -141,7 +143,7 @@ public class MenuStart extends JPanel implements ActionListener {
     // Startet Spiel
     public void initGame(String mapName){
 
-    	// Lese Map
+    	// Stellt Map auf
 	 	try {
 	 		Map.initialize(mapName);
 	 	} catch (InvalidRoomLinkException | IOException | MapFormatException e) {
@@ -160,17 +162,16 @@ public class MenuStart extends JPanel implements ActionListener {
 		activeRoom = Map.getMapRoom(0);
 		player = new Player(activeRoom);
 		addKeyListener(new Keys(player));
+		player.setLives(3);
 		
 		
-		// Buttons ausblenden
+		// Menü-Buttons ausblenden, Status ändern
 		buttonnewgame.setVisible(false);
 		buttonnextmap.setVisible(false);
 		buttoneditor.setVisible(false);
 		buttonbeenden.setVisible(false);
 			
-		 // Spielablaufparameter setzen
 		gameStatus = GameStatus.INGAME;
-		player.setLives(3);
  	}
  
  	public static void paintRoom(Graphics2D g2d, Room room, JPanel panel) {
@@ -329,24 +330,29 @@ public class MenuStart extends JPanel implements ActionListener {
         Score(g2d);
         }
         else
-        {
+        {	
+        	//Macht Menü sichtbar, positioniert Buttons je nach Spielzustand
         	initMenu();
+        	//Hauptmenü
         	if(gameStatus == GameStatus.MAINMENU)
         	{
         		String msg;
         		msg = "Hauptmenü";
         		paintMessage(msg,g);
         	}
+        	// Spiel gewonnen
         	else if(gameStatus == GameStatus.GAMEWON && timer.isRunning())
         	{
         		setBackground(Color.BLACK);
         		paintMessage("Spiel gewonnen!",g);
         		
         	}
+        	// Karte gewonnen, der Spieler kann in die nächste eintreten oder von vorn beginnen
         	else if(gameStatus == GameStatus.MAPWON && timer.isRunning()) {
         		setBackground(Color.BLACK);
         		paintMessage("Karte gemeistert!",g);
         	}
+        	// Game Over, Spieler gestorben
         	else if(gameStatus == GameStatus.GAMEOVER && timer.isRunning())
         	{
         		setBackground(Color.BLACK);
@@ -373,6 +379,7 @@ public void initMenu(){
 		buttoneditor.setBounds(buttonPosX, buttonPosY+80, 200,30);
 		buttonbeenden.setBounds(buttonPosX,buttonPosY+120,200,30);
 	}
+	// Ansonsten normales Hauptmenü anzeigen
 	else {
 		buttonnextmap.setVisible(false);
 		buttonnewgame.setBounds(buttonPosX,buttonPosY,   200,30);
@@ -586,14 +593,19 @@ public void Score(Graphics2D g) {
 		
 	}
 	
+	/** Wird von Player aufgerufen, wenn der Spieler stirbt
+	 */
 	public static void death() {
 		gameStatus = GameStatus.GAMEOVER;
 		nextMap = 1; // Reset des Spiels
 	}
 	
+	/** Wird von Player aufgerufen, wenn der Spieler das Ziel der Map betritt
+	 * Anhand von nextMap wird die nächste Karte ausgesucht
+	 */
 	public static void winMap() {
-		nextMap++;
-		if (nextMap > 3)
+		nextMap++; 
+		if (nextMap > 3) //3: Anzahl der Maps, die wir derzeit haben
 			gameStatus = GameStatus.GAMEWON;
 		else
 			gameStatus = GameStatus.MAPWON;

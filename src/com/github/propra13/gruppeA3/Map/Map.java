@@ -33,8 +33,7 @@ public class Map {
 	private static LinkedList<Field> checkpointLinksToBuild = new LinkedList<Field>();
 	
 	//Privater Konstruktor, damit Map nicht instanziiert wird
-	private Map() {
-	}
+	private Map() {}
 	
 	/* Baut Map aus gegebenem Verzeichnisnamen.
 	 * Interpretiert alle durchnummerierten "xy.room"-Dateien als Rooms.
@@ -52,7 +51,7 @@ public class Map {
 		buildLinks();
 		buildCheckpoints();
 		
-
+		// Damit sich Links bei Mehrfach-Initialisierungen nicht stacken
 		linkBuffer.clear();
 		checkpointFieldsToBuild.clear();
 		checkpointLinksToBuild.clear();
