@@ -10,6 +10,7 @@ import java.util.Iterator;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 import com.github.propra13.gruppeA3.Game;
 import com.github.propra13.gruppeA3.Map.Field;
@@ -41,6 +42,45 @@ public class LinkWindow extends JDialog implements ActionListener {
 		thisPos.y = framePos.y - (Game.MINHEIGHT/2) + MINHEIGHT/2;
 		setLocation(thisPos);
 		
+		// Link erzeugen, falls nötig
+		if (field.link == null) {
+					
+			// Erste freie Link-ID suchen
+			int freeID = 256; //256 ist mit einem Byte (Room-Datei) nicht erreichbar
+			int[] IDs = new int[Editor.editor.mapLinks.size()];
+			Iterator<Link> iter = Editor.editor.mapLinks.iterator();
+			Link testLink;
+			for (int i=0; iter.hasNext(); i++) {
+				testLink = iter.next();
+				IDs[i] = testLink.ID;
+			}
+			java.util.Arrays.sort(IDs);
+			
+			if (IDs[IDs.length - 1] == IDs.length - 1)
+				//höchste ID == Anzahl IDs => keine ID zwischen drin
+				freeID = IDs.length;
+			else
+				for(int i=0; i < IDs.length; i++) {
+					if (IDs[i] > i) {
+						freeID = i;
+						break;
+					}
+				}
+			
+			System.out.println("freeID: "+freeID);
+				
+			// Konstruktorargumente vorbereiten
+			Room[] targetRooms = new Room[2];
+			targetRooms[0] = field.getRoom();
+			targetRooms[1] = null;
+			Field[] targetFields = new Field[2];
+			targetFields[0] = field;
+			targetFields[1] = null;
+			field.link = new Link(6, targetRooms, targetFields, true, true);
+		}
+		
+		
+		//Fensterelemente
 		JButton bDone = new JButton("Fertig");
 		GridBagConstraints doneConstraints = new GridBagConstraints();
 		doneConstraints.gridx = 0;
@@ -61,44 +101,7 @@ public class LinkWindow extends JDialog implements ActionListener {
 		cancelConstraints.insets = new Insets(2,4,2,4);
 		add(bCancel, cancelConstraints);
 		
-		
-		// Link erzeugen, falls nötig
-		if (field.link == null) {
-			
-			/*// Erste freie Link-ID suchen
-			int freeID = 256; //256 ist mit einem Byte (Room-Datei) nicht erreichbar
-			int[] IDs = new int[Editor.editor.mapLinks.size()];
-			Iterator<Link> iter = Editor.editor.mapLinks.iterator();
-			Link testLink;
-			for (int i=0; iter.hasNext(); i++) {
-				testLink = iter.next();
-				IDs[i] = testLink.ID;
-			}
-			java.util.Arrays.sort(IDs);
-			
-			if (IDs[IDs.length] == IDs.length)
-				//höchste ID == Anzahl IDs => keine ID zwischen drin
-				freeID = IDs.length;
-			else
-				for(int i=0; i < IDs.length; i++) {
-					if (IDs[i] > i) {
-						freeID = i;
-						break;
-					}
-				}
-			*/
-				
-			// Konstruktorargumente vorbereiten
-			Room[] targetRooms = new Room[2];
-			targetRooms[0] = field.getRoom();
-			targetRooms[1] = null;
-			Field[] targetFields = new Field[2];
-			targetFields[0] = field;
-			targetFields[1] = null;
-			field.link = new Link(6, targetRooms, targetFields, true, true);
-		}
-		
-		JLabel titleLink1 = new JLabel("Link-Teil 1");
+		JLabel titleLink1 = new JLabel("Link-Teil A");
 		GridBagConstraints title1Constraints = new GridBagConstraints();
 		title1Constraints.gridx = 0;
 		title1Constraints.gridy = 0;
@@ -106,9 +109,10 @@ public class LinkWindow extends JDialog implements ActionListener {
 		title1Constraints.fill = GridBagConstraints.HORIZONTAL;
 		title1Constraints.weightx = title1Constraints.weighty = 1;
 		title1Constraints.insets = new Insets(2,4,2,4);
+		titleLink1.setHorizontalAlignment(SwingConstants.CENTER);
 		add(titleLink1, title1Constraints);
 		
-		JLabel titleLink2 = new JLabel("Link-Teil 2");
+		JLabel titleLink2 = new JLabel("Link-Teil B");
 		GridBagConstraints title2Constraints = new GridBagConstraints();
 		title2Constraints.gridx = 1;
 		title2Constraints.gridy = 0;
@@ -116,9 +120,10 @@ public class LinkWindow extends JDialog implements ActionListener {
 		title2Constraints.fill = GridBagConstraints.HORIZONTAL;
 		title2Constraints.weightx = title2Constraints.weighty = 1;
 		title2Constraints.insets = new Insets(2,4,2,4);
+		titleLink2.setHorizontalAlignment(SwingConstants.CENTER);
 		add(titleLink2, title2Constraints);
 		
-		JLabel roomID1 = new JLabel("Ziel-Raum: "+field.getRoom().ID);
+		JLabel roomID1 = new JLabel("Raum: "+field.getRoom().ID);
 		GridBagConstraints room1Constraints = new GridBagConstraints();
 		room1Constraints.gridx = 0;
 		room1Constraints.gridy = 1;
@@ -128,7 +133,7 @@ public class LinkWindow extends JDialog implements ActionListener {
 		room1Constraints.insets = new Insets(2,4,2,4);
 		add(roomID1, room1Constraints);
 		
-		JLabel fieldPos1 = new JLabel("Ziel-Feld: "+field.pos);
+		JLabel fieldPos1 = new JLabel("Feld: "+field.pos);
 		GridBagConstraints field1Constraints = new GridBagConstraints();
 		field1Constraints.gridx = 0;
 		field1Constraints.gridy = 2;

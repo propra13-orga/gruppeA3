@@ -9,8 +9,6 @@ import javax.swing.JTabbedPane;
 import com.github.propra13.gruppeA3.Game;
 import com.github.propra13.gruppeA3.Exceptions.InvalidRoomLinkException;
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
-import com.github.propra13.gruppeA3.Map.Field;
-import com.github.propra13.gruppeA3.Map.FieldNotifier;
 import com.github.propra13.gruppeA3.Map.Link;
 import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
@@ -18,11 +16,11 @@ import com.github.propra13.gruppeA3.Menu.MenuStart;
 /* @author CK
  * Hauptklasse des Map-Editors
  */
-public class Editor extends JTabbedPane implements FieldNotifier {
+public class Editor extends JTabbedPane {
   
 	private static final long serialVersionUID = 1L;
 	
-	protected static Editor editor;
+	public static Editor editor;
 	
 	private String mapName;
 	@SuppressWarnings("unused")
@@ -37,7 +35,7 @@ public class Editor extends JTabbedPane implements FieldNotifier {
 		
 		// init Map
 		try {
-			Map.initialize(this.mapName, this);
+			Map.initialize(this.mapName);
 		} catch (MapFormatException | IOException | InvalidRoomLinkException e) {
 			e.printStackTrace();
 		}
@@ -65,9 +63,8 @@ public class Editor extends JTabbedPane implements FieldNotifier {
 		Game.Menu.setVisible(true);
 	}
 
-	@Override
-	public void notify(Field field) {
-		if (field.link != null)
-			mapLinks.add(field.link);
+	public void notify(Link link) {
+		System.out.println("Link gefunden! "+link.targetFields[0].pos+", "+link.targetFields[1].pos+", Link: "+link);
+		mapLinks.add(link);
 	}
 } 

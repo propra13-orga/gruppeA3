@@ -18,14 +18,15 @@ public class Monster extends Moveable {
 	// Attribute
 	private String desc;
 	private Coin coins=null;
+	private int type;
 	
 	//Konstruktor
 	
 	public Monster (Room room_bind, double speed, int power, int type, int life, 
 					int x, int y, String desc, int coinValue, int coinType, int armour){
 		super(room_bind);
-		setSpeed(speed);
-		setPower(power);
+		addSpeedFactor(speed);
+		addAttackFactor(power);
 		setHealth(life);
 		setArmour(armour);
 		this.desc = desc;
@@ -33,7 +34,11 @@ public class Monster extends Moveable {
 		setPosition(x+(hitbox.width/2),y+(hitbox.height/2));
 		setDirection(Direction.NONE);
 		coins=new Coin(coinValue, coinType, this.pos);
-		
+		this.type = type;
+		if(type == 5){
+			this.hitbox.height = 48;
+			this.hitbox.width  = 48;
+		}
 	}
 	
 	
@@ -49,6 +54,14 @@ public class Monster extends Moveable {
 	 */
 	public Coin getCoin(){
 		return this.coins;
+	}
+	
+	public int getType(){
+		return type;
+	}
+	
+	public String getDescription(){
+		return desc;
 	}
 	
 	//Dummies

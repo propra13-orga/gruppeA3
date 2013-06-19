@@ -18,7 +18,7 @@ public class SpeedBuff extends Buff{
 	 */
 	public SpeedBuff(Player player, double factor, int time) {
 		this.player = player;
-		player.setSpeed(factor);
+		player.addSpeedFactor(factor);
 		
 		this.factor = factor;
 		tickCounter = (int)((double)(1000.0 / MenuStart.delay)) * time;
@@ -34,6 +34,6 @@ public class SpeedBuff extends Buff{
 	
 	public void terminate() {
 		player.setBuff(null);
-		player.setSpeed((int)(Math.round((double)player.getPower()/factor)));
+		player.delSpeedFactor(factor);
 	}
 }

@@ -21,7 +21,7 @@ public class AttackBuff extends Buff {
 		tickCounter = (int)((double)(1000.0 / MenuStart.delay)) * time;
 		
 		this.factor = factor;
-		player.setPower((int) ((double)player.getPower()*factor));
+		player.addAttackFactor(factor);
 		player.setMana(player.getMana() - manaCost);
 	}
 	
@@ -34,7 +34,7 @@ public class AttackBuff extends Buff {
 	
 	public void terminate() {
 		player.setBuff(null);
-		player.setPower((int)(Math.round((double)player.getPower()/factor)));
+		player.delAttackFactor(factor);
 	}
 
 }

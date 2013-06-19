@@ -22,7 +22,7 @@ public class Room {
 	
 	//Temporäre Sammellisten
 	
-	/*Positionen, an denen Checkpoint-Links sind.
+	/* Positionen, an denen Checkpoint-Links sind.
 	 * Direkte Link-Refs können nicht genutzt werden, da zur Einlesezeit
 	 */
 	private List<Link> checkpointLinks = new LinkedList<Link>();
@@ -165,12 +165,10 @@ public class Room {
 							attr2 = buffer[bufferIndex + k];
 							break;
 					}
-					FieldPosition pos=new FieldPosition(j, i);
-					room[j][i] = new Field(
-							this, type, texture, attr1, attr2, pos);
-					if (Map.notifier != null)
-						Map.notifier.notify(room[j][i]);
 				}
+				FieldPosition pos=new FieldPosition(j, i);
+				room[j][i] = new Field(
+						this, type, texture, attr1, attr2, pos);
 				
 				// Checkpoints, Trigger, Spawns und Links setzen
 				switch (room[j][i].type) {
@@ -225,7 +223,6 @@ public class Room {
 						break;
 						
 				}
-					
 			}
 		}
 		return room;
