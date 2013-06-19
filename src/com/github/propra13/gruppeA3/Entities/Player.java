@@ -285,6 +285,8 @@ public class Player extends Moveable {
     public void death() {
     	setLives(getLives()-1);
     	setPosition(Map.spawns[0].pos.toPosition().x+16, Map.spawns[0].pos.toPosition().y+16);
+    	setRoom(Map.getMapRoom(0));
+    	MenuStart.activeRoom = Map.getMapRoom(0);
     	setHealth(100);
     	if(getLives() == 0){
     		MenuStart.win=false;
