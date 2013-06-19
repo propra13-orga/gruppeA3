@@ -104,8 +104,8 @@ public class GameWindow {
     monsterimg_1up = this.getImage(this.GamePath + "/data/images/Monster/M1up.png");
     monsterimg_1down = this.getImage(this.GamePath + "/data/images/Monster/M1down.png");
     monsterimg_2left = this.getImage(this.GamePath + "/data/images/Monster/M2left.png");
-    monsterimg_2right = this.getImage(this.GamePath + "/data/images/Monster/M2right");
-    monsterimg_2up = this.getImage(this.GamePath + "/data/images/Monster/M2upg");
+    monsterimg_2right = this.getImage(this.GamePath + "/data/images/Monster/M2right.png");
+    monsterimg_2up = this.getImage(this.GamePath + "/data/images/Monster/M2up.png");
     monsterimg_2down = this.getImage(this.GamePath + "/data/images/Monster/M2down.png");
     monsterimg_3left = this.getImage(this.GamePath + "/data/images/Monster/M3left.png");
     monsterimg_3right = this.getImage(this.GamePath + "/data/images/Monster/M3right.png");
