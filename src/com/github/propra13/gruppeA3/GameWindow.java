@@ -10,16 +10,40 @@ import java.awt.Toolkit;
 
 
 public class GameWindow {
-	//Room
+	//monster
+	public static Image bossimg_1left;
+	public static Image bossimg_1right;
+	public static Image bossimg_1up;
 	public static Image bossimg_1down;
+	
 	public static Image monsterimg_1left;
 	public static Image monsterimg_1right;
 	public static Image monsterimg_1up;
 	public static Image monsterimg_1down;
+	
+	public static Image monsterimg_2left;
+	public static Image monsterimg_2right;
+	public static Image monsterimg_2up;
+	public static Image monsterimg_2down;
+	
+	public static Image monsterimg_3left;
+	public static Image monsterimg_3right;
+	public static Image monsterimg_3up;
+	public static Image monsterimg_3down;
+	
+	public static Image monsterimg_4left;
+	public static Image monsterimg_4right;
+	public static Image monsterimg_4up;
+	public static Image monsterimg_4down;
+	
+	//Texturen
     public static Image backgroundimg_1;
     public static Image backgroundimg_2;
     public static Image backgroundimg_3;
     public static Image backgroundimg_4;
+    public static Image exitimg;
+    
+    //player
     public static Image playerimg_left1;
     public static Image playerimg_left2;
     public static Image playerimg_right1;
@@ -40,7 +64,7 @@ public class GameWindow {
     public static Image kampfimg_shieldR;
     public static Image kampfimg_shieldU;
     public static Image kampfimg_shieldD;
-    public static Image exitimg;
+    //NPC
     public static Image coin;
     public static Image npc1;
     public static Image npc2;
@@ -69,19 +93,36 @@ public class GameWindow {
     tool = Toolkit.getDefaultToolkit();
     
     //Boss
-    bossimg_1down = this.getImage(this.GamePath + "/data/images/Monster/B1.png");
+    bossimg_1left = this.getImage(this.GamePath + "/data/images/Monster/B1left.png");
+    bossimg_1right = this.getImage(this.GamePath + "/data/images/Monster/B1right.png");
+    bossimg_1up = this.getImage(this.GamePath + "/data/images/Monster/B1up.png");
+    bossimg_1down = this.getImage(this.GamePath + "/data/images/Monster/B1down.png");
     
     //Monster
     monsterimg_1left = this.getImage(this.GamePath + "/data/images/Monster/M1left.png");
     monsterimg_1right = this.getImage(this.GamePath + "/data/images/Monster/M1right.png");
     monsterimg_1up = this.getImage(this.GamePath + "/data/images/Monster/M1up.png");
     monsterimg_1down = this.getImage(this.GamePath + "/data/images/Monster/M1down.png");
+    monsterimg_2left = this.getImage(this.GamePath + "/data/images/Monster/M2left.png");
+    monsterimg_2right = this.getImage(this.GamePath + "/data/images/Monster/M2right");
+    monsterimg_2up = this.getImage(this.GamePath + "/data/images/Monster/M2upg");
+    monsterimg_2down = this.getImage(this.GamePath + "/data/images/Monster/M2down.png");
+    monsterimg_3left = this.getImage(this.GamePath + "/data/images/Monster/M3left.png");
+    monsterimg_3right = this.getImage(this.GamePath + "/data/images/Monster/M3right.png");
+    monsterimg_3up = this.getImage(this.GamePath + "/data/images/Monster/M3up.png");
+    monsterimg_3down = this.getImage(this.GamePath + "/data/images/Monster/M3down.png");
+    monsterimg_4left = this.getImage(this.GamePath + "/data/images/Monster/M4left.png");
+    monsterimg_4right = this.getImage(this.GamePath + "/data/images/Monster/M4right.png");
+    monsterimg_4up = this.getImage(this.GamePath + "/data/images/Monster/M4up.png");
+    monsterimg_4down = this.getImage(this.GamePath + "/data/images/Monster/M4down.png");
+    
+    
     //Hintergrundis
     backgroundimg_4 = this.getImage(this.GamePath + "/data/images/Exit.png");
     backgroundimg_1 = this.getImage(this.GamePath + "/data/images/UG1.png");
     backgroundimg_2 = this.getImage(this.GamePath + "/data/images/UG2.png");
     backgroundimg_3 = this.getImage(this.GamePath + "/data/images/Fluss.png");
-    //Player läuft
+    //Player laeuft
     playerimg_left1 = this.getImage(this.GamePath + "/data/images/Spieler laeuft/Pleft1.png");
     playerimg_left2 = this.getImage(this.GamePath + "/data/images/Spieler laeuft/Pleft2.png");
     playerimg_right1 = this.getImage(this.GamePath + "/data/images/Spieler laeuft/Pright1.png");
@@ -91,7 +132,7 @@ public class GameWindow {
     playerimg_down1 = this.getImage(this.GamePath + "/data/images/Spieler laeuft/Pdown1.png");
     playerimg_down1 = this.getImage(this.GamePath + "/data/images/Spieler laeuft/Pdown2.png");
     
-    //Player kämpft
+    //Player kaempft
     kampfimg_left1 = this.getImage(this.GamePath +"/data/images/Spieler kampf/Kleft1");
     kampfimg_left2 = this.getImage(this.GamePath +"/data/images/Spieler kampf/Kleft2");
     kampfimg_right1 = this.getImage(this.GamePath +"/data/images/Spieler kampf/Kright1");

@@ -230,12 +230,10 @@ public class MenuStart extends JPanel implements ActionListener {
             if (testEntity instanceof Monster) {
             	monster=(Monster)testEntity;
             	entityPos.setPosition(monster.getPosition().x - (monster.getHitbox().width/2) , monster.getPosition().y - (monster.getHitbox().height/2));
+            	//zeichnet Monster-Typen mit Blickrichtung 
                // g2d.drawImage(GameWindow.monsterimg_1left, entityPos.x, entityPos.y, this);
             	switch(monster.getType()){
-            		case 1:
-            		case 2:
-            		case 3:
-            		case 4:{           	
+            		case 1:{           	
             			switch(monster.getFaceDirection()){
             			case UP: 
             				g2d.drawImage(GameWindow.monsterimg_1up, entityPos.x, entityPos.y , this);
@@ -255,13 +253,97 @@ public class MenuStart extends JPanel implements ActionListener {
             			}
             			break;
             		}
-            		case 5:{
-            			g2d.drawImage(GameWindow.bossimg_1down, entityPos.x, entityPos.y , this);
+            			
+            		case 2:
+            		{           	
+            			switch(monster.getFaceDirection()){
+            			case UP: 
+            				g2d.drawImage(GameWindow.monsterimg_2up, entityPos.x, entityPos.y , this);
+            				break;
+            			case DOWN:
+            				g2d.drawImage(GameWindow.monsterimg_2down, entityPos.x, entityPos.y , this);
+            				break;
+            			case LEFT:
+            				g2d.drawImage(GameWindow.monsterimg_2left, entityPos.x, entityPos.y , this);
+            				break;
+            			case RIGHT:
+            				g2d.drawImage(GameWindow.monsterimg_2right, entityPos.x, entityPos.y , this);
+            				break;	
+            			default:
+            				g2d.drawImage(GameWindow.monsterimg_2down, entityPos.x, entityPos.y , this);
+            				break;
+            			}
             			break;
             		}
-            		
+            		case 3:
+            		{           	
+            			switch(monster.getFaceDirection()){
+            			case UP: 
+            				g2d.drawImage(GameWindow.monsterimg_3up, entityPos.x, entityPos.y , this);
+            				break;
+            			case DOWN:
+            				g2d.drawImage(GameWindow.monsterimg_3down, entityPos.x, entityPos.y , this);
+            				break;
+            			case LEFT:
+            				g2d.drawImage(GameWindow.monsterimg_3left, entityPos.x, entityPos.y , this);
+            				break;
+            			case RIGHT:
+            				g2d.drawImage(GameWindow.monsterimg_3right, entityPos.x, entityPos.y , this);
+            				break;	
+            			default:
+            				g2d.drawImage(GameWindow.monsterimg_3down, entityPos.x, entityPos.y , this);
+            				break;
+            			}
+            			break;
+            		}
+            		case 4:{           	
+            			switch(monster.getFaceDirection()){
+            			case UP: 
+            				g2d.drawImage(GameWindow.monsterimg_4up, entityPos.x, entityPos.y , this);
+            				break;
+            			case DOWN:
+            				g2d.drawImage(GameWindow.monsterimg_4down, entityPos.x, entityPos.y , this);
+            				break;
+            			case LEFT:
+            				g2d.drawImage(GameWindow.monsterimg_4left, entityPos.x, entityPos.y , this);
+            				break;
+            			case RIGHT:
+            				g2d.drawImage(GameWindow.monsterimg_4right, entityPos.x, entityPos.y , this);
+            				break;	
+            			default:
+            				g2d.drawImage(GameWindow.monsterimg_4down, entityPos.x, entityPos.y , this);
+            				break;
+            			}
+            			break;
+            		}
+            		case 5:{
+            	          	
+                			switch(monster.getFaceDirection()){
+                			case UP: 
+                				g2d.drawImage(GameWindow.bossimg_1up, entityPos.x, entityPos.y , this);
+                				break;
+                			case DOWN:
+                				g2d.drawImage(GameWindow.bossimg_1down, entityPos.x, entityPos.y , this);
+                				break;
+                			case LEFT:
+                				g2d.drawImage(GameWindow.bossimg_1left, entityPos.x, entityPos.y , this);
+                				break;
+                			case RIGHT:
+                				g2d.drawImage(GameWindow.bossimg_1right, entityPos.x, entityPos.y , this);
+                				break;	
+                			default:
+                				g2d.drawImage(GameWindow.bossimg_1down, entityPos.x, entityPos.y , this);
+            			
+            			break;
+                			}
+            		}
             	}
             }
+                	
+            		
+            		
+            	
+            
             else if (testEntity instanceof Item) {
             	item = (Item)testEntity;
             	entityPos.setPosition(item.getPosition().x - (item.getHitbox().width/2), item.getPosition().y - (item.getHitbox().height/2));
