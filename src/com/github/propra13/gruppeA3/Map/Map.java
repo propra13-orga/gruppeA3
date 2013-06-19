@@ -27,6 +27,9 @@ public class Map {
 	final static String roomEnding = "room";
 	final static String metaEnding = "xml";
 	
+	// Ob man durchs Ziel gehen kann oder nicht
+	public static boolean endIsOpen = false;
+	
 	// Temporäre Sammellisten
 	private static LinkedList<Link> linkBuffer = new LinkedList<Link>();
 	private static LinkedList<Field> checkpointFieldsToBuild = new LinkedList<Field>();

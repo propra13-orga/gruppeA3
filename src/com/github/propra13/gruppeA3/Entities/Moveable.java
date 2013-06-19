@@ -6,6 +6,7 @@ import java.lang.Math;
 
 import com.github.propra13.gruppeA3.Map.Field;
 import com.github.propra13.gruppeA3.Map.FieldPosition;
+import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Map.Position;
 import com.github.propra13.gruppeA3.Map.Room;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
@@ -32,6 +33,9 @@ public abstract class Moveable extends Entities {
 	private int castcounter;
 	private boolean isAttacking;
 	private String cast;
+	
+	// falls Bossmonster, öffnet sich das Ziel, wenn besiegt
+	public boolean isBoss;
 	
 	private LinkedList<Double> speedFactors = new LinkedList<Double>();
 	private LinkedList<Double> attackFactors = new LinkedList<Double>();
@@ -273,9 +277,6 @@ public abstract class Moveable extends Entities {
 	 * @return Kollisionswahrheitswert
 	 */
 	public boolean hitboxCheck(Position pos, Entities testent) {
-		if (this instanceof Projectile) {
-			System.out.println("Ich bin ein Projektil und mache Hitboxcheck mit "+testent);
-		}
 		Entities test = testent;
 		switch(direct){
 		case LEFT:
@@ -498,8 +499,13 @@ public abstract class Moveable extends Entities {
 	 */
 	public void setHealth(int health){
 		this.health = health;
-		if (this.health <= 0 && ! (this instanceof Player))
+		if (this.health <= 0 && ! (this instanceof Player)) {
 			getRoom().removeCandidates.add(this);
+			if (isBoss) {
+				Map.endIsOpen = true;
+				System.out.println("endIsOpen!");
+			}
+		}
 	}
 
 	/**
