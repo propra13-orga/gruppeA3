@@ -9,29 +9,49 @@ import com.github.propra13.gruppeA3.Map.Room;
  */
 public class Item extends Entities {
 
-	private Room currentroom;
+	/**
+	 * Attribute:
+	 * 			currentRoom: Der Raum in dem sich das Item befindet
+	 * 			pos: Die Position des Items im Raum
+	 * 			damage: Bei Waffen: die Schlagkraft
+	 * 					Bei Schild und Rüstng: die Schutzkraft
+	 * 					Bei Tränken: die Wirkungsmenge
+	 * 			type: 	Wert 1: Lebenstrank
+	 * 					Wert 2: Gifttrank
+	 * 					Wert 3: Manatrank
+	 * 					Wert 4: Schild
+	 * 					Wert 5: Schwert
+	 * 			desc: Die Beschreibung des Items aus der XML
+	 * 			name: Der Name des Items aus der XML
+	 * 			hitbox: Die Hitbox des Items
+	 * 			value: Der Wert, den jedes Item haben kann, wichtig beim Kauf/Verkauf
+	 * 			uid: Unique ID uid soll später zur eindeutigen Identifizierung benutzt werden
+	 */
+	private Room currentRoom;
 	private Position pos;
-	// bei Waffen die Schlagkraft, bei Tränken die Wirkungsmenge
 	private int damage = 0;
-	// muss noch spezifiziert werden: bei Tränken (Mana, Gift, Leben), Schild und Schwert
-	// Vorerst: 1 Leben, 2 Gift, 3 Mana, 4 Schwert, 5 Schild, weitere folgen.
 	private int type=1;
 	private String desc=null;
 	private String name=null;
 	private Hitbox hitbox=null;
 	private int value=0;
-	// Soll später zur eindeutigen Identifizierung benutzt werden.
-	private int uuid=0;
+	private int uid=0;
+	
 	
 	/**
-	 * @author Majida Dere
-	 * @param room_bind
-	 * @param pos
-	 * @param damage
-	 * @param affect
-	 */
+	 * Der Konstruktor erzeugt ein neues Item mit den übergebenen Parametern
+	 * @param room_bind Der Raum indem sich das Item befindet
+	 * @param damage	Die Wirkungseinheit des Items
+	 * @param type		Der Typ des Items
+	 * @param x			Der Wert der X-Aches
+	 * @param y			Der Wert der Y-Achse
+	 * @param desc		Die Beschreibung des Items
+	 * @param name		Der Name des Items
+	 * @param value		Der Wert des Items
+	 * 
+	 **/
 	public Item(Room room_bind, int damage, int type, int x, int y, String desc, String name, int value) {
-		this.currentroom = room_bind;
+		this.currentRoom = room_bind;
 		this.damage = damage;
 		this.type = type;
 		this.desc = desc;
@@ -87,6 +107,9 @@ public class Item extends Entities {
 		this.value = value;
 	}
 	
+	/**
+	 * Diese Methode aus Object wird nur für den Shop benutzt
+	 */
 	@Override
 	public String toString() {
 		return "Coins "+getValue()+": "+getName()+" - "+getDesc();
