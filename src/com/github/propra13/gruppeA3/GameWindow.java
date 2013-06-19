@@ -161,11 +161,11 @@ public class GameWindow {
     sword = this.getImage(this.GamePath + "/data/images/items room/W1.png");
     shield = this.getImage(this.GamePath + "/data/images/items room/S1.png");
     //Infoleiste 
-    heart = this.getImage(this.GamePath + "/data/images/infoleiste/herz.png");
-    coin = this.getImage(this.GamePath + "/data/images/infoleiste/coin.png");
-    mana = this.getImage(this.GamePath + "/data/images/infoleiste/mana.png");
-    infosword = this.getImage(this.GamePath + "/data/images/infoleiste/schwert.png");
-    infoshield = this.getImage(this.GamePath + "/data/images/infoleiste/schild.png");
+    heart = this.getImage(this.GamePath + "/data/images/Infoleiste/herz.png");
+    coin = this.getImage(this.GamePath + "/data/images/Infoleiste/coin.png");
+    mana = this.getImage(this.GamePath + "/data/images/Infoleiste/mana.png");
+    infosword = this.getImage(this.GamePath + "/data/images/Infoleiste/schwert.png");
+    infoshield = this.getImage(this.GamePath + "/data/images/Infoleiste/schild.png");
     
     
 	}

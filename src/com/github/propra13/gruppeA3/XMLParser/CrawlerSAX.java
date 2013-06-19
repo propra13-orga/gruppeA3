@@ -73,7 +73,6 @@ public class CrawlerSAX extends DefaultHandler{
 				isBoss = true;
 			else
 				isBoss = false;
-			System.out.println("Monstername: "+desc+", isBoss: "+isBoss);
 
 			// Es wird ein neues Monster erzeugt mit den zuvor ausgelesenen Informationen aus level.xml
 			Monster monster=new Monster(Map.getMapRoom(roomID), speed, power, type, life, posx, posy, desc, coinValue, coinType, armour, isBoss);
