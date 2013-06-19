@@ -7,18 +7,18 @@
 	<rooms id="0" length="8" height="8">
 
 	<!-- Monster in Room -->
-		<monster type="1" name="Monster-Snake" speed="3.0" power="3" life="10" posx="3" posy="2" coinValue="10" coinType="2" armour="0" />
-		<monster type="2" name="Spider-Man" speed="1.0" power="3" life="15" posx="7" posy="8" coinValue="15" coinType="2" armour="0" />
-		<monster type="3" name="Pinky the Rat" speed="4.0" power="7" life="3" posx="9" posy="2" coinValue="5" coinType="1" armour="0" />   
-		<monster type="3" name="Pinky the Rat" speed="2.0" power="7" life="3" posx="16" posy="6" coinValue="5" coinType="1" armour="0" />   
-		<monster type="3" name="Pinky the Rat" speed="1.0" power="7" life="3" posx="12" posy="5" coinValue="5" coinType="1" armour="0" />   
+		<monster type="1" name="Monster-Snake" speed="1.0" power="3" life="10" posx="3" posy="2" coinValue="10" coinType="2" armour="1" />
+		<monster type="2" name="Spider-Man" speed="1.0" power="3" life="15" posx="7" posy="8" coinValue="15" coinType="2" armour="1" />
+		<monster type="3" name="Pinky the Rat" speed="1.0" power="5" life="5" posx="9" posy="2" coinValue="5" coinType="1" armour="0" />   
+		<monster type="3" name="Pinky the Rat" speed="1.0" power="5" life="5" posx="16" posy="6" coinValue="5" coinType="1" armour="0" />   
+		<monster type="3" name="Pinky the Rat" speed="1.0" power="5" life="5" posx="12" posy="5" coinValue="5" coinType="1" armour="0" />   
 		
 		
 		<!-- Items in Room -->
-		<item type="1" name="Life Drink" desc="A fresh drink." damage="2" posx="2" posy="4" value="2" />
+		<item type="1" name="Life Drink" desc="A fresh drink." damage="10" posx="2" posy="4" value="2" />
 		<item type="2" name="Posion Drink" desc="Deadly Posion" damage="-2" posx="4" posy="5" value="2" />
-  		<item type="4" name="sword" desc="A strong protection." damage="10" posx="7" posy="9" value="5" />
-		<item type="5" name="shield" desc="A way to protect." damage="5" posx="2" posy="6" value="5" />
+  		<item type="4" name="sword" desc="A strong protection." damage="2" posx="7" posy="9" value="5" />
+		<item type="5" name="shield" desc="A way to protect." damage="2" posx="2" posy="6" value="5" />
 		
 		<npc type="1" name="Nancy" desc="The nurse" posx="5" posy="6" >
 			<text>Willkommen Abenteurer,\n\nhier lauern viele Gefahren,\nalso lerne zu kämpfen Jüngling!!\n\n(benutze A)\n\nGute Reise!</text>
@@ -28,26 +28,26 @@
 
 	<rooms id="1" length="6" height="7">
 		
-		<monster type="1" name="Monster-Snake" speed="3.0" power="3" life="2" posx="2" posy="1" coinValue="5" coinType="1" armour="0" />
-		<monster type="2" name="Spider-Man" speed="1.0" power="3" life="4" posx="4" posy="4" coinValue="5" coinType="1" armour="0" />
-		<monster type="2" name="Spider-Man" speed="1.0" power="3" life="4" posx="6" posy="1" coinValue="5" coinType="1" armour="0" />
-		<monster type="2" name="Spider-Man" speed="1.0" power="3" life="4" posx="5" posy="9" coinValue="5" coinType="1" armour="0" />
-		<monster type="2" name="Spider-Man" speed="1.0" power="3" life="4" posx="8" posy="3" coinValue="5" coinType="1" armour="0" />
+		<monster type="1" name="Monster-Snake" speed="1.5" power="3" life="10" posx="2" posy="1" coinValue="5" coinType="1" armour="1" />
+		<monster type="2" name="Spider-Man" speed="1.0" power="5" life="5" posx="4" posy="4" coinValue="5" coinType="1" armour="1" />
+		<monster type="2" name="Spider-Man" speed="1.0" power="5" life="5" posx="6" posy="1" coinValue="5" coinType="1" armour="1" />
+		<monster type="2" name="Spider-Man" speed="1.0" power="5" life="5" posx="5" posy="9" coinValue="5" coinType="1" armour="1" />
+		<monster type="2" name="Spider-Man" speed="1.0" power="5" life="5" posx="8" posy="3" coinValue="5" coinType="1" armour="1" />
 		
 		<npc type="2" name="Harald" desc="The barbarian" posx="3" posy="6" >
 			<text>Hallo Unbekannter,\n\nhalte die Augen offen nach wertvollen Dingen.\nFalls du Gold findest, ich hörte man kann es tauschen!</text>
-			<item type="5" name="Shield" desc="A way to protect" damage="5" posx="2" posy="6" value="10" />
+			<item type="5" name="Shield" desc="A way to protect" damage="2" posx="2" posy="6" value="10" />
 			<item type="2" name="Poison Drink" desc="Deadly Poison" damage="2" posx="2" posy="6" value="4" />
 			<item type="3" name="Mana Drink" desc="Increases your Mana" damage="2" posx="2" posy="6" value="4" />
-			<item type="4" name="Sword" desc="A strong protection" damage="10" posx="2" posy="6" value="10" />
-			<item type="1" name="Life Drink" desc="A fresh drink"  damage="2" posx="2" posy="6" value="4" />
-			<item type="1" name="Life Drink" desc="A fresh drink"  damage="2" posx="2" posy="6" value="4" />
+			<item type="4" name="Sword" desc="A strong protection" damage="2" posx="2" posy="6" value="10" />
+			<item type="1" name="Life Drink" desc="A fresh drink"  damage="10" posx="2" posy="6" value="4" />
+			<item type="1" name="Life Drink" desc="A fresh drink"  damage="10" posx="2" posy="6" value="4" />
 		</npc>
 	</rooms>
 	
 	<rooms id="2" length="12" height="10">
 		
-		<monster type="5" name="Bossi" speed="3.0" power="15" life="100" posx="12" posy="8" coinValue="15" coinType="2" armour="0" />		
+		<monster type="5" name="Bossi" speed="0.5" power="15" life="60" posx="12" posy="8" coinValue="15" coinType="2" armour="3"/>		
 
 	</rooms>
 </level>	
