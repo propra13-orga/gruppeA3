@@ -141,7 +141,7 @@ public class MenuStart extends JPanel implements ActionListener {
     }
     
     // Startet Spiel
-    public void initGame(String mapName){
+    public void initGame(String mapName, int mapNr){
 
     	// Stellt Map auf
 	 	try {
@@ -152,7 +152,7 @@ public class MenuStart extends JPanel implements ActionListener {
 	 	
 	 	SAXCrawlerReader reader=new SAXCrawlerReader();
 	 	try {
-	 		reader.read("data/levels/level1.xml");
+	 		reader.read("data/levels/level"+mapNr+"+.xml");
 	 		
 	 	} catch (Exception e) {
 	 			e.printStackTrace();
@@ -184,15 +184,29 @@ public class MenuStart extends JPanel implements ActionListener {
             	
             	switch(walltype)
             	{
+            	//Boden
             	case 1:
             		 g2d.drawImage(GameWindow.backgroundimg_1, i*32, j*32, panel);
             		 break;
-            	
+            	//Wand
             	case 2:
             		g2d.drawImage(GameWindow.backgroundimg_2, i*32, j*32, panel);
             		break;
+            	//Wasser
             	case 3:
             		g2d.drawImage(GameWindow.backgroundimg_3, i*32, j*32, panel);
+            		break;
+            	//Link
+            	case 5:
+            		g2d.drawImage(GameWindow.backgroundimg_1, i*32, j*32, panel);
+            		break;
+            	// Checkpoint-Link
+            	case 6:
+            		g2d.drawImage(GameWindow.backgroundimg_3, i*32, j*32, panel);
+            		break;
+            	//Trigger
+            	case 7:
+            		g2d.drawImage(GameWindow.backgroundimg_1, i*32, j*32, panel);
             		break;
             	default:
             		g2d.drawImage(GameWindow.backgroundimg_4, i*32, j*32, panel);
@@ -211,7 +225,7 @@ public class MenuStart extends JPanel implements ActionListener {
         	
         paintRoom(g2d, activeRoom, this);
         
-        setBackground(Color.WHITE);
+        setBackground(Color.GRAY);
         
         Position pp = player.getPosition().getDrawPosition(player.getHitbox());
 
@@ -525,7 +539,7 @@ public void Score(Graphics2D g) {
 			String action = e.getActionCommand();
 			if("newgame".equals(action)) {
 				nextMap = 1;
-				initGame("Story01");
+				initGame("Story01", nextMap);
 			}
 			else if("nextmap".equals(action)) {
 				//mapName zusammenbauen
@@ -536,14 +550,12 @@ public void Score(Graphics2D g) {
 					mapName = nextMap+"";
 				mapName = "Story"+mapName;
 				
-				initGame(mapName);
+				initGame(mapName, nextMap);
 			}
 			else if("editor".equals(action))
 				initEditor();
 			else if("exit".equals(action)) 
 				System.exit(0);	// Programm beenden
-			else
-				System.out.println("Unbekannte Aktion: "+action);
 		}
 		repaint();
 	}
