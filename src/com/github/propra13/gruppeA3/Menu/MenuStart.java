@@ -141,7 +141,7 @@ public class MenuStart extends JPanel implements ActionListener {
     }
     
     // Startet Spiel
-    public void initGame(String mapName){
+    public void initGame(String mapName, String xmlName){
 
     	// Stellt Map auf
 	 	try {
@@ -152,7 +152,7 @@ public class MenuStart extends JPanel implements ActionListener {
 	 	
 	 	SAXCrawlerReader reader=new SAXCrawlerReader();
 	 	try {
-	 		reader.read("data/levels/level1.xml");
+	 		reader.read("data/levels/"+xmlName+".xml");
 	 		
 	 	} catch (Exception e) {
 	 			e.printStackTrace();
@@ -525,18 +525,20 @@ public void Score(Graphics2D g) {
 			String action = e.getActionCommand();
 			if("newgame".equals(action)) {
 				nextMap = 1;
-				initGame("Story01");
+				initGame("Story01", "level1");
 			}
 			else if("nextmap".equals(action)) {
 				//mapName zusammenbauen
 				String mapName;
+				String xmlName;
 				if (nextMap < 10)
 					mapName = "0"+nextMap;
 				else
 					mapName = nextMap+"";
 				mapName = "Story"+mapName;
+				xmlName = "level"+nextMap;
 				
-				initGame(mapName);
+				initGame(mapName, xmlName);
 			}
 			else if("editor".equals(action))
 				initEditor();
