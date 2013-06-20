@@ -52,8 +52,8 @@
 		<!-- Items in Room -->
 		<item type="1" name="Life Drink" desc="A fresh drink." damage="10" posx="23" posy="15" value="2" />
 		<item type="2" name="Posion Drink" desc="Deadly Posion" damage="-2" posx="22" posy="6" value="2" />
-  		<item type="4" name="sword" desc="A strong protection." damage="2" posx="21" posy="7" value="5" />
-		<item type="5" name="shield" desc="A way to protect." damage="2" posx="23" posy="7" value="5" />	
+  		<item type="4" name="sword" desc="A strong protection." damage="2" posx="21" posy="6" value="5" />
+		<item type="5" name="shield" desc="A way to protect." damage="2" posx="23" posy="6" value="5" />	
 		
 		<npc type="1" name="Nancy" desc="The nurse" posx="5" posy="8" >
 			<text>DU?!!\n Du hast schon einen Drachen getötet ?!\n das glaub ich erst,\n wenn ich es sehe !!! </text>
