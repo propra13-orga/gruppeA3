@@ -57,6 +57,7 @@ public class MenuStart extends JPanel implements ActionListener {
     // Menüelemente
 	private JButton buttonnewgame;
 	private JButton buttonnextmap;
+	private JButton buttonNetwork;
 	private JButton buttonbeenden;
 	private JButton buttoneditor;
 	private int buttonPosX;
@@ -92,26 +93,30 @@ public class MenuStart extends JPanel implements ActionListener {
         // Menü vorbereiten
      	buttonnewgame = new JButton("Neues Spiel");
      	buttonnextmap = new JButton("Nächste Karte");
+     	buttonNetwork = new JButton("Multiplayer");
      	buttoneditor = new JButton("Karteneditor");
      	buttonbeenden = new JButton("Beenden");
      	
      	// benenne Aktionen
     	buttonbeenden.setActionCommand("exit");
     	buttonnextmap.setActionCommand("nextmap");
+    	buttonNetwork.setActionCommand("network");
     	buttoneditor.setActionCommand("editor");
     	buttonnewgame.setActionCommand("newgame");
     	
     	// ActionListener hinzufügen
     	buttonnewgame.addActionListener(this);
     	buttonnextmap.addActionListener(this);
+    	buttonNetwork.addActionListener(this);
     	buttoneditor.addActionListener(this);
     	buttonbeenden.addActionListener(this);
     	
     	// füge Buttons zum Panel hinzu
     	add(buttonnewgame);
+    	add(buttonnextmap);
+    	add(buttonNetwork);
     	add(buttoneditor);
     	add(buttonbeenden);
-    	add(buttonnextmap);
      	initMenu();
     }
     
@@ -167,12 +172,12 @@ public class MenuStart extends JPanel implements ActionListener {
 		activeRoom = Map.getMapRoom(0);
 		player = new Player(activeRoom);
 		addKeyListener(new Keys(player));
-		player.setLives(3);
 		
 		
 		// Menü-Buttons ausblenden, Status ändern
 		buttonnewgame.setVisible(false);
 		buttonnextmap.setVisible(false);
+		buttonNetwork.setVisible(false);
 		buttoneditor.setVisible(false);
 		buttonbeenden.setVisible(false);
 			
@@ -481,15 +486,17 @@ public void initMenu(){
 		buttonnextmap.setVisible(true);
 		buttonnextmap.setBounds(buttonPosX,buttonPosY,    200,30);
 		buttonnewgame.setBounds(buttonPosX,buttonPosY+40, 200,30);
-		buttoneditor.setBounds(buttonPosX, buttonPosY+80, 200,30);
-		buttonbeenden.setBounds(buttonPosX,buttonPosY+120,200,30);
+		buttonNetwork.setBounds(buttonPosX, buttonPosY+80, 200, 30);
+		buttoneditor.setBounds(buttonPosX, buttonPosY+120, 200,30);
+		buttonbeenden.setBounds(buttonPosX,buttonPosY+160,200,30);
 	}
 	// Ansonsten normales Hauptmenü anzeigen
 	else {
 		buttonnextmap.setVisible(false);
 		buttonnewgame.setBounds(buttonPosX,buttonPosY,   200,30);
-		buttoneditor.setBounds(buttonPosX, buttonPosY+40,200,30);
-		buttonbeenden.setBounds(buttonPosX,buttonPosY+80,200,30);
+		buttonNetwork.setBounds(buttonPosX, buttonPosY+40,200,30);
+		buttoneditor.setBounds(buttonPosX, buttonPosY+80,200,30);
+		buttonbeenden.setBounds(buttonPosX,buttonPosY+120,200,30);
 	}
 	
 }
