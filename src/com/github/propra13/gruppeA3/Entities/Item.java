@@ -140,4 +140,4 @@ public class Item extends Entities {
 	@Override
 	public void collision(Entities entity) {}
 }
->>>>>>> dev2
+
