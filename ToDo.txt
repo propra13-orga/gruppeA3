@@ -1,33 +1,16 @@
 TODO
 Vanessa
-    Buttons im Menü
-    Balzert GUI(-Programmierung)
-    Frame ums Fenster löschen
-    Vollbild (Option)
-    Menühintergrund: Bild aus Spiel
-    Menüpunkte:
-        Spiel laden
-        Optionen
-            Schwierigkeitsgrad
-                Passiv / Friedlich / whatever
-                Leicht
-                Mittel
-                Schwer
-            Spielfigur-Auswahl
-            Steuerung
-            Lautstärke
-            Texturen
-        High-Score
-        Hilfe
-        Map-Editor
-
+	-Dokumentation(1.4)
+	-Shopfenster etc.
 Jenny
-
+	-Quests(1.2)
+	-Sounds(2.6)
 Christian
-
+	-Karteneditor(2.1)
+	-Umstellung auf XML
 Majida
-    Entities
-        Monster
-        Items
-
+    -Mehrspielermodus(1.1)
+    -Spielerchat(2.2)
 Tobias
+	-Stein-Schere-Papier-prinzip(1.3)
+	-Coop-RÃ¤tsel(2.4)

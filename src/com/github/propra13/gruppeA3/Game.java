@@ -1,38 +1,46 @@
 package com.github.propra13.gruppeA3;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.io.IOException;
+
+import javax.swing.JFrame;
 
 import com.github.propra13.gruppeA3.Exceptions.InvalidRoomLinkException;
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
-import com.github.propra13.gruppeA3.Menu.Menu;
+import com.github.propra13.gruppeA3.Map.Map;
+import com.github.propra13.gruppeA3.Menu.MenuStart;
 import com.github.propra13.gruppeA3.XMLParser.SAXCrawlerReader;
-import com.github.propra13.gruppeA3.Map;
 
-public class Game {
-	public static Menu meinmenue;
+@SuppressWarnings("unused")
+public class Game extends JFrame{
+
+	private static final long serialVersionUID = 1L;
+	public final static int MINHEIGHT = 600;
+	public final static int MINWIDTH = 800;
+	
+	public static JFrame frame;
+	public static MenuStart Menu;
+	
+	public Game(){
+		setTitle("Dungeon Crawler");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	//schließen button belegt
+		setSize(MINWIDTH,MINHEIGHT);
+		setResizable(false);
+		// Zentrierung des Fensters
+		// Auflösung
+		final Dimension d = getToolkit().getScreenSize();
+		// Zentriert
+		setLocation((int)((d.getWidth() - this.getWidth()) / 2), (int)((d.getHeight() - this.getHeight()) / 2));
+
+		//Game Start
+		Menu = new MenuStart();
+		add(Menu);
+		setVisible(true);
+	}
 	
 	public static void main(String[] args){
-
-		Map map = null;
 		
-		try {
-			map = new Map("Map02");
-		} catch (InvalidRoomLinkException | IOException | MapFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		//Übergebe map an XML Parser, sodass wir immer dieselbe map benutzen.
-		SAXCrawlerReader reader=new SAXCrawlerReader(map);
-		try {
-			reader.read("data/levels/level1.xml");
-			
-		} catch (Exception e) {
-		}
-		
-		//map muss an Menu weitergereicht werden, damit die map nicht nochmal ausgelesen wird.
-		meinmenue = new Menu(map);
-		meinmenue.setVisible(true);
-		
+		frame = new Game();
 	}
 }

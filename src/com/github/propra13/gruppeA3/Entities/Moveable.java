@@ -1,39 +1,68 @@
 package com.github.propra13.gruppeA3.Entities;
 
-import com.github.propra13.gruppeA3.Room;
-import com.github.propra13.gruppeA3.Position;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.lang.Math;
+
+import com.github.propra13.gruppeA3.Map.Field;
+import com.github.propra13.gruppeA3.Map.FieldPosition;
+import com.github.propra13.gruppeA3.Map.Map;
+import com.github.propra13.gruppeA3.Map.Position;
+import com.github.propra13.gruppeA3.Map.Room;
+import com.github.propra13.gruppeA3.Menu.MenuStart;
 
 /**
  * @author Majida Dere 
  * Diese Klasse dient als Vorlage für alle bewegbaren Objekte im Spiel.
  *
  */
-public class Moveable extends Entities {
+public abstract class Moveable extends Entities {
 	
-	//Attribute
+
+	public static enum Direction{LEFT,RIGHT,UP,DOWN,NONE}
+	protected Direction direct;
+	private Direction facedirect;
+	protected Position pos;
+	private Room currentroom;
+	protected Hitbox hitbox;
+	private int health;
+	private int attack;
+	private int armour;
+	private double speed;
+	private int attackcounter;
+	private int castcounter;
+	private boolean isAttacking;
+	private String cast;
 	
-	/** direction Aufzähltyp wird für Richtungsorientierung des bewegbaren Objektes benötigt
-	 * 	pos Position des bewegbaren Objektes im Raum
-	 * 	life Lebensstärke eines bewegbaren Objektes
-	 * 	power Figurstärke
-	 * 	speed Geschwindigkeit
-	 **/
-	public enum direction{LEFT,RIGHT,UP,DOWN,NONE}
-	public direction direct; //Richtung
-	Position pos;
-	Room currentroom;
-	int life;
-	int power;
-	double speed; 
+	// falls Bossmonster, öffnet sich das Ziel, wenn besiegt
+	public boolean isBoss;
+	
+	private LinkedList<Double> speedFactors = new LinkedList<Double>();
+	private LinkedList<Double> attackFactors = new LinkedList<Double>();
+	private LinkedList<Integer> attackSummands = new LinkedList<Integer>();
+	
+	protected Field actualField; //Feld, wo das Ding derzeit ist
+	protected Field lastField; //Feld, wo das Ding vor dem aktuellen Movement war
+	
+	/* Anzahl der Pixel, die bei einer Bewegung
+	 * mit Speed 1 zurückgelegt werden sollen */
+	final public static int movePx = 2;
 	
 	
 	//Konstruktor
 	public Moveable(Room room_bind){
 		this.pos = new Position(0,0);
 		this.currentroom = room_bind;
-		this.direct = direction.NONE;
-		this.power = 0; //noch nicht benutzt
-		this.speed = 0; //noch nicht benutzt
+		this.direct = Direction.NONE;
+		this.attack = 1;
+		this.speed = 1; 
+		this.armour = 0;
+		this.health = 1;
+		this.facedirect = Direction.NONE;
+		this.attackcounter = 0;
+		this.castcounter = 0;
+		this.isAttacking = false;
+		this.cast = "";
 	}
 
 	/** 
@@ -41,51 +70,403 @@ public class Moveable extends Entities {
 	 * Begehbarkeit des Feldes prüfen
 	 * Wenn begehbar, setposition anwenden
 	 **/
-	public void move(){
-		switch(this.direct){
-		case LEFT:
-			if(currentroom.roomFields[this.pos.x - 1][this.pos.y].walkable){
-				setPosition(this.pos.x-1,this.pos.y);
-			}
-					break;
-					
-		case UP:
-			if(currentroom.roomFields[this.pos.x][this.pos.y + 1].walkable){
-				setPosition(this.pos.x,this.pos.y+1);
-			}
-					break;
-					
-		case RIGHT:
-			if(currentroom.roomFields[this.pos.x + 1][this.pos.y].walkable){
-				setPosition(this.pos.x+1,this.pos.y);
-			}
-					break;
-					
-		case DOWN:
-			if(currentroom.roomFields[this.pos.x][this.pos.y + 1].walkable){
-				setPosition(this.pos.x,this.pos.y+1);
-			}
-					break;
-					
-		default: //nichts tun
-		}
-				
+	public void move() {
+
+    	int step = (int)(movePx * getSpeed());
+    	Position nextPos = new Position(0,0); //Position, auf die gelaufen werden soll
+    	Field[] fieldsToWalk = new Field[2];  // Felder, die betreten werden sollen
+        switch (this.getDirection()) {
+            case LEFT:
+            	nextPos.setPosition(getPosition().x - step, getPosition().y);
+            	// Checke, ob Spieler aus der Map rauslatscht anhand Hitbox
+            	if(nextPos.getCornerTopLeft(hitbox).x > 0) {
+            		
+            		// Kollision mit Wänden und setPosition
+            		Position p = new Position(nextPos.getCornerTopLeft(hitbox).x, nextPos.getCornerTopLeft(hitbox).y +1);
+            		fieldsToWalk[0] = MenuStart.activeRoom.getField(p); //+1: damit Spieler durch Gänge passt
+            		
+            		p.setPosition(nextPos.getCornerBottomLeft(hitbox).x, nextPos.getCornerBottomLeft(hitbox).y -1);
+            		fieldsToWalk[1] = MenuStart.activeRoom.getField(p);
+            		
+            		// Falls fieldsToWalk[0] und [1] begehbar, beweg dich einfach
+            		if(rangeCheck()){
+            			if (fieldsToWalk[0].walkable && fieldsToWalk[1].walkable) {
+            				setPosition(nextPos);
+            				break;
+            				// Ansonsten liegt Kollision vor, daher Annäherung an Feldgrenze
+            			} else {
+            				int distance = getPosition().getCornerTopLeft(hitbox).x - (fieldsToWalk[0].pos.toPosition().x + 32);
+            				if (distance != 0)
+            					setPosition(getPosition().x - distance, nextPos.y);
+            				//Projektile verpuffen an Wand
+            				else if(this instanceof Projectile){
+            					Projectile proj = (Projectile)this;
+            					proj.terminate();
+            				}
+            			}
+            		}
+            	}
+            	// ansonsten Annäherung an Raumrand
+            	else {
+        			setPosition(hitbox.width/2, nextPos.y);
+        		}
+            	
+                break;
+
+            case UP:
+        		nextPos.setPosition(getPosition().x, getPosition().y - step);
+        		if (this instanceof Projectile)
+        			System.out.println("Versuche, nach "+nextPos+" zu fliegen");
+        		// Checke, ob Moveable aus der Map rauslatscht anhand Hitbox
+            	if(nextPos.getCornerTopLeft(hitbox).y > 0) {
+            		
+            		// Kollision mit Wänden und setPosition
+            		Position p = new Position(nextPos.getCornerTopLeft(hitbox).x +1, nextPos.getCornerTopLeft(hitbox).y);
+            		fieldsToWalk[0] = MenuStart.activeRoom.getField(p); //+1: damit Spieler durch Gänge passt
+            		
+            		p.setPosition(nextPos.getCornerTopRight(hitbox).x -1, nextPos.getCornerTopRight(hitbox).y);
+            		fieldsToWalk[1] = MenuStart.activeRoom.getField(p);
+
+            		// Falls fieldsToWalk[0] und [1] begehbar, beweg dich einfach
+            		if(rangeCheck()){
+            			if (fieldsToWalk[0].walkable && fieldsToWalk[1].walkable) {
+            				setPosition(nextPos);
+            				break;
+            				
+            			// Ansonsten liegt Kollision vor, daher Annäherung an Feldgrenze
+            			} 
+            			else {
+            				int distance = getPosition().getCornerTopLeft(hitbox).y - (fieldsToWalk[0].pos.toPosition().y + 32);
+            				if (distance != 0)
+            					setPosition(getPosition().x, getPosition().y - distance);
+            				// Projektile verpuffen an Wand
+            				else if(this instanceof Projectile) {
+            					Projectile proj = (Projectile)this;
+            					proj.terminate();
+            				}
+            			}
+            		}
+					//ansonsten Annäherung an Raumrand
+            		else {
+            			setPosition(nextPos.x, hitbox.height/2);
+            		}
+            	}
+            	
+            	break;
+
+            case RIGHT:
+        		nextPos.setPosition(getPosition().x + step, getPosition().y);
+        		// Checke, ob Spieler aus der Map rauslatscht anhand Hitbox
+            	if(nextPos.getCornerTopRight(hitbox).x < getRoom().getWidth()*32) {
+            		
+            		// Kollision mit Wänden und setPosition
+            		Position p = new Position(nextPos.getCornerTopRight(hitbox).x, nextPos.getCornerTopRight(hitbox).y +1);
+            		fieldsToWalk[0] = MenuStart.activeRoom.getField(p); //+1: damit Spieler durch Gänge passt
+            		
+            		p.setPosition(nextPos.getCornerBottomRight(hitbox).x, nextPos.getCornerBottomRight(hitbox).y -1);
+            		fieldsToWalk[1] = MenuStart.activeRoom.getField(p);
+            		
+            		// Falls fieldsToWalk[0] und [1] begehbar, beweg dich einfach
+            		if(rangeCheck()){
+            			if (fieldsToWalk[0].walkable && fieldsToWalk[1].walkable){
+            				setPosition(nextPos);
+            				break;
+            				// Ansonsten liegt Kollision vor, daher Annäherung an Feldgrenze
+            			} else {
+            				int distance = fieldsToWalk[0].pos.toPosition().x - getPosition().getCornerTopRight(hitbox).x;
+            				if (distance != 0)
+            					setPosition(getPosition().x + distance, nextPos.y);
+            				//Projektile verpuffen an Wand
+            				else if(this instanceof Projectile){
+            					Projectile proj = (Projectile)this;
+            					proj.terminate();
+            				}
+            			}
+            		}
+            	}
+            	//ansonsten Annäherung an Raumrand
+            	else {
+            		setPosition(getRoom().getWidth()*32 - hitbox.width/2, nextPos.y);
+            	}
+            	
+                break;
+
+            case DOWN:
+        		nextPos.setPosition(getPosition().x, getPosition().y + step);
+        		// Checke, ob Spieler aus der Map rauslatscht anhand Hitbox
+            	if(nextPos.getCornerBottomLeft(hitbox).y < getRoom().getHeight()*32) {
+            		
+            		// Kollision mit Wänden und setPosition
+            		Position p = new Position(nextPos.getCornerBottomLeft(hitbox).x +1, nextPos.getCornerBottomLeft(hitbox).y);
+            		fieldsToWalk[0] = MenuStart.activeRoom.getField(p); //+1: damit Spieler durch Gänge passt
+            		
+            		p.setPosition(nextPos.getCornerBottomRight(hitbox).x -1, nextPos.getCornerBottomRight(hitbox).y);
+            		fieldsToWalk[1] = MenuStart.activeRoom.getField(p);
+            		
+            		// Falls fieldsToWalk[0] und [1] begehbar, beweg dich einfach
+            		if(rangeCheck()){
+            			if (fieldsToWalk[0].walkable && fieldsToWalk[1].walkable) {
+            				setPosition(nextPos);
+            				break;
+            				// Ansonsten liegt Kollision vor, daher Annäherung an Feldgrenze
+            			} else {
+            				int distance = fieldsToWalk[0].pos.toPosition().y - getPosition().getCornerBottomLeft(hitbox).y;
+            				if (distance != 0)
+            					setPosition(getPosition().x, getPosition().y + distance);
+            				//Projektile verpuffen an Wand
+            				else if(this instanceof Projectile){
+            					Projectile proj = (Projectile)this;
+            					proj.terminate();
+            				}
+            			}
+            		}
+            	}
+            	//ansonsten Annäherung an Raumrand
+            	else {
+            		setPosition(nextPos.x, getRoom().getHeight()*32 - hitbox.height/2);	
+            	}
+            	
+            	break;
+        
+            default:
+            	break;
+	
+        }
 	}
+	
+	//Kollisionsabfragen
+	public boolean rangeCheck(){
+		int xdelta;
+		int ydelta;
+		boolean flag = true;
+		Entities testent = null;	//durch alle Entitys der Liste iterieren
+		@SuppressWarnings("unchecked")
+		LinkedList<Entities> tempEntities = (LinkedList<Entities>) getRoom().entities.clone();
+	    Iterator<Entities> iter = tempEntities.iterator();
+		while(iter.hasNext()){
+			testent = iter.next();
+			if(testent != this && !(testent instanceof Item) && !(testent instanceof Coin) &&
+				//einem Projektil ist die Kollision mit dem Player egal
+				!(this instanceof Projectile && testent instanceof Player)){
+
+				//System.out.println(testent.getClass());
+				xdelta = this.getPosition().x - testent.getPosition().x; //x-Abstand der Mittelpunkte bestimmen
+				if(xdelta < 0)
+					xdelta = xdelta * (-1);
+				ydelta = this.getPosition().y - testent.getPosition().y; //y-Abstand der Mittelpunkte bestimmen
+				if(ydelta < 0)
+					ydelta = ydelta * (-1);
+				if(Math.sqrt(xdelta*xdelta + ydelta*ydelta) < 50){	//Wenn wurzel(x^2 + y^2) < 50 ist, auf hitboxkollision prüfen
+					if(hitboxCheck(this.getPosition(), testent) == false){
+						
+						if(this instanceof Projectile) {
+							Projectile proj = (Projectile)this;
+							proj.collision(testent);
+						}
+						return false;
+					}
+				}
+			}
+		}
+		return flag;
+	}
+	
+	/**
+	 * Kollisionsabfrage für this mit gegebenem Kollisionsgegner
+	 * @param test Kollisionsgegner
+	 * @return Kollisionswahrheitswert
+	 */
+	public boolean hitboxCheck(Position pos, Entities testent) {
+		Entities test = testent;
+		switch(direct){
+		case LEFT:
+			if(this.getPosition().x > test.getPosition().x){
+			if(((pos.x - (this.getHitbox().width/2) - (speed*movePx)) - (test.getPosition().x + (test.getHitbox().width/2))) < 0){ //wenn der x-Abstand der Mittelpunkte - der weite des Schrittes - der halben Breite der getHitbox()en kleiner als 0 ist
+				if(pos.y - test.getPosition().y > 0){ //überprüfe den y-Abstand
+					if(((pos.y - (this.getHitbox().height/2)) - (test.getPosition().y + (test.getHitbox().height/2)) >= 0))
+						return true;
+					else
+						return false;
+				}
+				else{
+					if(((test.getPosition().y - (test.getHitbox().height/2)) - (pos.y + (this.getHitbox().height/2)) >= 0))
+						return true;
+					else
+						return false;
+				}
+			}
+			else
+				return true;
+			}
+			return true;
+		case RIGHT:
+			if(this.getPosition().x < test.getPosition().x){
+			if(((test.getPosition().x - (test.getHitbox().width/2) - (speed*movePx)) - (pos.x + (this.getHitbox().width/2))) < 0){
+				if(pos.y - test.getPosition().y > 0){
+					if(((pos.y - (this.getHitbox().height/2)) - (test.getPosition().y + (test.getHitbox().height/2)) >= 0))
+						return true;
+					else
+						return false;
+				}
+				else{
+					if(((test.getPosition().y - (test.getHitbox().height/2)) - (pos.y + (this.getHitbox().height/2)) >= 0))
+						return true;
+					else {
+						collision(test);
+						return false;
+					}
+				}
+			}
+			else
+				return true;
+		}
+			return true;
+		case UP:
+			if(this.getPosition().y > test.getPosition().y){
+			if(((pos.y - (this.getHitbox().height/2) - (speed*movePx)) - (test.getPosition().y + (test.getHitbox().height/2))) < 0){
+				if(pos.x - test.getPosition().x > 0){
+					if(((pos.x - (this.getHitbox().width/2)) - (test.getPosition().x + (test.getHitbox().width/2)) >= 0))
+						return true;
+					else
+						return false;
+				}
+				else{
+					if(((test.getPosition().x - (test.getHitbox().width/2)) - (pos.x + (this.getHitbox().width/2)) >= 0))
+						return true;
+					else
+						return false;
+				}
+			}
+			else
+				return true;
+			}
+			return true;
+		case DOWN:
+			if(this.getPosition().y < test.getPosition().y){
+			if(((test.getPosition().y - (test.getHitbox().height/2) - (speed*movePx)) - (pos.y + (this.getHitbox().height/2))) < 0){
+				if(pos.x - test.getPosition().x > 0){
+					if(((pos.x - (this.getHitbox().width/2)) - (test.getPosition().x + (test.getHitbox().width/2)) >= 0))
+						return true;
+					else
+						return false;
+				}
+				else{
+					if(((test.getPosition().x - (test.getHitbox().width/2)) - (pos.x + (this.getHitbox().width/2)) >= 0))
+						return true;
+					else
+						return false;
+				}
+			}
+			else
+				return true;
+			}
+			return true;
+		case NONE:
+				if(test.getPosition().y < pos.y){
+					if(((pos.y - (this.getHitbox().height/2) - (test.getPosition().y + (test.getHitbox().height/2))) < 0)){
+						if(pos.x - test.getPosition().x > 0){
+							if(((pos.x - (this.getHitbox().width/2)) - (test.getPosition().x + (test.getHitbox().width/2)) >= 0))
+								return true;
+							else
+								return false;
+						}
+						else{
+							if(((test.getPosition().x - (test.getHitbox().width/2)) - (pos.x + (this.getHitbox().width/2)) >= 0))
+								return true;
+							else
+								return false;
+						}
+					}	
+				}
+				else{
+					if(((test.getPosition().y - (test.getHitbox().height/2) - (speed*movePx)) - (pos.y + (this.getHitbox().height/2))) < 0){
+						if(pos.x - test.getPosition().x > 0){
+							if(((pos.x - (this.getHitbox().width/2)) - (test.getPosition().x + (test.getHitbox().width/2)) >= 0))
+								return true;
+							else
+								return false;
+						}
+						else{
+							if(((test.getPosition().x - (test.getHitbox().width/2)) - (pos.x + (this.getHitbox().width/2)) >= 0))
+								return true;
+							else
+								return false;
+						}
+					}
+					else
+						return true;
+				}
+		default:
+			return false;
+		}
+	}
+	
+	
+	public void attack(){
+			Position temp = new Position(this.getPosition().x,this.getPosition().y);
+			switch(this.facedirect){
+			case UP:
+				temp.setPosition(temp.x , temp.y -6);
+				break;
+			case DOWN:
+				temp.setPosition(temp.x , temp.y +6);
+				break;
+			case LEFT:
+				temp.setPosition(temp.x - 6 , temp.y);
+				break;
+			case RIGHT:
+				temp.setPosition(temp.x + 6 , temp.y);
+				break;
+			default:
+				break;
+			}
+			
+			int xdelta;
+			int ydelta;
+			Entities testent = null;	//durch alle Entitys der Liste iterieren
+			@SuppressWarnings("unchecked")
+			LinkedList<Entities> tempEntities = (LinkedList<Entities>) getRoom().entities.clone();
+		    Iterator<Entities> iter = tempEntities.iterator();
+		    Monster monster = null;
+		    Coin coin = null;
+		    NPC npc = null;
+			while(iter.hasNext()){
+				testent = iter.next();
+				if(testent != this){	
+					xdelta = temp.x - testent.getPosition().x; //x-Abstand der Mittelpunkte bestimmen
+					if(xdelta < 0)
+						xdelta = xdelta * (-1);
+					ydelta = temp.y - testent.getPosition().y; //y-Abstand der Mittelpunkte bestimmen
+					if(ydelta < 0)
+						ydelta = ydelta * (-1);
+					if(Math.sqrt(xdelta*xdelta + ydelta*ydelta) < 50){	//Wenn wurzel(x^2 + y^2) < 50 ist, auf hitboxkollision prüfen
+						if(hitboxCheck(temp, testent) == false){
+							if(testent instanceof Monster){
+								monster = (Monster)testent;
+								if((this.attack - monster.getArmour()) > 0 ){
+									testent.setHealth(testent.getHealth() - (this.attack - monster.getArmour()));
+								}
+								else{
+									testent.setHealth(testent.getHealth() -1 );
+								}
+								if(testent.getHealth() <= 0){
+									coin = monster.getCoin();
+									coin.setPosition(monster.getPosition());
+									getRoom().removeCandidates.add(monster);
+									getRoom().entities.add(coin);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 	
 	/**
 	 * Diese Methode liefert die aktuelle Position im Raum
 	 * @return liefert die Position im Raum
-	 */
-	public Position getPosition(){
-		return pos;
-	}
-	
-	/**
-	 * Diese Methode liefert den aktuellen Life Status eines bewegbaren Objektes
-	 * @return liefert ein int Leben
-	 */
-	public int getLife(){	
-		return this.life;
+	 */	public Position getPosition(){
+		return this.pos;
 	}
 
 	/**
@@ -93,18 +474,180 @@ public class Moveable extends Entities {
 	 * @param x X-Achse
 	 * @param y Y-Achse
 	 */
-	public void setPosition(int x, int y){ 
-		pos.x = x;
-		pos.y = y;
 
-        System.out.println("Setze Position auf X:"+x+ " Y:"+y);
+	 public void setPosition(int x, int y) {
+    	// lastField, actualField setzten
+    	actualField = getRoom().getField(getPosition());
+    	Field nextField = getRoom().getField(x/32, y/32);
+    	if (lastField == null || nextField != actualField) { // initial oder falls Feldwechsel vorliegt
+    		lastField = actualField;
+    	}
+    	getPosition().setPosition(x, y);
+    }
+	
+	public void setPosition(Position pos) {
+		setPosition(pos.x, pos.y);;
+	}
+	
+	public FieldPosition getFieldPos() {
+		return pos.toFieldPos();
 	}
 	
 	/**
-	 * Diese Methode setzt den aktuellen Life Status eines bewegbaren Objektes
+	 * Diese Methode setzt den aktuellen Health Status eines bewegbaren Objektes
 	 * @param life leben
 	 */
-	public void setLife(int life){
-		this.life = life;
+	public void setHealth(int health){
+		this.health = health;
+		if (this.health <= 0 && ! (this instanceof Player)) {
+			getRoom().removeCandidates.add(this);
+			if (isBoss) {
+				Map.endIsOpen = true;
+				System.out.println("endIsOpen!");
+			}
+		}
+	}
+
+	/**
+	 * Diese Methode liefert den aktuellen Health Status eines bewegbaren Objektes
+	 * @return liefert ein int Leben
+	 */
+	public int getHealth(){	
+		return this.health;
+	}
+	
+	public int getPower(){
+		return attack;
+	}
+	
+	public int getArmour(){
+		return armour;
+	}
+	
+	public void setArmour(int armour) {
+		this.armour = armour;
+	}
+	
+	public double getSpeed(){
+		return speed;
+	}
+	
+	
+	/* Faktor-Methoden: Fügen zu Speed, Angriff und Rüstung
+	 * Faktoren hinzu, sodass Faktoren ordnungsgemäß hinzugefügt
+	 * und wieder entfernt werden können.
+	 * reset() multipliziert jeweils die Faktoren zusammen.
+	 */
+	public void addSpeedFactor(double factor) {
+		speedFactors.add(factor);
+		resetSpeed();
+	}
+	
+	public void delSpeedFactor(double factor) {
+		if (! speedFactors.remove(factor)) {
+			System.out.println("Speedfaktorliste: Sollte "+factor+" entfernen, habs aber nicht gefunden.");
+		}
+		resetSpeed();
+	}
+	
+	public void resetSpeed() {
+		speed = 1.0;
+		for(Iterator<Double> iter = speedFactors.iterator(); iter.hasNext();)
+			speed = speed*iter.next();
+	}
+	
+	public void addAttackFactor(double factor) {
+		attackFactors.add(factor);
+		resetAttack();
+	}
+	
+	public void addAttackSummand(int summand) {
+		attackSummands.add(summand);
+		resetAttack();
+	}
+	
+	public void delAttackFactor(double factor) {
+		attackFactors.remove(factor);
+		resetAttack();
+	}
+	
+	public void delAttackSummand(int summand) {
+		attackSummands.remove(summand);
+		resetAttack();
+	}
+	
+	public void resetAttack() {
+		attack = 0;
+		for(Iterator<Integer> iter = attackSummands.iterator(); iter.hasNext();)
+			attack = attack + iter.next();
+		if(attack == 0) //Keine Summanden vorrätig
+			attack = 1; //wg Multiplikation
+		for(Iterator<Double> iter = attackFactors.iterator(); iter.hasNext();)
+			attack = (int)((double)attack*iter.next());
+	}
+	
+	
+	
+	public Room getRoom(){
+		return currentroom;
+	}
+	
+	public void setRoom(Room room){
+		//lastField richtig setzen
+		lastField = currentroom.getField(lastField.pos.x, lastField.pos.y);
+		actualField = room.getField(actualField.pos.x, actualField.pos.y);
+		currentroom = room;
+	}
+	
+	public Direction getDirection(){
+		return this.direct;
+	}
+	
+	public void setDirection(Direction direct){
+		this.direct = direct;
+	}
+	@Override
+	public Hitbox getHitbox(){
+		return hitbox;
+	}
+	
+	public Direction getFaceDirection(){
+		return facedirect;
+	}
+	
+	public void setFaceDirection(Direction direct){
+		facedirect = direct;
+	}
+	
+	public int getAttackCount(){
+		return attackcounter;
+	}
+	
+	public void setAttackCount(int count){
+		attackcounter = count;
+	}
+	
+	public int getCastCount(){
+		return castcounter;
+	}
+	
+	public void setCastCount(int count){
+		castcounter = count;
+	}
+	
+	public void setAttack(boolean isAttacking){
+		this.isAttacking = isAttacking;
+	}
+	
+	public boolean getAttack(){
+		return isAttacking;
+	}
+	
+	public void setCast(String cast){
+		this.cast = cast;
+	}
+	
+	public String getCast(){
+		return cast;
 	}
 }

@@ -28,8 +28,10 @@ Wasser:
         
 Link (auch Checkpoint):
     Attr1: Link-ID
-    Attr2: Ziel-Map-ID
-	   Spezialwert (FE oder so) falls unidirektional
+    Attr2: Zielraum-ID
+    
+Map-Ziel:
+	Link mit Zielraum 254 (==FE)
 
 Spawn:
     Konvention: Spawns liegen alle in Raum 00
