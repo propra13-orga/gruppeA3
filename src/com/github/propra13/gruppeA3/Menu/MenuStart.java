@@ -120,6 +120,9 @@ public class MenuStart extends JPanel implements ActionListener {
      	initMenu();
     }
     
+    /**
+     * Zeigt Dateiauswahldialog für Karten und startet ggf. den Editor
+     */
     private void initEditor() {
     	gameStatus = GameStatus.EDITOR;
  		
@@ -170,7 +173,10 @@ public class MenuStart extends JPanel implements ActionListener {
 	 	
 	 	randomgen = new Random(System.currentTimeMillis());
 		activeRoom = Map.getMapRoom(0);
-		player = new Player(activeRoom);
+		if(nextMap == 1)
+			player = new Player(activeRoom);
+		else
+			player.initialize();
 		addKeyListener(new Keys(player));
 		
 		
@@ -475,7 +481,7 @@ public class MenuStart extends JPanel implements ActionListener {
     }
 public void initMenu(){
 	// Zeichne Menüelemente
-	// Lege Standartpositionen für Buttons fest
+	// Lege Standardpositionen für Buttons fest
 	buttonPosX = GameMinSizeX/2-100;
 	buttonPosY = GameMinSizeY/2-100;
 	
@@ -487,6 +493,7 @@ public void initMenu(){
 		buttonnextmap.setBounds(buttonPosX,buttonPosY,    200,30);
 		buttonnewgame.setBounds(buttonPosX,buttonPosY+40, 200,30);
 		buttonNetwork.setBounds(buttonPosX, buttonPosY+80, 200, 30);
+		buttonNetwork.setVisible(true);
 		buttoneditor.setBounds(buttonPosX, buttonPosY+120, 200,30);
 		buttonbeenden.setBounds(buttonPosX,buttonPosY+160,200,30);
 	}

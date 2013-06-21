@@ -23,7 +23,7 @@ public abstract class Moveable extends Entities {
 	protected Direction direct;
 	private Direction facedirect;
 	protected Position pos;
-	private Room currentroom;
+	protected Room currentroom;
 	protected Hitbox hitbox;
 	private int health;
 	private int attack;
