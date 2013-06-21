@@ -3,6 +3,7 @@ package com.github.propra13.gruppeA3.Entities;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import com.github.propra13.gruppeA3.Entities.Moveable.Direction;
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
 import com.github.propra13.gruppeA3.Map.Field;
 import com.github.propra13.gruppeA3.Map.FieldPosition;
@@ -34,13 +35,23 @@ public class Player extends Moveable {
     public Player(Room room_bind) {
         super(room_bind);
         //+16: damit Player in der Mitte des Felds landet
-        setPosition(Map.spawns[0].pos.toPosition().x+16, Map.spawns[0].pos.toPosition().y+16);
         hitbox = new Hitbox(28, 28);
         setFaceDirection(Direction.DOWN);
-        resetAttack();
         setHealth(100);
-        getRoom().entities.add(this);
         this.items = new LinkedList<Item>();
+        initialize();
+    }
+    
+    /**
+     * Initialisiert den Spieler für den Start einer neuen Karte
+     */
+    public void initialize() {
+    	MenuStart.activeRoom = currentroom = Map.getMapRoom(0);
+    	direct = Direction.NONE;
+    	resetAttack();
+    	getRoom().entities.add(this);
+    	setPosition(Map.spawns[0].pos.toPosition().x+16, Map.spawns[0].pos.toPosition().y+16);
+    	
     }
 
     //Methode überschrieben, prüft für Spieler zusätzlich Trigger und ob bereits ein anderer Spieler auf dem Feld steht
@@ -276,11 +287,19 @@ public class Player extends Moveable {
     	}
         pickupItems();
     }
+    
+    /**
+     * Beendet die Karte. Wird aufgerufen, wenn der Spieler die Karte gewonnen hat.
+     */
     private void win() {
     	setPosition(Map.spawns[0].pos.toPosition().x+16, Map.spawns[0].pos.toPosition().y+16);
     	MenuStart.winMap();
     }
     
+    /**
+     * Setzt je nach Lebensanzahl den Spieler zurück auf den Spawn oder beendet das Spiel.
+     * Wird aufgerufen, wenn der Spieler stirbt.
+     */
     public void death() {
     	setLives(getLives()-1);
     	setPosition(Map.spawns[0].pos.toPosition().x+16, Map.spawns[0].pos.toPosition().y+16);
@@ -292,7 +311,11 @@ public class Player extends Moveable {
     	}
     } 
     
-    // Benutzt einen gegebenen Link; geht in den targetRoom, der nicht der aktuelle ist
+    /** 
+     * Benutzt einen gegebenen Link; geht in den targetRoom, der nicht der aktuelle ist.
+     * @param link Zu nutzender Link
+     * @throws MapFormatException falls Link nicht am Raumrand liegt.
+     */
     private void followLink(Link link) throws MapFormatException {
     	System.out.println("Call: followLink()");
     	Room targetRoom;
@@ -365,6 +388,9 @@ public class Player extends Moveable {
         }
     }
     
+    /**
+     * Feuert einen Plasmaball in die Richtung, in die der Spieler schaut
+     */
     public void firePlasma() {
     	if (mana - PlasmaBall.manaCost >= 0) {
     		mana = mana - PlasmaBall.manaCost;
@@ -372,7 +398,9 @@ public class Player extends Moveable {
     	}
     }
     
-    // Acht Plasmakugeln in alle Richtungen
+    /**
+     * Feuert acht Plasmakugeln in alle Richtungen
+     */
     public void fireAOEPlasma() {
     	if (mana - 4*PlasmaBall.manaCost >= 0) {
     		mana = mana - 4*PlasmaBall.manaCost;
@@ -389,6 +417,10 @@ public class Player extends Moveable {
     	}
     }
     
+    /** 
+     * Besetzt den Buff-Slot des Spielers mit einem Buff
+     * @param buff Zu setzender Buff
+     */
     public void setBuff(Buff buff) {
     	// Falls der Buff durch einen anderen ersetzt werden soll
     	if(this.buff != null && buff != null)
@@ -396,20 +428,30 @@ public class Player extends Moveable {
     	this.buff = buff;
     }
     
+    /**
+     * Getter-Methode für den Buff-Slot
+     * @return Gibt den Buff zurück, den der Spieler derzeit hat
+     */
     public Buff getBuff(){
     	return buff;
     }
     
+    /**
+     * Setzt einen Geschwindigkeitsbuff; doppelte Geschwindigkeit für fünf Sekunden
+     */
     public void setSpeedBuff() {
     	if (getMana() -  SpeedBuff.manaCost >= 0)
     		buff = new SpeedBuff(this, 2.0, 5);
     }
     
+    /**
+     * Setzt einen Angriffsbuff, 1.5-fache Angriffsstärke für fünf Sekunden
+     */
     public void setAttackBuff() {
     	if (getMana() -  SpeedBuff.manaCost >= 0)
     		buff = new AttackBuff(this, 1.5, 5);
     }
-     
+    
     public int getLives() {
     	return lives;
     }
@@ -432,6 +474,12 @@ public class Player extends Moveable {
     
     public void setMana(int mana){
     	this.mana = mana;
+    	if (mana < 0)
+			try {
+				throw new Exception("Negative Mana");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
     }
     
     /**
