@@ -46,7 +46,7 @@ public class Player extends Moveable {
      * Initialisiert den Spieler für den Start einer neuen Karte
      */
     public void initialize() {
-    	MenuStart.activeRoom = currentroom = Map.getMapRoom(0);
+    	MenuStart.activeRoom = currentroom = Map.getRoom(0);
     	direct = Direction.NONE;
     	resetAttack();
     	getRoom().entities.add(this);
@@ -208,7 +208,6 @@ public class Player extends Moveable {
             				 * Distance > 0: Spieler unter Fluss */
             				distance = getPosition().y - (field.pos.toPosition().y + 16);
             				if(distance != 0) {
-            					System.out.println("distance: "+distance);
             					// Falls relativ nah an Flussmitte, setze auf Flussmitte
             					if(Math.abs(distance) <= swimStep)
             						setPosition(getPosition().x, getPosition().y - distance);
@@ -234,7 +233,6 @@ public class Player extends Moveable {
             				 * Distance < 0: Spieler links vom Fluss
             				 * Distance > 0: Spieler rechts vom Fluss */
             				distance = getPosition().x - (field.pos.toPosition().x + 16);
-            				System.out.println("distance: "+getPosition().x+" - ("+field.pos.toPosition().x+" + 16) = "+distance);
             				if(distance != 0)
             					// Falls relativ nah an Flussmitte, setze auf Flussmitte
             					if(Math.abs(distance) <= swimStep)
@@ -244,7 +242,6 @@ public class Player extends Moveable {
             						int negFactor = 1;
             						if (distance < 0)
             							negFactor = -1;
-            						System.out.println("Setpos: "+getPosition().x+" - "+swimStep+"*"+negFactor+", "+getPosition().y);
             						setPosition(getPosition().x - swimStep*negFactor, getPosition().y);
             					}
             				// Ansonsten normale Schwimmbewegung mit Flussrichtung
@@ -265,8 +262,6 @@ public class Player extends Moveable {
         }
         // Links
         if(getRoom().getField(getFieldPos()).link != null){
-        	System.out.println("Ich bin auf nen Link gelatscht!");
-        	System.out.println("lastField: "+lastField.getRoom().ID+":"+lastField.pos.x+":"+lastField.pos.y+", link: "+lastField.link);
         	if (getRoom().getField(getFieldPos()).link.isActivated() && lastField.link == null) {
         		try {
 					followLink(getRoom().getField(getFieldPos()).link);
@@ -303,8 +298,8 @@ public class Player extends Moveable {
     public void death() {
     	setLives(getLives()-1);
     	setPosition(Map.spawns[0].pos.toPosition().x+16, Map.spawns[0].pos.toPosition().y+16);
-    	setRoom(Map.getMapRoom(0));
-    	MenuStart.activeRoom = Map.getMapRoom(0);
+    	setRoom(Map.getRoom(0));
+    	MenuStart.activeRoom = Map.getRoom(0);
     	setHealth(100);
     	if(getLives() == 0){
     		MenuStart.death();
@@ -317,7 +312,6 @@ public class Player extends Moveable {
      * @throws MapFormatException falls Link nicht am Raumrand liegt.
      */
     private void followLink(Link link) throws MapFormatException {
-    	System.out.println("Call: followLink()");
     	Room targetRoom;
     	Field targetField/* = new Field()*/;
     	if(getRoom() == link.targetRooms[0]) {
@@ -350,14 +344,12 @@ public class Player extends Moveable {
     			followLink = true;
     	} else {
     		//TODO: Links mitten im Raum zulassen
-    		System.out.println("Fehler");
     		throw new MapFormatException("Link "+link.ID+" in Raum "+MenuStart.activeRoom.ID+" ist nicht am Rand.");
     	}
     	
     	// Wechsle Raum, falls Spieler direkt am Raumrand
     	// WICHTIG! Erst Position wechseln, dann Raum, ansonsten stimmt lastField nicht
     	if (followLink) {
-    		System.out.println("Würd gern Raum wechseln");
     		this.setPosition(targetField.pos.toPosition().x+16, targetField.pos.toPosition().y+16);
     		setRoom(targetRoom);
     		MenuStart.activeRoom = targetRoom;

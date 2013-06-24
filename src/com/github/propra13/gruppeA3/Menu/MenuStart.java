@@ -177,7 +177,7 @@ public class MenuStart extends JPanel implements ActionListener {
 	 	}
 	 	
 	 	randomgen = new Random(System.currentTimeMillis());
-		activeRoom = Map.getMapRoom(0);
+		activeRoom = Map.getRoom(0);
 		if(nextMap == 1)
 			player = new Player(activeRoom);
 		else
@@ -761,7 +761,7 @@ public void Score(Graphics2D g) {
 							 if(testent instanceof NPC){
 								npc = (NPC)testent;
 								switch(npc.getType()){
-									case 1:System.out.println("Type 1");
+									case 1:
 										JOptionPane.showMessageDialog(null, npc.getText(), npc.getName(), JOptionPane.PLAIN_MESSAGE);
 										talk = false;
 										break;

@@ -1,7 +1,8 @@
 package com.github.propra13.gruppeA3.Map;
 
 
-/* @author CK
+/** 
+ * @author CK
  * Trigger, der unwiderruflich einen Checkpoint freischaltet
  */
 public class Checkpoint extends Trigger {

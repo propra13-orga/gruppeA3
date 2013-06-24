@@ -241,7 +241,9 @@ public class Room {
 		return getField(new FieldPosition(pos.toFieldPos().x, pos.toFieldPos().y));
 	}
 	
-	// Baut alle Checkpoint-Trigger aus checkpointsToBuild
+	/**
+	 *  Baut alle Checkpoint-Trigger aus checkpointsToBuild
+	 */
 	private void buildCheckpoints() {
 		Iterator<Field> iter = checkpointsToBuild.iterator();
 		Field toBuild;
@@ -268,6 +270,9 @@ public class Room {
         }
 	}
 	
+	/**
+	 * Entfernt alle Entities aus der removeCandidates-Liste aus dem Raum
+	 */
 	public void removeEntities() {
 		Entities toRemove = null;
 		Iterator<Entities> itprj = removeCandidates.iterator();

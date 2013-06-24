@@ -25,7 +25,7 @@ public abstract class Moveable extends Entities {
 	protected Position pos;
 	protected Room currentroom;
 	protected Hitbox hitbox;
-	private int health;
+	protected int health;
 	private int attack;
 	private int armour;
 	private double speed;
@@ -115,8 +115,6 @@ public abstract class Moveable extends Entities {
 
             case UP:
         		nextPos.setPosition(getPosition().x, getPosition().y - step);
-        		if (this instanceof Projectile)
-        			System.out.println("Versuche, nach "+nextPos+" zu fliegen");
         		// Checke, ob Moveable aus der Map rauslatscht anhand Hitbox
             	if(nextPos.getCornerTopLeft(hitbox).y > 0) {
             		
@@ -450,10 +448,7 @@ public abstract class Moveable extends Entities {
 									testent.setHealth(testent.getHealth() -1 );
 								}
 								if(testent.getHealth() <= 0){
-									coin = monster.getCoin();
-									coin.setPosition(monster.getPosition());
-									getRoom().removeCandidates.add(monster);
-									getRoom().entities.add(coin);
+									monster.death();
 								}
 							}
 						}
@@ -503,7 +498,6 @@ public abstract class Moveable extends Entities {
 			getRoom().removeCandidates.add(this);
 			if (isBoss) {
 				Map.endIsOpen = true;
-				System.out.println("endIsOpen!");
 			}
 		}
 	}
@@ -545,7 +539,11 @@ public abstract class Moveable extends Entities {
 	
 	public void delSpeedFactor(double factor) {
 		if (! speedFactors.remove(factor)) {
-			System.out.println("Speedfaktorliste: Sollte "+factor+" entfernen, habs aber nicht gefunden.");
+			try {
+				throw new Exception("Speedfaktorliste: Sollte "+factor+" entfernen, habs aber nicht gefunden.");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		resetSpeed();
 	}
