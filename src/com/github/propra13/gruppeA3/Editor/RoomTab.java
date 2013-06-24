@@ -17,6 +17,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
 import com.github.propra13.gruppeA3.Map.Field;
+import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Map.Position;
 import com.github.propra13.gruppeA3.Map.Room;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
@@ -25,7 +26,7 @@ import com.github.propra13.gruppeA3.Menu.MenuStart;
 public class RoomTab extends JPanel implements MouseListener, ActionListener {
 	private static final long serialVersionUID = 1L;
 	
-	JPopupMenu dropdown;
+	private JPopupMenu dropdown;
 	
 	private Field affectedField;
 	public Room room;
@@ -87,13 +88,28 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 		repaint();
 	}
 	
-	public void addLink() {
-		System.out.println("AddLink gedrückt");
-		new LinkWindow(affectedField);
+	/**
+	 * Hebt ein Feld visuell hervor.
+	 * @param field Hervorzuhebendes Feld
+	 */
+	public void highlightField(Field field) {
+		
 	}
 	
+	/**
+	 * Ruft den Link-Editor mit einem neuen Link auf
+	 */
+	public void addLink() {
+		System.out.println("AddLink gedrückt");
+		Editor.editor.linkEditor.showWindow(affectedField);
+	}
+	
+	/**
+	 * Ruft den Link-Editor mit dem Link des Felds auf
+	 */
 	public void changeLink() {
 		System.out.println("ChangeLink gedrückt");
+		Editor.editor.linkEditor.showWindow(affectedField.link);
 	}
 	
 	// Zeigt das Kontextmenü an der Cursor-Position
@@ -119,7 +135,9 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 			dropdown.add(changeLink);
 			removeCandidates.add(changeLink);
 		}
-		else {
+		// Falls Feld am Raumrand, Link zulassen
+		else if( (affectedField.pos.x == Map.ROOMWIDTH -1 || affectedField.pos.x == 0) ||
+				 (affectedField.pos.y == Map.ROOMHEIGHT -1 || affectedField.pos.y == 0) ) {
 			dropdown.add(addLink);
 			removeCandidates.add(addLink);
 		}
@@ -127,6 +145,9 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 		dropdown.show(this, e.getX(), e.getY());
 	}
 	
+	/**
+	 * Implementierte ActionListener-Methode
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == this.type1)
@@ -139,6 +160,9 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 			changeLink();
 	}
 
+	/**
+	 * Implementierte MouseListener-Methode
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		affectedField = room.getField(new Position(e.getX(), e.getY()));
@@ -146,7 +170,23 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 			dropdown(e);
 		}
 		else if(SwingUtilities.isLeftMouseButton(e)) {
-			changeFieldType(lastFieldType);
+			// Falls der nächste Klick ein Auswahlklick ist
+			if(Editor.editor.chooseClick != Editor.ChooseClickType.NONE){
+				switch(Editor.editor.chooseClick) {
+				case LINK:
+					Editor.editor.linkEditor.chooseClick(affectedField);
+					break;
+				case CHECKPOINTFIELD:
+					break;
+				case CHECKPOINTLINK:
+					break;
+				default:
+					break;
+				}
+			}
+			// Ansonsten Standardaktion bei Linksklick
+			else	
+				changeFieldType(lastFieldType);
 		}
 	}
 

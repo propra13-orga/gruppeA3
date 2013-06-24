@@ -77,10 +77,10 @@ public class CrawlerSAX extends DefaultHandler{
 				isBoss = false;
 
 			// Es wird ein neues Monster erzeugt mit den zuvor ausgelesenen Informationen aus level.xml
-			Monster monster=new Monster(Map.getMapRoom(roomID), speed, power, type, life, posx, posy, desc, coinValue, coinType, armour, isBoss);
+			Monster monster=new Monster(Map.getRoom(roomID), speed, power, type, life, posx, posy, desc, coinValue, coinType, armour, isBoss);
 			//MAP
 			//System.out.println("Monster");
-			Map.getMapRoom(roomID).entities.add(monster);
+			Map.getRoom(roomID).entities.add(monster);
 
 		}
 		else if(qName.equals("item")){
@@ -92,12 +92,12 @@ public class CrawlerSAX extends DefaultHandler{
 			String name = new String(attrs.getValue("name"));
 			int value = Integer.parseInt(attrs.getValue("value"));
 
-			Item item=new Item(Map.getMapRoom(roomID), damage, type, posx, posy, desc, name, value);
+			Item item=new Item(Map.getRoom(roomID), damage, type, posx, posy, desc, name, value);
 			
 			if(checkNPC){
 				npc.getItems().add(item);
 			}else
-				Map.getMapRoom(roomID).entities.add(item);
+				Map.getRoom(roomID).entities.add(item);
 		}
 		else if(qName.equals("npc")){
 			checkNPC = true;
@@ -107,7 +107,7 @@ public class CrawlerSAX extends DefaultHandler{
 			String desc = new String(attrs.getValue("desc"));
 			String name = new String(attrs.getValue("name"));
 			
-			npc = new NPC(Map.getMapRoom(roomID), type, desc, name, posx, posy);
+			npc = new NPC(Map.getRoom(roomID), type, desc, name, posx, posy);
 		}
 	}
 	
@@ -123,7 +123,7 @@ public class CrawlerSAX extends DefaultHandler{
 	    	}
 		} else if(qName.equals("npc")){
 			checkNPC=false;
-			Map.getMapRoom(roomID).entities.add(npc);
+			Map.getRoom(roomID).entities.add(npc);
 		}
 
 	}	

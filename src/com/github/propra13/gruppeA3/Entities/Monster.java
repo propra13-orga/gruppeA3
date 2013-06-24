@@ -3,6 +3,7 @@ package com.github.propra13.gruppeA3.Entities;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Map.Position;
 import com.github.propra13.gruppeA3.Map.Room;
 
@@ -84,11 +85,36 @@ public class Monster extends Moveable {
 		return desc;
 	}
 	
+	/**
+	 * Tötet das Monster und verteilt das Gold.
+	 */
+	public void death() {
+		coins.setPosition(getPosition());
+		getRoom().removeCandidates.add(this);
+		getRoom().entities.add(coins);
+	}
+	
 	//Dummies
 	@Override
 	public void tick() {}
 	@Override
 	public void collision(Entities entity) {}
+	
+	
+	/**
+	 * Diese Methode setzt den aktuellen Health Status eines bewegbaren Objektes
+	 * @param life leben
+	 */
+	@Override
+	public void setHealth(int health){
+		this.health = health;
+		if (this.health <= 0) {
+			death();
+			if (isBoss) {
+				Map.endIsOpen = true;
+			}
+		}
+	}
 
 	public void attack(){
 		Position temp = new Position(this.getPosition().x,this.getPosition().y);

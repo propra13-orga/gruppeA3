@@ -15,14 +15,17 @@ import com.github.propra13.gruppeA3.Menu.MenuStart;
 public class Map {
 	/**
 	 * @author Christian Krüger
-	 * TODO:
-	 * Boolean isSet
 	 */
+	
+	final public static int ROOMHEIGHT = 17;
+	final public static int ROOMWIDTH = 25;
 	
 	static public Room[] mapRooms;
 	static public Field[] spawns = new Field[2];
 	static public Link[] links;
 	static public Field end;
+	
+	public static String mapName;
 	
 	final static String roomEnding = "room";
 	final static String metaEnding = "xml";
@@ -35,19 +38,28 @@ public class Map {
 	private static LinkedList<Field> checkpointFieldsToBuild = new LinkedList<Field>();
 	private static LinkedList<Field> checkpointLinksToBuild = new LinkedList<Field>();
 	
-	//Privater Konstruktor, damit Map nicht instanziiert wird
+	/** 
+	 * Privater Konstruktor, damit Map nicht instanziert wird
+	 */
 	private Map() {}
 	
-	/* Baut Map aus gegebenem Verzeichnisnamen.
+	/**
+	 * Baut Map aus gegebenem Verzeichnisnamen.
 	 * Interpretiert alle durchnummerierten "xy.room"-Dateien als Rooms.
+	 * @param dirName Verzeichnisname der Map
+	 * @throws FileNotFoundException Falls eine geforderte Datei nicht vorhanden ist
+	 * @throws MapFormatException Falls beim Lesen der Map ein Fehler auftrat, der auf das Format der Mapdateien zurückzuführen ist
+	 * @throws IOException System-IO-Fehler
+	 * @throws InvalidRoomLinkException Falls ein Fehler bei einem Link vorliegt
 	 */
 	public static void initialize(String dirName) 
 			throws FileNotFoundException, MapFormatException, IOException, InvalidRoomLinkException {
 		
 		spawns[0] = spawns[1] = null;
+		mapName = dirName;
 		
 		//Map einlesen
-		mapRooms = readRooms(dirName);
+		mapRooms = readRooms();
 		
 		
 
@@ -63,13 +75,17 @@ public class Map {
 		//checkLinks();
 	}
 	
-	
-	/* Liest alle Rooms einer Map ein
+	/**
+	 * Liest alle Rooms einer Map ein
 	 * Vorgehensweise:
 	 * Sammelt aus gegebenem Map-Verzeichnis alle .room-Dateien
 	 * Erzeugt Room-Objekte aus .room-Dateien
+	 * @return Gibt alle Räume in einem Array zurück
+	 * @throws FileNotFoundException Eine Raumdatei oder das Mapverzeichnis lag nicht vor
+	 * @throws MapFormatException Raumdateiinterpretationsfehler
+	 * @throws IOException System-IO-Fehler
 	 */
-	private static Room[] readRooms(String mapName)
+	private static Room[] readRooms()
 			throws FileNotFoundException, MapFormatException, IOException {
 		/* TODO:
 		 * Map-Zip
@@ -144,7 +160,7 @@ public class Map {
 	
 	
 	
-	/* Baut Links aus Link-Buffer auf
+	/** Baut Links aus Link-Buffer auf
 	 * Vorgehensweise:
 	 * 	Sucht Link mit der höchsten ID und baut Array mit passender Größe auf
 	 * 	Befüllt Array zweidimensional (Jeder Arrayplatz enthält zwei zusammengehörende halbe Links)
@@ -160,7 +176,6 @@ public class Map {
 		
 		for (Iterator<Link> i = linkBuffer.iterator(); i.hasNext();) {
 			testLink = i.next();
-			System.out.println("Checke: Link "+testLink.ID);
 			//TODO: LinkedList.next() checken (erstes Element abgedeckt?)
 			if (testLink.ID > highID) {
 				highID = testLink.ID;
@@ -203,6 +218,8 @@ public class Map {
 			targetFields[1] = targetRooms[1].roomFields[halfLinks[i][0].pos.x][halfLinks[i][0].pos.y];
 			
 			Link link = new Link(i, targetRooms, targetFields, bidirectional, ! halfLinks[i][0].isActivated());
+			
+			//Mitteilung an Map-Editor
 			if (MenuStart.gameStatus == MenuStart.GameStatus.EDITOR)
 				Editor.editor.notify(link);
 			
@@ -245,6 +262,9 @@ public class Map {
 		
 	}
 	
+	/**
+	 * Verknüpft Checkpoint-Trigger mit Checkpoint-Links
+	 */
 	private static void buildCheckpoints() {
 		Iterator<Field> i = checkpointFieldsToBuild.iterator();
 		Iterator<Field> j = checkpointLinksToBuild.iterator();
@@ -253,17 +273,21 @@ public class Map {
 			Field linkField = j.next();
 			Link checkpointLink = linkField.link;
 			triggerField.trigger = new Checkpoint(triggerField, checkpointLink);
+			
+			//Mitteilung an Map-Editor
+			if (MenuStart.gameStatus == MenuStart.GameStatus.EDITOR)
+				Editor.editor.notify(triggerField.trigger);
 		}
 	}
 	
-	/* Fügt einen Link zum Link-Buffer hinzu
+	/** Fügt einen Link zum Link-Buffer hinzu
 	 * Link-Buffer wird später ausgelesen und die Links ordentlich zusammengestellt
 	 */
 	public static void addLink(Link link) {
 		linkBuffer.push(link);
 	}
 	
-	/* Fügt einen Checkpoint zum Checkpoint-Buffer hinzu
+	/** Fügt einen Checkpoint zum Checkpoint-Buffer hinzu
 	 * Checkpoint-Buffer wird später ausgelesen und die Trigger mit den Links verknüpft
 	 */
 	public static void addTrigger(Field trigger, Field link) {
@@ -271,7 +295,9 @@ public class Map {
 		checkpointLinksToBuild.push(link);
 	}
 
-	//Setzt einen Spawn auf der Map
+	/** Setzt einen Spawn auf der Map
+	 * @param spawn Spawn, der hinzugefügt werden soll
+	 */
 	public static void addSpawn(Field spawn) {
 		if (spawns[0] == null)
 			spawns[0] = spawn;
@@ -279,7 +305,10 @@ public class Map {
 			spawns[1] = spawn;
 	}
 	
-	//Setzt Ziel der Map
+	/** Setzt Ziel der Map
+	 * @param endField Zielfeld
+	 * @param room Raum, in dem sich das Zielfeld befindet
+	 */
 	public static void setEnd(Field endField, Room room) {
 		end = endField;
 	}
@@ -289,7 +318,7 @@ public class Map {
 	 * @param roomID - gibt die ID des aktuellen Raumes an
 	 * @return liefert den aktuellen Raum
 	 */
-	public static Room getMapRoom(int roomID){
+	public static Room getRoom(int roomID){
 		return mapRooms[roomID];
 	}
 }
