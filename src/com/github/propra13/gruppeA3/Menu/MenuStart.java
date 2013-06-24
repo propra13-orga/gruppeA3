@@ -60,6 +60,7 @@ public class MenuStart extends JPanel implements ActionListener {
 	private JButton buttonNetwork;
 	private JButton buttonbeenden;
 	private JButton buttoneditor;
+	private JButton buttonBack;
 	private int buttonPosX;
 	private int buttonPosY;
     
@@ -95,20 +96,23 @@ public class MenuStart extends JPanel implements ActionListener {
      	buttonnextmap = new JButton("Nächste Karte");
      	buttonNetwork = new JButton("Multiplayer");
      	buttoneditor = new JButton("Karteneditor");
+     	buttonBack = new JButton("Zurück");
      	buttonbeenden = new JButton("Beenden");
      	
      	// benenne Aktionen
-    	buttonbeenden.setActionCommand("exit");
+    	buttonnewgame.setActionCommand("newgame");
     	buttonnextmap.setActionCommand("nextmap");
     	buttonNetwork.setActionCommand("network");
     	buttoneditor.setActionCommand("editor");
-    	buttonnewgame.setActionCommand("newgame");
+    	buttonBack.setActionCommand("back");
+    	buttonbeenden.setActionCommand("exit");
     	
     	// ActionListener hinzufügen
     	buttonnewgame.addActionListener(this);
     	buttonnextmap.addActionListener(this);
     	buttonNetwork.addActionListener(this);
     	buttoneditor.addActionListener(this);
+    	buttonBack.addActionListener(this);
     	buttonbeenden.addActionListener(this);
     	
     	// füge Buttons zum Panel hinzu
@@ -116,6 +120,7 @@ public class MenuStart extends JPanel implements ActionListener {
     	add(buttonnextmap);
     	add(buttonNetwork);
     	add(buttoneditor);
+    	add(buttonBack);
     	add(buttonbeenden);
      	initMenu();
     }
@@ -375,10 +380,6 @@ public class MenuStart extends JPanel implements ActionListener {
             	}
             }
                 	
-            		
-            		
-            	
-            
             else if (testEntity instanceof Item) {
             	item = (Item)testEntity;
             	entityPos.setPosition(item.getPosition().x - (item.getHitbox().width/2), item.getPosition().y - (item.getHitbox().height/2));
@@ -452,9 +453,7 @@ public class MenuStart extends JPanel implements ActionListener {
         	//Hauptmenü
         	if(gameStatus == GameStatus.MAINMENU)
         	{
-        		String msg;
-        		msg = "Hauptmenü";
-        		paintMessage(msg,g);
+        		paintMessage("Hauptmenü",g);
         	}
         	// Spiel gewonnen
         	else if(gameStatus == GameStatus.GAMEWON && timer.isRunning())
@@ -479,6 +478,7 @@ public class MenuStart extends JPanel implements ActionListener {
         	g.dispose();
         } 
     }
+    
 public void initMenu(){
 	// Zeichne Menüelemente
 	// Lege Standardpositionen für Buttons fest
@@ -493,7 +493,7 @@ public void initMenu(){
 		buttonnextmap.setBounds(buttonPosX,buttonPosY,    200,30);
 		buttonnewgame.setBounds(buttonPosX,buttonPosY+40, 200,30);
 		buttonNetwork.setBounds(buttonPosX, buttonPosY+80, 200, 30);
-		buttonNetwork.setVisible(true);
+	//	buttonNetwork.setVisible(true);
 		buttoneditor.setBounds(buttonPosX, buttonPosY+120, 200,30);
 		buttonbeenden.setBounds(buttonPosX,buttonPosY+160,200,30);
 	}
@@ -505,7 +505,6 @@ public void initMenu(){
 		buttoneditor.setBounds(buttonPosX, buttonPosY+80,200,30);
 		buttonbeenden.setBounds(buttonPosX,buttonPosY+120,200,30);
 	}
-	
 }
 
 
@@ -565,17 +564,10 @@ public void Score(Graphics2D g) {
 				initGame("Story01", "level1");
 			}
 			else if("nextmap".equals(action)) {
-				//mapName zusammenbauen
-				String mapName;
-				String xmlName;
 				if (nextMap < 10)
-					mapName = "0"+nextMap;
+					initGame("Story0"+nextMap, "level"+nextMap);
 				else
-					mapName = nextMap+"";
-				mapName = "Story"+mapName;
-				xmlName = "level"+nextMap;
-
-				initGame(mapName, xmlName);
+					initGame("Story"+nextMap, "level"+nextMap);
 			}
 			else if("editor".equals(action))
 				initEditor();
@@ -778,7 +770,7 @@ public void Score(Graphics2D g) {
 											JOptionPane.showMessageDialog(null, "Ich besitze keine Ware mehr", npc.getName(), JOptionPane.PLAIN_MESSAGE);
 										} else{
 											JOptionPane.showMessageDialog(null, npc.getText(), npc.getName(), JOptionPane.PLAIN_MESSAGE);
-											Shop shop = new Shop(this.player, npc);
+											new Shop(this.player, npc);
 										}
 										talk = false;
 										break;

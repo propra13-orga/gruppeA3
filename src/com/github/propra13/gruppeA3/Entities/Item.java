@@ -29,7 +29,6 @@ public class Item extends Entities {
 	 * 			hitbox: Die Hitbox des Items
 	 * 			value: Der Wert, den jedes Item haben kann, wichtig beim Kauf/Verkauf
 	 */
-	private Room currentRoom;
 	private Position pos;
 	private int damage = 0;
 	private int type=1;
@@ -51,8 +50,7 @@ public class Item extends Entities {
 	 * @param value		Der Wert des Items
 	 * 
 	 **/
-	public Item(Room room_bind, int damage, int type, int x, int y, String desc, String name, int value) {
-		this.currentRoom = room_bind;
+	public Item(int damage, int type, int x, int y, String desc, String name, int value) {
 		this.damage = damage;
 		this.type = type;
 		this.desc = desc;
