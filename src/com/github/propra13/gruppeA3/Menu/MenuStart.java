@@ -63,12 +63,16 @@ public class MenuStart extends JPanel implements ActionListener {
 	private JButton buttonBack;
 	private JButton buttonDeathmatch;
 	private JButton buttonCoop;
+	private JButton buttonJoin;
+	private JButton buttonCreate;
 	private int buttonPosX;
 	private int buttonPosY;
     
 	// Status, in dem sich das Spiel befindet
     public static enum GameStatus {INGAME, MAINMENU, EDITOR, GAMEWON, GAMEOVER, MAPWON, NETWORK}
+    public static enum NetworkStatus {NONE, DEATH, COOP}
     private static GameStatus gameStatus;
+    private static NetworkStatus netstat = NetworkStatus.NONE;
 	
     // Zähler, welche Map die jeweils nächste ist
 	private static int nextMap = 1;
@@ -102,6 +106,8 @@ public class MenuStart extends JPanel implements ActionListener {
      	buttonbeenden = new JButton("Beenden");
      	buttonDeathmatch = new JButton("Deathmatch");
      	buttonCoop = new JButton("Co-Op");
+     	buttonCreate = new JButton("Spiel erzeugen");
+     	buttonJoin = new JButton("Spiel beitreten");
      	
      	// benenne Aktionen
     	buttonnewgame.setActionCommand("newgame");
@@ -112,6 +118,8 @@ public class MenuStart extends JPanel implements ActionListener {
     	buttonbeenden.setActionCommand("exit");
     	buttonDeathmatch.setActionCommand("deathmatch");
     	buttonCoop.setActionCommand("coop");
+    	buttonCreate.setActionCommand("create");
+    	buttonJoin.setActionCommand("join");
     	
     	// ActionListener hinzufügen
     	buttonnewgame.addActionListener(this);
@@ -122,6 +130,8 @@ public class MenuStart extends JPanel implements ActionListener {
     	buttonbeenden.addActionListener(this);
     	buttonDeathmatch.addActionListener(this);
     	buttonCoop.addActionListener(this);
+    	buttonCreate.addActionListener(this);
+    	buttonJoin.addActionListener(this);
     	
     	// füge Buttons zum Panel hinzu
     	add(buttonnewgame);
@@ -132,6 +142,8 @@ public class MenuStart extends JPanel implements ActionListener {
     	add(buttonbeenden);
     	add(buttonDeathmatch);
     	add(buttonCoop);
+    	add(buttonCreate);
+    	add(buttonJoin);
      	initMenu();
     }
     
@@ -203,6 +215,8 @@ public class MenuStart extends JPanel implements ActionListener {
 		buttonbeenden.setVisible(false);
 		buttonDeathmatch.setVisible(false);
 		buttonCoop.setVisible(false);
+		buttonCreate.setVisible(false);
+		buttonJoin.setVisible(false);
 			
 		setGameStatus(GameStatus.INGAME);
  	}
@@ -464,7 +478,12 @@ public class MenuStart extends JPanel implements ActionListener {
         	initMenu();
         	//Hauptmenü
         	if (getGameStatus() == GameStatus.NETWORK){
-        		paintMessage("Multiplayer", g);
+        		if(netstat == NetworkStatus.COOP)
+        			paintMessage("Co-Op", g);
+        		else if(netstat == NetworkStatus.DEATH)
+        			paintMessage("Deathmatch", g);
+        		else
+        			paintMessage("Multiplayer", g);
         	}
         	else if(getGameStatus() == GameStatus.MAINMENU)
         	{
@@ -507,8 +526,6 @@ public void initMenu(){
 		buttonnextmap.setVisible(true);
 		buttonnextmap.setBounds(buttonPosX,buttonPosY,    200,30);
 		buttonnewgame.setBounds(buttonPosX,buttonPosY+40, 200,30);
-	//	buttonNetwork.setBounds(buttonPosX, buttonPosY+80, 200, 30);
-	//	buttonNetwork.setVisible(true);
 		buttoneditor.setBounds(buttonPosX, buttonPosY+80, 200,30);
 		buttonbeenden.setBounds(buttonPosX,buttonPosY+120,200,30);
 	}
@@ -546,9 +563,6 @@ public void Score(Graphics2D g) {
 
 	public void paintMessage(String msg, Graphics g){
 		// Mache Buttons wieder sichtbar
-		//buttonnewgame.setVisible(true);
-		//buttoneditor.setVisible(true);
-		//buttonbeenden.setVisible(true);
 		Font small = new Font("Arial", Font.BOLD, 20);
 		FontMetrics metr = this.getFontMetrics(small);
 
@@ -587,8 +601,22 @@ public void Score(Graphics2D g) {
 			else if("network".equals(action)){
 				initNetwork();
 			}
+			else if("coop".equals(action)){
+				netstat = NetworkStatus.COOP;
+				networkMenu();
+			}
+			else if ("deathmatch".equals(action)){
+				netstat = NetworkStatus.DEATH;
+				networkMenu();
+			}
+			else if("create".equals(action)){
+				// TODO
+			}
+			else if("join".equals(action)){
+				// TODO
+			}
 			else if("back".equals(action)){
-				backMainMenu();
+				backMenu();
 			}
 			else if("editor".equals(action))
 				initEditor();
@@ -612,18 +640,39 @@ public void Score(Graphics2D g) {
 		buttonCoop.setBounds(buttonPosX,buttonPosY+40,	 200,30);
 		buttonBack.setBounds(buttonPosX,buttonPosY+80,	 200,30);
 	}
-
-	public void backMainMenu(){
-		setGameStatus(GameStatus.MAINMENU);
-		buttonnewgame.setVisible(true);
-		buttonnextmap.setVisible(true);
-		buttonNetwork.setVisible(true);
-		buttoneditor.setVisible(true);
-		buttonbeenden.setVisible(true);
-		buttonBack.setVisible(false);
+	
+	public void networkMenu(){
 		buttonDeathmatch.setVisible(false);
 		buttonCoop.setVisible(false);
+		buttonCreate.setBounds(buttonPosX,buttonPosY,   200,30);
+		buttonJoin.setBounds(buttonPosX,buttonPosY+40,	 200,30);
+		buttonCreate.setVisible(true);
+		buttonJoin.setVisible(true);
 	}
+
+	public void backMenu(){
+		if((netstat == NetworkStatus.COOP) || (netstat == NetworkStatus.DEATH)){
+			netstat = NetworkStatus.NONE;
+			buttonBack.setVisible(true);
+			buttonDeathmatch.setVisible(true);
+			buttonCoop.setVisible(true);
+			buttonCreate.setVisible(false);
+			buttonJoin.setVisible(false);
+		} else {
+			setGameStatus(GameStatus.MAINMENU);
+			buttonnewgame.setVisible(true);
+			buttonnextmap.setVisible(true);
+			buttonNetwork.setVisible(true);
+			buttoneditor.setVisible(true);
+			buttonbeenden.setVisible(true);
+			buttonBack.setVisible(false);
+			buttonDeathmatch.setVisible(false);
+			buttonCoop.setVisible(false);
+		}
+	}
+	
+	
+	
 	private void executeEnemyActions(){
 		Entities testent = null;	//durch alle Entitys der Liste iterieren
 		Monster testmonster = null;
