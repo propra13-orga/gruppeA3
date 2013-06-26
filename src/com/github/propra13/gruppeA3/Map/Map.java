@@ -220,7 +220,7 @@ public class Map {
 			Link link = new Link(i, targetRooms, targetFields, bidirectional, ! halfLinks[i][0].isActivated());
 			
 			//Mitteilung an Map-Editor
-			if (MenuStart.gameStatus == MenuStart.GameStatus.EDITOR)
+			if (MenuStart.getGameStatus() == MenuStart.GameStatus.EDITOR)
 				Editor.editor.notify(link);
 			
 			//Setzt ganze Links auf Felder
@@ -275,7 +275,7 @@ public class Map {
 			triggerField.trigger = new Checkpoint(triggerField, checkpointLink);
 			
 			//Mitteilung an Map-Editor
-			if (MenuStart.gameStatus == MenuStart.GameStatus.EDITOR)
+			if (MenuStart.getGameStatus() == MenuStart.GameStatus.EDITOR)
 				Editor.editor.notify(triggerField.trigger);
 		}
 	}

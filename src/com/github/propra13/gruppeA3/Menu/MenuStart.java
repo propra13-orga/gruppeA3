@@ -61,12 +61,14 @@ public class MenuStart extends JPanel implements ActionListener {
 	private JButton buttonbeenden;
 	private JButton buttoneditor;
 	private JButton buttonBack;
+	private JButton buttonDeathmatch;
+	private JButton buttonCoop;
 	private int buttonPosX;
 	private int buttonPosY;
     
 	// Status, in dem sich das Spiel befindet
-    public static enum GameStatus {INGAME,MAINMENU,EDITOR,GAMEWON,GAMEOVER,MAPWON}
-    public static GameStatus gameStatus;
+    public static enum GameStatus {INGAME, MAINMENU, EDITOR, GAMEWON, GAMEOVER, MAPWON, NETWORK}
+    private static GameStatus gameStatus;
 	
     // Zähler, welche Map die jeweils nächste ist
 	private static int nextMap = 1;
@@ -86,7 +88,7 @@ public class MenuStart extends JPanel implements ActionListener {
         setSize(GameMinSizeX, GameMinSizeY);
         setDoubleBuffered(true);
         
-        gameStatus = GameStatus.MAINMENU; //wichtig für den ersten Spiel aufruf
+        setGameStatus(GameStatus.MAINMENU); //wichtig für den ersten Spiel aufruf
         timer = new Timer(delay, this);
         timer.start();
         
@@ -98,6 +100,8 @@ public class MenuStart extends JPanel implements ActionListener {
      	buttoneditor = new JButton("Karteneditor");
      	buttonBack = new JButton("Zurück");
      	buttonbeenden = new JButton("Beenden");
+     	buttonDeathmatch = new JButton("Deathmatch");
+     	buttonCoop = new JButton("Co-Op");
      	
      	// benenne Aktionen
     	buttonnewgame.setActionCommand("newgame");
@@ -106,6 +110,8 @@ public class MenuStart extends JPanel implements ActionListener {
     	buttoneditor.setActionCommand("editor");
     	buttonBack.setActionCommand("back");
     	buttonbeenden.setActionCommand("exit");
+    	buttonDeathmatch.setActionCommand("deathmatch");
+    	buttonCoop.setActionCommand("coop");
     	
     	// ActionListener hinzufügen
     	buttonnewgame.addActionListener(this);
@@ -114,6 +120,8 @@ public class MenuStart extends JPanel implements ActionListener {
     	buttoneditor.addActionListener(this);
     	buttonBack.addActionListener(this);
     	buttonbeenden.addActionListener(this);
+    	buttonDeathmatch.addActionListener(this);
+    	buttonCoop.addActionListener(this);
     	
     	// füge Buttons zum Panel hinzu
     	add(buttonnewgame);
@@ -122,6 +130,8 @@ public class MenuStart extends JPanel implements ActionListener {
     	add(buttoneditor);
     	add(buttonBack);
     	add(buttonbeenden);
+    	add(buttonDeathmatch);
+    	add(buttonCoop);
      	initMenu();
     }
     
@@ -129,7 +139,7 @@ public class MenuStart extends JPanel implements ActionListener {
      * Zeigt Dateiauswahldialog für Karten und startet ggf. den Editor
      */
     private void initEditor() {
-    	gameStatus = GameStatus.EDITOR;
+    	setGameStatus(GameStatus.EDITOR);
  		
  		setVisible(false);
  	    
@@ -153,7 +163,7 @@ public class MenuStart extends JPanel implements ActionListener {
 		
 		// Falls keine Map ausgewählt wurde, mach Menü wieder an
 		else {
-			gameStatus = GameStatus.MAINMENU;
+			setGameStatus(GameStatus.MAINMENU);
 			setVisible(true);
 		}
     }
@@ -191,8 +201,10 @@ public class MenuStart extends JPanel implements ActionListener {
 		buttonNetwork.setVisible(false);
 		buttoneditor.setVisible(false);
 		buttonbeenden.setVisible(false);
+		buttonDeathmatch.setVisible(false);
+		buttonCoop.setVisible(false);
 			
-		gameStatus = GameStatus.INGAME;
+		setGameStatus(GameStatus.INGAME);
  	}
  
  	public static void paintRoom(Graphics2D g2d, Room room, JPanel panel) {
@@ -241,7 +253,7 @@ public class MenuStart extends JPanel implements ActionListener {
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
         
-        if(gameStatus == GameStatus.INGAME)
+        if(getGameStatus() == GameStatus.INGAME)
         {
         	
         paintRoom(g2d, activeRoom, this);
@@ -451,24 +463,27 @@ public class MenuStart extends JPanel implements ActionListener {
         	//Macht Menü sichtbar, positioniert Buttons je nach Spielzustand
         	initMenu();
         	//Hauptmenü
-        	if(gameStatus == GameStatus.MAINMENU)
+        	if (getGameStatus() == GameStatus.NETWORK){
+        		paintMessage("Multiplayer", g);
+        	}
+        	else if(getGameStatus() == GameStatus.MAINMENU)
         	{
         		paintMessage("Hauptmenü",g);
         	}
         	// Spiel gewonnen
-        	else if(gameStatus == GameStatus.GAMEWON && timer.isRunning())
+        	else if(getGameStatus() == GameStatus.GAMEWON && timer.isRunning())
         	{
         		setBackground(Color.BLACK);
         		paintMessage("Spiel gewonnen!",g);
         		
         	}
         	// Karte gewonnen, der Spieler kann in die nächste eintreten oder von vorn beginnen
-        	else if(gameStatus == GameStatus.MAPWON && timer.isRunning()) {
+        	else if(getGameStatus() == GameStatus.MAPWON && timer.isRunning()) {
         		setBackground(Color.BLACK);
         		paintMessage("Karte gemeistert!",g);
         	}
         	// Game Over, Spieler gestorben
-        	else if(gameStatus == GameStatus.GAMEOVER && timer.isRunning())
+        	else if(getGameStatus() == GameStatus.GAMEOVER && timer.isRunning())
         	{
         		setBackground(Color.BLACK);
         		paintMessage("Game Over",g);
@@ -492,10 +507,10 @@ public void initMenu(){
 		buttonnextmap.setVisible(true);
 		buttonnextmap.setBounds(buttonPosX,buttonPosY,    200,30);
 		buttonnewgame.setBounds(buttonPosX,buttonPosY+40, 200,30);
-		buttonNetwork.setBounds(buttonPosX, buttonPosY+80, 200, 30);
+	//	buttonNetwork.setBounds(buttonPosX, buttonPosY+80, 200, 30);
 	//	buttonNetwork.setVisible(true);
-		buttoneditor.setBounds(buttonPosX, buttonPosY+120, 200,30);
-		buttonbeenden.setBounds(buttonPosX,buttonPosY+160,200,30);
+		buttoneditor.setBounds(buttonPosX, buttonPosY+80, 200,30);
+		buttonbeenden.setBounds(buttonPosX,buttonPosY+120,200,30);
 	}
 	// Ansonsten normales Hauptmenü anzeigen
 	else {
@@ -531,9 +546,9 @@ public void Score(Graphics2D g) {
 
 	public void paintMessage(String msg, Graphics g){
 		// Mache Buttons wieder sichtbar
-		buttonnewgame.setVisible(true);
-		buttoneditor.setVisible(true);
-		buttonbeenden.setVisible(true);
+		//buttonnewgame.setVisible(true);
+		//buttoneditor.setVisible(true);
+		//buttonbeenden.setVisible(true);
 		Font small = new Font("Arial", Font.BOLD, 20);
 		FontMetrics metr = this.getFontMetrics(small);
 
@@ -547,7 +562,7 @@ public void Score(Graphics2D g) {
 	public void actionPerformed(ActionEvent e) {
 		
 		// Tasks für Timer in dieser if-condition eintragen
-		if(gameStatus == GameStatus.INGAME) {
+		if(getGameStatus() == GameStatus.INGAME) {
 			player.move();
 			executeEnemyActions();
 			activeRoom.removeEntities();
@@ -569,6 +584,12 @@ public void Score(Graphics2D g) {
 				else
 					initGame("Story"+nextMap, "level"+nextMap);
 			}
+			else if("network".equals(action)){
+				initNetwork();
+			}
+			else if("back".equals(action)){
+				backMainMenu();
+			}
 			else if("editor".equals(action))
 				initEditor();
 			else if("exit".equals(action)) 
@@ -576,7 +597,33 @@ public void Score(Graphics2D g) {
 		}
 		repaint();
 	}
+	
+	public void initNetwork(){
+		setGameStatus(GameStatus.NETWORK);
+		buttonnewgame.setVisible(false);
+		buttonnextmap.setVisible(false);
+		buttonNetwork.setVisible(false);
+		buttoneditor.setVisible(false);
+		buttonbeenden.setVisible(false);
+		buttonBack.setVisible(true);
+		buttonDeathmatch.setVisible(true);
+		buttonCoop.setVisible(true);
+		buttonDeathmatch.setBounds(buttonPosX,buttonPosY,   200,30);
+		buttonCoop.setBounds(buttonPosX,buttonPosY+40,	 200,30);
+		buttonBack.setBounds(buttonPosX,buttonPosY+80,	 200,30);
+	}
 
+	public void backMainMenu(){
+		setGameStatus(GameStatus.MAINMENU);
+		buttonnewgame.setVisible(true);
+		buttonnextmap.setVisible(true);
+		buttonNetwork.setVisible(true);
+		buttoneditor.setVisible(true);
+		buttonbeenden.setVisible(true);
+		buttonBack.setVisible(false);
+		buttonDeathmatch.setVisible(false);
+		buttonCoop.setVisible(false);
+	}
 	private void executeEnemyActions(){
 		Entities testent = null;	//durch alle Entitys der Liste iterieren
 		Monster testmonster = null;
@@ -707,7 +754,7 @@ public void Score(Graphics2D g) {
 	/** Wird von Player aufgerufen, wenn der Spieler stirbt
 	 */
 	public static void death() {
-		gameStatus = GameStatus.GAMEOVER;
+		setGameStatus(GameStatus.GAMEOVER);
 		nextMap = 1; // Reset des Spiels
 	}
 	
@@ -717,9 +764,9 @@ public void Score(Graphics2D g) {
 	public static void winMap() {
 		nextMap++; 
 		if (nextMap > 3) //3: Anzahl der Maps, die wir derzeit haben
-			gameStatus = GameStatus.GAMEWON;
+			setGameStatus(GameStatus.GAMEWON);
 		else
-			gameStatus = GameStatus.MAPWON;
+			setGameStatus(GameStatus.MAPWON);
 	}
 	
 	private void executeTalk(){
@@ -781,5 +828,13 @@ public void Score(Graphics2D g) {
 				}
 			}
 		}
+	}
+
+	public static GameStatus getGameStatus() {
+		return gameStatus;
+	}
+
+	public static void setGameStatus(GameStatus gameStatus) {
+		MenuStart.gameStatus = gameStatus;
 	}
 }

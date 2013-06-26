@@ -1,9 +1,5 @@
 package com.github.propra13.gruppeA3.XMLParser;
 
-import java.io.File;
-
-import com.github.propra13.gruppeA3.Map.Map;
-
 /** 
  * @author Majida Dere
  * Mit einen so genannten Handler kann spezifiziert werden, was beim Auftreten von bestimmten 
