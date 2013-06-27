@@ -32,14 +32,13 @@ public class Protocol {
      * Dieser Konstruktor erzeugt ein Protokoll für den Client/Server mit einem vorgegebenen Socket
      * @param socket Die Verbindung zwischen Server und Client
      */
-	public Protocol(Socket socket) {
+	public Protocol(Socket socket) throws IOException {
+		System.out.println(socket.toString());
+		
+		this.in = new DataInputStream(socket.getInputStream());
+		this.out = new DataOutputStream(socket.getOutputStream());
 		this.socket = socket;
-		try {
-			this.in = new DataInputStream(socket.getInputStream());
-			this.out = new DataOutputStream(socket.getOutputStream());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		
 	}
 	
 	/**

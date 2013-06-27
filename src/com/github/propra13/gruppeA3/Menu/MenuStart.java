@@ -54,12 +54,24 @@ public class MenuStart extends JPanel implements ActionListener {
     public static final int delay = 17;
     public Graphics2D g2d;
     
-    // Menüelemente
-	private JButton buttonnewgame;
-	private JButton buttonnextmap;
+    /**
+     *  Menüelemente
+     *  	buttonNewGame:
+     *  	buttonNextMap:
+     *  	buttonNetwork: Öffnet die Netzwerk Modi
+     *  	buttonBeenden:
+     *  	buttonEditor:
+     *  	buttonBack: Sorgt dafür, dass man eine Einstellung zurück geht
+     *  	buttonDeathmatch: Öffnet das Deathmatch menü
+     *  	buttonCoop: Öffnet das Co-Op Menü
+     *  	buttonJoin: Betritt ein offenes Netzwerk Spiel (Deathmatch, Co-Op)
+     *  	buttonCreate: öffnet ein neues Netzwerk Spiel (Deathmatch, Co-Op)
+     */
+	private JButton buttonNewGame;
+	private JButton buttonNextMap;
 	private JButton buttonNetwork;
-	private JButton buttonbeenden;
-	private JButton buttoneditor;
+	private JButton buttonBeenden;
+	private JButton buttonEditor;
 	private JButton buttonBack;
 	private JButton buttonDeathmatch;
 	private JButton buttonCoop;
@@ -68,7 +80,15 @@ public class MenuStart extends JPanel implements ActionListener {
 	private int buttonPosX;
 	private int buttonPosY;
     
-	// Status, in dem sich das Spiel befindet
+	/**
+	 *  Status in denen sich das Spiel/Menü befindet
+	 *  	GameStatus:
+	 *  	NetworkStatus: Aufzählungstyp für die Netzwerk Modi
+	 *  	gameStatus:
+	 *  	netstat: Kann einen Wert von NetworkStatus annehmen, wird für den Back Button benötigt 
+	 *  			 und um zu entscheiden, welcher Spielmodus gerade geöffnet wurde
+	 *
+	 */
     public static enum GameStatus {INGAME, MAINMENU, EDITOR, GAMEWON, GAMEOVER, MAPWON, NETWORK}
     public static enum NetworkStatus {NONE, DEATH, COOP}
     private static GameStatus gameStatus;
@@ -82,7 +102,18 @@ public class MenuStart extends JPanel implements ActionListener {
 	public static int score;
 	Font smallfont = new Font("Helvetica", Font.BOLD, 14);
 	
+	/**
+	 * Netzwerkinformationen
+	 * 		name: Name des Spielers
+	 * 		host: Host/IP des Creaters
+	 * 		port: Der Port auf dem gelauscht wird
+	 */
+	private String name, host;
+	private int port;
 	
+	/**
+	 * 
+	 */
     public MenuStart() {
     			
     	setLayout(null);
@@ -98,48 +129,48 @@ public class MenuStart extends JPanel implements ActionListener {
         
         
         // Menü vorbereiten
-     	buttonnewgame = new JButton("Neues Spiel");
-     	buttonnextmap = new JButton("Nächste Karte");
+     	buttonNewGame = new JButton("Neues Spiel");
+     	buttonNextMap = new JButton("Nächste Karte");
      	buttonNetwork = new JButton("Multiplayer");
-     	buttoneditor = new JButton("Karteneditor");
+     	buttonEditor = new JButton("Karteneditor");
      	buttonBack = new JButton("Zurück");
-     	buttonbeenden = new JButton("Beenden");
+     	buttonBeenden = new JButton("Beenden");
      	buttonDeathmatch = new JButton("Deathmatch");
      	buttonCoop = new JButton("Co-Op");
      	buttonCreate = new JButton("Spiel erzeugen");
      	buttonJoin = new JButton("Spiel beitreten");
      	
      	// benenne Aktionen
-    	buttonnewgame.setActionCommand("newgame");
-    	buttonnextmap.setActionCommand("nextmap");
+    	buttonNewGame.setActionCommand("newgame");
+    	buttonNextMap.setActionCommand("nextmap");
     	buttonNetwork.setActionCommand("network");
-    	buttoneditor.setActionCommand("editor");
+    	buttonEditor.setActionCommand("editor");
     	buttonBack.setActionCommand("back");
-    	buttonbeenden.setActionCommand("exit");
+    	buttonBeenden.setActionCommand("exit");
     	buttonDeathmatch.setActionCommand("deathmatch");
     	buttonCoop.setActionCommand("coop");
     	buttonCreate.setActionCommand("create");
     	buttonJoin.setActionCommand("join");
     	
     	// ActionListener hinzufügen
-    	buttonnewgame.addActionListener(this);
-    	buttonnextmap.addActionListener(this);
+    	buttonNewGame.addActionListener(this);
+    	buttonNextMap.addActionListener(this);
     	buttonNetwork.addActionListener(this);
-    	buttoneditor.addActionListener(this);
+    	buttonEditor.addActionListener(this);
     	buttonBack.addActionListener(this);
-    	buttonbeenden.addActionListener(this);
+    	buttonBeenden.addActionListener(this);
     	buttonDeathmatch.addActionListener(this);
     	buttonCoop.addActionListener(this);
     	buttonCreate.addActionListener(this);
     	buttonJoin.addActionListener(this);
     	
     	// füge Buttons zum Panel hinzu
-    	add(buttonnewgame);
-    	add(buttonnextmap);
+    	add(buttonNewGame);
+    	add(buttonNextMap);
     	add(buttonNetwork);
-    	add(buttoneditor);
+    	add(buttonEditor);
     	add(buttonBack);
-    	add(buttonbeenden);
+    	add(buttonBeenden);
     	add(buttonDeathmatch);
     	add(buttonCoop);
     	add(buttonCreate);
@@ -208,11 +239,11 @@ public class MenuStart extends JPanel implements ActionListener {
 		
 		
 		// Menü-Buttons ausblenden, Status ändern
-		buttonnewgame.setVisible(false);
-		buttonnextmap.setVisible(false);
+		buttonNewGame.setVisible(false);
+		buttonNextMap.setVisible(false);
 		buttonNetwork.setVisible(false);
-		buttoneditor.setVisible(false);
-		buttonbeenden.setVisible(false);
+		buttonEditor.setVisible(false);
+		buttonBeenden.setVisible(false);
 		buttonDeathmatch.setVisible(false);
 		buttonCoop.setVisible(false);
 		buttonCreate.setVisible(false);
@@ -476,15 +507,19 @@ public class MenuStart extends JPanel implements ActionListener {
         {	
         	//Macht Menü sichtbar, positioniert Buttons je nach Spielzustand
         	initMenu();
-        	//Hauptmenü
+        	// Wenn der Multiplayer Button gedrückt wurde, dann soll
         	if (getGameStatus() == GameStatus.NETWORK){
+        		// Co-Op erscheinen, wenn anschließend der Co-Op Button gedrückt wurde
         		if(netstat == NetworkStatus.COOP)
         			paintMessage("Co-Op", g);
+        		// Deathmatch erscheinen, wenn anschließend der Deatchmatch Button gedrückt wurde
         		else if(netstat == NetworkStatus.DEATH)
         			paintMessage("Deathmatch", g);
+        		// Multiplayer erscheinen, da wir im Multiplayer Modus sind
         		else
         			paintMessage("Multiplayer", g);
         	}
+        	//Hauptmenü
         	else if(getGameStatus() == GameStatus.MAINMENU)
         	{
         		paintMessage("Hauptmenü",g);
@@ -523,19 +558,19 @@ public void initMenu(){
 	
 	//Falls schon eine Karte gemeistert wurde, Nächste-Karte-Button anzeigen
 	if(nextMap > 1 && nextMap < 4) {
-		buttonnextmap.setVisible(true);
-		buttonnextmap.setBounds(buttonPosX,buttonPosY,    200,30);
-		buttonnewgame.setBounds(buttonPosX,buttonPosY+40, 200,30);
-		buttoneditor.setBounds(buttonPosX, buttonPosY+80, 200,30);
-		buttonbeenden.setBounds(buttonPosX,buttonPosY+120,200,30);
+		buttonNextMap.setVisible(true);
+		buttonNextMap.setBounds(buttonPosX,buttonPosY,    200,30);
+		buttonNewGame.setBounds(buttonPosX,buttonPosY+40, 200,30);
+		buttonEditor.setBounds(buttonPosX, buttonPosY+80, 200,30);
+		buttonBeenden.setBounds(buttonPosX,buttonPosY+120,200,30);
 	}
 	// Ansonsten normales Hauptmenü anzeigen
 	else {
-		buttonnextmap.setVisible(false);
-		buttonnewgame.setBounds(buttonPosX,buttonPosY,   200,30);
+		buttonNextMap.setVisible(false);
+		buttonNewGame.setBounds(buttonPosX,buttonPosY,   200,30);
 		buttonNetwork.setBounds(buttonPosX, buttonPosY+40,200,30);
-		buttoneditor.setBounds(buttonPosX, buttonPosY+80,200,30);
-		buttonbeenden.setBounds(buttonPosX,buttonPosY+120,200,30);
+		buttonEditor.setBounds(buttonPosX, buttonPosY+80,200,30);
+		buttonBeenden.setBounds(buttonPosX,buttonPosY+120,200,30);
 	}
 }
 
@@ -628,11 +663,11 @@ public void Score(Graphics2D g) {
 	
 	public void initNetwork(){
 		setGameStatus(GameStatus.NETWORK);
-		buttonnewgame.setVisible(false);
-		buttonnextmap.setVisible(false);
+		buttonNewGame.setVisible(false);
+		buttonNextMap.setVisible(false);
 		buttonNetwork.setVisible(false);
-		buttoneditor.setVisible(false);
-		buttonbeenden.setVisible(false);
+		buttonEditor.setVisible(false);
+		buttonBeenden.setVisible(false);
 		buttonBack.setVisible(true);
 		buttonDeathmatch.setVisible(true);
 		buttonCoop.setVisible(true);
@@ -660,11 +695,11 @@ public void Score(Graphics2D g) {
 			buttonJoin.setVisible(false);
 		} else {
 			setGameStatus(GameStatus.MAINMENU);
-			buttonnewgame.setVisible(true);
-			buttonnextmap.setVisible(true);
+			buttonNewGame.setVisible(true);
+			buttonNextMap.setVisible(true);
 			buttonNetwork.setVisible(true);
-			buttoneditor.setVisible(true);
-			buttonbeenden.setVisible(true);
+			buttonEditor.setVisible(true);
+			buttonBeenden.setVisible(true);
 			buttonBack.setVisible(false);
 			buttonDeathmatch.setVisible(false);
 			buttonCoop.setVisible(false);
@@ -885,5 +920,32 @@ public void Score(Graphics2D g) {
 
 	public static void setGameStatus(GameStatus gameStatus) {
 		MenuStart.gameStatus = gameStatus;
+	}
+	
+	/**
+	 * Setzt den Port
+	 * @param port
+	 */
+	public void setPort(int port)
+	{
+		this.port = port;
+	}
+	
+	/**
+	 * Setzt den Namen
+	 * @param name
+	 */
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+	
+	/**
+	 * Setzt die Server IP
+	 * @param ip
+	 */
+	public void setHost(String ip)
+	{
+		this.host = ip;
 	}
 }

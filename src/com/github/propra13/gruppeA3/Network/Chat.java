@@ -77,7 +77,9 @@ public class Chat extends JFrame {
 	
 	public static void main(String[] args) throws UnknownHostException, IOException{
 		ServerSocket server = new ServerSocket(1337);
-		new Chat("Maj1", new Protocol("127.0.0.2", 1337));
-		new Chat("Maj2", new Protocol("127.0.0.3", 1337));
+		new Chat("Maj1", new Protocol("127.0.0.1", 1337));
+		Protocol p1 = new Protocol(server.accept());
+		new Chat("Maj2", new Protocol("127.0.0.1", 1337));
+		Protocol p2 = new Protocol(server.accept());
 	}
 }
