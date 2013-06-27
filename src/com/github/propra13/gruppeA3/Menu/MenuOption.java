@@ -37,7 +37,7 @@ class MenuOption extends JFrame implements ActionListener
 	 */
 	public MenuOption() 
 	{
-        //super("Optionen");
+        super("Server Einstellungen");
         	
         //setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
@@ -45,12 +45,12 @@ class MenuOption extends JFrame implements ActionListener
         JPanel OSouth = new JPanel();
         
         //Buttons
-        JButton Abbrechen = new JButton("Abbrechen");
-        Abbrechen.addActionListener(this);
-        Abbrechen.setActionCommand("Abbrechen");
         JButton OK = new JButton("OK");
         OK.addActionListener(this);
         OK.setActionCommand("OK");
+        JButton Abbrechen = new JButton("Abbrechen");
+        Abbrechen.addActionListener(this);
+        Abbrechen.setActionCommand("Abbrechen");
         
         this.getContentPane().setLayout(new BorderLayout());
         this.getContentPane().add(ONorth, BorderLayout.CENTER);
@@ -60,7 +60,7 @@ class MenuOption extends JFrame implements ActionListener
         IP = new JTextField(SaveIP,20);
         Port = new JTextField(TMPPort,20);
 				
-		ONorth.setLayout(new GridLayout(8,2));
+		ONorth.setLayout(new GridLayout(3,2));
 		ONorth.add( new JLabel("Name:"));
 		ONorth.add(Name);
 		ONorth.add( new JLabel("IP:") );
@@ -69,8 +69,8 @@ class MenuOption extends JFrame implements ActionListener
 		ONorth.add(Port);
 		
 		OSouth.setLayout(new FlowLayout());
-		OSouth.add(Abbrechen);
 		OSouth.add(OK);
+		OSouth.add(Abbrechen);
 		
 	    pack();
 	    setLocationRelativeTo(null);
