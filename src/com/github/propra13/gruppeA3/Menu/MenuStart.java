@@ -65,7 +65,8 @@ public class MenuStart extends JPanel implements ActionListener {
      *  	buttonDeathmatch: Öffnet das Deathmatch menü
      *  	buttonCoop: Öffnet das Co-Op Menü
      *  	buttonJoin: Betritt ein offenes Netzwerk Spiel (Deathmatch, Co-Op)
-     *  	buttonCreate: öffnet ein neues Netzwerk Spiel (Deathmatch, Co-Op)
+     *  	buttonCreate: Öffnet ein neues Netzwerk Spiel (Deathmatch, Co-Op)
+     *		buttonOptions: Öffnet ein Fenster mit Optionen für das Netzwerkspiel
      */
 	private JButton buttonNewGame;
 	private JButton buttonNextMap;
@@ -77,6 +78,7 @@ public class MenuStart extends JPanel implements ActionListener {
 	private JButton buttonCoop;
 	private JButton buttonJoin;
 	private JButton buttonCreate;
+	private JButton buttonOptions;
 	private int buttonPosX;
 	private int buttonPosY;
     
@@ -108,8 +110,8 @@ public class MenuStart extends JPanel implements ActionListener {
 	 * 		host: Host/IP des Creaters
 	 * 		port: Der Port auf dem gelauscht wird
 	 */
-	private String name, host;
-	private int port;
+	private String name="Player1", host="localhost";
+	private int port=1337;
 	
 	/**
 	 * 
@@ -139,6 +141,7 @@ public class MenuStart extends JPanel implements ActionListener {
      	buttonCoop = new JButton("Co-Op");
      	buttonCreate = new JButton("Spiel erzeugen");
      	buttonJoin = new JButton("Spiel beitreten");
+     	buttonOptions = new JButton("Einstellungen");
      	
      	// benenne Aktionen
     	buttonNewGame.setActionCommand("newgame");
@@ -151,6 +154,7 @@ public class MenuStart extends JPanel implements ActionListener {
     	buttonCoop.setActionCommand("coop");
     	buttonCreate.setActionCommand("create");
     	buttonJoin.setActionCommand("join");
+    	buttonOptions.setActionCommand("options");
     	
     	// ActionListener hinzufügen
     	buttonNewGame.addActionListener(this);
@@ -163,6 +167,7 @@ public class MenuStart extends JPanel implements ActionListener {
     	buttonCoop.addActionListener(this);
     	buttonCreate.addActionListener(this);
     	buttonJoin.addActionListener(this);
+    	buttonOptions.addActionListener(this);
     	
     	// füge Buttons zum Panel hinzu
     	add(buttonNewGame);
@@ -175,6 +180,7 @@ public class MenuStart extends JPanel implements ActionListener {
     	add(buttonCoop);
     	add(buttonCreate);
     	add(buttonJoin);
+    	add(buttonOptions);
      	initMenu();
     }
     
@@ -248,6 +254,7 @@ public class MenuStart extends JPanel implements ActionListener {
 		buttonCoop.setVisible(false);
 		buttonCreate.setVisible(false);
 		buttonJoin.setVisible(false);
+		buttonOptions.setVisible(false);
 			
 		setGameStatus(GameStatus.INGAME);
  	}
@@ -653,6 +660,9 @@ public void Score(Graphics2D g) {
 			else if("back".equals(action)){
 				backMenu();
 			}
+			else if("options".equals(action)){
+				new MenuOption(this);
+			}
 			else if("editor".equals(action))
 				initEditor();
 			else if("exit".equals(action)) 
@@ -671,14 +681,17 @@ public void Score(Graphics2D g) {
 		buttonBack.setVisible(true);
 		buttonDeathmatch.setVisible(true);
 		buttonCoop.setVisible(true);
+		buttonOptions.setVisible(true);
 		buttonDeathmatch.setBounds(buttonPosX,buttonPosY,   200,30);
 		buttonCoop.setBounds(buttonPosX,buttonPosY+40,	 200,30);
-		buttonBack.setBounds(buttonPosX,buttonPosY+80,	 200,30);
+		buttonOptions.setBounds(buttonPosX,buttonPosY+80,	 200,30);
+		buttonBack.setBounds(buttonPosX,buttonPosY+120,200,30);
 	}
 	
 	public void networkMenu(){
 		buttonDeathmatch.setVisible(false);
 		buttonCoop.setVisible(false);
+		buttonOptions.setVisible(false);
 		buttonCreate.setBounds(buttonPosX,buttonPosY,   200,30);
 		buttonJoin.setBounds(buttonPosX,buttonPosY+40,	 200,30);
 		buttonCreate.setVisible(true);
@@ -691,6 +704,7 @@ public void Score(Graphics2D g) {
 			buttonBack.setVisible(true);
 			buttonDeathmatch.setVisible(true);
 			buttonCoop.setVisible(true);
+			buttonOptions.setVisible(true);
 			buttonCreate.setVisible(false);
 			buttonJoin.setVisible(false);
 		} else {
@@ -703,6 +717,7 @@ public void Score(Graphics2D g) {
 			buttonBack.setVisible(false);
 			buttonDeathmatch.setVisible(false);
 			buttonCoop.setVisible(false);
+			buttonOptions.setVisible(false);
 		}
 	}
 	
@@ -932,6 +947,14 @@ public void Score(Graphics2D g) {
 	}
 	
 	/**
+	 * Liefert den aktuell genutzten Port
+	 * @return port
+	 */
+	public int getPort(){
+		return this.port;
+	}
+	
+	/**
 	 * Setzt den Namen
 	 * @param name
 	 */
@@ -941,11 +964,27 @@ public void Score(Graphics2D g) {
 	}
 	
 	/**
+	 * Liefert den aktuell genutzten Namen
+	 * @return name
+	 */
+	public String getName(){
+		return this.name;
+	}
+	
+	/**
 	 * Setzt die Server IP
 	 * @param ip
 	 */
 	public void setHost(String ip)
 	{
 		this.host = ip;
+	}
+	
+	/**
+	 * Liefert die aktuell genutzte Server IP
+	 * @return host
+	 */
+	public String getHost(){
+		return this.host;
 	}
 }
