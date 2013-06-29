@@ -31,6 +31,8 @@ import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
 import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Map.Position;
 import com.github.propra13.gruppeA3.Map.Room;
+import com.github.propra13.gruppeA3.Network.Client;
+import com.github.propra13.gruppeA3.Network.Server;
 import com.github.propra13.gruppeA3.XMLParser.SAXCrawlerReader;
 
 
@@ -517,10 +519,10 @@ public class MenuStart extends JPanel implements ActionListener {
         	// Wenn der Multiplayer Button gedrückt wurde, dann soll
         	if (getGameStatus() == GameStatus.NETWORK){
         		// Co-Op erscheinen, wenn anschließend der Co-Op Button gedrückt wurde
-        		if(netstat == NetworkStatus.COOP)
+        		if(getNetstat() == NetworkStatus.COOP)
         			paintMessage("Co-Op", g);
         		// Deathmatch erscheinen, wenn anschließend der Deatchmatch Button gedrückt wurde
-        		else if(netstat == NetworkStatus.DEATH)
+        		else if(getNetstat() == NetworkStatus.DEATH)
         			paintMessage("Deathmatch", g);
         		// Multiplayer erscheinen, da wir im Multiplayer Modus sind
         		else
@@ -644,18 +646,19 @@ public void Score(Graphics2D g) {
 				initNetwork();
 			}
 			else if("coop".equals(action)){
-				netstat = NetworkStatus.COOP;
+				setNetstat(NetworkStatus.COOP);
 				networkMenu();
 			}
 			else if ("deathmatch".equals(action)){
-				netstat = NetworkStatus.DEATH;
+				setNetstat(NetworkStatus.DEATH);
 				networkMenu();
 			}
 			else if("create".equals(action)){
-				// TODO
+				new Server(this.getPort());
+				new Client(this, MenuStart.getNetstat());
 			}
 			else if("join".equals(action)){
-				// TODO
+				new Client(this, MenuStart.getNetstat());
 			}
 			else if("back".equals(action)){
 				backMenu();
@@ -694,14 +697,16 @@ public void Score(Graphics2D g) {
 		buttonOptions.setVisible(false);
 		buttonCreate.setBounds(buttonPosX,buttonPosY,   200,30);
 		buttonJoin.setBounds(buttonPosX,buttonPosY+40,	 200,30);
+		buttonBack.setBounds(buttonPosX,buttonPosY+80,200,30);
 		buttonCreate.setVisible(true);
 		buttonJoin.setVisible(true);
 	}
 
 	public void backMenu(){
-		if((netstat == NetworkStatus.COOP) || (netstat == NetworkStatus.DEATH)){
-			netstat = NetworkStatus.NONE;
+		if((getNetstat() == NetworkStatus.COOP) || (getNetstat() == NetworkStatus.DEATH)){
+			setNetstat(NetworkStatus.NONE);
 			buttonBack.setVisible(true);
+			buttonBack.setBounds(buttonPosX,buttonPosY+120,200,30);
 			buttonDeathmatch.setVisible(true);
 			buttonCoop.setVisible(true);
 			buttonOptions.setVisible(true);
@@ -986,5 +991,13 @@ public void Score(Graphics2D g) {
 	 */
 	public String getHost(){
 		return this.host;
+	}
+
+	public static NetworkStatus getNetstat() {
+		return netstat;
+	}
+
+	public static void setNetstat(NetworkStatus netstat) {
+		MenuStart.netstat = netstat;
 	}
 }

@@ -68,7 +68,6 @@ public class Chat extends JFrame {
 		chatWindow.setEditable(false);
 		getContentPane().add(new JScrollPane(chatWindow));
 		setSize(300,250);
-		setVisible(true);
 	}
 
 	public void setProtocol(Protocol p){
