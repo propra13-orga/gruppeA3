@@ -20,8 +20,8 @@ public class Server extends Thread {
 	public Server(int port) {
 		System.out.println("Starte Server...");
 		try {
-			this.server = new ServerSocket(port); // Port zuerst uebergeben
-			//System.out.println("Warte auf "+laenge+". Spieler...");
+			this.server = new ServerSocket(port); 
+			System.out.println("Server gestartet");
 		}catch ( IOException e ) {
 		      e.printStackTrace();
 	    }

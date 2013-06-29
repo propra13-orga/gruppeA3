@@ -114,6 +114,7 @@ public class Protocol {
      * @throws IOException
      */
     public void sendPosition(Position pos) throws IOException{
+    	sendString("position");
     	this.out.writeInt(pos.x);
     	this.out.writeInt(pos.y);
     }
@@ -135,6 +136,7 @@ public class Protocol {
      * @throws IOException
      */
     public void sendHitbox(Hitbox hitbox) throws IOException{
+    	sendString("hitbox");
     	this.out.writeInt(hitbox.width);
     	this.out.writeInt(hitbox.height);
     }
@@ -156,6 +158,7 @@ public class Protocol {
      * @throws IOException
      */
     public void sendItem(Item item) throws IOException{
+    	sendString("item");
     	this.out.writeInt(item.getPosition().x);
     	this.out.writeInt(item.getPosition().y);
     	this.out.writeInt(item.getDamage());
@@ -175,5 +178,4 @@ public class Protocol {
     	int value = this.in.readInt();
 		return new Item(damage, type, x, y, desc, name, value);
     }
-
 }
