@@ -24,13 +24,15 @@ public class Editor extends JTabbedPane {
 	
 	public static Editor editor;
 	
+	//Subfenster
 	protected LinkWindow linkEditor;
+	protected WarningWindow warning;
 	
 	/** Falls der nächste Klick ein aus einem Dialog hervorgegangener
 	 *  spezieller Auswahlklick ist (zB für den Link-Dialog)
 	 */
 	public enum ChooseClickType {LINK,CHECKPOINTFIELD,CHECKPOINTLINK,NONE}
-	public ChooseClickType chooseClick;
+	public ChooseClickType chooseClick=ChooseClickType.NONE;
 	
 	private String mapName;
 	@SuppressWarnings("unused")
@@ -47,7 +49,9 @@ public class Editor extends JTabbedPane {
 		
 		editor = this;
 		this.mapName = mapName;
+		
 		linkEditor = new LinkWindow();
+		warning = new WarningWindow();
 		
 		// init Map
 		try {

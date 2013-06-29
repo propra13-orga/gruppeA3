@@ -5,6 +5,9 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,7 +17,9 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -58,11 +63,13 @@ public class MenuStart extends JPanel implements ActionListener {
     
     /**
      *  Menüelemente
-     *  	buttonNewGame:
-     *  	buttonNextMap:
+     *  	buttonNewGame: Startet ein neues Spiel
+     *  	buttonNextMap: Startet die nächste Karte
      *  	buttonNetwork: Öffnet die Netzwerk Modi
-     *  	buttonBeenden:
-     *  	buttonEditor:
+     *  	buttonBeenden: Beendet das Spiel
+     *  	buttonHelp: Öffnet die Hilfe
+     *  	buttonHelpOk: Ok-Button im Hilfe-Fenster
+     *  	buttonEditor: Startet den Map-Editor
      *  	buttonBack: Sorgt dafür, dass man eine Einstellung zurück geht
      *  	buttonDeathmatch: Öffnet das Deathmatch menü
      *  	buttonCoop: Öffnet das Co-Op Menü
@@ -73,6 +80,8 @@ public class MenuStart extends JPanel implements ActionListener {
 	private JButton buttonNewGame;
 	private JButton buttonNextMap;
 	private JButton buttonNetwork;
+	private JButton buttonHelp;
+	private JButton buttonHelpOk;
 	private JButton buttonBeenden;
 	private JButton buttonEditor;
 	private JButton buttonBack;
@@ -83,6 +92,8 @@ public class MenuStart extends JPanel implements ActionListener {
 	private JButton buttonOptions;
 	private int buttonPosX;
 	private int buttonPosY;
+	
+	private JDialog helpDialog;
     
 	/**
 	 *  Status in denen sich das Spiel/Menü befindet
@@ -137,6 +148,8 @@ public class MenuStart extends JPanel implements ActionListener {
      	buttonNextMap = new JButton("Nächste Karte");
      	buttonNetwork = new JButton("Multiplayer");
      	buttonEditor = new JButton("Karteneditor");
+     	buttonHelp = new JButton("Hilfe");
+     	buttonHelpOk = new JButton("Ok");
      	buttonBack = new JButton("Zurück");
      	buttonBeenden = new JButton("Beenden");
      	buttonDeathmatch = new JButton("Deathmatch");
@@ -162,6 +175,7 @@ public class MenuStart extends JPanel implements ActionListener {
     	buttonNewGame.addActionListener(this);
     	buttonNextMap.addActionListener(this);
     	buttonNetwork.addActionListener(this);
+    	buttonHelp.addActionListener(this);
     	buttonEditor.addActionListener(this);
     	buttonBack.addActionListener(this);
     	buttonBeenden.addActionListener(this);
@@ -175,6 +189,7 @@ public class MenuStart extends JPanel implements ActionListener {
     	add(buttonNewGame);
     	add(buttonNextMap);
     	add(buttonNetwork);
+    	add(buttonHelp);
     	add(buttonEditor);
     	add(buttonBack);
     	add(buttonBeenden);
@@ -250,6 +265,7 @@ public class MenuStart extends JPanel implements ActionListener {
 		buttonNewGame.setVisible(false);
 		buttonNextMap.setVisible(false);
 		buttonNetwork.setVisible(false);
+		buttonHelp.setVisible(false);
 		buttonEditor.setVisible(false);
 		buttonBeenden.setVisible(false);
 		buttonDeathmatch.setVisible(false);
@@ -571,15 +587,17 @@ public void initMenu(){
 		buttonNextMap.setBounds(buttonPosX,buttonPosY,    200,30);
 		buttonNewGame.setBounds(buttonPosX,buttonPosY+40, 200,30);
 		buttonEditor.setBounds(buttonPosX, buttonPosY+80, 200,30);
-		buttonBeenden.setBounds(buttonPosX,buttonPosY+120,200,30);
+		buttonHelp.setBounds(buttonPosX,   buttonPosY+120,200,30);
+		buttonBeenden.setBounds(buttonPosX,buttonPosY+160,200,30);
 	}
 	// Ansonsten normales Hauptmenü anzeigen
 	else {
 		buttonNextMap.setVisible(false);
-		buttonNewGame.setBounds(buttonPosX,buttonPosY,   200,30);
-		buttonNetwork.setBounds(buttonPosX, buttonPosY+40,200,30);
-		buttonEditor.setBounds(buttonPosX, buttonPosY+80,200,30);
-		buttonBeenden.setBounds(buttonPosX,buttonPosY+120,200,30);
+		buttonNewGame.setBounds(buttonPosX,buttonPosY,    200,30);
+		buttonNetwork.setBounds(buttonPosX,buttonPosY+40, 200,30);
+		buttonEditor.setBounds(buttonPosX, buttonPosY+80, 200,30);
+		buttonHelp.setBounds(buttonPosX,   buttonPosY+120,200,30);
+		buttonBeenden.setBounds(buttonPosX,buttonPosY+160,200,30);
 	}
 }
 
@@ -642,6 +660,13 @@ public void Score(Graphics2D g) {
 				else
 					initGame("Story"+nextMap, "level"+nextMap);
 			}
+			
+			//Hilfe
+			else if(e.getSource() == buttonHelp)
+				help();
+			else if(e.getSource() == buttonHelpOk)
+				helpDialog.dispose();
+			
 			else if("network".equals(action)){
 				initNetwork();
 			}
@@ -672,6 +697,52 @@ public void Score(Graphics2D g) {
 				System.exit(0);	// Programm beenden
 		}
 		repaint();
+	}
+	
+	/**
+	 * Provisorischer Hilfe-Dialog
+	 * Wird aufgerufen, wenn "Hilfe" gedrückt wurde; erklärt die Steuerung.
+	 */
+	public void help() {
+		helpDialog = new JDialog();
+		helpDialog.setTitle("Hilfe");
+		helpDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		helpDialog.setModal(true); //macht Hauptfenster unfokussierbar
+		helpDialog.setSize(400,200);
+		GridBagLayout layout = new GridBagLayout();
+		helpDialog.setLayout(layout);
+		helpDialog.setResizable(false);
+		
+		JLabel text = new JLabel(
+				"<html><body>Hallo! Ich bin das provisorische Hilfe-Fenster.<br>" +
+				"Die Steuerung funktioniert wie folgt:<br><br>" +
+				"Pfeiltasten: Bewegung<br>" +
+				"A: Angreifen<br>" +
+				"Tasten 1-4:  Zaubern<br>" +
+				"E: NPCs ansprechen<br><br>" +
+				"Und nun viel Spaß!</body></html>");
+		
+		GridBagConstraints textConstraints = new GridBagConstraints();
+		textConstraints.gridx = 0;
+		textConstraints.gridy = 0;
+		textConstraints.gridheight = textConstraints.gridwidth = 1;
+		textConstraints.fill = GridBagConstraints.HORIZONTAL;
+		textConstraints.weightx = textConstraints.weighty = 1;
+		textConstraints.insets = new Insets(8,8,8,8);
+		
+		GridBagConstraints buttonOkConstr = new GridBagConstraints();
+		buttonOkConstr.gridx = 0;
+		buttonOkConstr.gridy = 1;
+		buttonOkConstr.gridheight = buttonOkConstr.gridwidth = 1;
+		//buttonOkConstr.fill = GridBagConstraints.HORIZONTAL;
+		buttonOkConstr.weightx = buttonOkConstr.weighty = 1;
+		buttonOkConstr.insets = new Insets(2,4,2,4);
+		
+		buttonHelpOk.addActionListener(this);
+		helpDialog.add(buttonHelpOk, buttonOkConstr);
+		helpDialog.add(text, textConstraints);
+		
+		helpDialog.setVisible(true);
 	}
 	
 	public void initNetwork(){

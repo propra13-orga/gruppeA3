@@ -10,6 +10,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+/**
+ * Menü-Tab für den Map-Editor
+ * @author Christian
+ *
+ */
 public class Menu extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	
@@ -137,39 +142,47 @@ public class Menu extends JPanel implements ActionListener {
 	
 	// Button-Aktionen
 	
+	/**Wird aufgerufen, wenn "Neu" gedrückt wurde.*/
 	private void bNewMap() {
 		System.out.println("\"Neu\" gedrückt");
 		
 	}
 
+	/**Wird aufgerufen, wenn "Öffnen" gedrückt wurde.*/
 	private void bOpen() {
 		System.out.println("\"Öffnen\" gedrückt");
 		
 	}
 	
+	/**Wird aufgerufen, wenn "Speichern" gedrückt wurde.*/
 	private void bSave() {
 		System.out.println("\"Speichern\" gedrückt");
 		
 	}
 	
+	/**Wird aufgerufen, wenn "Speichern unter" gedrückt wurde.*/
 	private void bSaveAs() {
 		System.out.println("\"Speichern unter ...\" gedrückt");
 		
 	}
 	
+	/**Wird aufgerufen, wenn "Beenden" gedrückt wurde.*/
 	private void bExit() {
 		System.out.println("\"Beenden\" gedrückt");
 		editor.exit();
 	}
 	
+	/**Wird aufgerufen, wenn "Raum hinzufügen" gedrückt wurde.*/
 	private void bAdd() {
 		System.out.println("\"Raum hinzufügen\" gedrückt");
 	}
 	
+	/**Wird aufgerufen, wenn "Raum verschieben" gedrückt wurde.*/
 	private void bMove() {
 		System.out.println("\"Raum verschieben\" gedrückt");
 	}
 	
+	/**Wird aufgerufen, wenn "Raum löschen" gedrückt wurde.*/
 	private void bDel() {
 		System.out.println("\"Raum löschen\" gedrückt");
 	}
