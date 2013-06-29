@@ -22,6 +22,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 import com.github.propra13.gruppeA3.Game;
@@ -705,39 +706,82 @@ public void Score(Graphics2D g) {
 		helpDialog.setTitle("Hilfe");
 		helpDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		helpDialog.setModal(true); //macht Hauptfenster unfokussierbar
-		helpDialog.setSize(400,200);
+		helpDialog.setSize(400,300);
 		GridBagLayout layout = new GridBagLayout();
 		helpDialog.setLayout(layout);
 		helpDialog.setResizable(false);
 		
-		JLabel text = new JLabel(
-				"<html><body>Hallo! Ich bin das provisorische Hilfe-Fenster.<br>" +
-				"Die Steuerung funktioniert wie folgt:<br><br>" +
-				"Pfeiltasten: Bewegung<br>" +
-				"A: Angreifen<br>" +
-				"Tasten 1-4:  Zaubern<br>" +
-				"E: NPCs ansprechen<br><br>" +
-				"Und nun viel Spaß!</body></html>");
+		JLabel text1 = new JLabel("<html><body>" +
+				"Hallo! Ich bin das provisorische Hilfe-Fenster.<br>" +
+				"Die Steuerung funktioniert wie folgt:<br><br>");
+		text1.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		GridBagConstraints textConstraints = new GridBagConstraints();
-		textConstraints.gridx = 0;
-		textConstraints.gridy = 0;
-		textConstraints.gridheight = textConstraints.gridwidth = 1;
-		textConstraints.fill = GridBagConstraints.HORIZONTAL;
-		textConstraints.weightx = textConstraints.weighty = 1;
-		textConstraints.insets = new Insets(8,8,8,8);
+		JLabel text2 = new JLabel ("<html><body>" +
+				"Pfeiltasten:<br>" +
+				"A:<br>" +
+				"Tasten 1-4:<br>" +
+				"E:<br><br>" +
+				"</body></html>");
+		
+		JLabel text3 = new JLabel ("<html><body>" +
+				"Bewegung<br>" +
+				"Angreifen<br>" +
+				"Zaubern<br>" +
+				"NPCs ansprechen<br><br>" +
+				"</body></html>");
+		
+		JLabel text4 = new JLabel ("Und nun viel Spaß!");
+		text4.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		GridBagConstraints text1Constraints = new GridBagConstraints();
+		text1Constraints.gridx = 0;
+		text1Constraints.gridy = 0;
+		text1Constraints.gridheight = 1;
+		text1Constraints.gridwidth = 2;
+		text1Constraints.fill = GridBagConstraints.HORIZONTAL;
+		text1Constraints.weightx = text1Constraints.weighty = 1;
+		text1Constraints.insets = new Insets(8,8,8,8);
+		
+		GridBagConstraints text2Constraints = new GridBagConstraints();
+		text2Constraints.gridx = 0;
+		text2Constraints.gridy = 1;
+		text2Constraints.gridheight = text2Constraints.gridwidth = 1;
+		text2Constraints.fill = GridBagConstraints.HORIZONTAL;
+		text2Constraints.weightx = text2Constraints.weighty = 1;
+		text2Constraints.insets = new Insets(8,40,8,8);
+		
+		GridBagConstraints text3Constraints = new GridBagConstraints();
+		text3Constraints.gridx = 1;
+		text3Constraints.gridy = 1;
+		text3Constraints.gridheight = text3Constraints.gridwidth = 1;
+		text3Constraints.fill = GridBagConstraints.HORIZONTAL;
+		text3Constraints.weightx = 2;
+		text3Constraints.weighty = 1;
+		text3Constraints.insets = new Insets(8,0,8,8);
+		
+		GridBagConstraints text4Constraints = new GridBagConstraints();
+		text4Constraints.gridx = 0;
+		text4Constraints.gridy = 2;
+		text4Constraints.gridheight = 1;
+		text4Constraints.gridwidth = 2;
+		text4Constraints.fill = GridBagConstraints.HORIZONTAL;
+		text4Constraints.weightx = text4Constraints.weighty = 1;
+		text4Constraints.insets = new Insets(8,8,8,8);
 		
 		GridBagConstraints buttonOkConstr = new GridBagConstraints();
 		buttonOkConstr.gridx = 0;
-		buttonOkConstr.gridy = 1;
-		buttonOkConstr.gridheight = buttonOkConstr.gridwidth = 1;
-		//buttonOkConstr.fill = GridBagConstraints.HORIZONTAL;
+		buttonOkConstr.gridy = 3;
+		buttonOkConstr.gridheight = 1;
+		buttonOkConstr.gridwidth = 2;
 		buttonOkConstr.weightx = buttonOkConstr.weighty = 1;
 		buttonOkConstr.insets = new Insets(2,4,2,4);
 		
 		buttonHelpOk.addActionListener(this);
 		helpDialog.add(buttonHelpOk, buttonOkConstr);
-		helpDialog.add(text, textConstraints);
+		helpDialog.add(text1, text1Constraints);
+		helpDialog.add(text2, text2Constraints);
+		helpDialog.add(text3, text3Constraints);
+		helpDialog.add(text4, text4Constraints);
 		
 		helpDialog.setVisible(true);
 	}
