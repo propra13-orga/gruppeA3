@@ -795,6 +795,7 @@ public void Score(Graphics2D g) {
 		buttonNextMap.setVisible(false);
 		buttonNetwork.setVisible(false);
 		buttonEditor.setVisible(false);
+		buttonHelp.setVisible(false);
 		buttonBeenden.setVisible(false);
 		buttonBack.setVisible(true);
 		buttonDeathmatch.setVisible(true);
@@ -832,6 +833,7 @@ public void Score(Graphics2D g) {
 			buttonNewGame.setVisible(true);
 			buttonNextMap.setVisible(true);
 			buttonNetwork.setVisible(true);
+			buttonHelp.setVisible(true);
 			buttonEditor.setVisible(true);
 			buttonBeenden.setVisible(true);
 			buttonBack.setVisible(false);

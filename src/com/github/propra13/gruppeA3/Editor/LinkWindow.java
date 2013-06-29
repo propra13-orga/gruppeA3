@@ -43,7 +43,7 @@ public class LinkWindow extends JDialog implements ActionListener {
 	int chooseClickLinkPart = -1;
 	
 	//Buttons, Labels
-	JLabel roomIDA, roomIDB, fieldPosA, fieldPosB;
+	JLabel linkTitle, linkID, roomIDA, roomIDB, fieldPosA, fieldPosB;
 	JButton bDone, bCancel, bDelete, bChangeA, bChangeB;
 	
 	Field affectedField; //Zwischenspeicher für Auswahlklick
@@ -73,12 +73,33 @@ public class LinkWindow extends JDialog implements ActionListener {
 		 * Fensterelemente
 		 */
 		
+		linkTitle = new JLabel("Link-ID:");
+		linkTitle.setHorizontalAlignment(SwingConstants.RIGHT);
+		GridBagConstraints titleConstraints = new GridBagConstraints();
+		titleConstraints.gridx = titleConstraints.gridy = 0;
+		titleConstraints.gridheight = titleConstraints.gridwidth = 1;
+		titleConstraints.fill = GridBagConstraints.HORIZONTAL;
+		titleConstraints.weightx = titleConstraints.weighty = 1;
+		titleConstraints.insets = new Insets(4,4,4,4);
+		add(linkTitle, titleConstraints);
+		
+		linkID = new JLabel();
+		linkID.setHorizontalAlignment(SwingConstants.LEFT);
+		GridBagConstraints idConstraints = new GridBagConstraints();
+		idConstraints.gridx = 1;
+		idConstraints.gridy = 0;
+		idConstraints.gridheight = idConstraints.gridwidth = 1;
+		idConstraints.fill = GridBagConstraints.HORIZONTAL;
+		idConstraints.weightx = idConstraints.weighty = 1;
+		idConstraints.insets = new Insets(4,4,4,4);
+		add(linkID, idConstraints);
+		
 		//Untere Buttons
 		bDone = new JButton("Fertig");
 		bDone.addActionListener(this);
 		GridBagConstraints doneConstraints = new GridBagConstraints();
 		doneConstraints.gridx = 0;
-		doneConstraints.gridy = 6;
+		doneConstraints.gridy = 7;
 		doneConstraints.gridheight = doneConstraints.gridwidth = 1;
 		doneConstraints.fill = GridBagConstraints.HORIZONTAL;
 		doneConstraints.weightx = doneConstraints.weighty = 1;
@@ -89,7 +110,7 @@ public class LinkWindow extends JDialog implements ActionListener {
 		bCancel.addActionListener(this);
 		GridBagConstraints cancelConstraints = new GridBagConstraints();
 		cancelConstraints.gridx = 1;
-		cancelConstraints.gridy = 6;
+		cancelConstraints.gridy = 7;
 		cancelConstraints.gridheight = cancelConstraints.gridwidth = 1;
 		cancelConstraints.fill = GridBagConstraints.HORIZONTAL;
 		cancelConstraints.weightx = cancelConstraints.weighty = 1;
@@ -100,7 +121,7 @@ public class LinkWindow extends JDialog implements ActionListener {
 		bDelete.addActionListener(this);
 		GridBagConstraints deleteConstraints = new GridBagConstraints();
 		deleteConstraints.gridx = 0;
-		deleteConstraints.gridy = 5;
+		deleteConstraints.gridy = 6;
 		deleteConstraints.gridheight = 1;
 		deleteConstraints.gridwidth = 2;
 		deleteConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -122,7 +143,7 @@ public class LinkWindow extends JDialog implements ActionListener {
 		
 		GridBagConstraints constraintsA = new GridBagConstraints();
 		constraintsA.gridx = 0;
-		constraintsA.gridy = 0;
+		constraintsA.gridy = 1;
 		constraintsA.gridwidth = 1;
 		constraintsA.gridheight = 1;
 		constraintsA.weighty = 5;
@@ -142,7 +163,7 @@ public class LinkWindow extends JDialog implements ActionListener {
 		roomAConstraints.gridheight = roomAConstraints.gridwidth = 1;
 		roomAConstraints.fill = GridBagConstraints.HORIZONTAL;
 		roomAConstraints.weightx = roomAConstraints.weighty = 1;
-		roomAConstraints.insets = new Insets(15,10,2,4);
+		roomAConstraints.insets = new Insets(10,10,2,4);
 		panelA.add(roomA, roomAConstraints);
 		
 		roomIDA = new JLabel();
@@ -153,7 +174,7 @@ public class LinkWindow extends JDialog implements ActionListener {
 		roomIDAConstraints.gridheight = roomIDAConstraints.gridwidth = 1;
 		roomIDAConstraints.fill = GridBagConstraints.HORIZONTAL;
 		roomIDAConstraints.weightx = roomIDAConstraints.weighty = 1;
-		roomIDAConstraints.insets = new Insets(15,8,2,4);
+		roomIDAConstraints.insets = new Insets(10,8,2,4);
 		panelA.add(roomIDA, roomIDAConstraints);
 		
 		JLabel fieldA = new JLabel("Feld");
@@ -205,7 +226,7 @@ public class LinkWindow extends JDialog implements ActionListener {
 		
 		GridBagConstraints constraintsB = new GridBagConstraints();
 		constraintsB.gridx = 1;
-		constraintsB.gridy = 0;
+		constraintsB.gridy = 1;
 		constraintsB.gridwidth = 1;
 		constraintsB.gridheight = 1;
 		constraintsB.weighty = 5;
@@ -224,7 +245,7 @@ public class LinkWindow extends JDialog implements ActionListener {
 		roomBConstraints.gridheight = roomBConstraints.gridwidth = 1;
 		roomBConstraints.fill = GridBagConstraints.HORIZONTAL;
 		roomBConstraints.weightx = roomBConstraints.weighty = 1;
-		roomBConstraints.insets = new Insets(15,10,2,4);
+		roomBConstraints.insets = new Insets(10,10,2,4);
 		panelB.add(roomB, roomBConstraints);
 		
 		roomIDB = new JLabel();
@@ -235,7 +256,7 @@ public class LinkWindow extends JDialog implements ActionListener {
 		roomIDBConstraints.gridheight = roomIDBConstraints.gridwidth = 1;
 		roomIDBConstraints.fill = GridBagConstraints.HORIZONTAL;
 		roomIDBConstraints.weightx = roomIDBConstraints.weighty = 1;
-		roomIDBConstraints.insets = new Insets(15,8,2,4);
+		roomIDBConstraints.insets = new Insets(10,8,2,4);
 		panelB.add(roomIDB, roomIDBConstraints);
 		
 		JLabel fieldB = new JLabel("Feld");
@@ -350,6 +371,8 @@ public class LinkWindow extends JDialog implements ActionListener {
 	 * Liest Fensterinhalt neu aus Link ein
 	 */
 	private void update() {
+		
+		linkID.setText(""+workingLink.ID);
 		
 		roomIDA.setText(""+this.workingLink.targetRooms[0].ID);
 		
