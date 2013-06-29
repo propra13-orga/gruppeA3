@@ -18,8 +18,10 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import com.github.propra13.gruppeA3.Game;
+import com.github.propra13.gruppeA3.Editor.Editor.ChooseClickType;
 import com.github.propra13.gruppeA3.Map.Field;
 import com.github.propra13.gruppeA3.Map.Link;
+import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Map.Room;
 
 /**
@@ -28,7 +30,7 @@ import com.github.propra13.gruppeA3.Map.Room;
  * @author Christian Krüger
  *
  */
-public class LinkWindow extends JDialog implements ActionListener, ChooseClickListener {
+public class LinkWindow extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	
 	private final static int MINHEIGHT = 250;
@@ -40,19 +42,21 @@ public class LinkWindow extends JDialog implements ActionListener, ChooseClickLi
 	//Link-Part, der mittels Auswahlklick geändert werden soll
 	int chooseClickLinkPart = -1;
 	
-	/** ChooseClickListener-Variable für isListening()*/
-	private boolean chooseClick = false;
-	
 	//Buttons, Labels
 	JLabel roomIDA, roomIDB, fieldPosA, fieldPosB;
 	JButton bDone, bCancel, bDelete, bChangeA, bChangeB;
 	
+	Field affectedField; //Zwischenspeicher für Auswahlklick
+	
+	/**
+	 * Konstruktor für den Link-Editor
+	 */
 	public LinkWindow() {
 		//JDialog aufbauen
 		super(Game.frame);
 		GridBagLayout layout = new GridBagLayout();
 		setLayout(layout);
-		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
 		setSize(MINWIDTH, MINHEIGHT);
 		setModal(true); // blockiert Hauptfenster
 		setTitle("Link-Editor");
@@ -397,7 +401,8 @@ public class LinkWindow extends JDialog implements ActionListener, ChooseClickLi
 	 */
 	private void chooseField(int linkPart) {
 		chooseClickLinkPart = linkPart;
-		
+		Editor.editor.chooseClick = ChooseClickType.LINK;
+		setVisible(false);
 	}
 	
 	/**
@@ -432,22 +437,44 @@ public class LinkWindow extends JDialog implements ActionListener, ChooseClickLi
 		
 		
 	}
-
+	
 	/**
-	 * @see com.github.propra13.gruppeA3.Editor.ChooseClickListener#chooseClick(com.github.propra13.gruppeA3.Map.Field)
+	 * Wird aufgerufen, wenn ein Auswahlklick für einen Link getätigt wurde.
+	 * @param affectedField Feld, auf das geklickt wurde.
 	 */
-	@Override
 	public void chooseClick(Field affectedField) {
-		// TODO Auto-generated method stubs
 		
+		//Feld-Check
+		//Raumrand
+		if( ! (affectedField.pos.x == Map.ROOMWIDTH -1 || affectedField.pos.x == 0) ||
+				(affectedField.pos.y == Map.ROOMHEIGHT -1 || affectedField.pos.y == 0) ) {
+			System.out.println("LinkWindow :: LINKPOS");
+			Editor.editor.warning.showWindow(WarningWindow.Type.LINKPOS);
+			return;
+		}
+		//Feld hat bereits einen Link
+		else if(affectedField.link != null) {
+			System.out.println("LinkWindow :: LINKEXISTS");
+			Editor.editor.warning.showWindow(WarningWindow.Type.LINKEXISTS);
+			return;
+		}
+		
+		this.affectedField = affectedField;
+		Editor.editor.warning.showWindow(WarningWindow.Type.LINKCHOSEN);
 	}
-
+	
 	/**
-	 * @see com.github.propra13.gruppeA3.Editor.ChooseClickListener#isListening()
+	 * Wird aufgerufen, wenn die Feld-Auswahl bestätigt wurde.
 	 */
-	@Override
-	public boolean isListening() {
-		return chooseClick;
+	public void chooseField() {
+		workingLink.targetFields[chooseClickLinkPart] = affectedField;
+		workingLink.targetRooms[chooseClickLinkPart] = affectedField.getRoom();
+		
+		chooseClickLinkPart = -1;
+		Editor.editor.chooseClick = Editor.ChooseClickType.NONE;
+		affectedField = null;
+		
+		showWindow();
 	}
 
 }

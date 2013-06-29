@@ -37,10 +37,15 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 	private JMenuItem type1;
 	private JMenuItem type2;
 	
+	private JMenuItem addSubMenu;
 	private JMenuItem addLink;
-	private JMenuItem changeLink;
+	private JMenuItem addRiver; //TODO
+	private JMenuItem addMonster; //TODO
+	private JMenuItem addNPC; //TODO
+	private JMenuItem changeLink; //TODO
 	
 	private LinkedList<JMenuItem> removeCandidates = new LinkedList<JMenuItem>();
+	private LinkedList<FieldHighlight> highlights = new LinkedList<FieldHighlight>();
 
 	public RoomTab(Room room) {
 		setBackground(Color.GREEN);
@@ -60,23 +65,32 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 		type2.addActionListener(this);
 		type.add(type2);
 		
+		addSubMenu = new JMenu("Füge hinzu ...");
+		dropdown.add(addSubMenu);
+		
+		addRiver = new JMenuItem("Fluss");
+		addRiver.addActionListener(this);
+		addSubMenu.add(addRiver);
+		
 		// Nicht-Standardfelder initialisieren
-		addLink = new JMenuItem("Erzeuge Link");
-		addLink.addActionListener(this);
 		changeLink = new JMenuItem("Ändere Link");
 		changeLink.addActionListener(this);
+		addLink = new JMenuItem("Link");
+		addLink.addActionListener(this);
+		addMonster = new JMenuItem("Monster");
+		addMonster.addActionListener(this);
+		addNPC = new JMenuItem("NPC");
+		addNPC.addActionListener(this);
 		
 		addMouseListener(this);
 		setVisible(true);
 	}
 	
-	public void paint(Graphics g) {
-		Graphics2D g2d = (Graphics2D)g;
-		MenuStart.paintRoom(g2d, room, this);
-		
-	}
-	
 	// Feld-Edit-Methoden
+	/**
+	 * Ändert den Typ eines Felds.
+	 * @param type Neuer Typ für das Feld.
+	 */
 	public void changeFieldType(int type) {
 		//Simple Felder; Boden und Wand
 		if(type == 1 || type == 2) {
@@ -84,7 +98,7 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 			lastFieldType = type;
 			affectedField.link = null;
 		}
-		
+		clearHighlights();
 		repaint();
 	}
 	
@@ -92,15 +106,31 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 	 * Hebt ein Feld visuell hervor.
 	 * @param field Hervorzuhebendes Feld
 	 */
-	public void highlightField(Field field) {
-		
+	public void highlightField(Field field, FieldHighlight.Type type) {
+		FieldHighlight highlight = new FieldHighlight(field.pos.toPosition(), type);
+		add(highlight);
+		highlights.add(highlight);
+		repaint();
+	}
+	
+	/**
+	 * Hebt alle Highlights auf.
+	 */
+	public void clearHighlights() {
+		FieldHighlight testHighlight;
+		for (Iterator<FieldHighlight> iter = highlights.iterator(); iter.hasNext();) {
+			testHighlight = iter.next();
+			remove(testHighlight);
+			iter.remove();
+		}
+		repaint();
 	}
 	
 	/**
 	 * Ruft den Link-Editor mit einem neuen Link auf
 	 */
 	public void addLink() {
-		System.out.println("AddLink gedrückt");
+		clearHighlights();
 		Editor.editor.linkEditor.showWindow(affectedField);
 	}
 	
@@ -108,14 +138,16 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 	 * Ruft den Link-Editor mit dem Link des Felds auf
 	 */
 	public void changeLink() {
-		System.out.println("ChangeLink gedrückt");
+		clearHighlights();
 		Editor.editor.linkEditor.showWindow(affectedField.link);
 	}
 	
-	// Zeigt das Kontextmenü an der Cursor-Position
+	/** 
+	 * Zeigt das Kontextmenü an der Cursor-Position
+	 * @param e MouseEvent, das die Methode ausgelöst hat
+	 */
 	@SuppressWarnings("deprecation")
 	private void dropdown(MouseEvent e) {
-		System.out.println("Klick: "+e.getX()+":"+e.getY());
 		
 		// Räume Dropdown-Menü auf (removeCandidates)
 		Iterator<JMenuItem> iter = removeCandidates.iterator();
@@ -135,14 +167,25 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 			dropdown.add(changeLink);
 			removeCandidates.add(changeLink);
 		}
+		
 		// Falls Feld am Raumrand, Link zulassen
 		else if( (affectedField.pos.x == Map.ROOMWIDTH -1 || affectedField.pos.x == 0) ||
 				 (affectedField.pos.y == Map.ROOMHEIGHT -1 || affectedField.pos.y == 0) ) {
-			dropdown.add(addLink);
+			addSubMenu.add(addLink);
 			removeCandidates.add(addLink);
 		}
 		
 		dropdown.show(this, e.getX(), e.getY());
+	}
+	
+	public void paint(Graphics g) {
+		Graphics2D g2d = (Graphics2D)g;
+		MenuStart.paintRoom(g2d, room, this);
+		
+		for(Iterator<FieldHighlight> iter = highlights.iterator(); iter.hasNext();) {
+			iter.next().paintComponent(g);
+		}
+		
 	}
 	
 	/**
@@ -166,15 +209,38 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		affectedField = room.getField(new Position(e.getX(), e.getY()));
-		if(SwingUtilities.isRightMouseButton(e)) {
+		
+		// Auswahlklick abfangen
+		if(Editor.editor.chooseClick != Editor.ChooseClickType.NONE) {
+			switch(Editor.editor.chooseClick) {
+			case LINK:
+				clearHighlights();
+				highlightField(affectedField, FieldHighlight.Type.LINK);
+				Editor.editor.linkEditor.chooseClick(affectedField);
+				break;
+			default:
+				break;
+			}
+		}
+		
+		//Rechtsklick
+		else if(SwingUtilities.isRightMouseButton(e)) {
+			clearHighlights();
+			highlightField(affectedField, FieldHighlight.Type.FIELD);
 			dropdown(e);
 		}
+		
+		//Linksklick
 		else if(SwingUtilities.isLeftMouseButton(e)) {
+			clearHighlights();
+			
 			// Falls der nächste Klick ein Auswahlklick ist
 			if(Editor.editor.chooseClick != Editor.ChooseClickType.NONE){
 				switch(Editor.editor.chooseClick) {
 				case LINK:
+					clearHighlights();
 					Editor.editor.linkEditor.chooseClick(affectedField);
+					highlightField(affectedField, FieldHighlight.Type.LINK);
 					break;
 				case CHECKPOINTFIELD:
 					break;
@@ -185,23 +251,28 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 				}
 			}
 			// Ansonsten Standardaktion bei Linksklick
-			else	
+			else {
+				clearHighlights();
 				changeFieldType(lastFieldType);
+			}
 		}
 	}
 
 	
 	
-	// Dummies (interface-Methoden wo nichts passiert)
+	/**Nicht implementiert.*/
 	@Override
 	public void mouseEntered(MouseEvent arg0) {}
 
+	/**Nicht implementiert.*/
 	@Override
 	public void mouseExited(MouseEvent arg0) {}
 
+	/**Nicht implementiert.*/
 	@Override
 	public void mousePressed(MouseEvent arg0) {}
 
+	/**Nicht implementiert.*/
 	@Override
 	public void mouseReleased(MouseEvent arg0) {}
 
