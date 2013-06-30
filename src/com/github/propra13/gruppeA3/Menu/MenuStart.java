@@ -680,7 +680,8 @@ public void Score(Graphics2D g) {
 				networkMenu();
 			}
 			else if("create".equals(action)){
-				new Server(this.getPort());
+				Server server = new Server(this.getPort());
+				server.start();
 				new Client(this, MenuStart.getNetstat());
 			}
 			else if("join".equals(action)){
