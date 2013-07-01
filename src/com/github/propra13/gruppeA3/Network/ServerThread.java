@@ -51,8 +51,10 @@ public class ServerThread extends Thread {
 	 */
 	public void sendMessage(String message) throws IOException{
 		for(int i = 0; i < threads.length; i++){
-			threads[i].getProtocol().sendString("chat");
-			threads[i].getProtocol().sendString(message);
+			if(null != threads[i]){
+				threads[i].getProtocol().sendString("chat");
+				threads[i].getProtocol().sendString(message);
+			}
 		}
 	}
 	

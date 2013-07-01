@@ -59,6 +59,12 @@ public class Client extends JFrame {
 		try
 		{
 			this.protocol = new Protocol(serverName,port);
+			try {
+				this.protocol.sendString("chat");
+				this.protocol.sendString(this.gui.getName() + " hat den Raum betreten\n");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			return true;
 		}
 		catch(IOException ex)
