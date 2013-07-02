@@ -24,7 +24,6 @@ public class ChatThread extends Thread {
 	 */
 	public ChatThread(Chat chat) {
 		this.chat = chat;
-		// TODO Auto-generated constructor stub
 	}
 	
 	/**
@@ -36,17 +35,26 @@ public class ChatThread extends Thread {
 		String vergleich;
 		while(running){
 			try {
+				/**
+				 *  Ist die Verbindung noch offen
+				 *  Wenn ja, dann hole den Eingehenden String
+				 */
 				if(!chat.getProtocol().isInputShutdown())
 					vergleich = chat.getProtocol().receiveString();
-				else vergleich = null;
-				
-				if(null == vergleich)
-					running = false;
-				
-				else if(vergleich.equalsIgnoreCase("chat")){
+				/**
+				 * Wenn nein, setze running auf false und beende die Schleife
+				 */
+				else {
+						running = false;
+						continue;
+				}
+				/**
+				 * Ist der Eingegangene String "chat", dann lese den nächsten String ein, welcher die Nachricht darstellt
+				 * und füge diese hinten an chatWindow dran.
+				 */
+				if(vergleich.equalsIgnoreCase("chat")){
 					String s = chat.getProtocol().receiveString();
 					chat.append(s);
-					//System.out.println(s);
 				}
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
