@@ -3,7 +3,6 @@ package com.github.propra13.gruppeA3.Editor;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
@@ -23,6 +22,7 @@ import com.github.propra13.gruppeA3.Map.Field;
 import com.github.propra13.gruppeA3.Map.Link;
 import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Map.Room;
+import com.github.propra13.gruppeA3.Menu.MenuStart;
 
 /**
  * Klasse für den Link-Edit-Dialog. Wird im Editor-Konstruktor
@@ -37,7 +37,7 @@ public class LinkWindow extends JDialog implements ActionListener {
 	private final static int MINWIDTH = 300;
 	
 	Link workingLink; //Arbeitskopie des Links
-	Link linkToEdit; //Link, der bearbeitet werden soll
+	Link linkToEdit; //Link, der bearbeitet wird
 	
 	//Link-Part, der mittels Auswahlklick geändert werden soll
 	int chooseClickLinkPart = -1;
@@ -61,13 +61,6 @@ public class LinkWindow extends JDialog implements ActionListener {
 		setModal(true); // blockiert Hauptfenster
 		setTitle("Link-Editor");
 		setResizable(false);
-		
-		// Ausrichten: Zentrieren über Hauptfenster
-		Point framePos = Game.frame.getLocationOnScreen();
-		Point thisPos = new Point();
-		thisPos.x = framePos.x - (Game.MINWIDTH/2) + MINWIDTH/2;
-		thisPos.y = framePos.y - (Game.MINHEIGHT/2) + MINHEIGHT/2;
-		setLocation(thisPos);
 		
 		/*
 		 * Fensterelemente
@@ -345,6 +338,7 @@ public class LinkWindow extends JDialog implements ActionListener {
 			this.workingLink = new Link(freeID, targetRooms, targetFields, true, true);
 		
 		update();
+		MenuStart.centerWindow(this);
 		setVisible(true);
 	}
 	
@@ -356,6 +350,7 @@ public class LinkWindow extends JDialog implements ActionListener {
 		linkToEdit = link;
 		this.workingLink = link.clone();
 		update();
+		MenuStart.centerWindow(this);
 		setVisible(true);
 	}
 	
@@ -430,10 +425,12 @@ public class LinkWindow extends JDialog implements ActionListener {
 	
 	/**
 	 * Löscht den Link, der derzeit bearbeitet wird.
+	 * Setzt die Link-Referenzen auf dem Feld sowie die Arbeitskopie-Referenz des Editors auf null.
 	 */
 	private void deleteLink() {
 		linkToEdit.targetFields[0].link = null;
 		linkToEdit.targetFields[1].link = null;
+		linkToEdit = null;
 		setVisible(false);
 	}
 	

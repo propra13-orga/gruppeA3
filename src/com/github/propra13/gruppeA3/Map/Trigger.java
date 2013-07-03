@@ -6,7 +6,7 @@ package com.github.propra13.gruppeA3.Map;
  * Trigger-Referenz liegt in Field.trigger
  */
 public abstract class Trigger {
-	public Field field;
+	protected Field field;
 	
 	public Trigger(Field field) {
 		this.field = field;
@@ -22,4 +22,20 @@ public abstract class Trigger {
 	 * @return true falls ausgelöst, false falls nicht (im Zweifel subclassabhängig)
 	 */
 	public abstract boolean status();
+	
+	public Field getField() {
+		return field;
+	}
+	
+	/**
+	 * Ändert die Link-Attribute
+	 * @param link Link, dessen Attribute übernommen werden sollen
+	 */
+	public abstract void edit (Trigger trigger);
+	
+	/**
+	 * Klont den Trigger
+	 * @return Gibt eine Kopie des Triggers zurück
+	 */
+	public abstract Trigger clone();
 }

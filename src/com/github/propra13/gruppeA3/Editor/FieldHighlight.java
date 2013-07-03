@@ -1,6 +1,7 @@
 package com.github.propra13.gruppeA3.Editor;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 
 import javax.swing.JComponent;
@@ -33,6 +34,8 @@ public class FieldHighlight extends JComponent {
 	 */
 	protected FieldHighlight(Position pos, Type type) {
 		this.pos = pos;
+		setPreferredSize(new Dimension(33, 33));
+		this.setBounds(pos.x,pos.y,33,33);
 		
 		switch(type) {
 		case FIELD:
@@ -49,8 +52,9 @@ public class FieldHighlight extends JComponent {
 
 	@Override
 	public void paintComponent(Graphics g) {
+		System.out.println("paintcomponent!");
 		g.setColor(color);
-		g.drawRect(pos.x, pos.y, 32, 32);
+		g.drawRect(pos.x,pos.y, 32, 32);
 	}
 	
 

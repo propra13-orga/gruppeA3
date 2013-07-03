@@ -8,6 +8,8 @@ import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -1058,6 +1060,19 @@ public void Score(Graphics2D g) {
 
 	public static void setGameStatus(GameStatus gameStatus) {
 		MenuStart.gameStatus = gameStatus;
+	}
+	
+	/**
+	 * Zentriert ein Fenster über Hauptspielfenster.
+	 * @param dialog Zu zentrierender JDialog.
+	 */
+	public static void centerWindow(JDialog dialog) {
+		Point framePos = Game.frame.getLocationOnScreen();
+		Point newPos = new Point();
+		Rectangle bounds = dialog.getBounds(); //Kantenlänge des Dialogs
+		newPos.x = framePos.x + Game.MINWIDTH/2 - bounds.width/2;
+		newPos.y = framePos.y + Game.MINHEIGHT/2 - bounds.height/2;
+		dialog.setLocation(newPos);
 	}
 	
 	/**

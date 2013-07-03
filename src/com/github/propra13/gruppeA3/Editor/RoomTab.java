@@ -1,6 +1,6 @@
 package com.github.propra13.gruppeA3.Editor;
 
-import java.awt.Color;
+import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -23,7 +23,7 @@ import com.github.propra13.gruppeA3.Map.Room;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 
 
-public class RoomTab extends JPanel implements MouseListener, ActionListener {
+public class RoomTab extends JPanel implements MouseListener, ActionListener, HighlightContainer {
 	private static final long serialVersionUID = 1L;
 	
 	private JPopupMenu dropdown;
@@ -42,13 +42,19 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 	private JMenuItem addRiver; //TODO
 	private JMenuItem addMonster; //TODO
 	private JMenuItem addNPC; //TODO
+	
+	private JMenu addTrigger;
+	private JMenuItem addCheckpoint;
+	
+	//Ändere-Kram
 	private JMenuItem changeLink; //TODO
+	private JMenuItem changeTrigger;
 	
 	private LinkedList<JMenuItem> removeCandidates = new LinkedList<JMenuItem>();
 	private LinkedList<FieldHighlight> highlights = new LinkedList<FieldHighlight>();
 
 	public RoomTab(Room room) {
-		setBackground(Color.GREEN);
+		setLayout(null);
 		this.room = room;
 		
 		// Kontextmenü mit Standardfeldern versehen
@@ -75,12 +81,19 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 		// Nicht-Standardfelder initialisieren
 		changeLink = new JMenuItem("Ändere Link");
 		changeLink.addActionListener(this);
+		changeTrigger = new JMenuItem("Ändere Trigger");
+		changeTrigger.addActionListener(this);
 		addLink = new JMenuItem("Link");
 		addLink.addActionListener(this);
 		addMonster = new JMenuItem("Monster");
 		addMonster.addActionListener(this);
 		addNPC = new JMenuItem("NPC");
 		addNPC.addActionListener(this);
+		
+		addTrigger = new JMenu("Trigger für ...");
+		addCheckpoint = new JMenuItem("Checkpoint");
+		addTrigger.add(addCheckpoint);
+		addCheckpoint.addActionListener(this);
 		
 		addMouseListener(this);
 		setVisible(true);
@@ -109,21 +122,22 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 	public void highlightField(Field field, FieldHighlight.Type type) {
 		FieldHighlight highlight = new FieldHighlight(field.pos.toPosition(), type);
 		add(highlight);
-		highlights.add(highlight);
+		validate();
 		repaint();
 	}
 	
+	@Override
+	public LinkedList<FieldHighlight> getHighlights() {
+		return this.highlights;
+	}
+	
 	/**
-	 * Hebt alle Highlights auf.
+	 * Hebt alle Highlights auf (entfernt sie vom JPanel).
 	 */
 	public void clearHighlights() {
-		FieldHighlight testHighlight;
-		for (Iterator<FieldHighlight> iter = highlights.iterator(); iter.hasNext();) {
-			testHighlight = iter.next();
-			remove(testHighlight);
-			iter.remove();
-		}
-		repaint();
+		for(int i=0; i < getComponents().length; i++)
+			if(getComponents()[i] instanceof FieldHighlight)
+				remove(getComponents()[i]);
 	}
 	
 	/**
@@ -156,6 +170,7 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 			testItem = iter.next();
 			if(testItem != null) {
 				System.out.println("Räume weg: "+testItem.getLabel());
+				addSubMenu.remove(testItem);
 				dropdown.remove(testItem);
 				iter.remove();
 			}
@@ -175,6 +190,16 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 			removeCandidates.add(addLink);
 		}
 		
+		//Trigger-Optionen
+		if(affectedField.trigger != null) {
+			dropdown.add(changeTrigger);
+			removeCandidates.add(addTrigger);
+		}
+		else {
+			addSubMenu.add(addTrigger);
+			removeCandidates.add(addTrigger);
+		}
+		
 		dropdown.show(this, e.getX(), e.getY());
 	}
 	
@@ -182,10 +207,15 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 		Graphics2D g2d = (Graphics2D)g;
 		MenuStart.paintRoom(g2d, room, this);
 		
-		for(Iterator<FieldHighlight> iter = highlights.iterator(); iter.hasNext();) {
-			iter.next().paintComponent(g);
+		//Male Highlights
+		Component[] components = getComponents();
+		FieldHighlight hl;
+		for(int i=0; i < components.length; i++) {
+			if(components[i] instanceof FieldHighlight){
+				hl = (FieldHighlight)components[i];
+				hl.paintComponent(g);
+			}	
 		}
-		
 	}
 	
 	/**

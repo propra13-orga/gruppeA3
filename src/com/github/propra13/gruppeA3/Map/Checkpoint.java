@@ -24,5 +24,26 @@ public class Checkpoint extends Trigger {
 	public boolean status() {
 		return toActivate.isActivated();
 	}
+	
+	/*
+	 * Map-Editor-Methoden
+	 */
+	
+	public Link getToActivate() {
+		return toActivate;
+	}
+	
+	@Override
+	public void edit(Trigger trigger) {
+		Checkpoint checkpoint = (Checkpoint)trigger;
+		toActivate = checkpoint.getToActivate();
+		field = checkpoint.getField();
+		
+	}
+	
+	@Override
+	public Trigger clone() {
+		return new Checkpoint(field, toActivate);
+	}
 
 }
