@@ -33,6 +33,17 @@ public class Checkpoint extends Trigger {
 		return toActivate;
 	}
 	
+	public void setToActivate(Link link) {
+		if(link != null)
+			this.toActivate = link;
+		else
+			try {
+				throw new NullPointerException("Feld hat keinen Link.");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+	}
+	
 	@Override
 	public void edit(Trigger trigger) {
 		Checkpoint checkpoint = (Checkpoint)trigger;

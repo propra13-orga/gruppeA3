@@ -27,6 +27,7 @@ public class Editor extends JTabbedPane {
 	//Subfenster
 	protected LinkWindow linkEditor;
 	protected WarningWindow warning;
+	protected TriggerWindow triggerEditor;
 	
 	/** Falls der nächste Klick ein aus einem Dialog hervorgegangener
 	 *  spezieller Auswahlklick ist (zB für den Link-Dialog)
@@ -52,6 +53,7 @@ public class Editor extends JTabbedPane {
 		
 		linkEditor = new LinkWindow();
 		warning = new WarningWindow();
+		triggerEditor = new TriggerWindow();
 		
 		// init Map
 		try {

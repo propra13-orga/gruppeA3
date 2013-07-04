@@ -355,7 +355,7 @@ public class LinkWindow extends JDialog implements ActionListener {
 	}
 	
 	/**
-	 * Zeigt Link-Editor erneut an, zB nach einem Magic Click
+	 * Zeigt Link-Editor erneut an, zB nach einem Auswahlklick
 	 */
 	public void showWindow() {
 		update();
@@ -407,7 +407,6 @@ public class LinkWindow extends JDialog implements ActionListener {
 	 * Wird aufgerufen, falls "Abbrechen"-Knopf gedrückt wird.
 	 */
 	private void cancel() {
-		System.out.println("\"Abbrechen\" gedrückt");
 		workingLink = null;
 		setVisible(false);
 	}
@@ -468,13 +467,11 @@ public class LinkWindow extends JDialog implements ActionListener {
 		//Raumrand
 		if( ! (affectedField.pos.x == Map.ROOMWIDTH -1 || affectedField.pos.x == 0) ||
 				(affectedField.pos.y == Map.ROOMHEIGHT -1 || affectedField.pos.y == 0) ) {
-			System.out.println("LinkWindow :: LINKPOS");
 			Editor.editor.warning.showWindow(WarningWindow.Type.LINKPOS);
 			return;
 		}
 		//Feld hat bereits einen Link
 		else if(affectedField.link != null) {
-			System.out.println("LinkWindow :: LINKEXISTS");
 			Editor.editor.warning.showWindow(WarningWindow.Type.LINKEXISTS);
 			return;
 		}

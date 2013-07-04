@@ -27,6 +27,10 @@ public abstract class Trigger {
 		return field;
 	}
 	
+	public void setField(Field field) {
+		this.field = field;
+	}
+	
 	/**
 	 * Ändert die Link-Attribute
 	 * @param link Link, dessen Attribute übernommen werden sollen

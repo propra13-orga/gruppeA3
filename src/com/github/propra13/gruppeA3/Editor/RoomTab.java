@@ -15,15 +15,21 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 
+import com.github.propra13.gruppeA3.Map.Checkpoint;
 import com.github.propra13.gruppeA3.Map.Field;
 import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Map.Position;
 import com.github.propra13.gruppeA3.Map.Room;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 
-
-public class RoomTab extends JPanel implements MouseListener, ActionListener, HighlightContainer {
+/**
+ * Klasse für das Raum-Editor-JPanel eines Raums.
+ * @author christian
+ */
+public class RoomTab extends JPanel implements MouseListener, ActionListener {
 	private static final long serialVersionUID = 1L;
 	
 	private JPopupMenu dropdown;
@@ -47,18 +53,38 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener, Hi
 	private JMenuItem addCheckpoint;
 	
 	//Ändere-Kram
-	private JMenuItem changeLink; //TODO
+	private JMenuItem changeLink;
 	private JMenuItem changeTrigger;
+	private JMenuItem changeMonster;
 	
 	private LinkedList<JMenuItem> removeCandidates = new LinkedList<JMenuItem>();
-	private LinkedList<FieldHighlight> highlights = new LinkedList<FieldHighlight>();
 
+	/**
+	 * @param room Raum, der in diesem JPanel dargestellt wird.
+	 */
 	public RoomTab(Room room) {
 		setLayout(null);
 		this.room = room;
 		
 		// Kontextmenü mit Standardfeldern versehen
 		dropdown = new JPopupMenu();
+		
+		//PopupListener, um Highlights abzuräumen
+		dropdown.addPopupMenuListener(new PopupMenuListener() {
+
+			/**Räumt Feld-Highlights ab.*/
+		    @Override
+		    public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+		        clearHighlights();
+		    }
+
+		    /**Nicht implementiert.*/
+			@Override
+			public void popupMenuCanceled(PopupMenuEvent arg0) {}
+			/**Nicht implementiert.*/
+			@Override
+			public void popupMenuWillBecomeVisible(PopupMenuEvent arg0) {}
+		});
 		
 		type = new JMenu("Ändere Feldtyp ...");
 		dropdown.add(type);
@@ -83,6 +109,8 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener, Hi
 		changeLink.addActionListener(this);
 		changeTrigger = new JMenuItem("Ändere Trigger");
 		changeTrigger.addActionListener(this);
+		changeMonster = new JMenuItem("Ändere Monster");
+		changeMonster.addActionListener(this);
 		addLink = new JMenuItem("Link");
 		addLink.addActionListener(this);
 		addMonster = new JMenuItem("Monster");
@@ -112,6 +140,7 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener, Hi
 			affectedField.link = null;
 		}
 		clearHighlights();
+		validate();
 		repaint();
 	}
 	
@@ -126,11 +155,6 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener, Hi
 		repaint();
 	}
 	
-	@Override
-	public LinkedList<FieldHighlight> getHighlights() {
-		return this.highlights;
-	}
-	
 	/**
 	 * Hebt alle Highlights auf (entfernt sie vom JPanel).
 	 */
@@ -138,10 +162,12 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener, Hi
 		for(int i=0; i < getComponents().length; i++)
 			if(getComponents()[i] instanceof FieldHighlight)
 				remove(getComponents()[i]);
+		validate();
+		repaint();
 	}
 	
 	/**
-	 * Ruft den Link-Editor mit einem neuen Link auf
+	 * Ruft den Link-Editor mit einem neuen Link auf.
 	 */
 	public void addLink() {
 		clearHighlights();
@@ -149,11 +175,26 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener, Hi
 	}
 	
 	/**
-	 * Ruft den Link-Editor mit dem Link des Felds auf
+	 * Ruft den Link-Editor mit dem Link des angeklickten Felds auf.
 	 */
 	public void changeLink() {
 		clearHighlights();
 		Editor.editor.linkEditor.showWindow(affectedField.link);
+	}
+	/**
+	 * Ruft den Trigger-Editor mit einem neuen Checkpoint auf.
+	 */
+	public void addCheckpoint() {
+		clearHighlights();
+		Editor.editor.triggerEditor.showWindow(affectedField, TriggerWindow.CHECKPOINT);
+	}
+	
+	/**
+	 * Ruft den Trigger-Editor mit dem Trigger des angeklickten Felds auf.
+	 */
+	public void changeTrigger() {
+		clearHighlights();
+		Editor.editor.triggerEditor.showWindow(affectedField.trigger);
 	}
 	
 	/** 
@@ -231,6 +272,10 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener, Hi
 			addLink();
 		else if(e.getSource() == this.changeLink)
 			changeLink();
+		else if(e.getSource() == this.changeTrigger)
+			changeTrigger();
+		else if(e.getSource() == this.addCheckpoint)
+			addCheckpoint();
 	}
 
 	/**
@@ -240,7 +285,7 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener, Hi
 	public void mouseClicked(MouseEvent e) {
 		affectedField = room.getField(new Position(e.getX(), e.getY()));
 		
-		// Auswahlklick abfangen
+		// Auswahlklick abfangen; switch über Auswahlklick-Typ
 		if(Editor.editor.chooseClick != Editor.ChooseClickType.NONE) {
 			switch(Editor.editor.chooseClick) {
 			case LINK:
@@ -248,6 +293,40 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener, Hi
 				highlightField(affectedField, FieldHighlight.Type.LINK);
 				Editor.editor.linkEditor.chooseClick(affectedField);
 				break;
+				
+			case CHECKPOINTFIELD:
+				clearHighlights();
+				Editor.editor.triggerEditor.chooseClickTrigger(affectedField);
+				highlightField(affectedField, FieldHighlight.Type.TRIGGER);
+				
+				//Highlightet Zielfeld, falls vorhanden und in diesem Raum
+				if(affectedField.trigger instanceof Checkpoint) {
+					Checkpoint cp = (Checkpoint)affectedField.trigger;
+					//Falls einer der beiden Zielräume des Links dieser Raum ist
+					if(cp.getToActivate().targetRooms[0] == room)
+						highlightField(cp.getToActivate().targetFields[0], FieldHighlight.Type.LINK);
+					else if(cp.getToActivate().targetRooms[1] == room)
+						highlightField(cp.getToActivate().targetFields[1], FieldHighlight.Type.LINK);
+					
+				}
+				break;
+				
+			case CHECKPOINTLINK:
+				//Falls gar kein Link auf dem Feld ist, melde das
+				if(affectedField.link == null) {
+					Editor.editor.warning.showWindow(WarningWindow.Type.HASNOLINK);
+					break;
+				}
+				
+				clearHighlights();
+				Editor.editor.triggerEditor.chooseClickTarget(affectedField);
+				highlightField(affectedField, FieldHighlight.Type.LINK);
+				
+				//Highlightet Triggerfeld, falls in diesem Raum
+				if(Editor.editor.triggerEditor.workingTrigger.getField().getRoom() == room)
+					highlightField(Editor.editor.triggerEditor.workingTrigger.getField(), FieldHighlight.Type.TRIGGER);
+				break;
+				
 			default:
 				break;
 			}
@@ -263,28 +342,8 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener, Hi
 		//Linksklick
 		else if(SwingUtilities.isLeftMouseButton(e)) {
 			clearHighlights();
-			
-			// Falls der nächste Klick ein Auswahlklick ist
-			if(Editor.editor.chooseClick != Editor.ChooseClickType.NONE){
-				switch(Editor.editor.chooseClick) {
-				case LINK:
-					clearHighlights();
-					Editor.editor.linkEditor.chooseClick(affectedField);
-					highlightField(affectedField, FieldHighlight.Type.LINK);
-					break;
-				case CHECKPOINTFIELD:
-					break;
-				case CHECKPOINTLINK:
-					break;
-				default:
-					break;
-				}
-			}
-			// Ansonsten Standardaktion bei Linksklick
-			else {
-				clearHighlights();
-				changeFieldType(lastFieldType);
-			}
+			clearHighlights();
+			changeFieldType(lastFieldType);
 		}
 	}
 

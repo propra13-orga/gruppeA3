@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import com.github.propra13.gruppeA3.Game;
+import com.github.propra13.gruppeA3.Menu.MenuStart;
 
 /**
  * JDialog für jegliche Warnungen / Fehler, die auftreten
@@ -21,11 +22,12 @@ import com.github.propra13.gruppeA3.Game;
 public class WarningWindow extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	
-	public enum Type{ LINKEXISTS, LINKPOS, LINKCHOSEN }
+	public enum Type{ LINKEXISTS, LINKPOS, LINKCHOSEN, TRIGGERCHOSEN, TRIGGERTARGETCHOSEN,
+		HASNOLINK}
 	private Type type;
 	
 	final public static int MINWIDTH = 400;
-	final public static int MINHEIGHT = 200;
+	final public static int MINHEIGHT = 150;
 	
 	JLabel infotext = new JLabel();
 	JButton bOk = new JButton("Ok");
@@ -87,6 +89,7 @@ public class WarningWindow extends JDialog implements ActionListener {
 	 */
 	public void showWindow(Type type) {
 		this.type = type;
+		MenuStart.centerWindow(this);
 		
 		switch(type) {
 		case LINKEXISTS:
@@ -100,10 +103,24 @@ public class WarningWindow extends JDialog implements ActionListener {
 			bCancel.setText("Auswahl abbrechen");
 			break;
 		case LINKCHOSEN:
-			infotext.setText("<html><body>Möchtest du den Link auf das markierte Feld setzen?");
+			infotext.setText("Möchtest du den Link auf das markierte Feld setzen?");
 			bOk.setText("Ja");
 			bCancel.setText("Nein");
 			break;
+		case TRIGGERCHOSEN:
+			infotext.setText("<html><body>Möchtest du den Trigger auf das<br> markierte Feld setzen?</body></html>");
+			bOk.setText("Ja");
+			bCancel.setText("Nein");
+			break;
+		case TRIGGERTARGETCHOSEN:
+			infotext.setText("<html><body>Möchtest du das Zielfeld für den Trigger<br> auf das markierte Feld setzen?</body></html>");
+			bOk.setText("Ja");
+			bCancel.setText("Nein");
+			break;
+		case HASNOLINK:
+			infotext.setText("<html><body>Das ausgewählte Feld hat keinen Link,<br> der getriggert werden könnte.</body></html>");
+			bOk.setText("Ok");
+			bCancel.setText("Auswahl abbrechen");
 		}
 		
 		setVisible(true);
@@ -111,21 +128,32 @@ public class WarningWindow extends JDialog implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		setVisible(false);
+		
 		//Ok / Ja / ...
 		if(e.getSource() == bOk) {
-			if(type == Type.LINKEXISTS || type == Type.LINKPOS)
-				setVisible(false);
-			else if(type == Type.LINKCHOSEN)
+			
+			//Den jeweiligen Editor benachrichtigen.
+			if(type == Type.LINKCHOSEN)
 				Editor.editor.linkEditor.chooseField();
+			else if(type == Type.TRIGGERCHOSEN)
+				Editor.editor.triggerEditor.chooseTrigger();
+			else if(type == Type.TRIGGERTARGETCHOSEN) {
+				System.out.println("TRIGGERTARGETCHOSEN");
+				Editor.editor.triggerEditor.chooseTarget();
+			}
 		}
 		
 		//Abbrechen / Auswahl abbrechen / ...
 		else if(e.getSource() == bCancel) {
-			setVisible(false);
-			if(type == Type.LINKEXISTS || type == Type.LINKPOS) {
+			
+			//Falls der Meldungstyp eine Fehlermeldung ist, "Auswahl abbrechen" durchführen
+			if(type == Type.LINKEXISTS || type == Type.LINKPOS || type == Type.HASNOLINK) {
 				Editor.editor.chooseClick = Editor.ChooseClickType.NONE;
 				Editor.editor.linkEditor.showWindow();
 			}
 		}
 	}
+	
+	
 }
