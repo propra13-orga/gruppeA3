@@ -51,6 +51,7 @@ public abstract class Moveable extends Entities {
 	
 	//Konstruktor
 	public Moveable(Room room_bind){
+		super(room_bind);
 		this.pos = new Position(0,0);
 		this.currentroom = room_bind;
 		this.direct = Direction.NONE;
@@ -460,14 +461,15 @@ public abstract class Moveable extends Entities {
 	/**
 	 * Diese Methode liefert die aktuelle Position im Raum
 	 * @return liefert die Position im Raum
-	 */	public Position getPosition(){
+	 */
+	public Position getPosition(){
 		return this.pos;
 	}
 
 	/**
-	 * Diese Methode ändert die aktuelle Position im Raum
-	 * @param x X-Achse
-	 * @param y Y-Achse
+	 * Ändert die aktuelle Position im Raum.
+	 * @param x X-Koordinate
+	 * @param y Y-Koordinate
 	 */
 
 	 public void setPosition(int x, int y) {
@@ -481,7 +483,7 @@ public abstract class Moveable extends Entities {
     }
 	
 	public void setPosition(Position pos) {
-		setPosition(pos.x, pos.y);;
+		setPosition(pos.x, pos.y);
 	}
 	
 	public FieldPosition getFieldPos() {
@@ -510,7 +512,7 @@ public abstract class Moveable extends Entities {
 		return this.health;
 	}
 	
-	public int getPower(){
+	public int getAttack(){
 		return attack;
 	}
 	
@@ -530,13 +532,22 @@ public abstract class Moveable extends Entities {
 	/* Faktor-Methoden: Fügen zu Speed, Angriff und Rüstung
 	 * Faktoren hinzu, sodass Faktoren ordnungsgemäß hinzugefügt
 	 * und wieder entfernt werden können.
-	 * reset() multipliziert jeweils die Faktoren zusammen.
+	 * reset() rechnet jeweils die Faktoren (und ggf. Summanden) zusammen.
+	 */
+	
+	/**
+	 * Fügt einen Speed-Faktor hinzu.
+	 * @param factor Faktor, der hinzugefügt werden soll.
 	 */
 	public void addSpeedFactor(double factor) {
 		speedFactors.add(factor);
 		resetSpeed();
 	}
 	
+	/**
+	 * Löscht einen Speed-Faktor.
+	 * @param factor Faktor, der gelöscht werden soll.
+	 */
 	public void delSpeedFactor(double factor) {
 		if (! speedFactors.remove(factor)) {
 			try {
@@ -548,32 +559,54 @@ public abstract class Moveable extends Entities {
 		resetSpeed();
 	}
 	
+	/**
+	 * Berechnet die Geschwindigkeit neu.
+	 */
 	public void resetSpeed() {
 		speed = 1.0;
 		for(Iterator<Double> iter = speedFactors.iterator(); iter.hasNext();)
 			speed = speed*iter.next();
 	}
 	
+	/**
+	 * Fügt einen Angriffsfaktor hinzu.
+	 * @param factor Faktor, der hinzugefügt werden soll.
+	 */
 	public void addAttackFactor(double factor) {
 		attackFactors.add(factor);
 		resetAttack();
 	}
 	
+	/**
+	 * Fügt einen Angriffssummanden hinzu.
+	 * @param summand Summand, der hinzugefügt werden soll.
+	 */
 	public void addAttackSummand(int summand) {
 		attackSummands.add(summand);
 		resetAttack();
 	}
 	
+	/**
+	 * Löscht einen Angriffsfaktor.
+	 * @param factor Faktor, der gelöscht werden soll.
+	 */
 	public void delAttackFactor(double factor) {
 		attackFactors.remove(factor);
 		resetAttack();
 	}
 	
+	/**
+	 * Löscht einen Angriffssummanden.
+	 * @param summand Summand, der gelöscht werden soll.
+	 */
 	public void delAttackSummand(int summand) {
 		attackSummands.remove(summand);
 		resetAttack();
 	}
 	
+	/**
+	 * Berechnet die Angriffsstärke neu.
+	 */
 	public void resetAttack() {
 		attack = 0;
 		for(Iterator<Integer> iter = attackSummands.iterator(); iter.hasNext();)
@@ -637,7 +670,7 @@ public abstract class Moveable extends Entities {
 		this.isAttacking = isAttacking;
 	}
 	
-	public boolean getAttack(){
+	public boolean getIsAttacking(){
 		return isAttacking;
 	}
 	
@@ -647,5 +680,28 @@ public abstract class Moveable extends Entities {
 	
 	public String getCast(){
 		return cast;
+	}
+	
+	/*
+	 * Map-Editor-Methoden
+	 */
+	
+	/**
+	 * Setzt die Angriffsstärke zurück. Wird im Map-Editor genutzt.
+	 * @param newAttack Neuer Angriffswert.
+	 */
+	public void resetAttack(int newAttack) {
+		attackFactors.clear();
+		attackSummands.clear();
+		addAttackFactor(newAttack);
+	}
+	
+	/**
+	 * Setzt die Geschwindigkeit zurück. Wird im Map-Editor genutzt.
+	 * @param newSpeed Neuer Geschwindigkeitswert.
+	 */
+	public void resetSpeed(double newSpeed) {
+		speedFactors.clear();
+		addSpeedFactor(newSpeed);
 	}
 }

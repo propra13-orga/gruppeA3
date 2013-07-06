@@ -28,6 +28,7 @@ public class Editor extends JTabbedPane {
 	protected LinkWindow linkEditor;
 	protected WarningWindow warning;
 	protected TriggerWindow triggerEditor;
+	protected MonsterWindow monsterEditor;
 	
 	/** Falls der nächste Klick ein aus einem Dialog hervorgegangener
 	 *  spezieller Auswahlklick ist (zB für den Link-Dialog)
@@ -54,10 +55,25 @@ public class Editor extends JTabbedPane {
 		linkEditor = new LinkWindow();
 		warning = new WarningWindow();
 		triggerEditor = new TriggerWindow();
+		monsterEditor = new MonsterWindow();
 		
-		// init Map
+		// init Map //TODO: xmlName ist Provisorium
+		String xmlName = null;
+		switch(mapName) {
+		case "Story01":
+			xmlName = "level1";
+			break;
+		case "Story02":
+			xmlName = "level2";
+			break;
+		case "Story03":
+			xmlName = "level3";
+			break;
+		default:
+			break;
+		}
 		try {
-			Map.initialize(this.mapName);
+			Map.initialize(this.mapName, xmlName);
 		} catch (MapFormatException | IOException | InvalidRoomLinkException e) {
 			e.printStackTrace();
 		}

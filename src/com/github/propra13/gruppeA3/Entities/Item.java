@@ -50,7 +50,8 @@ public class Item extends Entities {
 	 * @param value		Der Wert des Items
 	 * 
 	 **/
-	public Item(int damage, int type, int x, int y, String desc, String name, int value) {
+	public Item(Room room_bind, int damage, int type, int x, int y, String desc, String name, int value) {
+		super(room_bind);
 		this.damage = damage;
 		this.type = type;
 		this.desc = desc;

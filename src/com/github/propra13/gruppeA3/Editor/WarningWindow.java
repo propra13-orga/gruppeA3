@@ -138,10 +138,8 @@ public class WarningWindow extends JDialog implements ActionListener {
 				Editor.editor.linkEditor.chooseField();
 			else if(type == Type.TRIGGERCHOSEN)
 				Editor.editor.triggerEditor.chooseTrigger();
-			else if(type == Type.TRIGGERTARGETCHOSEN) {
-				System.out.println("TRIGGERTARGETCHOSEN");
+			else if(type == Type.TRIGGERTARGETCHOSEN)
 				Editor.editor.triggerEditor.chooseTarget();
-			}
 		}
 		
 		//Abbrechen / Auswahl abbrechen / ...

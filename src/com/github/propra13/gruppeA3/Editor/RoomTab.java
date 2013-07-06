@@ -18,6 +18,10 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
+import com.github.propra13.gruppeA3.Entities.Entities;
+import com.github.propra13.gruppeA3.Entities.Item;
+import com.github.propra13.gruppeA3.Entities.Monster;
+import com.github.propra13.gruppeA3.Entities.NPC;
 import com.github.propra13.gruppeA3.Map.Checkpoint;
 import com.github.propra13.gruppeA3.Map.Field;
 import com.github.propra13.gruppeA3.Map.Map;
@@ -46,8 +50,7 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 	private JMenuItem addSubMenu;
 	private JMenuItem addLink;
 	private JMenuItem addRiver; //TODO
-	private JMenuItem addMonster; //TODO
-	private JMenuItem addNPC; //TODO
+	private JMenuItem changeNPC; //TODO
 	
 	private JMenu addTrigger;
 	private JMenuItem addCheckpoint;
@@ -56,6 +59,7 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 	private JMenuItem changeLink;
 	private JMenuItem changeTrigger;
 	private JMenuItem changeMonster;
+	private JMenuItem changeItem;
 	
 	private LinkedList<JMenuItem> removeCandidates = new LinkedList<JMenuItem>();
 
@@ -109,14 +113,15 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 		changeLink.addActionListener(this);
 		changeTrigger = new JMenuItem("Ändere Trigger");
 		changeTrigger.addActionListener(this);
-		changeMonster = new JMenuItem("Ändere Monster");
-		changeMonster.addActionListener(this);
 		addLink = new JMenuItem("Link");
 		addLink.addActionListener(this);
-		addMonster = new JMenuItem("Monster");
-		addMonster.addActionListener(this);
-		addNPC = new JMenuItem("NPC");
-		addNPC.addActionListener(this);
+		
+		changeMonster = new JMenuItem("Monster ...");
+		changeMonster.addActionListener(this);
+		changeNPC = new JMenuItem("NPC ...");
+		changeNPC.addActionListener(this);
+		changeItem = new JMenuItem("Item ...");
+		changeItem.addActionListener(this);
 		
 		addTrigger = new JMenu("Trigger für ...");
 		addCheckpoint = new JMenuItem("Checkpoint");
@@ -197,6 +202,26 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 		Editor.editor.triggerEditor.showWindow(affectedField.trigger);
 	}
 	
+	/**
+	 * Ruft den Monster-Editor mit dem Monster des angeklickten Felds auf.
+	 */
+	public void changeMonster() {
+		clearHighlights();
+		
+		Monster monsterToShow = null;
+		
+		//Sucht das Monster auf affectedField
+		Entities testEntity;
+		for(Iterator<Entities> iter = room.entities.iterator(); iter.hasNext();) {
+			testEntity = iter.next();
+			if (testEntity instanceof Monster && testEntity.getField() == affectedField)
+				monsterToShow = (Monster)testEntity;
+		}
+			
+		highlightField(affectedField, FieldHighlight.Type.FIELD);
+		Editor.editor.monsterEditor.showWindow(this, affectedField, monsterToShow);
+	}
+	
 	/** 
 	 * Zeigt das Kontextmenü an der Cursor-Position
 	 * @param e MouseEvent, das die Methode ausgelöst hat
@@ -205,9 +230,8 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 	private void dropdown(MouseEvent e) {
 		
 		// Räume Dropdown-Menü auf (removeCandidates)
-		Iterator<JMenuItem> iter = removeCandidates.iterator();
 		JMenuItem testItem;
-		while(iter.hasNext()) {
+		for( Iterator<JMenuItem> iter = removeCandidates.iterator(); iter.hasNext();) {
 			testItem = iter.next();
 			if(testItem != null) {
 				System.out.println("Räume weg: "+testItem.getLabel());
@@ -218,7 +242,6 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 		}
 		
 		// Link-Optionen
-		System.out.println("affectedField.link: "+affectedField.link);
 		if(affectedField.link != null) {
 			dropdown.add(changeLink);
 			removeCandidates.add(changeLink);
@@ -241,6 +264,51 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 			removeCandidates.add(addTrigger);
 		}
 		
+		//Entity-Edit-Optionen
+		Entities testEntity = null;
+		boolean entityOnField = false;
+		
+		//Durchsuche Entities, ob eine auf affectedField liegt
+		for(Iterator<Entities> iter = room.entities.iterator(); iter.hasNext();) {
+			testEntity = iter.next();
+			
+			//Falls eine Entity auf affectedField liegt, Schleife abbrechen
+			if(room.getField(testEntity.getPosition()) == affectedField) {
+				entityOnField = true;
+				break;
+			}
+		}
+		
+		//Falls eine Entity auf affectedField liegt, Menü entsprechend aufsetzen
+		if(entityOnField) {
+			if(testEntity instanceof Monster) {
+				dropdown.add(changeMonster);
+				removeCandidates.add(changeMonster);
+			}
+			else if(testEntity instanceof Item) {
+				dropdown.add(changeItem);
+				removeCandidates.add(changeItem);
+			}
+			else if(testEntity instanceof NPC) {
+				dropdown.add(changeNPC);
+				removeCandidates.add(changeNPC);
+			}
+		}
+		
+		//Falls nicht, alle Entity-Möglichkeiten einblenden.
+		else {
+			addSubMenu.add(changeMonster);
+			removeCandidates.add(changeMonster);
+			
+			addSubMenu.add(changeItem);
+			removeCandidates.add(changeItem);
+			
+			addSubMenu.add(changeNPC);
+			removeCandidates.add(changeNPC);
+		}
+		
+
+		// Menü anzeigen
 		dropdown.show(this, e.getX(), e.getY());
 	}
 	
@@ -276,6 +344,8 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 			changeTrigger();
 		else if(e.getSource() == this.addCheckpoint)
 			addCheckpoint();
+		else if(e.getSource() == this.changeMonster)
+			changeMonster();
 	}
 
 	/**

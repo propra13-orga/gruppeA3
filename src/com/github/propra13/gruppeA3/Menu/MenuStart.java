@@ -242,17 +242,9 @@ public class MenuStart extends JPanel implements ActionListener {
 
     	// Stellt Map auf
 	 	try {
-	 		Map.initialize(mapName);
+	 		Map.initialize(mapName, xmlName);
 	 	} catch (InvalidRoomLinkException | IOException | MapFormatException e) {
 	 		e.printStackTrace();
-	 	}
-	 	
-	 	SAXCrawlerReader reader=new SAXCrawlerReader();
-	 	try {
-	 		reader.read("data/levels/"+xmlName+".xml");
-	 		
-	 	} catch (Exception e) {
-	 			e.printStackTrace();
 	 	}
 	 	
 	 	randomgen = new Random(System.currentTimeMillis());
@@ -280,15 +272,25 @@ public class MenuStart extends JPanel implements ActionListener {
 		setGameStatus(GameStatus.INGAME);
  	}
  
+    /**
+     * "Submethode" einer paint-Methode; zeichnet einen Raum.
+     * @param g2d Graphics2D der aufrufenden paint-Methode.
+     * @param room Raum, der gezeichnet werden soll.
+     * @param panel JPanel, auf das der Raum gezeichnet werden soll.
+     */
  	public static void paintRoom(Graphics2D g2d, Room room, JPanel panel) {
+ 		
+ 		/*
+ 		 * Felder malen
+ 		 */
  		//Iteriert über Spalten
         for (int i = 0; i < room.roomFields.length; i++) {
             //Iteriert über Zeilen
             for (int j = 0; j < room.roomFields[i].length; j++) {
             	
-            	int walltype = room.roomFields[i][j].type;
+            	int fieldtype = room.roomFields[i][j].type;
             	
-            	switch(walltype)
+            	switch(fieldtype)
             	{
             	//Boden
             	case 1:
@@ -319,24 +321,12 @@ public class MenuStart extends JPanel implements ActionListener {
             		break;
             	}
             }
-        }        
- 	}
-    
-    public void paint(Graphics g) { //Funktion zum Zeichnen von Grafiken
-        super.paint(g);
-        Graphics2D g2d = (Graphics2D) g;
+        }   
         
-        if(getGameStatus() == GameStatus.INGAME)
-        {
-        	
-        paintRoom(g2d, activeRoom, this);
-        
-        setBackground(Color.GRAY);
-        
-        Position pp = player.getPosition().getDrawPosition(player.getHitbox());
-
-        // Malt Entities
-        LinkedList<Entities> tempEntities = (LinkedList<Entities>) activeRoom.entities.clone();
+        /*
+         * Entities malen
+         */
+        LinkedList<Entities> tempEntities = (LinkedList<Entities>) room.entities.clone();
         Iterator<Entities> iter = tempEntities.iterator();
         Entities testEntity;
 
@@ -361,19 +351,19 @@ public class MenuStart extends JPanel implements ActionListener {
             		case 1:{           	
             			switch(monster.getFaceDirection()){
             			case UP: 
-            				g2d.drawImage(GameWindow.monsterimg_1up, entityPos.x, entityPos.y , this);
+            				g2d.drawImage(GameWindow.monsterimg_1up, entityPos.x, entityPos.y , panel);
             				break;
             			case DOWN:
-            				g2d.drawImage(GameWindow.monsterimg_1down, entityPos.x, entityPos.y , this);
+            				g2d.drawImage(GameWindow.monsterimg_1down, entityPos.x, entityPos.y , panel);
             				break;
             			case LEFT:
-            				g2d.drawImage(GameWindow.monsterimg_1left, entityPos.x, entityPos.y , this);
+            				g2d.drawImage(GameWindow.monsterimg_1left, entityPos.x, entityPos.y , panel);
             				break;
             			case RIGHT:
-            				g2d.drawImage(GameWindow.monsterimg_1right, entityPos.x, entityPos.y , this);
+            				g2d.drawImage(GameWindow.monsterimg_1right, entityPos.x, entityPos.y , panel);
             				break;	
             			default:
-            				g2d.drawImage(GameWindow.monsterimg_1down, entityPos.x, entityPos.y , this);
+            				g2d.drawImage(GameWindow.monsterimg_1down, entityPos.x, entityPos.y , panel);
             				break;
             			}
             			break;
@@ -383,19 +373,19 @@ public class MenuStart extends JPanel implements ActionListener {
             		{           	
             			switch(monster.getFaceDirection()){
             			case UP: 
-            				g2d.drawImage(GameWindow.monsterimg_2up, entityPos.x, entityPos.y , this);
+            				g2d.drawImage(GameWindow.monsterimg_2up, entityPos.x, entityPos.y , panel);
             				break;
             			case DOWN:
-            				g2d.drawImage(GameWindow.monsterimg_2down, entityPos.x, entityPos.y , this);
+            				g2d.drawImage(GameWindow.monsterimg_2down, entityPos.x, entityPos.y , panel);
             				break;
             			case LEFT:
-            				g2d.drawImage(GameWindow.monsterimg_2left, entityPos.x, entityPos.y , this);
+            				g2d.drawImage(GameWindow.monsterimg_2left, entityPos.x, entityPos.y , panel);
             				break;
             			case RIGHT:
-            				g2d.drawImage(GameWindow.monsterimg_2right, entityPos.x, entityPos.y , this);
+            				g2d.drawImage(GameWindow.monsterimg_2right, entityPos.x, entityPos.y , panel);
             				break;	
             			default:
-            				g2d.drawImage(GameWindow.monsterimg_2down, entityPos.x, entityPos.y , this);
+            				g2d.drawImage(GameWindow.monsterimg_2down, entityPos.x, entityPos.y , panel);
             				break;
             			}
             			break;
@@ -404,19 +394,19 @@ public class MenuStart extends JPanel implements ActionListener {
             		{           	
             			switch(monster.getFaceDirection()){
             			case UP: 
-            				g2d.drawImage(GameWindow.monsterimg_3up, entityPos.x, entityPos.y , this);
+            				g2d.drawImage(GameWindow.monsterimg_3up, entityPos.x, entityPos.y , panel);
             				break;
             			case DOWN:
-            				g2d.drawImage(GameWindow.monsterimg_3down, entityPos.x, entityPos.y , this);
+            				g2d.drawImage(GameWindow.monsterimg_3down, entityPos.x, entityPos.y , panel);
             				break;
             			case LEFT:
-            				g2d.drawImage(GameWindow.monsterimg_3left, entityPos.x, entityPos.y , this);
+            				g2d.drawImage(GameWindow.monsterimg_3left, entityPos.x, entityPos.y , panel);
             				break;
             			case RIGHT:
-            				g2d.drawImage(GameWindow.monsterimg_3right, entityPos.x, entityPos.y , this);
+            				g2d.drawImage(GameWindow.monsterimg_3right, entityPos.x, entityPos.y , panel);
             				break;	
             			default:
-            				g2d.drawImage(GameWindow.monsterimg_3down, entityPos.x, entityPos.y , this);
+            				g2d.drawImage(GameWindow.monsterimg_3down, entityPos.x, entityPos.y , panel);
             				break;
             			}
             			break;
@@ -424,19 +414,19 @@ public class MenuStart extends JPanel implements ActionListener {
             		case 4:{           	
             			switch(monster.getFaceDirection()){
             			case UP: 
-            				g2d.drawImage(GameWindow.monsterimg_4up, entityPos.x, entityPos.y , this);
+            				g2d.drawImage(GameWindow.monsterimg_4up, entityPos.x, entityPos.y , panel);
             				break;
             			case DOWN:
-            				g2d.drawImage(GameWindow.monsterimg_4down, entityPos.x, entityPos.y , this);
+            				g2d.drawImage(GameWindow.monsterimg_4down, entityPos.x, entityPos.y , panel);
             				break;
             			case LEFT:
-            				g2d.drawImage(GameWindow.monsterimg_4left, entityPos.x, entityPos.y , this);
+            				g2d.drawImage(GameWindow.monsterimg_4left, entityPos.x, entityPos.y , panel);
             				break;
             			case RIGHT:
-            				g2d.drawImage(GameWindow.monsterimg_4right, entityPos.x, entityPos.y , this);
+            				g2d.drawImage(GameWindow.monsterimg_4right, entityPos.x, entityPos.y , panel);
             				break;	
             			default:
-            				g2d.drawImage(GameWindow.monsterimg_4down, entityPos.x, entityPos.y , this);
+            				g2d.drawImage(GameWindow.monsterimg_4down, entityPos.x, entityPos.y , panel);
             				break;
             			}
             			break;
@@ -445,19 +435,19 @@ public class MenuStart extends JPanel implements ActionListener {
             	          	
                 			switch(monster.getFaceDirection()){
                 			case UP: 
-                				g2d.drawImage(GameWindow.bossimg_1up, entityPos.x, entityPos.y , this);
+                				g2d.drawImage(GameWindow.bossimg_1up, entityPos.x, entityPos.y , panel);
                 				break;
                 			case DOWN:
-                				g2d.drawImage(GameWindow.bossimg_1down, entityPos.x, entityPos.y , this);
+                				g2d.drawImage(GameWindow.bossimg_1down, entityPos.x, entityPos.y , panel);
                 				break;
                 			case LEFT:
-                				g2d.drawImage(GameWindow.bossimg_1left, entityPos.x, entityPos.y , this);
+                				g2d.drawImage(GameWindow.bossimg_1left, entityPos.x, entityPos.y , panel);
                 				break;
                 			case RIGHT:
-                				g2d.drawImage(GameWindow.bossimg_1right, entityPos.x, entityPos.y , this);
+                				g2d.drawImage(GameWindow.bossimg_1right, entityPos.x, entityPos.y , panel);
                 				break;	
                 			default:
-                				g2d.drawImage(GameWindow.bossimg_1down, entityPos.x, entityPos.y , this);
+                				g2d.drawImage(GameWindow.bossimg_1down, entityPos.x, entityPos.y , panel);
             			
             			break;
                 			}
@@ -470,45 +460,61 @@ public class MenuStart extends JPanel implements ActionListener {
             	entityPos.setPosition(item.getPosition().x - (item.getHitbox().width/2), item.getPosition().y - (item.getHitbox().height/2));
             	switch (item.getType()){
             		case 1:
-        				g2d.drawImage(GameWindow.lifePosion, entityPos.x, entityPos.y, this);
+        				g2d.drawImage(GameWindow.lifePosion, entityPos.x, entityPos.y, panel);
         				break;
             		case 2:
-        				g2d.drawImage(GameWindow.deadlyPosion, entityPos.x, entityPos.y, this);
+        				g2d.drawImage(GameWindow.deadlyPosion, entityPos.x, entityPos.y, panel);
         				break;
             		case 3:
-            			g2d.drawImage(GameWindow.manaPosion, entityPos.x, entityPos.y, this);
+            			g2d.drawImage(GameWindow.manaPosion, entityPos.x, entityPos.y, panel);
             			break;
             		case 4:
-            			g2d.drawImage(GameWindow.sword, entityPos.x, entityPos.y, this);
+            			g2d.drawImage(GameWindow.sword, entityPos.x, entityPos.y, panel);
             			break;
             		case 5:
-            			g2d.drawImage(GameWindow.shield, entityPos.x, entityPos.y, this);
+            			g2d.drawImage(GameWindow.shield, entityPos.x, entityPos.y, panel);
             			break;
             	}
             }
             else if (testEntity instanceof Coin){
             	coin = (Coin)testEntity;
             	entityPos.setPosition(coin.getPosition().x - (coin.getHitbox().width/2), coin.getPosition().y - (coin.getHitbox().height/2));
-            	g2d.drawImage(GameWindow.coin, entityPos.x, entityPos.y, this);
+            	g2d.drawImage(GameWindow.coin, entityPos.x, entityPos.y, panel);
             }
             else if (testEntity instanceof NPC){
             	npc = (NPC)testEntity;
             	entityPos.setPosition(npc.getPosition().x - (npc.getHitbox().width/2), npc.getPosition().y - (npc.getHitbox().height/2));
             	switch (npc.getType()){
             		case 1:
-            			g2d.drawImage(GameWindow.npc3, entityPos.x, entityPos.y, this);
+            			g2d.drawImage(GameWindow.npc3, entityPos.x, entityPos.y, panel);
             			break;
             		case 2:
-            			g2d.drawImage(GameWindow.npc2, entityPos.x, entityPos.y, this);
+            			g2d.drawImage(GameWindow.npc2, entityPos.x, entityPos.y, panel);
             			break;
             	}
             }
             else if (testEntity instanceof PlasmaBall) {
             	entityPos.setPosition(testEntity.getPosition().x - (testEntity.getHitbox().width/2) , testEntity.getPosition().y - (testEntity.getHitbox().height/2));
-            	g2d.drawImage(GameWindow.plasma, entityPos.x, entityPos.y, this);
+            	g2d.drawImage(GameWindow.plasma, entityPos.x, entityPos.y, panel);
             	
             }
         }
+ 	}
+    
+    public void paint(Graphics g) { //Funktion zum Zeichnen von Grafiken
+        super.paint(g);
+        Graphics2D g2d = (Graphics2D) g;
+        
+        if(getGameStatus() == GameStatus.INGAME)
+        {
+        	
+        paintRoom(g2d, activeRoom, this);
+        
+        setBackground(Color.GRAY);
+        
+        Position pp = player.getPosition().getDrawPosition(player.getHitbox());
+
+        
 
         // Malt Spieler
         switch(player.getFaceDirection()){
@@ -620,7 +626,7 @@ public void Score(Graphics2D g) {
 	g.drawImage(GameWindow.mana, 160, 543,this);
 	g.drawString(Integer.toString(player.getMana()),185,563);
 	g.drawImage(GameWindow.infosword, 220, 543,this);
-	g.drawString(Integer.toString(player.getPower()),245,563);
+	g.drawString(Integer.toString(player.getAttack()),245,563);
 	g.drawImage(GameWindow.infoshield, 270, 543,this);
 	g.drawString(Integer.toString(player.getArmour()),305,563);
 	
@@ -651,7 +657,7 @@ public void Score(Graphics2D g) {
 
 		}
 		else {
-			//Spiel Start
+			//Spielstart
 			String action = e.getActionCommand();
 			if("newgame".equals(action)) {
 				nextMap = 1;
@@ -898,7 +904,7 @@ public void Score(Graphics2D g) {
 	}
 	
 	private void executePlayerAttacks(){
-		if((player.getAttackCount() == 0) && (player.getAttack() == true)){
+		if((player.getAttackCount() == 0) && (player.getIsAttacking() == true)){
 			player.attack();
 			player.setAttackCount(30);
 			player.setAttack(false);

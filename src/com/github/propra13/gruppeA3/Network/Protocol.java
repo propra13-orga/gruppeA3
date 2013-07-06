@@ -176,6 +176,7 @@ public class Protocol {
     	String desc = receiveString();
     	String name = receiveString();
     	int value = this.in.readInt();
-		return new Item(damage, type, x, y, desc, name, value);
+    	//TODO: statt null Raum eintragen
+		return new Item(null, damage, type, x, y, desc, name, value);
     }
 }

@@ -11,6 +11,7 @@ import com.github.propra13.gruppeA3.Editor.Editor;
 import com.github.propra13.gruppeA3.Exceptions.*;
 import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
+import com.github.propra13.gruppeA3.XMLParser.SAXCrawlerReader;
 
 public class Map {
 	/**
@@ -52,7 +53,7 @@ public class Map {
 	 * @throws IOException System-IO-Fehler
 	 * @throws InvalidRoomLinkException Falls ein Fehler bei einem Link vorliegt
 	 */
-	public static void initialize(String dirName) 
+	public static void initialize(String dirName, String xmlName) 
 			throws FileNotFoundException, MapFormatException, IOException, InvalidRoomLinkException {
 		
 		spawns[0] = spawns[1] = null;
@@ -70,6 +71,17 @@ public class Map {
 		linkBuffer.clear();
 		checkpointFieldsToBuild.clear();
 		checkpointLinksToBuild.clear();
+		
+		if(xmlName != null && xmlName != "") {
+			SAXCrawlerReader reader=new SAXCrawlerReader();
+		 	try {
+		 		reader.read("data/levels/"+xmlName+".xml");
+		 		
+		 	} catch (Exception e) {
+		 			e.printStackTrace();
+		 	}
+		}
+	 	
 		
 		System.out.println("Map gebaut!");
 		//checkLinks();

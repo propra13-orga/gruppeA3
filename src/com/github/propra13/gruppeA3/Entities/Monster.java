@@ -3,6 +3,7 @@ package com.github.propra13.gruppeA3.Entities;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import com.github.propra13.gruppeA3.Map.Link;
 import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Map.Position;
 import com.github.propra13.gruppeA3.Map.Room;
@@ -51,7 +52,7 @@ public class Monster extends Moveable {
 		this.isBoss = isBoss;
 		setPosition(x+(hitbox.width/2),y+(hitbox.height/2));
 		setDirection(Direction.NONE);
-		coins=new Coin(coinValue, coinType, this.pos);
+		coins=new Coin(room_bind, coinValue, coinType, this.pos);
 		this.type = type;
 		/**
 		 * Diese Abfrage ist für Bossmonster, die größer sind als gewöhnliche Monster
@@ -155,8 +156,8 @@ public class Monster extends Moveable {
 						if(testent instanceof Player){
 							if(this.getAttackCount() == 0){
 								player = (Player) testent;
-								if((this.getPower() - player.getArmour()) > 0){
-									player.setHealth(player.getHealth() - (this.getPower() - player.getArmour()));
+								if((this.getAttack() - player.getArmour()) > 0){
+									player.setHealth(player.getHealth() - (this.getAttack() - player.getArmour()));
 								}
 								else{
 									player.setHealth(player.getHealth() -1);
@@ -171,6 +172,59 @@ public class Monster extends Moveable {
 				}
 			}
 		}
+	}
+	
+	
+	/*
+	 * Map-Editor-Methoden
+	 */
+	
+	/**
+	 * Ändert die Monster-Attribute.
+	 * @param monster Monster, dessen Attribute übernommen werden sollen
+	 */
+	public void edit(Monster monster) {
+		setHealth(monster.getHealth());
+		setArmour(monster.getArmour());
+		desc = monster.desc;
+		this.isBoss = monster.isBoss;
+		coins=new Coin(monster.getRoom(), monster.coins.getValue(), monster.coins.getType(), this.pos);
+		this.type = monster.type;
+		/**
+		 * Diese Abfrage ist für Bossmonster, die größer sind als gewöhnliche Monster
+		 */
+		if(type == 5){ 
+			this.hitbox.height = 48;
+			this.hitbox.width  = 48;
+		}
+
+		resetSpeed(monster.getSpeed());
+		resetAttack(monster.getAttack());
+	}
+	
+	/**
+	 * Setzt Monster-Typ.
+	 */
+	public void setType(int type) {
+		this.type = type;
+	}
+	
+	/**
+	 * Gibt eine Kopie dieses Monsters zurück.
+	 */
+	public Monster clone() {
+		return new Monster(	room,
+							getSpeed(),
+							getAttack(),
+							type,
+							getHealth(),
+							getFieldPos().x,
+							getFieldPos().y,
+							desc,
+							coins.getValue(),
+							coins.getType(),
+							getArmour(),
+							isBoss);
 	}
 }
 	

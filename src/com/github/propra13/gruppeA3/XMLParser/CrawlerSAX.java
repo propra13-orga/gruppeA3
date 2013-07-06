@@ -92,7 +92,7 @@ public class CrawlerSAX extends DefaultHandler{
 			String name = new String(attrs.getValue("name"));
 			int value = Integer.parseInt(attrs.getValue("value"));
 
-			Item item=new Item(damage, type, posx, posy, desc, name, value);
+			Item item=new Item(Map.getRoom(roomID), damage, type, posx, posy, desc, name, value);
 			
 			if(checkNPC){
 				npc.getItems().add(item);

@@ -20,54 +20,74 @@ public class Menu extends JPanel implements ActionListener {
 	
 	Editor editor;
 	
+	JButton bNewMap, bOpen, bSave, bSaveAs, bExit, bAdd, bMove, bDel, bSpawns;
+	
 	public Menu(Editor editor) {
 		
 		this.editor = editor;
 		
 		setLayout(new GridBagLayout());
 		
+		Dimension stdButtonSize = new Dimension(200,30);
+		
 		//Buttons
 		//Insets: Abstand zwischen Elementen, new Insets(oben, links, unten, rechts)
-		JButton bOpen = new JButton("Öffnen");
+		bNewMap = new JButton("Neue Karte");
+		bNewMap.setPreferredSize(stdButtonSize);
+		GridBagConstraints newMapConstraints = new GridBagConstraints();
+		newMapConstraints.gridx = newMapConstraints.gridy = 0;
+		newMapConstraints.gridheight = newMapConstraints.gridwidth = 1;
+		newMapConstraints.fill = GridBagConstraints.HORIZONTAL;
+		newMapConstraints.weightx = newMapConstraints.weighty = 1;
+		newMapConstraints.insets = new Insets(10,4,2,4);
+		add(bNewMap, newMapConstraints);
+		
+		bOpen = new JButton("Öffnen");
+		bOpen.setPreferredSize(stdButtonSize);
 		GridBagConstraints openConstraints = new GridBagConstraints();
-		openConstraints.gridx = openConstraints.gridy = 0;
+		openConstraints.gridx = 0;
+		openConstraints.gridy = 1;
 		openConstraints.gridheight = openConstraints.gridwidth = 1;
 		openConstraints.fill = GridBagConstraints.HORIZONTAL;
 		openConstraints.weightx = openConstraints.weighty = 1;
 		openConstraints.insets = new Insets(2,4,2,4);
 		add(bOpen, openConstraints);
 		
-		JButton bSave = new JButton("Speichern");
+		bSave = new JButton("Speichern");
+		bSave.setPreferredSize(stdButtonSize);
 		GridBagConstraints saveConstraints = new GridBagConstraints();
 		saveConstraints.gridx = 0;
-		saveConstraints.gridy = 1;
+		saveConstraints.gridy = 2;
 		saveConstraints.gridheight = saveConstraints.gridwidth = 1;
 		saveConstraints.fill = GridBagConstraints.HORIZONTAL;
 		saveConstraints.weightx = saveConstraints.weighty = 1;
 		saveConstraints.insets = new Insets(2,4,2,4);
 		add(bSave, saveConstraints);
 		
-		JButton bSaveAs = new JButton("Speichern unter ...");
+		bSaveAs = new JButton("Speichern unter ...");
+		bSaveAs.setPreferredSize(stdButtonSize);
 		GridBagConstraints saveAsConstraints = new GridBagConstraints();
 		saveAsConstraints.gridx = 0;
-		saveAsConstraints.gridy = 2;
+		saveAsConstraints.gridy = 3;
 		saveAsConstraints.gridheight = saveAsConstraints.gridwidth = 1;
 		saveAsConstraints.fill = GridBagConstraints.HORIZONTAL;
 		saveAsConstraints.weightx = saveAsConstraints.weighty = 1;
 		saveAsConstraints.insets = new Insets(2,4,2,4);
 		add(bSaveAs, saveAsConstraints);
 		
-		JButton bExit = new JButton("Beenden");
+		bExit = new JButton("Beenden");
+		bExit.setPreferredSize(stdButtonSize);
 		GridBagConstraints exitConstraints = new GridBagConstraints();
 		exitConstraints.gridx = 0;
-		exitConstraints.gridy = 3;
+		exitConstraints.gridy = 4;
 		exitConstraints.gridheight = exitConstraints.gridwidth = 1;
 		exitConstraints.fill = GridBagConstraints.HORIZONTAL;
 		exitConstraints.weightx = exitConstraints.weighty = 1;
-		exitConstraints.insets = new Insets(2,4,2,4);
+		exitConstraints.insets = new Insets(2,4,16,4);
 		add(bExit, exitConstraints);
 		
-		JButton bAdd = new JButton("Raum hinzufügen");
+		bAdd = new JButton("Raum hinzufügen");
+		bAdd.setPreferredSize(stdButtonSize);
 		GridBagConstraints addConstraints = new GridBagConstraints();
 		addConstraints.gridx = 0;
 		addConstraints.gridy = 5;
@@ -77,7 +97,8 @@ public class Menu extends JPanel implements ActionListener {
 		addConstraints.insets = new Insets(2,4,2,4);
 		add(bAdd, addConstraints);
 		
-		JButton bMove = new JButton("Raum verschieben");
+		bMove = new JButton("Raum verschieben");
+		bMove.setPreferredSize(stdButtonSize);
 		GridBagConstraints moveConstraints = new GridBagConstraints();
 		moveConstraints.gridx = 0;
 		moveConstraints.gridy = 6;
@@ -87,31 +108,37 @@ public class Menu extends JPanel implements ActionListener {
 		moveConstraints.insets = new Insets(2,4,2,4);
 		add(bMove, moveConstraints);
 		
-		JButton bDel = new JButton("Raum entfernen");
+		bDel = new JButton("Raum entfernen");
+		bDel.setPreferredSize(stdButtonSize);
 		GridBagConstraints delConstraints = new GridBagConstraints();
 		delConstraints.gridx = 0;
 		delConstraints.gridy = 7;
 		delConstraints.gridheight = moveConstraints.gridwidth = 1;
 		delConstraints.fill = GridBagConstraints.HORIZONTAL;
 		delConstraints.weightx = moveConstraints.weighty = 1;
-		delConstraints.insets = new Insets(2,4,2,4);
+		delConstraints.insets = new Insets(2,4,16,4);
 		add(bDel, delConstraints);
+		
+		bSpawns = new JButton("Spawns ändern");
+		bSpawns.setPreferredSize(stdButtonSize);
+		GridBagConstraints spawnConstraints = new GridBagConstraints();
+		spawnConstraints.gridx = 0;
+		spawnConstraints.gridy = 8;
+		spawnConstraints.gridheight = spawnConstraints.gridwidth = 1;
+		spawnConstraints.fill = GridBagConstraints.HORIZONTAL;
+		spawnConstraints.weightx = spawnConstraints.weighty = 1;
+		spawnConstraints.insets = new Insets(2,4,2,4);
+		add(bSpawns, spawnConstraints);
 
 		// Button-Actions
-		bOpen.setActionCommand("bOpen");
 		bOpen.addActionListener(this);
-		bSave.setActionCommand("bSave");
 		bSave.addActionListener(this);
-		bSaveAs.setActionCommand("bSaveAs");
 		bSaveAs.addActionListener(this);
-		bExit.setActionCommand("bExit");
 		bExit.addActionListener(this);
-		bAdd.setActionCommand("bAdd");
 		bAdd.addActionListener(this);
-		bMove.setActionCommand("bMove");
 		bMove.addActionListener(this);
-		bDel.setActionCommand("bDel");
 		bDel.addActionListener(this);
+		bSpawns.addActionListener(this);
 		
 		
 		//Unsichtbares Panel rechts
@@ -131,7 +158,7 @@ public class Menu extends JPanel implements ActionListener {
 		dummyRConstraints.gridheight = 1;
 		dummyRConstraints.weighty = 10;
 		dummyRConstraints.fill = GridBagConstraints.VERTICAL;
-		Dimension size = new Dimension(0, 300);
+		Dimension size = new Dimension(0, 200);
 		dummyUPanel.setMinimumSize(size);
 		dummyUPanel.setPreferredSize(size);
 		add(dummyUPanel, dummyUConstraints);
@@ -186,26 +213,32 @@ public class Menu extends JPanel implements ActionListener {
 	private void bDel() {
 		System.out.println("\"Raum löschen\" gedrückt");
 	}
+	
+	/**Wird aufgerufen, wenn "Spawns ändern" gedrückt wurde.*/
+	private void bSpawns() {
+		System.out.println("\"Spawns ändern\" gedrückt");
+	}
 
 	@Override
-	public void actionPerformed(ActionEvent event) {
-		String cmd = event.getActionCommand();
-		if("bNewMap".equals(cmd))
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == bNewMap)
 			bNewMap();
-		else if("bOpen".equals(cmd))
+		else if(e.getSource() == bOpen)
 			bOpen();
-		else if("bSave".equals(cmd))
+		else if(e.getSource() == bSave)
 			bSave();
-		else if("bSaveAs".equals(cmd))
+		else if(e.getSource() == bSaveAs)
 			bSaveAs();
-		else if("bExit".equals(cmd))
+		else if(e.getSource() == bExit)
 			bExit();
-		else if("bAdd".equals(cmd))
+		else if(e.getSource() == bAdd)
 			bAdd();
-		else if("bMove".equals(cmd))
+		else if(e.getSource() == bMove)
 			bMove();
-		else if("bDel".equals(cmd))
+		else if(e.getSource() == bDel)
 			bDel();
+		else if(e.getSource() == bSpawns)
+			bSpawns();
 	}
 
 }
