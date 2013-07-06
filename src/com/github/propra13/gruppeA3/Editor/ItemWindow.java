@@ -27,24 +27,19 @@ import javax.swing.table.DefaultTableModel;
 
 import com.github.propra13.gruppeA3.Game;
 import com.github.propra13.gruppeA3.GameWindow;
+import com.github.propra13.gruppeA3.Entities.Item;
 import com.github.propra13.gruppeA3.Entities.Monster;
 import com.github.propra13.gruppeA3.Map.Field;
 import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 
-/**
- * Klasse für den Monster-Dialog. Wird im Editor-Konstruktor
- * konstruiert und bei Bedarf mit Werten gefüllt.
- * @author christian
- *
- */
-public class MonsterWindow extends JDialog implements ActionListener, ListCellRenderer<JPanel>, ListSelectionListener {
-	private static final long serialVersionUID = 1L;
+public class ItemWindow extends JDialog implements ActionListener, ListCellRenderer<JPanel>, ListSelectionListener {
+private static final long serialVersionUID = 1L;
 	
-	Monster workingMonster; //Arbeitskopie des Monsters
-	Monster monsterToEdit; //Monster, das geändert werden soll
-	Field affectedField; //Feld, auf dem sich das Monster befindet
-	RoomTab roomTab; //Raum-Tab, auf dessen Raum sich das Monster befindet
+	Monster workingItem; //Arbeitskopie des Items
+	Monster itemToEdit; //Item, das geändert werden soll
+	Field affectedField; //Feld, auf dem sich das Item befindet
+	RoomTab roomTab; //Raum-Tab, auf dessen Raum sich das Item befindet
 	
 	private final static int MINWIDTH = 350;
 	private final static int MINHEIGHT = 300;
@@ -53,7 +48,7 @@ public class MonsterWindow extends JDialog implements ActionListener, ListCellRe
 	JButton bDone, bCancel;
 	String type, size, strength, health, armor, speed, coinVal;
 	boolean isBoss;
-	JList<JPanel> monsterList;
+	JList<JPanel> itemList;
 	JTable attributeTable;
 	String[][] tableContent;
 	DefaultTableModel tableModel;
@@ -61,7 +56,7 @@ public class MonsterWindow extends JDialog implements ActionListener, ListCellRe
 	//Listeneinträge
 	JPanel emptyPanel, scorpPanel, snakePanel, zombiePanel, spiderPanel, bossPanel;
 	
-	public MonsterWindow() {
+	public ItemWindow() {
 		//JDialog aufbauen
 		super(Game.frame);
 		GridBagLayout layout = new GridBagLayout();
@@ -76,12 +71,12 @@ public class MonsterWindow extends JDialog implements ActionListener, ListCellRe
 		 * Listeneinträge sind JPanels, die JLabels beinhalten
 		 */
 		//JList-Setup
-		monsterList = new JList<JPanel>();
-		monsterList.setCellRenderer(this);
-		monsterList.addListSelectionListener(this);
-		monsterList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		monsterList.setLayoutOrientation(JList.VERTICAL);
-		monsterList.setFixedCellHeight(38);
+		itemList = new JList<JPanel>();
+		itemList.setCellRenderer(this);
+		itemList.addListSelectionListener(this);
+		itemList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		itemList.setLayoutOrientation(JList.VERTICAL);
+		itemList.setFixedCellHeight(38);
 		
 		//JLabels
 		JLabel emptyEntry = new JLabel("Kein Monster");
@@ -113,8 +108,8 @@ public class MonsterWindow extends JDialog implements ActionListener, ListCellRe
 		
 		//Panels auf JList legen; Liste auf Scrollpane legen
 		JPanel[] panels = {emptyPanel, scorpPanel, snakePanel, zombiePanel, spiderPanel, bossPanel};
-		monsterList.setListData(panels);
-		JScrollPane monsterListPane = new JScrollPane(monsterList);
+		itemList.setListData(panels);
+		JScrollPane monsterListPane = new JScrollPane(itemList);
 		monsterListPane.setPreferredSize(new Dimension(100, 300)); //Größe der Liste
 		
 		//Liste auf Dialog legen
@@ -194,16 +189,16 @@ public class MonsterWindow extends JDialog implements ActionListener, ListCellRe
 		this.roomTab = roomTab;
 		
 		//workingMonster und monsterToEdit setzen
-		monsterToEdit = monster;
+		itemToEdit = monster;
 		
-		if(monsterToEdit == null)
-			workingMonster = new Monster(Map.getRoom(Editor.editor.getSelectedIndex()), 1.0, 1, 0, 10, 
+		if(itemToEdit == null)
+			workingItem = new Monster(Map.getRoom(Editor.editor.getSelectedIndex()), 1.0, 1, 0, 10, 
 					5, 5, "unset", 10, 10, 10, false);
 		else
-			workingMonster = monster.clone();
+			workingItem = monster.clone();
 		
 		//Auswahl in Liste setzen
-		monsterList.setSelectedIndex(workingMonster.getType());
+		itemList.setSelectedIndex(workingItem.getType());
 		
 		//Fenster-Setup
 		MenuStart.centerWindow(this);
@@ -215,9 +210,9 @@ public class MonsterWindow extends JDialog implements ActionListener, ListCellRe
 	 * Updatet die Monster-Eigenschaften-Tabelle.
 	 */
 	private void update() {
-		if(workingMonster.getType() != 0)
+		if(workingItem.getType() != 0)
 			attributeTable.setVisible(true);
-		switch(workingMonster.getType()) {
+		switch(workingItem.getType()) {
 		case 1:
 			tableContent[0][1] = "Skorpion";	//Typ
 			tableContent[1][1] = "todo";		//Größe
@@ -286,18 +281,18 @@ public class MonsterWindow extends JDialog implements ActionListener, ListCellRe
 	private void save() {
 		
 		//Ein bestehendes Monster wird gelöscht
-		if(workingMonster.getType() == 0 && monsterToEdit != null)
-			workingMonster.getRoom().entities.remove(monsterToEdit);
+		if(workingItem.getType() == 0 && itemToEdit != null)
+			workingItem.getRoom().entities.remove(itemToEdit);
 		
 		//Ein bestehendes Monster wird geändert
-		else if(workingMonster.getType() != 0 && monsterToEdit != null)
-			monsterToEdit.edit(workingMonster);
+		else if(workingItem.getType() != 0 && itemToEdit != null)
+			itemToEdit.edit(workingItem);
 		
 		//Ein neues Monster wird hinzugefügt
-		else if(workingMonster.getType() != 0 && monsterToEdit == null)
-			workingMonster.getRoom().entities.add(workingMonster);
+		else if(workingItem.getType() != 0 && itemToEdit == null)
+			workingItem.getRoom().entities.add(workingItem);
 		
-		monsterToEdit = workingMonster = null;
+		itemToEdit = workingItem = null;
 		roomTab.clearHighlights();
 		roomTab.repaint();
 		setVisible(false);
@@ -308,7 +303,7 @@ public class MonsterWindow extends JDialog implements ActionListener, ListCellRe
 	 * Wird aufgerufen, falls "Abbrechen" gedrückt wurde.
 	 */
 	private void cancel() {
-		monsterToEdit = workingMonster = null;
+		itemToEdit = workingItem = null;
 		roomTab.clearHighlights();
 		setVisible(false);
 	}
@@ -327,23 +322,23 @@ public class MonsterWindow extends JDialog implements ActionListener, ListCellRe
 	 * Provisorische Display-Methoden für die einzelnen Monster
 	 */
 	private void showScorp() {
-		workingMonster.setType(1);
+		workingItem.setType(1);
 	}
 	
 	private void showSnake() {
-		workingMonster.setType(2);
+		workingItem.setType(2);
 	}
 	
 	private void showZombie() {
-		workingMonster.setType(3);
+		workingItem.setType(3);
 	}
 	
 	private void showSpider() {
-		workingMonster.setType(4);
+		workingItem.setType(4);
 	}
 	
 	private void showBoss() {
-		workingMonster.setType(5);
+		workingItem.setType(5);
 	}
 
 	/**
@@ -366,21 +361,21 @@ public class MonsterWindow extends JDialog implements ActionListener, ListCellRe
 	public void valueChanged(ListSelectionEvent e) {
 		if(! e.getValueIsAdjusting()) { //Damit nicht zweimal pro Selection ausgeführt wird
 				
-			if(monsterList.getSelectedIndex() == 0) {
-				workingMonster.setType(0);
+			if(itemList.getSelectedIndex() == 0) {
+				workingItem.setType(0);
 				attributeTable.setVisible(false);
 			}
 			else {
 				attributeTable.setVisible(true);
-				if(monsterList.getSelectedIndex() == 1)
+				if(itemList.getSelectedIndex() == 1)
 					showScorp();
-				else if(monsterList.getSelectedIndex() == 2)
+				else if(itemList.getSelectedIndex() == 2)
 					showSnake();
-				else if(monsterList.getSelectedIndex() == 3)
+				else if(itemList.getSelectedIndex() == 3)
 					showZombie();
-				else if(monsterList.getSelectedIndex() == 4)
+				else if(itemList.getSelectedIndex() == 4)
 					showSpider();
-				else if(monsterList.getSelectedIndex() == 5)
+				else if(itemList.getSelectedIndex() == 5)
 					showBoss();
 	
 				update();
