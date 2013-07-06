@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -94,6 +95,8 @@ public class MenuStart extends JPanel implements ActionListener {
 	private int buttonPosY;
 	
 	private JDialog helpDialog;
+	
+	private JLabel background;
     
 	/**
 	 *  Status in denen sich das Spiel/Menü befindet
@@ -144,6 +147,8 @@ public class MenuStart extends JPanel implements ActionListener {
         
         
         // Menü vorbereiten
+        background = new JLabel(new ImageIcon(GameWindow.background));
+        
      	buttonNewGame = new JButton("Neues Spiel");
      	buttonNextMap = new JButton("Nächste Karte");
      	buttonNetwork = new JButton("Multiplayer");
@@ -254,6 +259,7 @@ public class MenuStart extends JPanel implements ActionListener {
 		
 		
 		// Menü-Buttons ausblenden, Status ändern
+		background.setVisible(false);
 		buttonNewGame.setVisible(false);
 		buttonNextMap.setVisible(false);
 		buttonNetwork.setVisible(false);
@@ -586,6 +592,9 @@ public void initMenu(){
 	buttonPosX = GameMinSizeX/2-100;
 	buttonPosY = GameMinSizeY/2-100;
 	
+	background.setBounds(0, 0, 800, 600);
+	add(background);
+	background.setVisible(true);
 	// bestimme Position und Größe
 	
 	//Falls schon eine Karte gemeistert wurde, Nächste-Karte-Button anzeigen

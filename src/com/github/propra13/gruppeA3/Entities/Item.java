@@ -136,5 +136,56 @@ public class Item extends Entities {
 	public void tick() {}
 	@Override
 	public void collision(Entities entity) {}
+	
+	/*
+	 * Map-Editor-Methoden
+	 */
+	
+	/**
+	 * Gibt eine Kopie dieses Items zurück.
+	 */
+	public Item clone() {
+		return new Item(getRoom(),
+						damage,
+						type,
+						getPosition().toFieldPos().x,
+						getPosition().toFieldPos().y,
+						getDesc(),
+						getName(),
+						getValue());
+	}
+	
+	/**
+	 * Ändert die Item-Attribute.
+	 * @param item Item, dessen Attribute übernommen werden sollen
+	 */
+	public void edit(Item item) {
+		setDamage(item.getDamage());
+		setType(item.getType());
+		setPosition(item.getPosition());
+		setDesc(item.getDesc());
+		setName(item.getName());
+		setValue(item.getValue());
+	}
+	
+	public void setDamage(int damage) {
+		this.damage = damage;
+	}
+	
+	public void setType(int type) {
+		this.type = type;
+	}
+	
+	public void setPosition(Position pos) {
+		this.pos = pos;
+	}
+	
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
 }
 
