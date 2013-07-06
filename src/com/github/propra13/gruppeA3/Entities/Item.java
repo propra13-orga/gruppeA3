@@ -145,7 +145,7 @@ public class Item extends Entities {
 	 * Gibt eine Kopie dieses Items zurück.
 	 */
 	public Item clone() {
-		return new Item(getRoom(),
+		return new Item(
 						damage,
 						type,
 						getPosition().toFieldPos().x,

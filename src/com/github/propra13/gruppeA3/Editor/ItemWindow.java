@@ -192,7 +192,7 @@ private static final long serialVersionUID = 1L;
 		itemToEdit = monster;
 		
 		if(itemToEdit == null)
-			workingItem = new Monster(Map.getRoom(Editor.editor.getSelectedIndex()), 1.0, 1, 0, 10, 
+			workingItem = new Monster(Editor.editor.getSelectedIndex(), 1.0, 1, 0, 10, 
 					5, 5, "unset", 10, 10, 10, false);
 		else
 			workingItem = monster.clone();
