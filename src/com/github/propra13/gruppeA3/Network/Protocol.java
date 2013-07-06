@@ -154,7 +154,7 @@ public class Protocol {
     
     /**
      * Item senden
-     * @param item Item im Raum
+     * @param item Item im Raum oder beim Spieler
      * @throws IOException
      */
     public void sendItem(Item item) throws IOException{
@@ -168,6 +168,11 @@ public class Protocol {
     	this.out.writeInt(item.getValue());
     }
     
+    /**
+     * Item empfangen
+     * @return Item im Raum oder beim Spieler
+     * @throws IOException
+     */
     public Item receiveItem() throws IOException{
     	int x = this.in.readInt();
     	int y = this.in.readInt();
@@ -177,6 +182,8 @@ public class Protocol {
     	String name = receiveString();
     	int value = this.in.readInt();
     	//TODO: statt null Raum eintragen
-		return new Item(null, damage, type, x, y, desc, name, value);
+		return new Item(damage, type, x, y, desc, name, value);
     }
+    
+
 }

@@ -1,7 +1,6 @@
 package com.github.propra13.gruppeA3.Entities;
 
 import com.github.propra13.gruppeA3.Map.Position;
-import com.github.propra13.gruppeA3.Map.Room;
 
 /**
  * @author Majida Dere
@@ -50,8 +49,7 @@ public class Item extends Entities {
 	 * @param value		Der Wert des Items
 	 * 
 	 **/
-	public Item(Room room_bind, int damage, int type, int x, int y, String desc, String name, int value) {
-		super(room_bind);
+	public Item(int damage, int type, int x, int y, String desc, String name, int value) {
 		this.damage = damage;
 		this.type = type;
 		this.desc = desc;

@@ -214,7 +214,7 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 		Entities testEntity;
 		for(Iterator<Entities> iter = room.entities.iterator(); iter.hasNext();) {
 			testEntity = iter.next();
-			if (testEntity instanceof Monster && testEntity.getField() == affectedField)
+			if (testEntity instanceof Monster)// TODO && testEntity.getField() == affectedField)
 				monsterToShow = (Monster)testEntity;
 		}
 			

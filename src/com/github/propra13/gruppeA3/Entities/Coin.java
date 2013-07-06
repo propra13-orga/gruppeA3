@@ -1,7 +1,6 @@
 package com.github.propra13.gruppeA3.Entities;
 
 import com.github.propra13.gruppeA3.Map.Position;
-import com.github.propra13.gruppeA3.Map.Room;
 
 /**
  * 
@@ -30,8 +29,7 @@ public class Coin extends Entities {
 	 * @param type Typ der Münze
 	 * @param pos Position der Münze
 	 */
-	public Coin(Room room_bind, int value, int type, Position pos){
-		super(room_bind);
+	public Coin(int value, int type, Position pos){
 		this.value = value;
 		this.type = type;
 		this.pos = pos;

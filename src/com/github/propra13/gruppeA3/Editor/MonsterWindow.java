@@ -29,7 +29,6 @@ import com.github.propra13.gruppeA3.Game;
 import com.github.propra13.gruppeA3.GameWindow;
 import com.github.propra13.gruppeA3.Entities.Monster;
 import com.github.propra13.gruppeA3.Map.Field;
-import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 
 /**
@@ -197,7 +196,7 @@ public class MonsterWindow extends JDialog implements ActionListener, ListCellRe
 		monsterToEdit = monster;
 		
 		if(monsterToEdit == null)
-			workingMonster = new Monster(Map.getRoom(Editor.editor.getSelectedIndex()), 1.0, 1, 0, 10, 
+			workingMonster = new Monster(Editor.editor.getSelectedIndex(), 1.0, 1, 0, 10, 
 					5, 5, "unset", 10, 10, 10, false);
 		else
 			workingMonster = monster.clone();

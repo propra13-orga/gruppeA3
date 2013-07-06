@@ -3,7 +3,6 @@ package com.github.propra13.gruppeA3.Entities;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import com.github.propra13.gruppeA3.Entities.Moveable.Direction;
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
 import com.github.propra13.gruppeA3.Map.Field;
 import com.github.propra13.gruppeA3.Map.FieldPosition;
@@ -32,8 +31,8 @@ public class Player extends Moveable {
 
 
     // Konstruktoren
-    public Player(Room room_bind) {
-        super(room_bind);
+    public Player(int roomID) {
+        super(Map.getRoom(roomID));
         //+16: damit Player in der Mitte des Felds landet
         hitbox = new Hitbox(28, 28);
         setFaceDirection(Direction.DOWN);
@@ -359,7 +358,8 @@ public class Player extends Moveable {
     
     private void pickupItems(){
     	 /** Items aufsammeln, wenn man sie ber�hrt **/
-        LinkedList<Entities> list = (LinkedList<Entities>) getRoom().entities.clone();
+        @SuppressWarnings("unchecked")
+		LinkedList<Entities> list = (LinkedList<Entities>) getRoom().entities.clone();
         Iterator<Entities> iter = list.iterator();
         Entities testEntity = null;
         while(iter.hasNext()) {

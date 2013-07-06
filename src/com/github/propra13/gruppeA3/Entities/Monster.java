@@ -3,10 +3,8 @@ package com.github.propra13.gruppeA3.Entities;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import com.github.propra13.gruppeA3.Map.Link;
 import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Map.Position;
-import com.github.propra13.gruppeA3.Map.Room;
 
 /**
  * @author Majida Dere
@@ -40,9 +38,9 @@ public class Monster extends Moveable {
 	 * @param armour Rüstung des Monsters
 	 * 
 	 */
-	public Monster (Room room_bind, double speed, int power, int type, int life, 
+	public Monster (int roomID, double speed, int power, int type, int life, 
 					int x, int y, String desc, int coinValue, int coinType, int armour, boolean isBoss){
-		super(room_bind);
+		super(Map.getRoom(roomID));
 		addSpeedFactor(speed);
 		addAttackFactor(power);
 		setHealth(life);
@@ -52,7 +50,7 @@ public class Monster extends Moveable {
 		this.isBoss = isBoss;
 		setPosition(x+(hitbox.width/2),y+(hitbox.height/2));
 		setDirection(Direction.NONE);
-		coins=new Coin(room_bind, coinValue, coinType, this.pos);
+		coins=new Coin(coinValue, coinType, this.pos);
 		this.type = type;
 		/**
 		 * Diese Abfrage ist für Bossmonster, die größer sind als gewöhnliche Monster
@@ -139,6 +137,7 @@ public class Monster extends Moveable {
 		int xdelta;
 		int ydelta;
 		Entities testent = null;	//durch alle Entitys der Liste iterieren
+		@SuppressWarnings("unchecked")
 		LinkedList<Entities> tempEntities = (LinkedList<Entities>) getRoom().entities.clone();
 	    Iterator<Entities> iter = tempEntities.iterator();
 	    Player player = null;
@@ -188,7 +187,7 @@ public class Monster extends Moveable {
 		setArmour(monster.getArmour());
 		desc = monster.desc;
 		this.isBoss = monster.isBoss;
-		coins=new Coin(monster.getRoom(), monster.coins.getValue(), monster.coins.getType(), this.pos);
+		coins=new Coin(monster.coins.getValue(), monster.coins.getType(), this.pos);
 		this.type = monster.type;
 		/**
 		 * Diese Abfrage ist für Bossmonster, die größer sind als gewöhnliche Monster
@@ -213,18 +212,7 @@ public class Monster extends Moveable {
 	 * Gibt eine Kopie dieses Monsters zurück.
 	 */
 	public Monster clone() {
-		return new Monster(	room,
-							getSpeed(),
-							getAttack(),
-							type,
-							getHealth(),
-							getFieldPos().x,
-							getFieldPos().y,
-							desc,
-							coins.getValue(),
-							coins.getType(),
-							getArmour(),
-							isBoss);
+		return this.clone();
 	}
 }
 	

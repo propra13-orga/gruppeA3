@@ -51,7 +51,6 @@ public abstract class Moveable extends Entities {
 	
 	//Konstruktor
 	public Moveable(Room room_bind){
-		super(room_bind);
 		this.pos = new Position(0,0);
 		this.currentroom = room_bind;
 		this.direct = Direction.NONE;
@@ -427,8 +426,6 @@ public abstract class Moveable extends Entities {
 			LinkedList<Entities> tempEntities = (LinkedList<Entities>) getRoom().entities.clone();
 		    Iterator<Entities> iter = tempEntities.iterator();
 		    Monster monster = null;
-		    Coin coin = null;
-		    NPC npc = null;
 			while(iter.hasNext()){
 				testent = iter.next();
 				if(testent != this){	

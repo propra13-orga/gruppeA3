@@ -13,10 +13,21 @@ import com.github.propra13.gruppeA3.Map.Map;
 
 public class CrawlerSAX extends DefaultHandler{
 	
-	// Attribute
+	/**
+	 * Attribute:
+	 * 		title: Titelbeschreibung des Levels
+	 * 		levelID: Die ID des levels
+	 * 		playerCount: Anzahl der Spieler im Level
+	 * 		roomID: Die ID des Raumes
+	 * 		checkNPC: Wird dazu verwendet um festzustellen, ob ein NPC Element aufgemacht wurde
+	 * 		npc: Ein NPC
+	 * 		text: Der Text des NPCs
+	 */
 	
 	//	public static Entities[][] map;
-	//public static String title;
+	public String title;
+	public int levelID;
+	public int playerCount;
 	private int roomID=0;
 	private boolean checkNPC=false;
 	private NPC npc=null;
@@ -47,9 +58,9 @@ public class CrawlerSAX extends DefaultHandler{
 								String qName,Attributes attrs)
 										throws SAXException {
 		if(qName.equals("level")){
-			//System.out.println(attrs.getValue("id"));
-			//title = new String(attrs.getValue("desc"));
-			//System.out.println(attrs.getValue("player"));
+			levelID = Integer.parseInt(attrs.getValue("id"));
+			title = new String(attrs.getValue("desc"));
+			playerCount = Integer.parseInt(attrs.getValue("player"));
 		}
 		else if (qName.equals("rooms")){
 			roomID = Integer.parseInt(attrs.getValue("id"));
@@ -77,7 +88,7 @@ public class CrawlerSAX extends DefaultHandler{
 				isBoss = false;
 
 			// Es wird ein neues Monster erzeugt mit den zuvor ausgelesenen Informationen aus level.xml
-			Monster monster=new Monster(Map.getRoom(roomID), speed, power, type, life, posx, posy, desc, coinValue, coinType, armour, isBoss);
+			Monster monster=new Monster(roomID, speed, power, type, life, posx, posy, desc, coinValue, coinType, armour, isBoss);
 			//MAP
 			//System.out.println("Monster");
 			Map.getRoom(roomID).entities.add(monster);
@@ -92,7 +103,7 @@ public class CrawlerSAX extends DefaultHandler{
 			String name = new String(attrs.getValue("name"));
 			int value = Integer.parseInt(attrs.getValue("value"));
 
-			Item item=new Item(Map.getRoom(roomID), damage, type, posx, posy, desc, name, value);
+			Item item=new Item(damage, type, posx, posy, desc, name, value);
 			
 			if(checkNPC){
 				npc.getItems().add(item);
@@ -107,7 +118,7 @@ public class CrawlerSAX extends DefaultHandler{
 			String desc = new String(attrs.getValue("desc"));
 			String name = new String(attrs.getValue("name"));
 			
-			npc = new NPC(Map.getRoom(roomID), type, desc, name, posx, posy);
+			npc = new NPC(type, desc, name, posx, posy);
 		}
 	}
 	

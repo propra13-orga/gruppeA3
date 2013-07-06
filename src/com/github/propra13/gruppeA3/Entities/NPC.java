@@ -1,12 +1,7 @@
-/**
- * 
- */
 package com.github.propra13.gruppeA3.Entities;
 
 import java.util.LinkedList;
-
 import com.github.propra13.gruppeA3.Map.Position;
-import com.github.propra13.gruppeA3.Map.Room;
 
 /**
  * @author Majida Dere
@@ -16,7 +11,7 @@ import com.github.propra13.gruppeA3.Map.Room;
  * 				und einen Verkäufer, bei dem man Items kaufen kann.
  *
  **/
-public class NPC extends Moveable {
+public class NPC extends Entities {
 
 	/**
 	 * Attribute:
@@ -31,6 +26,8 @@ public class NPC extends Moveable {
 	private String name=null;
 	private String text=null;
 	private LinkedList<Item> items=null;
+	private Position pos=null;
+	private Hitbox hitbox=null;
 	
 	/**
 	 * Der Konstruktor erzeugt einen NPC mit folgenden Paramtern
@@ -41,14 +38,12 @@ public class NPC extends Moveable {
 	 * @param x Position X Achse
 	 * @param y Position Y Achse
 	 */	
-	public NPC (Room room_bind, int type, String desc, String name, int x, int y){
-		super(room_bind);
-		this.desc = desc;
-		this.name = name;
+	public NPC (int type, String desc, String name, int x, int y){
+		this.setDesc(desc);
+		this.setName(name);
 		this.type = type;
 		this.pos = new Position(x,y);
-		this.hitbox = new Hitbox();
-		setPosition(x+(hitbox.width/2),y+(hitbox.height/2));
+		this.hitbox = Hitbox.standard;
 		//Bei Type 1 NPCs bleibt er leer und wird nicht benutzt.
 		this.items = new LinkedList<Item>();
 	}
@@ -62,33 +57,6 @@ public class NPC extends Moveable {
 		return this.pos;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.github.propra13.gruppeA3.Entities.Entities#getHitbox()
-	 */
-	@Override
-	public Hitbox getHitbox() {
-		// TODO Auto-generated method stub
-		return this.hitbox;
-	}
-
-	/* (non-Javadoc)
-	 * @see com.github.propra13.gruppeA3.Entities.Entities#tick()
-	 */
-	@Override
-	void tick() {
-		// TODO Auto-generated method stub
-
-	}
-
-	/* (non-Javadoc)
-	 * @see com.github.propra13.gruppeA3.Entities.Entities#collision(com.github.propra13.gruppeA3.Entities.Entities)
-	 */
-	@Override
-	void collision(Entities entity) {
-		// TODO Auto-generated method stub
-
-	}
-	
 	public void setText(String text){
 		this.text = text;
 	}
@@ -105,8 +73,49 @@ public class NPC extends Moveable {
 		return this.type;
 	}
 	
+	public void setName(String name){
+		this.name = name;
+	}
+	
 	public String getName(){
 		return this.name;
 	}
 
+	public String getDesc() {
+		return desc;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
+
+	@Override
+	public Hitbox getHitbox() {
+		// TODO Auto-generated method stub
+		return this.hitbox;
+	}
+
+	@Override
+	void setHealth(int health) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	int getHealth() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	void tick() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	void collision(Entities entity) {
+		// TODO Auto-generated method stub
+		
+	}
 }

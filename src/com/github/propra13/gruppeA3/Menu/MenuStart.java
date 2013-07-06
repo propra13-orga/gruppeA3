@@ -30,7 +30,6 @@ import javax.swing.Timer;
 import com.github.propra13.gruppeA3.Game;
 import com.github.propra13.gruppeA3.GameWindow;
 import com.github.propra13.gruppeA3.Keys;
-
 import com.github.propra13.gruppeA3.Editor.Editor;
 import com.github.propra13.gruppeA3.Entities.*;
 import com.github.propra13.gruppeA3.Entities.Moveable.Direction;
@@ -41,8 +40,6 @@ import com.github.propra13.gruppeA3.Map.Position;
 import com.github.propra13.gruppeA3.Map.Room;
 import com.github.propra13.gruppeA3.Network.Client;
 import com.github.propra13.gruppeA3.Network.Server;
-import com.github.propra13.gruppeA3.XMLParser.SAXCrawlerReader;
-
 
 @SuppressWarnings("serial")
 public class MenuStart extends JPanel implements ActionListener {
@@ -250,7 +247,7 @@ public class MenuStart extends JPanel implements ActionListener {
 	 	randomgen = new Random(System.currentTimeMillis());
 		activeRoom = Map.getRoom(0);
 		if(nextMap == 1)
-			player = new Player(activeRoom);
+			player = new Player(0);
 		else
 			player.initialize();
 		addKeyListener(new Keys(player));
@@ -326,7 +323,8 @@ public class MenuStart extends JPanel implements ActionListener {
         /*
          * Entities malen
          */
-        LinkedList<Entities> tempEntities = (LinkedList<Entities>) room.entities.clone();
+        @SuppressWarnings("unchecked")
+		LinkedList<Entities> tempEntities = (LinkedList<Entities>) room.entities.clone();
         Iterator<Entities> iter = tempEntities.iterator();
         Entities testEntity;
 
@@ -858,6 +856,7 @@ public void Score(Graphics2D g) {
 		Entities testent = null;	//durch alle Entitys der Liste iterieren
 		Monster testmonster = null;
 		Projectile testproj = null;
+		@SuppressWarnings("unchecked")
 		LinkedList<Entities> tempEntities = (LinkedList<Entities>) player.getRoom().entities.clone();
 	    Iterator<Entities> iter = tempEntities.iterator();
 		while(iter.hasNext()){
@@ -1021,6 +1020,7 @@ public void Score(Graphics2D g) {
 			int xdelta;
 			int ydelta;
 			Entities testent = null;	//durch alle Entitys der Liste iterieren
+			@SuppressWarnings("unchecked")
 			LinkedList<Entities> tempEntities = (LinkedList<Entities>) player.getRoom().entities.clone();
 		    Iterator<Entities> iter = tempEntities.iterator();
 		    NPC npc = null;
