@@ -23,6 +23,7 @@ public class Monster extends Moveable {
 	private Coin coins=null;
 	private int type;
 	private int roomID;
+	private int power;
 	
 	/**
 	 * Der Konstruktor erzeugt ein Monster mit folgenden Parametern
@@ -44,6 +45,7 @@ public class Monster extends Moveable {
 		super(roomID);
 		this.roomID = roomID;
 		addSpeedFactor(speed);
+		this.power = power;
 		addAttackFactor(power);
 		setHealth(life);
 		setArmour(armour);
@@ -84,6 +86,18 @@ public class Monster extends Moveable {
 	
 	public String getDesc(){
 		return desc;
+	}
+	
+	public int getRoomID(){
+		return this.roomID;
+	}
+	
+	public int getPower(){
+		return this.power;
+	}
+	
+	public boolean isBoss(){
+		return this.isBoss;
 	}
 	
 	/**

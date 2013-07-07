@@ -6,8 +6,10 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import com.github.propra13.gruppeA3.Entities.Coin;
 import com.github.propra13.gruppeA3.Entities.Hitbox;
 import com.github.propra13.gruppeA3.Entities.Item;
+import com.github.propra13.gruppeA3.Entities.Monster;
 import com.github.propra13.gruppeA3.Map.Position;
 
 /**
@@ -114,7 +116,6 @@ public class Protocol {
      * @throws IOException
      */
     public void sendPosition(Position pos) throws IOException{
-    	sendString("position");
     	this.out.writeInt(pos.x);
     	this.out.writeInt(pos.y);
     }
@@ -185,5 +186,71 @@ public class Protocol {
 		return new Item(damage, type, x, y, desc, name, value);
     }
     
+    /**
+     * Send Coin
+     * @param coin
+     * @throws IOException
+     */
+    public void sendCoin(Coin coin) throws IOException{
+    	sendString("coin");
+    	this.out.writeInt(coin.getType());
+    	this.out.writeInt(coin.getValue());
+    	sendPosition(coin.getPosition());
+    	sendHitbox(coin.getHitbox());
+    }
 
+    /**
+     * Coin empfangen
+     * @return
+     * @throws IOException
+     */
+    public Coin receiveCoin() throws IOException{
+    	int type = this.in.readInt();
+    	int value = this.in.readInt();
+    	Position pos = receivePosition();
+    	Hitbox hitbox = receiveHitbox();
+    	Coin coin = new Coin(value, type, pos);
+    	coin.setHitbox(hitbox);
+		return coin;
+    }
+    
+    /**
+     * Send a Monster
+     * @param monster
+     * @throws IOException
+     */
+    public void sendMonster(Monster monster) throws IOException{
+    	sendString("monster");
+    	this.out.writeInt(monster.getRoomID());
+    	this.out.writeDouble(monster.getSpeed());
+    	this.out.writeInt(monster.getPower());
+    	this.out.writeInt(monster.getType());
+    	this.out.writeInt(monster.getHealth());
+    	sendPosition(monster.getPosition());
+    	sendString(monster.getDesc());
+    	this.out.writeInt(monster.getCoin().getValue());
+    	this.out.writeInt(monster.getCoin().getType());
+    	this.out.writeInt(monster.getArmour());
+    	this.out.writeBoolean(monster.isBoss());
+    }
+    
+    /**
+     * receive a Monster
+     * @return
+     * @throws IOException
+     */
+    public Monster receiveMonster() throws IOException{
+    	int roomID = this.in.readInt();
+    	Double speed = this.in.readDouble();
+    	int power = this.in.readInt();
+    	int type = this.in.readInt();
+    	int life = this.in.readInt();
+    	Position pos = receivePosition();
+    	String desc = receiveString();
+    	int coinValue = this.in.readInt();
+    	int coinType = this.in.readInt();
+    	int armour = this.in.readInt();
+    	boolean isBoss = this.in.readBoolean();
+    	return new Monster(roomID, speed, power, type, life, pos.x, pos.y, desc, coinValue, coinType, armour, isBoss);
+    }
 }
