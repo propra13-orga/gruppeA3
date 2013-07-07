@@ -40,7 +40,7 @@ public class Monster extends Moveable {
 	 */
 	public Monster (int roomID, double speed, int power, int type, int life, 
 					int x, int y, String desc, int coinValue, int coinType, int armour, boolean isBoss){
-		super(Map.getRoom(roomID));
+		super(roomID);
 		addSpeedFactor(speed);
 		addAttackFactor(power);
 		setHealth(life);

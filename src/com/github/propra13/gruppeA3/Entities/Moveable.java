@@ -23,7 +23,7 @@ public abstract class Moveable extends Entities {
 	protected Direction direct;
 	private Direction facedirect;
 	protected Position pos;
-	protected Room currentroom;
+	protected int roomID;
 	protected Hitbox hitbox;
 	protected int health;
 	private int attack;
@@ -50,9 +50,9 @@ public abstract class Moveable extends Entities {
 	
 	
 	//Konstruktor
-	public Moveable(Room room_bind){
+	public Moveable(int roomID){
 		this.pos = new Position(0,0);
-		this.currentroom = room_bind;
+		this.roomID = roomID;
 		this.direct = Direction.NONE;
 		this.attack = 1;
 		this.speed = 1; 
@@ -617,14 +617,14 @@ public abstract class Moveable extends Entities {
 	
 	
 	public Room getRoom(){
-		return currentroom;
+		return Map.getRoom(roomID);
 	}
 	
-	public void setRoom(Room room){
+	public void setRoom(int roomID){
 		//lastField richtig setzen
-		lastField = currentroom.getField(lastField.pos.x, lastField.pos.y);
-		actualField = room.getField(actualField.pos.x, actualField.pos.y);
-		currentroom = room;
+		lastField = getRoom().getField(lastField.pos.x, lastField.pos.y);
+		actualField = Map.getRoom(roomID).getField(actualField.pos.x, actualField.pos.y);
+		this.roomID = roomID;
 	}
 	
 	public Direction getDirection(){

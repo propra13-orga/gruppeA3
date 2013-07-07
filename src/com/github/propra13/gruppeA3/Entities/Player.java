@@ -32,7 +32,7 @@ public class Player extends Moveable {
 
     // Konstruktoren
     public Player(int roomID) {
-        super(Map.getRoom(roomID));
+        super(roomID);
         //+16: damit Player in der Mitte des Felds landet
         hitbox = new Hitbox(28, 28);
         setFaceDirection(Direction.DOWN);
@@ -45,7 +45,7 @@ public class Player extends Moveable {
      * Initialisiert den Spieler für den Start einer neuen Karte
      */
     public void initialize() {
-    	MenuStart.activeRoom = currentroom = Map.getRoom(0);
+    	MenuStart.activeRoom = Map.getRoom(0);
     	direct = Direction.NONE;
     	resetAttack();
     	getRoom().entities.add(this);
@@ -297,7 +297,7 @@ public class Player extends Moveable {
     public void death() {
     	setLives(getLives()-1);
     	setPosition(Map.spawns[0].pos.toPosition().x+16, Map.spawns[0].pos.toPosition().y+16);
-    	setRoom(Map.getRoom(0));
+    	setRoom(0);
     	MenuStart.activeRoom = Map.getRoom(0);
     	setHealth(100);
     	if(getLives() == 0){
@@ -350,7 +350,7 @@ public class Player extends Moveable {
     	// WICHTIG! Erst Position wechseln, dann Raum, ansonsten stimmt lastField nicht
     	if (followLink) {
     		this.setPosition(targetField.pos.toPosition().x+16, targetField.pos.toPosition().y+16);
-    		setRoom(targetRoom);
+    		setRoom(targetRoom.ID);
     		MenuStart.activeRoom = targetRoom;
     		getRoom().entities.add(this);
     	}
@@ -386,7 +386,7 @@ public class Player extends Moveable {
     public void firePlasma() {
     	if (mana - PlasmaBall.manaCost >= 0) {
     		mana = mana - PlasmaBall.manaCost;
-    		new PlasmaBall(getRoom(), getPosition(), getFaceDirection(), getFaceDirection());
+    		new PlasmaBall(this.roomID, getPosition(), getFaceDirection(), getFaceDirection());
     	}
     }
     
@@ -398,14 +398,14 @@ public class Player extends Moveable {
     		mana = mana - 4*PlasmaBall.manaCost;
     		
     		//acht Richtungen
-    		new PlasmaBall(getRoom(), getPosition(), Moveable.Direction.LEFT, Moveable.Direction.LEFT);
-    		new PlasmaBall(getRoom(), getPosition(), Moveable.Direction.DOWN, Moveable.Direction.LEFT);
-    		new PlasmaBall(getRoom(), getPosition(), Moveable.Direction.DOWN, Moveable.Direction.DOWN);
-    		new PlasmaBall(getRoom(), getPosition(), Moveable.Direction.RIGHT, Moveable.Direction.DOWN);
-    		new PlasmaBall(getRoom(), getPosition(), Moveable.Direction.RIGHT, Moveable.Direction.RIGHT);
-    		new PlasmaBall(getRoom(), getPosition(), Moveable.Direction.UP, Moveable.Direction.RIGHT);
-    		new PlasmaBall(getRoom(), getPosition(), Moveable.Direction.UP, Moveable.Direction.UP);
-    		new PlasmaBall(getRoom(), getPosition(), Moveable.Direction.LEFT, Moveable.Direction.UP);
+    		new PlasmaBall(this.roomID, getPosition(), Moveable.Direction.LEFT, Moveable.Direction.LEFT);
+    		new PlasmaBall(this.roomID, getPosition(), Moveable.Direction.DOWN, Moveable.Direction.LEFT);
+    		new PlasmaBall(this.roomID, getPosition(), Moveable.Direction.DOWN, Moveable.Direction.DOWN);
+    		new PlasmaBall(this.roomID, getPosition(), Moveable.Direction.RIGHT, Moveable.Direction.DOWN);
+    		new PlasmaBall(this.roomID, getPosition(), Moveable.Direction.RIGHT, Moveable.Direction.RIGHT);
+    		new PlasmaBall(this.roomID, getPosition(), Moveable.Direction.UP, Moveable.Direction.RIGHT);
+    		new PlasmaBall(this.roomID, getPosition(), Moveable.Direction.UP, Moveable.Direction.UP);
+    		new PlasmaBall(this.roomID, getPosition(), Moveable.Direction.LEFT, Moveable.Direction.UP);
     	}
     }
     

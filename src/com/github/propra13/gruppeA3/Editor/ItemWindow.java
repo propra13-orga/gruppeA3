@@ -27,10 +27,8 @@ import javax.swing.table.DefaultTableModel;
 
 import com.github.propra13.gruppeA3.Game;
 import com.github.propra13.gruppeA3.GameWindow;
-import com.github.propra13.gruppeA3.Entities.Item;
 import com.github.propra13.gruppeA3.Entities.Monster;
 import com.github.propra13.gruppeA3.Map.Field;
-import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 
 public class ItemWindow extends JDialog implements ActionListener, ListCellRenderer<JPanel>, ListSelectionListener {

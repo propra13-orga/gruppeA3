@@ -1,7 +1,5 @@
 package com.github.propra13.gruppeA3.Entities;
 
-import com.github.propra13.gruppeA3.Map.Room;
-
 public abstract class Projectile extends Moveable {
 	
 	Moveable.Direction direct1;
@@ -14,8 +12,8 @@ public abstract class Projectile extends Moveable {
 	 * @param direct1	Richtung 1
 	 * @param direct2	Richtung 2 (R1 != R2 für diagonale Schüsse; R1 = R2 für orthogonale Schüsse)
 	 */
-	public Projectile(Room room_bind, Moveable.Direction direct1, Moveable.Direction direct2) {
-		super(room_bind);
+	public Projectile(int roomID, Moveable.Direction direct1, Moveable.Direction direct2) {
+		super(roomID);
 		this.direct1 = direct1;
 		this.direct2 = direct2;
 		super.direct = direct1;

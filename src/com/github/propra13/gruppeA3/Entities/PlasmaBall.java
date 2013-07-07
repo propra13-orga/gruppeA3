@@ -1,18 +1,18 @@
 package com.github.propra13.gruppeA3.Entities;
 
+import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Map.Position;
-import com.github.propra13.gruppeA3.Map.Room;
 
 public class PlasmaBall extends Projectile {
 	
 	private final static int damage = 5;
 	public final static int manaCost = 10;
-	public PlasmaBall(Room room_bind, Position pos, Moveable.Direction direct1, Moveable.Direction direct2) {
-		super(room_bind, direct1, direct2);
+	public PlasmaBall(int roomID, Position pos, Moveable.Direction direct1, Moveable.Direction direct2) {
+		super(roomID, direct1, direct2);
 		
 		hitbox = new Hitbox(6, 6);
 		this.pos = new Position(0,0);
-		room_bind.entities.add(this);
+		Map.getRoom(roomID).entities.add(this);
 		addSpeedFactor(4.0);
 		
 		// Position bestimmen; soll am Hitboxrand losfliegen
