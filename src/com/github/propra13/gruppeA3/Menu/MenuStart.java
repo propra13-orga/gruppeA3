@@ -31,6 +31,7 @@ import javax.swing.Timer;
 import com.github.propra13.gruppeA3.Game;
 import com.github.propra13.gruppeA3.GameWindow;
 import com.github.propra13.gruppeA3.Keys;
+import com.github.propra13.gruppeA3.Music;
 import com.github.propra13.gruppeA3.Editor.Editor;
 import com.github.propra13.gruppeA3.Entities.*;
 import com.github.propra13.gruppeA3.Entities.Moveable.Direction;
@@ -129,6 +130,8 @@ public class MenuStart extends JPanel implements ActionListener {
 	private String name="Player1", host="localhost";
 	private int port=1337;
 	
+	Music music=null;
+	
 	/**
 	 * 
 	 */
@@ -204,6 +207,7 @@ public class MenuStart extends JPanel implements ActionListener {
     	add(buttonJoin);
     	add(buttonOptions);
      	initMenu();
+     	music = new Music();
     }
     
     /**
