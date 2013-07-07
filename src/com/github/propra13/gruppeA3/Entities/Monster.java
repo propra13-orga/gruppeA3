@@ -22,6 +22,7 @@ public class Monster extends Moveable {
 	private String desc;
 	private Coin coins=null;
 	private int type;
+	private int roomID;
 	
 	/**
 	 * Der Konstruktor erzeugt ein Monster mit folgenden Parametern
@@ -41,6 +42,7 @@ public class Monster extends Moveable {
 	public Monster (int roomID, double speed, int power, int type, int life, 
 					int x, int y, String desc, int coinValue, int coinType, int armour, boolean isBoss){
 		super(roomID);
+		this.roomID = roomID;
 		addSpeedFactor(speed);
 		addAttackFactor(power);
 		setHealth(life);
@@ -212,8 +214,19 @@ public class Monster extends Moveable {
 	 * Gibt eine Kopie dieses Monsters zurück.
 	 */
 	public Monster clone() {
-		return this.clone();
-	}
+		return new Monster(roomID,
+				getSpeed(),
+				getAttack(),
+				type,
+				getHealth(),
+				getFieldPos().x,
+				getFieldPos().y,
+				desc,
+				coins.getValue(),
+				coins.getType(),
+				getArmour(),
+				isBoss);	
+		}
 }
 	
 
