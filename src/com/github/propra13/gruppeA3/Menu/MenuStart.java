@@ -465,7 +465,7 @@ public class MenuStart extends JPanel implements ActionListener {
                 	
             else if (testEntity instanceof Item) {
             	item = (Item)testEntity;
-            	entityPos.setPosition(item.getPosition().x - (item.getHitbox().width/2), item.getPosition().y - (item.getHitbox().height/2));
+            	entityPos.setPosition(item.getPosition().getDrawPosition(item.getHitbox()));
             	switch (item.getType()){
             		case 1:
         				g2d.drawImage(GameWindow.lifePosion, entityPos.x, entityPos.y, panel);
@@ -491,7 +491,7 @@ public class MenuStart extends JPanel implements ActionListener {
             }
             else if (testEntity instanceof NPC){
             	npc = (NPC)testEntity;
-            	entityPos.setPosition(npc.getPosition().x - (npc.getHitbox().width/2), npc.getPosition().y - (npc.getHitbox().height/2));
+            	entityPos.setPosition(npc.getPosition().getDrawPosition(npc.getHitbox()));
             	switch (npc.getType()){
             		case 1:
             			g2d.drawImage(GameWindow.npc3, entityPos.x, entityPos.y, panel);

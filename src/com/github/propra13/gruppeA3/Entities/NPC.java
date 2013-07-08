@@ -42,8 +42,8 @@ public class NPC extends Entities {
 		this.setDesc(desc);
 		this.setName(name);
 		this.type = type;
-		this.pos = new Position(x,y);
 		this.hitbox = Hitbox.standard;
+		this.pos = new Position(x - hitbox.width/2, y - hitbox.height/2);
 		//Bei Type 1 NPCs bleibt er leer und wird nicht benutzt.
 		this.items = new LinkedList<Item>();
 	}

@@ -314,7 +314,6 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 	}
 	
 	public void paint(Graphics g) {
-		System.out.println("Paint!");
 		Graphics2D g2d = (Graphics2D)g;
 		MenuStart.paintRoom(g2d, room, this);
 		

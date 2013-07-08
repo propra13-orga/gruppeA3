@@ -66,6 +66,11 @@ public class Position {
 		this.y = y;
 	}
 	
+	public void setPosition(Position pos) {
+		x = pos.x;
+		y = pos.y;
+	}
+	
 	public boolean equals(Position checkPos){
 		return (this.x == checkPos.x) && (this.y == checkPos.y); 
 	}
