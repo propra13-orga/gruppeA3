@@ -195,7 +195,7 @@ public class MonsterWindow extends JDialog implements ActionListener, ListCellRe
 		//workingMonster und monsterToEdit setzen
 		monsterToEdit = monster;//TODO Monster werden nicht abgebildet
 		if(monsterToEdit == null)
-			workingMonster = new Monster(Editor.editor.getSelectedIndex(), 1.0, 1, 0, 10, 
+			workingMonster = new Monster(Editor.editor.getSelectedIndex() - 1, 1.0, 1, 0, 10, 
 					field.pos.x*32, field.pos.y*32, "unset", 10, 10, 10, false);
 		else
 			workingMonster = monster;
