@@ -170,7 +170,7 @@ public class GameWindow {
     infoshield = this.getImage(this.GamePath + "/data/images/Infoleiste/schild.png");
     
     
-    background = this.getImage(this.GamePath + "/data/images/hintergrund.png");
+    background = this.getImage(this.GamePath + "/data/images/hintergrund.jpg");
     
     
 	}
