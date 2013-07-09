@@ -29,6 +29,7 @@ public class Player extends Moveable {
 
 	final public static int movePx = Moveable.movePx;
 
+	private int playerID=0;
 
     // Konstruktoren
     public Player(int roomID) {
@@ -39,6 +40,42 @@ public class Player extends Moveable {
         setHealth(100);
         this.items = new LinkedList<Item>();
         initialize();
+    }
+    
+    public Player(int roomID, int playerID, int lives, int health, double speed, int mana,
+    			  int dir, int face, Position pos, int armour, int attack, int attackCount){
+    	this(roomID);
+    	setPlayerID(playerID);
+    	setLives(lives);
+    	setHealth(health);
+    	setSpeed(speed);
+    	setMana(mana);
+    	if (dir == 1)
+    		setDirection(Direction.LEFT);
+    	else if(dir == 2)
+    		setDirection(Direction.RIGHT);
+    	else if (dir == 3)	
+    		setDirection(Direction.UP);
+    	else if(dir == 4)
+    		setDirection(Direction.DOWN);
+    	else
+    		setDirection(Direction.NONE);
+    		
+    	if (face == 1)
+    		setFaceDirection(Direction.LEFT);
+    	else if(face == 2)
+    		setFaceDirection(Direction.RIGHT);
+    	else if (face == 3)	
+    		setFaceDirection(Direction.UP);
+    	else if(face == 4)
+    		setFaceDirection(Direction.DOWN);
+    	else
+    		setFaceDirection(Direction.NONE);
+    	
+    	setPosition(pos);
+    	setArmour(armour);
+    	setAttack(attack);
+    	setAttackCount(attackCount);
     }
     
     /**
@@ -533,5 +570,19 @@ public class Player extends Moveable {
   	public void tick() {}
   	@Override
   	public void collision(Entities entity) {}
+
+	/**
+	 * @return the playerID
+	 */
+	public int getPlayerID() {
+		return playerID;
+	}
+
+	/**
+	 * @param playerID the playerID to set
+	 */
+	public void setPlayerID(int playerID) {
+		this.playerID = playerID;
+	}
 }
 

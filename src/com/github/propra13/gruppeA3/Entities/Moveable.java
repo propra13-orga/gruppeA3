@@ -24,6 +24,7 @@ public abstract class Moveable extends Entities {
 	private Direction facedirect;
 	protected Position pos;
 	protected int roomID;
+
 	protected Hitbox hitbox;
 	protected int health;
 	private int attack;
@@ -525,6 +526,10 @@ public abstract class Moveable extends Entities {
 		return speed;
 	}
 	
+	public void setSpeed(double speed){
+		this.speed = speed;
+	}
+	
 	
 	/* Faktor-Methoden: Fügen zu Speed, Angriff und Rüstung
 	 * Faktoren hinzu, sodass Faktoren ordnungsgemäß hinzugefügt
@@ -614,7 +619,9 @@ public abstract class Moveable extends Entities {
 			attack = (int)((double)attack*iter.next());
 	}
 	
-	
+	public void setAttack(int attack){
+		this.attack = attack;
+	}
 	
 	public Room getRoom(){
 		return Map.getRoom(roomID);
@@ -700,5 +707,13 @@ public abstract class Moveable extends Entities {
 	public void resetSpeed(double newSpeed) {
 		speedFactors.clear();
 		addSpeedFactor(newSpeed);
+	}
+	
+	public int getRoomID() {
+		return roomID;
+	}
+
+	public void setRoomID(int roomID) {
+		this.roomID = roomID;
 	}
 }

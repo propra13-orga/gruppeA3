@@ -10,6 +10,7 @@ import com.github.propra13.gruppeA3.Entities.Coin;
 import com.github.propra13.gruppeA3.Entities.Hitbox;
 import com.github.propra13.gruppeA3.Entities.Item;
 import com.github.propra13.gruppeA3.Entities.Monster;
+import com.github.propra13.gruppeA3.Entities.Player;
 import com.github.propra13.gruppeA3.Map.Position;
 
 /**
@@ -252,5 +253,49 @@ public class Protocol {
     	int armour = this.in.readInt();
     	boolean isBoss = this.in.readBoolean();
     	return new Monster(roomID, speed, power, type, life, pos.x, pos.y, desc, coinValue, coinType, armour, isBoss);
+    }
+    
+    /**
+     * Send a Player
+     * @param player
+     * @throws IOException
+     */
+    public void sendPlayer(Player player) throws IOException{
+    	sendString("player");
+    	this.out.writeInt(player.getRoomID());
+    	this.out.writeInt(player.getPlayerID());
+    	this.out.writeInt(player.getLives());
+    	this.out.writeInt(player.getHealth());
+    	this.out.writeDouble(player.getSpeed());
+    	this.out.writeInt(player.getMana());
+    	this.out.writeInt(player.getDirection().ordinal());
+    	this.out.writeInt(player.getFaceDirection().ordinal());
+    	sendPosition(player.getPosition());
+    	this.out.writeInt(player.getArmour());
+    	this.out.writeInt(player.getAttack());
+    	this.out.writeInt(player.getAttackCount());
+    }
+    
+    /**
+     * receive a Player
+     * @return
+     * @throws IOException
+     */
+    public Player receivePlayer() throws IOException{
+    	int roomID = this.in.readInt();
+    	int playerID = this.in.readInt();
+    	int lives = this.in.readInt();
+    	int health = this.in.readInt();
+    	double speed = this.in.readDouble(); 
+    	int mana = this.in.readInt();
+    	int direct = this.in.readInt();
+    	int face = this.in.readInt();
+    	Position pos = receivePosition();
+    	int armour = this.in.readInt();
+    	int attack = this.in.readInt();
+    	int attackCount = this.in.readInt();
+
+		return new Player(roomID, playerID, lives, health, speed, mana, 
+						  direct, face, pos, armour, attack, attackCount);
     }
 }
