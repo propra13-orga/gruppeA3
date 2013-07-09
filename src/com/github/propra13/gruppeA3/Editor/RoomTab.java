@@ -128,6 +128,13 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 		addTrigger.add(addCheckpoint);
 		addCheckpoint.addActionListener(this);
 		
+		//Spawns markieren
+		if(room.ID == 0) {
+			for(int i=0; i < Map.spawns.length; i++) {
+				highlightField(Map.spawns[i], FieldHighlight.Type.SPAWN);
+			}
+		}
+		
 		addMouseListener(this);
 		setVisible(true);
 	}
@@ -167,6 +174,13 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 		for(int i=0; i < getComponents().length; i++)
 			if(getComponents()[i] instanceof FieldHighlight)
 				remove(getComponents()[i]);
+		
+		//Spawns wieder markieren
+		if(room.ID == 0) {
+			for(int i=0; i < Map.spawns.length; i++) {
+				highlightField(Map.spawns[i], FieldHighlight.Type.SPAWN);
+			}
+		}
 		validate();
 		repaint();
 	}
@@ -221,6 +235,27 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 			
 		highlightField(affectedField, FieldHighlight.Type.FIELD);
 		Editor.editor.monsterEditor.showWindow(this, affectedField, monsterToShow);
+	}
+	
+	/**
+	 * Ruft den NPC-Editor mit dem NPC des angeklickten Felds auf.
+	 */
+	public void changeNPC() {
+		clearHighlights();
+		
+		NPC NPCToShow = null;
+		
+		//Sucht den NPC auf affectedField
+		Entities testEntity;
+		for(Iterator<Entities> iter = room.entities.iterator(); iter.hasNext();) {
+			testEntity = iter.next();
+			if (testEntity instanceof NPC)
+				if(room.getField(testEntity.getPosition()) == affectedField)
+					NPCToShow = (NPC)testEntity;
+		}
+			
+		highlightField(affectedField, FieldHighlight.Type.FIELD);
+		Editor.editor.NPCEditor.showWindow(this, affectedField, NPCToShow);
 	}
 	
 	/** 
@@ -347,6 +382,8 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 			addCheckpoint();
 		else if(e.getSource() == this.changeMonster)
 			changeMonster();
+		else if(e.getSource() == this.changeNPC)
+			changeNPC();
 	}
 
 	/**

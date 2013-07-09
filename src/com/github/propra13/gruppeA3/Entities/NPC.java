@@ -43,7 +43,7 @@ public class NPC extends Entities {
 		this.setName(name);
 		this.type = type;
 		this.hitbox = Hitbox.standard;
-		this.pos = new Position(x - hitbox.width/2, y - hitbox.height/2);
+		this.pos = new Position(x + hitbox.width/2, y + hitbox.height/2);
 		//Bei Type 1 NPCs bleibt er leer und wird nicht benutzt.
 		this.items = new LinkedList<Item>();
 	}
@@ -117,5 +117,31 @@ public class NPC extends Entities {
 	void collision(Entities entity) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	/*
+	 * Map-Editor-Methoden
+	 */
+	
+	/**
+	 * Ändert die NPC-Attribute.
+	 * @param npc NPC, dessen Attribute übernommen werden sollen
+	 */
+	public void edit(NPC npc) {
+		type = npc.getType();
+		desc = npc.getDesc();
+		name = npc.getName(); 
+		pos = npc.getPosition();
+	}
+	
+	/**
+	 * Gibt eine Kopie dieses NPCs zurück.
+	 */
+	public NPC clone() {
+		return new NPC(type,
+				desc,
+				name,
+				pos.getDrawPosition(hitbox).x,
+				pos.getDrawPosition(hitbox).y);	
 	}
 }

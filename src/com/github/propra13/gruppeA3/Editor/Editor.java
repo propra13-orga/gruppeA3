@@ -29,6 +29,7 @@ public class Editor extends JTabbedPane {
 	protected WarningWindow warning;
 	protected TriggerWindow triggerEditor;
 	protected MonsterWindow monsterEditor;
+	protected NPCWindow NPCEditor;
 	
 	/** Falls der nächste Klick ein aus einem Dialog hervorgegangener
 	 *  spezieller Auswahlklick ist (zB für den Link-Dialog)
@@ -56,6 +57,7 @@ public class Editor extends JTabbedPane {
 		warning = new WarningWindow();
 		triggerEditor = new TriggerWindow();
 		monsterEditor = new MonsterWindow();
+		NPCEditor = new NPCWindow();
 		
 		// init Map //TODO: xmlName ist Provisorium
 		String xmlName = null;

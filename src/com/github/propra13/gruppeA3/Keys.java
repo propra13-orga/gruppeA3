@@ -63,13 +63,20 @@ public class Keys implements KeyListener {
 					player.setCast("fireAOEPlasma");
 					break;
 					
-				// Setzt Mana wieder auf 100 (zum Testen)
+				case KeyEvent.VK_E:
+					MenuStart.talk = true;
+					break;
+					
+				/* Test-Cheat-Kram
+				 */
+				//Setzt Mana wieder auf 100
 				case KeyEvent.VK_M:
 					player.setMana(100);
 					break;
 					
-				case KeyEvent.VK_E:
-					MenuStart.talk = true;
+				//Gewinnt die aktuelle Karte
+				case KeyEvent.VK_L:
+					player.win();
 					break;
 			}
 		}

@@ -285,7 +285,7 @@ public class Player extends Moveable {
     /**
      * Beendet die Karte. Wird aufgerufen, wenn der Spieler die Karte gewonnen hat.
      */
-    private void win() {
+    public void win() {
     	setPosition(Map.spawns[0].pos.toPosition().x+16, Map.spawns[0].pos.toPosition().y+16);
     	MenuStart.winMap();
     }

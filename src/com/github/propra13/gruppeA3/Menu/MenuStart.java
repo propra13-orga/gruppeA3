@@ -244,7 +244,7 @@ public class MenuStart extends JPanel implements ActionListener {
     }
     
     // Startet Spiel
-    public void initGame(String mapName, String xmlName){
+    public void initGame(String mapName, String xmlName) {
 
     	// Stellt Map auf
 	 	try {
@@ -516,34 +516,34 @@ public class MenuStart extends JPanel implements ActionListener {
         if(getGameStatus() == GameStatus.INGAME)
         {
         	
-        paintRoom(g2d, activeRoom, this);
+	        paintRoom(g2d, activeRoom, this);
+	        
+	        setBackground(Color.GRAY);
+	        
+	        Position pp = player.getPosition().getDrawPosition(player.getHitbox());
+	
+	        
+	
+	        // Malt Spieler
+	        switch(player.getFaceDirection()){
+	        case UP: 
+	        	g2d.drawImage(GameWindow.playerimg_up1, pp.x, pp.y , this);
+	        	break;
+	        case DOWN:
+	        	g2d.drawImage(GameWindow.playerimg_down1, pp.x, pp.y , this);
+	        	break;
+	        case LEFT:
+	        	g2d.drawImage(GameWindow.playerimg_left1, pp.x, pp.y , this);
+	        	break;
+	        case RIGHT:
+	        	g2d.drawImage(GameWindow.playerimg_right1, pp.x, pp.y , this);
+	        	break;	
+	        default:
+	        	g2d.drawImage(GameWindow.playerimg_down1, pp.x, pp.y , this);
+	        	break;
+	        }
         
-        setBackground(Color.GRAY);
-        
-        Position pp = player.getPosition().getDrawPosition(player.getHitbox());
-
-        
-
-        // Malt Spieler
-        switch(player.getFaceDirection()){
-        case UP: 
-        	g2d.drawImage(GameWindow.playerimg_up1, pp.x, pp.y , this);
-        	break;
-        case DOWN:
-        	g2d.drawImage(GameWindow.playerimg_down1, pp.x, pp.y , this);
-        	break;
-        case LEFT:
-        	g2d.drawImage(GameWindow.playerimg_left1, pp.x, pp.y , this);
-        	break;
-        case RIGHT:
-        	g2d.drawImage(GameWindow.playerimg_right1, pp.x, pp.y , this);
-        	break;	
-        default:
-        	g2d.drawImage(GameWindow.playerimg_down1, pp.x, pp.y , this);
-        	break;
-        }
-        
-        Score(g2d);
+        	Score(g2d);
         }
         else
         {	
@@ -590,58 +590,58 @@ public class MenuStart extends JPanel implements ActionListener {
         } 
     }
     
-public void initMenu(){
-	// Zeichne Menüelemente
-	// Lege Standardpositionen für Buttons fest
-	buttonPosX = GameMinSizeX/2-100;
-	buttonPosY = GameMinSizeY/2-100;
-	
-	background.setBounds(0, 0, 800, 600);
-	add(background);
-	background.setVisible(true);
-	// bestimme Position und Größe
-	
-	//Falls schon eine Karte gemeistert wurde, Nächste-Karte-Button anzeigen
-	if(nextMap > 1 && nextMap < 4) {
-		buttonNextMap.setVisible(true);
-		buttonNextMap.setBounds(buttonPosX,buttonPosY,    200,30);
-		buttonNewGame.setBounds(buttonPosX,buttonPosY+40, 200,30);
-		buttonEditor.setBounds(buttonPosX, buttonPosY+80, 200,30);
-		buttonHelp.setBounds(buttonPosX,   buttonPosY+120,200,30);
-		buttonBeenden.setBounds(buttonPosX,buttonPosY+160,200,30);
+	public void initMenu(){
+		// Zeichne Menüelemente
+		// Lege Standardpositionen für Buttons fest
+		buttonPosX = GameMinSizeX/2-100;
+		buttonPosY = GameMinSizeY/2-100;
+		
+		background.setBounds(0, 0, 800, 600);
+		add(background);
+		background.setVisible(true);
+		// bestimme Position und Größe
+		
+		//Falls schon eine Karte gemeistert wurde, Nächste-Karte-Button anzeigen
+		if(nextMap > 1 && nextMap < 4) {
+			buttonNextMap.setVisible(true);
+			buttonNextMap.setBounds(buttonPosX,buttonPosY,    200,30);
+			buttonNewGame.setBounds(buttonPosX,buttonPosY+40, 200,30);
+			buttonEditor.setBounds(buttonPosX, buttonPosY+80, 200,30);
+			buttonHelp.setBounds(buttonPosX,   buttonPosY+120,200,30);
+			buttonBeenden.setBounds(buttonPosX,buttonPosY+160,200,30);
+		}
+		// Ansonsten normales Hauptmenü anzeigen
+		else {
+			buttonNextMap.setVisible(false);
+			buttonNewGame.setBounds(buttonPosX,buttonPosY,    200,30);
+			buttonNetwork.setBounds(buttonPosX,buttonPosY+40, 200,30);
+			buttonEditor.setBounds(buttonPosX, buttonPosY+80, 200,30);
+			buttonHelp.setBounds(buttonPosX,   buttonPosY+120,200,30);
+			buttonBeenden.setBounds(buttonPosX,buttonPosY+160,200,30);
+		}
 	}
-	// Ansonsten normales Hauptmenü anzeigen
-	else {
-		buttonNextMap.setVisible(false);
-		buttonNewGame.setBounds(buttonPosX,buttonPosY,    200,30);
-		buttonNetwork.setBounds(buttonPosX,buttonPosY+40, 200,30);
-		buttonEditor.setBounds(buttonPosX, buttonPosY+80, 200,30);
-		buttonHelp.setBounds(buttonPosX,   buttonPosY+120,200,30);
-		buttonBeenden.setBounds(buttonPosX,buttonPosY+160,200,30);
-	}
-}
 
 
-//Score and set Leben
-public void Score(Graphics2D g) {
-	g.setFont(smallfont);
-	g.setColor(Color.BLACK);
-	g.drawImage(GameWindow.coin, 720, 543, this);
-	g.drawString(Integer.toString(player.getMoney()), 750, 563);
-	g.drawImage(GameWindow.heart, 5, 542, this);
-	g.drawString("x",35,562);
-	g.drawString(Integer.toString(player.getLives()), 50,562);
-	//auslesen der Spieler leben über die getter player.getLives()
-	g.drawString("Health: ", 70, 563);
-	g.drawString(Integer.toString(player.getHealth()),125,563);
-	g.drawImage(GameWindow.mana, 160, 543,this);
-	g.drawString(Integer.toString(player.getMana()),185,563);
-	g.drawImage(GameWindow.infosword, 220, 543,this);
-	g.drawString(Integer.toString(player.getAttack()),245,563);
-	g.drawImage(GameWindow.infoshield, 270, 543,this);
-	g.drawString(Integer.toString(player.getArmour()),305,563);
-	
-}
+	//Score and set Leben
+	public void Score(Graphics2D g) {
+		g.setFont(smallfont);
+		g.setColor(Color.BLACK);
+		g.drawImage(GameWindow.coin, 720, 543, this);
+		g.drawString(Integer.toString(player.getMoney()), 750, 563);
+		g.drawImage(GameWindow.heart, 5, 542, this);
+		g.drawString("x",35,562);
+		g.drawString(Integer.toString(player.getLives()), 50,562);
+		//auslesen der Spieler leben über die getter player.getLives()
+		g.drawString("Health: ", 70, 563);
+		g.drawString(Integer.toString(player.getHealth()),125,563);
+		g.drawImage(GameWindow.mana, 160, 543,this);
+		g.drawString(Integer.toString(player.getMana()),185,563);
+		g.drawImage(GameWindow.infosword, 220, 543,this);
+		g.drawString(Integer.toString(player.getAttack()),245,563);
+		g.drawImage(GameWindow.infoshield, 270, 543,this);
+		g.drawString(Integer.toString(player.getArmour()),305,563);
+		
+	}
 
 	public void paintMessage(String msg, Graphics g){
 		// Mache Buttons wieder sichtbar
@@ -897,18 +897,22 @@ public void Score(Graphics2D g) {
 			case 0:
 				monster.setDirection(Direction.UP);
 				monster.setFaceDirection(Direction.UP);
+				System.out.println("Monster-direction rauf: "+monster.getType()+":"+monster.getPosition());
 				break;
 			case 1:
 				monster.setDirection(Direction.DOWN);
 				monster.setFaceDirection(Direction.DOWN);
+				System.out.println("Monster-direction runter: "+monster.getType()+":"+monster.getPosition());
 				break;
 			case 2:
 				monster.setDirection(Direction.LEFT);
 				monster.setFaceDirection(Direction.LEFT);
+				System.out.println("Monster-direction links: "+monster.getType()+":"+monster.getPosition());
 				break;
 			case 3:
 				monster.setDirection(Direction.RIGHT);
 				monster.setFaceDirection(Direction.RIGHT);
+				System.out.println("Monster-direction rechts: "+monster.getType()+":"+monster.getPosition());
 				
 			default:
 				monster.setDirection(Direction.NONE);

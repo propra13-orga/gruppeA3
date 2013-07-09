@@ -240,7 +240,7 @@ public class Monster extends Moveable {
 				coins.getType(),
 				getArmour(),
 				isBoss);	
-		}
+	}
 }
 	
 
