@@ -85,6 +85,7 @@ public class Player extends Moveable {
     	MenuStart.activeRoom = Map.getRoom(0);
     	direct = Direction.NONE;
     	resetAttack();
+    	setRoomID(0);
     	getRoom().entities.add(this);
     	setPosition(Map.spawns[0].pos.toPosition().x+16, Map.spawns[0].pos.toPosition().y+16);
     	
@@ -96,10 +97,8 @@ public class Player extends Moveable {
     	int step = (int)(movePx * getSpeed());
     	Position nextPos = new Position(0,0); //Position, auf die gelaufen werden soll
     	Field[] fieldsToWalk = new Field[2];  // Felder, die betreten werden sollen
-    	boolean wannaPrint = false;
         switch (this.getDirection()) {
             case LEFT:
-            	wannaPrint = false;
             	nextPos.setPosition(getPosition().x - step, getPosition().y);
             	// Checke, ob Spieler aus der Map rauslatscht anhand Hitbox
             	if(nextPos.getCornerTopLeft(hitbox).x > 0) {
@@ -131,7 +130,6 @@ public class Player extends Moveable {
                 break;
 
             case UP:
-            	wannaPrint = false;
         		nextPos.setPosition(getPosition().x, getPosition().y - step);
         		// Checke, ob Spieler aus der Map rauslatscht anhand Hitbox
             	if(nextPos.getCornerTopLeft(hitbox).y > 0) {
@@ -164,7 +162,6 @@ public class Player extends Moveable {
                 break;
 
             case RIGHT:
-            	wannaPrint = false;
         		nextPos.setPosition(getPosition().x + step, getPosition().y);
         		// Checke, ob Spieler aus der Map rauslatscht anhand Hitbox
             	if(nextPos.getCornerTopRight(hitbox).x < getRoom().getWidth()*32) {
@@ -195,7 +192,6 @@ public class Player extends Moveable {
                 break;
 
             case DOWN:
-            	wannaPrint = false;
         		nextPos.setPosition(getPosition().x, getPosition().y + step);
         		// Checke, ob Spieler aus der Map rauslatscht anhand Hitbox
             	if(nextPos.getCornerBottomLeft(hitbox).y < getRoom().getHeight()*32) {
@@ -233,7 +229,6 @@ public class Player extends Moveable {
             	if(field.type == 3 /*|| (lastField.type == 3 && field.link != null && field.link.isActivated()) */) { //Wasser oder Link nach Wasser
             		int moveDirection = -1; // Wird je nach Fließrichtung 1 oder -1
             		int distance;
-            		wannaPrint = false;
             		switch(field.attribute1) {
             			//Fließrichtung horizontal
             			case 1: // Rechts; moveD umdrehen
@@ -292,10 +287,7 @@ public class Player extends Moveable {
             default:
                 //nichts tun
         }
-        if (wannaPrint) {
-        	System.out.println("Spielerpos: "+getPosition().x+":"+getPosition().y);
-        	wannaPrint = false;
-        }
+        
         // Links
         if(getRoom().getField(getFieldPos()).link != null){
         	if (getRoom().getField(getFieldPos()).link.isActivated() && lastField.link == null) {

@@ -55,7 +55,6 @@ public class FieldHighlight extends JComponent {
 
 	@Override
 	public void paintComponent(Graphics g) {
-		System.out.println("paintcomponent!");
 		g.setColor(color);
 		g.drawRect(pos.x,pos.y, 32, 32);
 	}

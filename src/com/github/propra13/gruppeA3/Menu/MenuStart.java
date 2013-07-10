@@ -897,22 +897,18 @@ public class MenuStart extends JPanel implements ActionListener {
 			case 0:
 				monster.setDirection(Direction.UP);
 				monster.setFaceDirection(Direction.UP);
-				System.out.println("Monster-direction rauf: "+monster.getType()+":"+monster.getPosition());
 				break;
 			case 1:
 				monster.setDirection(Direction.DOWN);
 				monster.setFaceDirection(Direction.DOWN);
-				System.out.println("Monster-direction runter: "+monster.getType()+":"+monster.getPosition());
 				break;
 			case 2:
 				monster.setDirection(Direction.LEFT);
 				monster.setFaceDirection(Direction.LEFT);
-				System.out.println("Monster-direction links: "+monster.getType()+":"+monster.getPosition());
 				break;
 			case 3:
 				monster.setDirection(Direction.RIGHT);
 				monster.setFaceDirection(Direction.RIGHT);
-				System.out.println("Monster-direction rechts: "+monster.getType()+":"+monster.getPosition());
 				
 			default:
 				monster.setDirection(Direction.NONE);

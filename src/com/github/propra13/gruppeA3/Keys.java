@@ -78,6 +78,9 @@ public class Keys implements KeyListener {
 				case KeyEvent.VK_L:
 					player.win();
 					break;
+				case KeyEvent.VK_J:
+					System.out.println("Spieler-Raum: "+player.getRoomID());
+					break;
 			}
 		}
 	}
