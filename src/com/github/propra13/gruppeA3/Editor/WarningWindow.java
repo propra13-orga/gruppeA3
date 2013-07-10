@@ -125,6 +125,13 @@ public class WarningWindow extends JDialog implements ActionListener {
 		
 		setVisible(true);
 	}
+	
+	public void showWindow(String msg) {
+		infotext.setText(msg);
+		bOk.setText("Ok");
+		bOk.setText("Ok");
+		setVisible(true);
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

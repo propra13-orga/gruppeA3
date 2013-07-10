@@ -108,7 +108,7 @@ public class CrawlerSAX extends DefaultHandler{
 			if(checkNPC){
 				npc.getItems().add(item);
 			}else
-				Map.getRoom(roomID).entities.add(item);
+				Map.getRoom(roomID).entities.addFirst(item);
 		}
 		else if(qName.equals("npc")){
 			checkNPC = true;

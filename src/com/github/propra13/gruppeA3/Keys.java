@@ -1,7 +1,10 @@
 package com.github.propra13.gruppeA3;
 
 import java.awt.event.*;
+import java.util.Iterator;
+import java.util.LinkedList;
 
+import com.github.propra13.gruppeA3.Editor.WarningWindow;
 import com.github.propra13.gruppeA3.Entities.Player;
 import com.github.propra13.gruppeA3.Entities.Moveable.Direction;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
@@ -11,6 +14,13 @@ public class Keys implements KeyListener {
 	Player player; //Referenz zum gesteuerten Charakter
 	boolean playerIsSet = true;
 
+	//Debugging
+	public static int upCtr=0;
+	public static int leftCtr=0;
+	public static int downCtr=0;
+	public static int rightCtr=0;
+	WarningWindow msgWindow = new WarningWindow();
+
 	//Konstruktor
 	public Keys(Player player_bind) {
 		player = player_bind;
@@ -19,6 +29,7 @@ public class Keys implements KeyListener {
 	public void keyTyped(KeyEvent e){}
 	
 	public void keyPressed(KeyEvent e){
+		
 		int pressed = e.getKeyCode();
 		if(MenuStart.getGameStatus() == MenuStart.GameStatus.INGAME)
 		{
@@ -74,12 +85,12 @@ public class Keys implements KeyListener {
 					player.setMana(100);
 					break;
 					
-				//Gewinnt die aktuelle Karte
+				//Debug-Info-Knopf
 				case KeyEvent.VK_L:
-					player.win();
-					break;
-				case KeyEvent.VK_J:
-					System.out.println("Spieler-Raum: "+player.getRoomID());
+					msgWindow.showWindow("<html><body>Rauf: "+upCtr+"<br>" +
+							"Links: "+leftCtr+"<br>" +
+							"Runter: "+downCtr+"<br>" +
+							"Rechts: "+rightCtr+"<br></body></html>");
 					break;
 			}
 		}
