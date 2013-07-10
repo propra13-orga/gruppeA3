@@ -466,18 +466,51 @@ public abstract class Moveable extends Entities {
 
 	/**
 	 * Ändert die aktuelle Position im Raum.
+	 * Prüft auf Verlassen des Raums und nähert ggf. an Raumrand an.
 	 * @param x X-Koordinate
 	 * @param y Y-Koordinate
 	 */
-
-	 public void setPosition(int x, int y) {
-    	// lastField, actualField setzten
-    	actualField = getRoom().getField(getPosition());
-    	Field nextField = getRoom().getField(x/32, y/32);
-    	if (lastField == null || nextField != actualField) { // initial oder falls Feldwechsel vorliegt
-    		lastField = actualField;
-    	}
-    	getPosition().setPosition(x, y);
+	public void setPosition(int x, int y) {
+		Direction uebertritt = Direction.NONE;
+		//Check, ob der Raum verlassen würde und ggf. intervenieren
+		if((x + hitbox.width/2) /32 > Map.ROOMWIDTH - 1)
+			uebertritt = Direction.RIGHT;
+		else if((x - hitbox.width/2) /32 < 0)
+			uebertritt = Direction.LEFT;
+		else if((y + hitbox.height/2) /32 > Map.ROOMHEIGHT - 1)
+			uebertritt = Direction.DOWN;
+		else if((y - hitbox.height/2) /32 < 0)
+			uebertritt = Direction.UP;
+		//Falls kein Übertritt vorliegt, normale Bewegung
+		else
+		{
+	    	// lastField, actualField setzten
+	    	actualField = getRoom().getField(getPosition());
+	    	Field nextField = getRoom().getField(x/32, y/32);
+	    	if (lastField == null || nextField != actualField) { // initial oder falls Feldwechsel vorliegt
+	    		lastField = actualField;
+	    	}
+	    	getPosition().setPosition(x, y);
+		}
+		//ggf. Annäherung an Raumrand
+		if(uebertritt != Direction.NONE) {
+			switch(uebertritt) {
+			case UP:
+				getPosition().setPosition(x, hitbox.height / 2);
+				break;
+			case LEFT:
+				getPosition().setPosition(hitbox.width/2, y);
+				break;
+			case DOWN:
+				getPosition().setPosition(x, Map.ROOMHEIGHT*32 - hitbox.height/2);
+				break;
+			case RIGHT:
+				getPosition().setPosition(Map.ROOMWIDTH*32 - hitbox.width/2, y);
+				break;
+			default:
+				break;
+			}
+		}
     }
 	
 	public void setPosition(Position pos) {
