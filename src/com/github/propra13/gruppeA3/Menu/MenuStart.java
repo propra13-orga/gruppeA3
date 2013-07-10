@@ -347,7 +347,7 @@ public class MenuStart extends JPanel implements ActionListener {
 
         Coin coin;
         NPC npc;
-
+        
         while (iter.hasNext()) {
             testEntity = iter.next();
             if (testEntity instanceof Item) {
@@ -897,18 +897,22 @@ public class MenuStart extends JPanel implements ActionListener {
 			case 0:
 				monster.setDirection(Direction.UP);
 				monster.setFaceDirection(Direction.UP);
+				Keys.upCtr++;
 				break;
 			case 1:
 				monster.setDirection(Direction.DOWN);
 				monster.setFaceDirection(Direction.DOWN);
+				Keys.downCtr++;
 				break;
 			case 2:
 				monster.setDirection(Direction.LEFT);
 				monster.setFaceDirection(Direction.LEFT);
+				Keys.leftCtr++;
 				break;
 			case 3:
 				monster.setDirection(Direction.RIGHT);
 				monster.setFaceDirection(Direction.RIGHT);
+				Keys.rightCtr++;
 				
 			default:
 				monster.setDirection(Direction.NONE);
@@ -974,6 +978,7 @@ public class MenuStart extends JPanel implements ActionListener {
 			player.setCastCount(player.getCastCount()-1);
 		}
 		
+		//Monster-Angriffsspeed-Limit (vermute ich, ck)
 		Monster monster = null;
 		Entities testent = null;	//durch alle Entitys der Liste iterieren
 		@SuppressWarnings("unchecked")
