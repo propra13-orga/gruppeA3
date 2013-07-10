@@ -6,6 +6,8 @@ package com.github.propra13.gruppeA3.Network;
 import java.io.IOException;
 import java.net.ServerSocket;
 
+import com.github.propra13.gruppeA3.Menu.MenuStart;
+
 /**
  * Diese Klasse erzeugt einen Server
  * Sie läuft so lange, bis sie beendet wird oder kein Spieler mehr da ist
@@ -27,7 +29,7 @@ public class Server extends Thread{
 	 * Erzeugt einen neuen Server
 	 * @param port Der Port auf den der Server lauscht
 	 */
-	public Server(int port) {
+	public Server(int port, MenuStart.NetworkStatus netstat) {
 		System.out.println("Starte Server...");
 		try {
 			this.server = new ServerSocket(port);

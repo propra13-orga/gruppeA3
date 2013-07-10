@@ -41,7 +41,30 @@ public class Player extends Moveable {
         this.items = new LinkedList<Item>();
         initialize();
     }
+
+    public Player(int roomID, int playerID, int x, int y, Direction dir, Direction face){
+    	this(roomID);
+    	setPlayerID(playerID);
+    	setPosition(x,y);
+    	setDirection(dir);
+    	setFaceDirection(face);
+    }
     
+    /**
+     * Wird für das Protokoll verwendet
+     * @param roomID
+     * @param playerID
+     * @param lives
+     * @param health
+     * @param speed
+     * @param mana
+     * @param dir
+     * @param face
+     * @param pos
+     * @param armour
+     * @param attack
+     * @param attackCount
+     */
     public Player(int roomID, int playerID, int lives, int health, double speed, int mana,
     			  int dir, int face, Position pos, int armour, int attack, int attackCount){
     	this(roomID);
