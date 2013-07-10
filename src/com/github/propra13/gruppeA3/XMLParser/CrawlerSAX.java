@@ -25,13 +25,14 @@ public class CrawlerSAX extends DefaultHandler{
 	 */
 	
 	//	public static Entities[][] map;
-	public String title;
-	public int levelID;
-	public int playerCount;
+	private String title;
+	private int levelID;
+	private int playerCount;
 	private int roomID=0;
 	private boolean checkNPC=false;
 	private NPC npc=null;
 	private String text=null;
+	private Player[] player=null;
 	
 	/**
 	 * @author Majida Dere
@@ -58,9 +59,10 @@ public class CrawlerSAX extends DefaultHandler{
 								String qName,Attributes attrs)
 										throws SAXException {
 		if(qName.equals("level")){
-			levelID = Integer.parseInt(attrs.getValue("id"));
-			title = new String(attrs.getValue("desc"));
-			playerCount = Integer.parseInt(attrs.getValue("player"));
+			setLevelID(Integer.parseInt(attrs.getValue("id")));
+			setTitle(new String(attrs.getValue("desc")));
+			setPlayerCount(Integer.parseInt(attrs.getValue("player")));
+			this.player = new Player[playerCount];
 		}
 		else if (qName.equals("rooms")){
 			roomID = Integer.parseInt(attrs.getValue("id"));
@@ -88,7 +90,8 @@ public class CrawlerSAX extends DefaultHandler{
 				isBoss = false;
 
 			// Es wird ein neues Monster erzeugt mit den zuvor ausgelesenen Informationen aus level.xml
-			Monster monster=new Monster(roomID, speed, power, type, life, posx, posy, desc, coinValue, coinType, armour, isBoss);
+			Monster monster=new Monster(roomID, speed, power, type, life, posx, posy, desc, 
+										coinValue, coinType, armour, isBoss);
 			//MAP
 			//System.out.println("Monster");
 			Map.getRoom(roomID).entities.add(monster);
@@ -120,6 +123,13 @@ public class CrawlerSAX extends DefaultHandler{
 			
 			npc = new NPC(type, desc, name, posx, posy);
 		}
+		else if(qName.equals("player")){
+			int playerID = Integer.parseInt("id");
+			int posx = Integer.parseInt("posx");
+			int posy = Integer.parseInt("posy");
+			player[playerID] = new Player(roomID, playerID, posx, posy);
+		}
+		
 	}
 	
 	
@@ -144,4 +154,53 @@ public class CrawlerSAX extends DefaultHandler{
     	this.text = new String(ch, start, length);
     	this.text = this.text.replace("\\n", "\n");
      }
+
+	/**
+	 * @return the playerCount
+	 */
+	public int getPlayerCount() {
+		return playerCount;
+	}
+
+	/**
+	 * @param playerCount the playerCount to set
+	 */
+	public void setPlayerCount(int playerCount) {
+		this.playerCount = playerCount;
+	}
+
+	/**
+	 * @return the levelID
+	 */
+	public int getLevelID() {
+		return levelID;
+	}
+
+	/**
+	 * @param levelID the levelID to set
+	 */
+	public void setLevelID(int levelID) {
+		this.levelID = levelID;
+	}
+
+	/**
+	 * @return the title
+	 */
+	public String getTitle() {
+		return title;
+	}
+
+	/**
+	 * @param title the title to set
+	 */
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	/**
+	 * @return the player
+	 */
+	public Player[] getPlayer() {
+		return player;
+	}
 }	

@@ -18,7 +18,6 @@ public class SAXCrawlerReader {
 	
 	public String read(String fileName)
 							throws Exception{
-		// übergibt die Map an den handler
 		CrawlerSAX handler=new CrawlerSAX();
 		SAX.parse(fileName,handler);
 		return handler.toString();
