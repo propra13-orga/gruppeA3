@@ -699,7 +699,7 @@ public class MenuStart extends JPanel implements ActionListener {
 				networkMenu();
 			}
 			else if("create".equals(action)){
-				Server server = new Server(this.getPort());
+				Server server = new Server(this.getPort(), MenuStart.getNetstat());
 				server.start();
 				new Client(this, MenuStart.getNetstat());
 			}

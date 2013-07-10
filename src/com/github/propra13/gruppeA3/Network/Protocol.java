@@ -188,7 +188,7 @@ public class Protocol {
     }
     
     /**
-     * Send Coin
+     * Coin senden
      * @param coin
      * @throws IOException
      */
@@ -216,7 +216,7 @@ public class Protocol {
     }
     
     /**
-     * Send a Monster
+     * Monster senden
      * @param monster
      * @throws IOException
      */
@@ -236,7 +236,7 @@ public class Protocol {
     }
     
     /**
-     * receive a Monster
+     * Monster empfangen
      * @return
      * @throws IOException
      */
@@ -256,7 +256,7 @@ public class Protocol {
     }
     
     /**
-     * Send a Player
+     * Spieler senden
      * @param player
      * @throws IOException
      */
@@ -277,7 +277,7 @@ public class Protocol {
     }
     
     /**
-     * receive a Player
+     * Spieler empfangen
      * @return
      * @throws IOException
      */
@@ -297,5 +297,24 @@ public class Protocol {
 
 		return new Player(roomID, playerID, lives, health, speed, mana, 
 						  direct, face, pos, armour, attack, attackCount);
+    }
+    
+    /**
+     * PlayerID senden
+     * @param playerID
+     * @throws IOException
+     */
+    public void sendPlayerID(int playerID) throws IOException{
+    	sendString("playerID");
+    	this.out.writeInt(playerID);
+    }
+    
+    /**
+     * PlayerID empfangen
+     * @return
+     * @throws IOException
+     */
+    public int receivePlayerID() throws IOException{
+    	return this.in.readInt();
     }
 }
