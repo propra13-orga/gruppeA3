@@ -131,13 +131,13 @@ public abstract class Moveable extends Entities {
             			if (fieldsToWalk[0].walkable && fieldsToWalk[1].walkable) {
             				setPosition(nextPos);
             				break;
-            				
+            			}
             			// Ansonsten liegt Kollision vor, daher Annäherung an Feldgrenze
-            			} 
             			else {
             				int distance = getPosition().getCornerTopLeft(hitbox).y - (fieldsToWalk[0].pos.toPosition().y + 32);
-            				if (distance != 0)
+            				if (distance != 0) {
             					setPosition(getPosition().x, getPosition().y - distance);
+            				}
             				// Projektile verpuffen an Wand
             				else if(this instanceof Projectile) {
             					Projectile proj = (Projectile)this;
@@ -145,11 +145,11 @@ public abstract class Moveable extends Entities {
             				}
             			}
             		}
-					//ansonsten Annäherung an Raumrand
-            		else {
-            			setPosition(nextPos.x, hitbox.height/2);
-            		}
             	}
+            	//ansonsten Annäherung an Raumrand
+        		else {
+        			setPosition(nextPos.x, hitbox.height/2);
+        		}
             	
             	break;
 
