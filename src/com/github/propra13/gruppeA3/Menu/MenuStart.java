@@ -350,7 +350,33 @@ public class MenuStart extends JPanel implements ActionListener {
 
         while (iter.hasNext()) {
             testEntity = iter.next();
-            if (testEntity instanceof Monster) {
+            if (testEntity instanceof Item) {
+            	item = (Item)testEntity;
+            	entityPos.setPosition(item.getPosition().getDrawPosition(item.getHitbox()));
+            	switch (item.getType()){
+            		case 1:
+        				g2d.drawImage(GameWindow.lifePosion, entityPos.x, entityPos.y, panel);
+        				break;
+            		case 2:
+        				g2d.drawImage(GameWindow.deadlyPosion, entityPos.x, entityPos.y, panel);
+        				break;
+            		case 3:
+            			g2d.drawImage(GameWindow.manaPosion, entityPos.x, entityPos.y, panel);
+            			break;
+            		case 4:
+            			g2d.drawImage(GameWindow.sword, entityPos.x, entityPos.y, panel);
+            			break;
+            		case 5:
+            			g2d.drawImage(GameWindow.shield, entityPos.x, entityPos.y, panel);
+            			break;
+            	}
+            }
+            else if (testEntity instanceof Coin){
+            	coin = (Coin)testEntity;
+            	entityPos.setPosition(coin.getPosition().x - (coin.getHitbox().width/2), coin.getPosition().y - (coin.getHitbox().height/2));
+            	g2d.drawImage(GameWindow.coin, entityPos.x, entityPos.y, panel);
+            }
+            else if (testEntity instanceof Monster) {
             	monster=(Monster)testEntity;
             	entityPos.setPosition(monster.getPosition().x - (monster.getHitbox().width/2) , monster.getPosition().y - (monster.getHitbox().height/2));
             	//zeichnet Monster-Typen mit Blickrichtung 
@@ -462,33 +488,7 @@ public class MenuStart extends JPanel implements ActionListener {
             		}
             	}
             }
-                	
-            else if (testEntity instanceof Item) {
-            	item = (Item)testEntity;
-            	entityPos.setPosition(item.getPosition().getDrawPosition(item.getHitbox()));
-            	switch (item.getType()){
-            		case 1:
-        				g2d.drawImage(GameWindow.lifePosion, entityPos.x, entityPos.y, panel);
-        				break;
-            		case 2:
-        				g2d.drawImage(GameWindow.deadlyPosion, entityPos.x, entityPos.y, panel);
-        				break;
-            		case 3:
-            			g2d.drawImage(GameWindow.manaPosion, entityPos.x, entityPos.y, panel);
-            			break;
-            		case 4:
-            			g2d.drawImage(GameWindow.sword, entityPos.x, entityPos.y, panel);
-            			break;
-            		case 5:
-            			g2d.drawImage(GameWindow.shield, entityPos.x, entityPos.y, panel);
-            			break;
-            	}
-            }
-            else if (testEntity instanceof Coin){
-            	coin = (Coin)testEntity;
-            	entityPos.setPosition(coin.getPosition().x - (coin.getHitbox().width/2), coin.getPosition().y - (coin.getHitbox().height/2));
-            	g2d.drawImage(GameWindow.coin, entityPos.x, entityPos.y, panel);
-            }
+            
             else if (testEntity instanceof NPC){
             	npc = (NPC)testEntity;
             	entityPos.setPosition(npc.getPosition().getDrawPosition(npc.getHitbox()));
