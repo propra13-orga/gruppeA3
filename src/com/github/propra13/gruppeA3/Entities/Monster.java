@@ -24,6 +24,7 @@ public class Monster extends Moveable {
 	private int type;
 	private int roomID;
 	private int power;
+	private Elements element;
 	
 	/**
 	 * Der Konstruktor erzeugt ein Monster mit folgenden Parametern
@@ -38,8 +39,9 @@ public class Monster extends Moveable {
 	 * @param coinValue Wert der Münze
 	 * @param coinType Typ der Münze
 	 * @param armour Rüstung des Monsters
-	 * 
+	 * @param element Element des Monsters
 	 */
+	
 	public Monster (int roomID, double speed, int power, int type, int life, 
 					int x, int y, String desc, int coinValue, int coinType, int armour, boolean isBoss){
 		super(roomID);
@@ -56,6 +58,7 @@ public class Monster extends Moveable {
 		setDirection(Direction.NONE);
 		coins=new Coin(coinValue, coinType, this.pos);
 		this.type = type;
+		this.element = Elements.PHYSICAL;
 		/**
 		 * Diese Abfrage ist für Bossmonster, die größer sind als gewöhnliche Monster
 		 */
@@ -64,6 +67,33 @@ public class Monster extends Moveable {
 			this.hitbox.width  = 48;
 		}
 	}
+
+	public Monster (int roomID, double speed, int power, int type, int life, 
+			int x, int y, String desc, int coinValue, int coinType, int armour, boolean isBoss,Elements element){
+		super(roomID);
+		this.roomID = roomID;
+		addSpeedFactor(speed);
+		this.power = power;
+		addAttackFactor(power);
+		setHealth(life);
+		setArmour(armour);
+		this.desc = desc;
+		this.hitbox = new Hitbox();
+		this.isBoss = isBoss;
+		setPosition(x+(hitbox.width/2),y+(hitbox.height/2));
+		setDirection(Direction.NONE);
+		coins=new Coin(coinValue, coinType, this.pos);
+		this.type = type;
+		this.element = element;
+		/**
+		 * Diese Abfrage ist für Bossmonster, die größer sind als gewöhnliche Monster
+		 */
+		if(type == 5){ 
+			this.hitbox.height = 48;
+			this.hitbox.width  = 48;
+		}
+}
+	
 	
 	
 	// Getter Methoden
@@ -240,6 +270,14 @@ public class Monster extends Moveable {
 				coins.getType(),
 				getArmour(),
 				isBoss);	
+	}
+	
+	public void setElement(Elements element){
+		this.element = element;
+	}
+	
+	public Elements getElement(){
+		return this.element;
 	}
 }
 	

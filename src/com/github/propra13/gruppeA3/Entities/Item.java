@@ -1,5 +1,6 @@
 package com.github.propra13.gruppeA3.Entities;
 
+import com.github.propra13.gruppeA3.Entities.Moveable.Elements;
 import com.github.propra13.gruppeA3.Map.Position;
 
 /**
@@ -27,6 +28,7 @@ public class Item extends Entities {
 	 * 			name: Der Name des Items aus der XML
 	 * 			hitbox: Die Hitbox des Items
 	 * 			value: Der Wert, den jedes Item haben kann, wichtig beim Kauf/Verkauf
+	 * 			element: Bei Waffen und Rüstungen das Element des Items
 	 */
 	private Position pos;
 	private int damage = 0;
@@ -35,6 +37,7 @@ public class Item extends Entities {
 	private String name=null;
 	private Hitbox hitbox=null;
 	private int value=0;
+	private Elements element;
 	
 	
 	/**
@@ -47,7 +50,7 @@ public class Item extends Entities {
 	 * @param desc		Die Beschreibung des Items
 	 * @param name		Der Name des Items
 	 * @param value		Der Wert des Items
-	 * 
+	 * @param element	Das Element des Items
 	 **/
 	public Item(int damage, int type, int x, int y, String desc, String name, int value) {
 		this.damage = damage;
@@ -58,7 +61,21 @@ public class Item extends Entities {
 		this.pos = new Position(x+(hitbox.width/2),y+(hitbox.height/2));
 		this.value = value;
 	}
+	
+	public Item(int damage, int type, int x, int y, String desc, String name, int value, Elements element) {
+		this.damage = damage;
+		this.type = type;
+		this.desc = desc;
+		this.name = name;
+		this.hitbox = Hitbox.standard;
+		this.pos = new Position(x+(hitbox.width/2),y+(hitbox.height/2));
+		this.value = value;
+		this.element = element;
+	}
 
+	/**
+	 * @return Liefert die Position des Items 
+	 */
 	@Override
 	public Position getPosition() {
 		return pos;
@@ -77,16 +94,11 @@ public class Item extends Entities {
 	public int getType(){
 		return this.type;
 	}
-	
+	/**
+	 * @return Liefert die Hitbox des Items zurück
+	 */
 	public Hitbox getHitbox(){
 		return this.hitbox;
-	}
-
-	public void setHealth(int health){
-	}
-	
-	public int getHealth(){
-		return 0;
 	}
 	
 	/**
@@ -186,6 +198,13 @@ public class Item extends Entities {
 	
 	public void setName(String name) {
 		this.name = name;
+	}
+	public void setElement(Elements element){
+		this.element = element;
+	}
+	
+	public Elements getElement(){
+		return this.element;
 	}
 }
 

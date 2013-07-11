@@ -24,6 +24,7 @@ public abstract class Moveable extends Entities {
 	private Direction facedirect;
 	protected Position pos;
 	protected int roomID;
+	public static enum Elements{PHYSICAL,FIRE,WATER,ICE}
 
 	protected Hitbox hitbox;
 	protected int health;
@@ -400,60 +401,6 @@ public abstract class Moveable extends Entities {
 	}
 	
 	
-	public void attack(){
-			Position temp = new Position(this.getPosition().x,this.getPosition().y);
-			switch(this.facedirect){
-			case UP:
-				temp.setPosition(temp.x , temp.y -6);
-				break;
-			case DOWN:
-				temp.setPosition(temp.x , temp.y +6);
-				break;
-			case LEFT:
-				temp.setPosition(temp.x - 6 , temp.y);
-				break;
-			case RIGHT:
-				temp.setPosition(temp.x + 6 , temp.y);
-				break;
-			default:
-				break;
-			}
-			
-			int xdelta;
-			int ydelta;
-			Entities testent = null;	//durch alle Entitys der Liste iterieren
-			@SuppressWarnings("unchecked")
-			LinkedList<Entities> tempEntities = (LinkedList<Entities>) getRoom().entities.clone();
-		    Iterator<Entities> iter = tempEntities.iterator();
-		    Monster monster = null;
-			while(iter.hasNext()){
-				testent = iter.next();
-				if(testent != this){	
-					xdelta = temp.x - testent.getPosition().x; //x-Abstand der Mittelpunkte bestimmen
-					if(xdelta < 0)
-						xdelta = xdelta * (-1);
-					ydelta = temp.y - testent.getPosition().y; //y-Abstand der Mittelpunkte bestimmen
-					if(ydelta < 0)
-						ydelta = ydelta * (-1);
-					if(Math.sqrt(xdelta*xdelta + ydelta*ydelta) < 50){	//Wenn wurzel(x^2 + y^2) < 50 ist, auf hitboxkollision prüfen
-						if(hitboxCheck(temp, testent) == false){
-							if(testent instanceof Monster){
-								monster = (Monster)testent;
-								if((this.attack - monster.getArmour()) > 0 ){
-									testent.setHealth(testent.getHealth() - (this.attack - monster.getArmour()));
-								}
-								else{
-									testent.setHealth(testent.getHealth() -1 );
-								}
-								if(testent.getHealth() <= 0){
-									monster.death();
-								}
-							}
-						}
-					}
-				}
-			}
-		}
 	
 	/**
 	 * Diese Methode liefert die aktuelle Position im Raum
@@ -748,4 +695,6 @@ public abstract class Moveable extends Entities {
 	public void setRoomID(int roomID) {
 		this.roomID = roomID;
 	}
+	
+
 }

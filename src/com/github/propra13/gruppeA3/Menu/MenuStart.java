@@ -894,8 +894,8 @@ public class MenuStart extends JPanel implements ActionListener {
 	}
 	
 	private void generateDirection(Monster monster){
-		int rndnumber = randomgen.nextInt();
-		switch(rndnumber%6) {
+		int rndnumber = randomgen.nextInt(6);
+		switch(rndnumber) {
 			case 0:
 				monster.setDirection(Direction.UP);
 				monster.setFaceDirection(Direction.UP);
