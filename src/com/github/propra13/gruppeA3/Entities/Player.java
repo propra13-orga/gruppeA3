@@ -42,12 +42,10 @@ public class Player extends Moveable {
         initialize();
     }
 
-    public Player(int roomID, int playerID, int x, int y, Direction dir, Direction face){
+    public Player(int roomID, int playerID, int x, int y){
     	this(roomID);
     	setPlayerID(playerID);
     	setPosition(x,y);
-    	setDirection(dir);
-    	setFaceDirection(face);
     }
     
     /**
