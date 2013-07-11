@@ -7,6 +7,9 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+
 import com.github.propra13.gruppeA3.Editor.Editor;
 import com.github.propra13.gruppeA3.Exceptions.*;
 import com.github.propra13.gruppeA3.Map.Map;
@@ -26,7 +29,7 @@ public class Map {
 	static public Link[] links;
 	static public Field end;
 	
-	public static String mapName;
+	private static String mapName;
 	
 	final static String roomEnding = "room";
 	final static String metaEnding = "xml";
@@ -119,19 +122,23 @@ public class Map {
 			String fileName = fileArray[i].getName();
 			String[] fileNameParts = fileName.split("\\.(?=[^\\.]+$)");
 			
-			switch (fileNameParts[1]) {
-				case Map.roomEnding:
-					roomNames[roomFoundCounter] = fileNameParts[0];
-					roomFoundCounter++;
-					break;
-				case Map.metaEnding:
-					/* TODO:
-					 * Datei mit Mapinformationen (xml)
-					 */
-					break;
-				default:
-					break;
+			if(fileNameParts.length > 1) {
+				switch (fileNameParts[1]) {
+					case Map.roomEnding:
+						roomNames[roomFoundCounter] = fileNameParts[0];
+						roomFoundCounter++;
+						break;
+					case Map.metaEnding:
+						/* TODO:
+						 * Datei mit Mapinformationen (xml)
+						 */
+						break;
+					default:
+						break;
+				}
 			}
+			else
+				throw new MapFormatException("Inkompatible Datei gefunden: "+roomNames[i]);
 		}
 		
 		
@@ -140,7 +147,7 @@ public class Map {
 		for (int i=0; i < roomNames.length; i++) {
 			int compare = Integer.parseInt(roomNames[i]);
 			if (compare != i) {
-				throw new MapFormatException("Non-standard room name found: \"" + roomNames[i] + "\"");
+				throw new MapFormatException("Inkompatible Datei gefunden: "+roomNames[i]);
 			}
 		}
 		
@@ -150,24 +157,24 @@ public class Map {
 			mapRooms[i] = new Room(i, dir + File.separator + roomNames[i] + "." + roomEnding);
 		}
 		
-		
-		// XML-Kram
-		/* TODO:
-		 * Reader bekommt als Param nichts; Map ist komplett static
-		 * reader.read() bekommt als Eingabeparam String dirName, Room room
-		 * (Verzeichnisname wo die Räume sind, Raum-Ref wo der Kram rein soll)
-		 */
-		
-		/*SAXCrawlerReader reader=new SAXCrawlerReader(this);
-		for (int i=0; i < mapRooms.length; i++) {
-			try {
-				reader.read(mapName, mapRooms[i]);
-				
-			} catch (Exception e) {
-			}
-		}*/
-		
 		return mapRooms;
+	}
+	
+	/**
+	 * Schreibt die Map in Dateien. Die Dateien werden nach data/maps/mapName geschrieben.
+	 * @param mapName Name des Verzeichnisses, in dem die Map gespeichert werden soll.
+	 * @throws TransformerException
+	 * @throws ParserConfigurationException
+	 * @throws IOException
+	 */
+	public static void writeRooms(String mapName) throws TransformerException, ParserConfigurationException, IOException {
+		//Sammle Map-Dateien
+		String dir = System.getProperty("user.dir");
+		dir = dir + File.separator + "data" + File.separator + "maps" + File.separator + mapName;
+		
+		for(int i=0; i < mapRooms.length; i++) {
+			mapRooms[i].writeFile(dir);
+		}
 	}
 	
 	
@@ -332,5 +339,9 @@ public class Map {
 	 */
 	public static Room getRoom(int roomID){
 		return mapRooms[roomID];
+	}
+	
+	public static String getName() {
+		return mapName;
 	}
 }

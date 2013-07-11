@@ -1,14 +1,37 @@
 package com.github.propra13.gruppeA3.Map;
 
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
+import com.github.propra13.gruppeA3.Entities.Coin;
 import com.github.propra13.gruppeA3.Entities.Entities;
+import com.github.propra13.gruppeA3.Entities.Item;
+import com.github.propra13.gruppeA3.Entities.Monster;
+import com.github.propra13.gruppeA3.Entities.NPC;
+import com.github.propra13.gruppeA3.XMLParser.DOM;
+
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 public class Room {
 	
@@ -40,19 +63,19 @@ public class Room {
 	public Room(int roomID, String filename)
 			throws IOException, MapFormatException {
 		this.ID = roomID;
-		this.roomFields = readFile(filename);
+		this.roomFields = readFile_old(filename);
 		buildCheckpoints();
 	}
 	
-	
-	/* Liest Raum aus Datei aus
-	 * Vorgehensweise:
-	 * Lädt alle Bytes in buffer-Array
-	 * Zählt Zeilenendenmarker (FF bzw. 255)
-	 * Iteriert über alle Felder in allen Zeilen
-	 * Gibt roomFields[][] zurück (enthält alle Felder des Raums)
+	/**
+	 * Liest Raum aus einer Datei des alten Raumdateiformats aus.
+	 * @param filename Datei, die ausgelesen werden soll.
+	 * @return Gibt zweidimensionales Array aller Felder des Raums zurück.
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws MapFormatException
 	 */
-	private Field[][] readFile (String filename)
+	private Field[][] readFile_old (String filename)
 			throws FileNotFoundException, IOException, MapFormatException {
 		
 		
@@ -226,6 +249,225 @@ public class Room {
 			}
 		}
 		return room;
+	}
+	
+	/**
+	 * Liest Raum aus einer Datei des neuen xml-Raumdateiformats aus.
+	 * @param filename Name der Datei, die ausgelesen werden soll.
+	 * @return Gibt zweidimensionales Array aller Felder des Raums zurück.
+	 */
+	private Field[][] readFile (String filename) {
+		Document doc = DOM.readFile(filename);
+		NodeList fields = doc.getElementsByTagName("field");
+		return null;
+	}
+	
+	/**
+	 * Schreibt den Raum in eine xml-Datei mit Namen "ID.xml", mit ID der Raum-ID als zweistellige Dezimalzahl.
+	 * @param mapDir Verzeichnis der Map.
+	 * @throws TransformerException 
+	 * @throws ParserConfigurationException 
+	 * @throws IOException 
+	 */
+	public void writeFile(String mapDir) throws TransformerException, ParserConfigurationException, IOException {
+		
+		//Document-Setup
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		DOMImplementation impl = builder.getDOMImplementation();
+		
+		Document doc = impl.createDocument(null,null,null);
+		Element roomEl = doc.createElement("room");
+		doc.appendChild(roomEl);
+		
+		
+		//Felder zum Document hinzufügen
+		Field field;
+		Element fieldToAppend;
+		Element el;
+		
+		//Iteriert über Spalten
+		for (int i = 0; i < roomFields.length; i++) {
+			//Iteriert über Zeilen
+			for (int j = 0; j < roomFields[i].length; j++) {
+
+				//Element erstellen und einsetzen
+				field = roomFields[i][j];
+				fieldToAppend = doc.createElement("field");
+				roomEl.appendChild(fieldToAppend);
+
+				//Attribute setzen
+				fieldToAppend.setAttribute("x", field.pos.x+"");
+				fieldToAppend.setAttribute("y", field.pos.y+"");
+				
+				//Link
+				if(field.link != null) {
+					el = doc.createElement("link");
+					fieldToAppend.appendChild(el);
+					
+					//Link-Target-Array-Index suchen, der die andere Seite darstellt
+					int index;
+					if(field.link.targetRooms[0] == this)
+						index = 1;
+					else
+						index = 0;
+					
+					//anwenden
+					el.setAttribute("targetX", field.link.targetFields[index].pos.x+"");
+					el.setAttribute("targetY", field.link.targetFields[index].pos.y+"");
+				}
+				
+				//Trigger
+				if(field.trigger instanceof Checkpoint) {
+					Checkpoint cp = (Checkpoint)field.trigger;
+					el = doc.createElement("checkpoint");
+					fieldToAppend.appendChild(el);
+					el.setAttribute("targetX", cp.getToActivate().pos.x+"");
+					el.setAttribute("targetY", cp.getToActivate().pos.y+"");
+				}
+				
+				//Fluss
+				if(field.type == 3) {
+					el = doc.createElement("fluss");
+					fieldToAppend.appendChild(el);
+					String richtung = null;
+					switch(field.attribute1) {
+					case 0:
+						richtung = "hoch";
+						break;
+					case 1:
+						richtung = "rechts";
+						break;
+					case 2:
+						richtung = "runter";
+						break;
+					case 3:
+						richtung = "links";
+						break;
+					default:
+						break;
+					}
+					el.setAttribute("richtung", richtung);
+				}
+        	}
+        }
+		
+		//Ziel
+		if(Map.end.getRoom() == this) {
+			el = doc.createElement("ziel");
+			roomEl.appendChild(el);
+			el.setAttribute("x", Map.end.pos.x+"");
+			el.setAttribute("y", Map.end.pos.y+"");
+		}
+		
+		//Spawns hinzufügen
+		if(ID == 0) {
+			Element spawnToAppend;
+			for(int i=0; i < Map.spawns.length; i++) {
+				spawnToAppend = doc.createElement("spawn");
+				roomEl.appendChild(spawnToAppend);
+				spawnToAppend.setAttribute("x", Map.spawns[i].pos.x+"");
+				spawnToAppend.setAttribute("y", Map.spawns[i].pos.y+"");
+			}
+		}
+		
+		
+		/*
+		 * Entities
+		 */
+		Entities testEntity;
+		for(Iterator<Entities> iter = entities.iterator(); iter.hasNext();) {
+			testEntity = iter.next();
+			
+			//Monster
+			if(testEntity instanceof Monster) {
+				Monster monster = (Monster)testEntity;
+				el = doc.createElement("monster");
+				roomEl.appendChild(el);
+				el.setAttribute("typ", monster.getType()+"");
+				el.setAttribute("geschwindigkeit", Double.toString(monster.getSpeed()));
+				el.setAttribute("angriff", monster.getAttack()+"");
+				el.setAttribute("leben", monster.getHealth()+"");
+				el.setAttribute("beschreibung", monster.getDesc());
+				el.setAttribute("muenzen", monster.getCoin().getValue()+"");
+				el.setAttribute("ruestung", monster.getArmour()+"");
+				el.setAttribute("x", monster.getPosition().x+"");
+				el.setAttribute("y", monster.getPosition().y+"");
+			}
+			
+			//Items
+			else if(testEntity instanceof Item) {
+				Item item = (Item)testEntity;
+				el = doc.createElement("item");
+				roomEl.appendChild(el);
+				el.setAttribute("typ", item.getType()+"");
+				el.setAttribute("staerke", item.getDamage()+"");
+				el.setAttribute("beschreibung", item.getDesc());
+				el.setAttribute("name", item.getName());
+				el.setAttribute("wert", item.getValue()+"");
+				el.setAttribute("x", item.getPosition().x+"");
+				el.setAttribute("y", item.getPosition().y+"");
+			}
+			
+			//NPC
+			else if(testEntity instanceof NPC) {
+				NPC npc = (NPC)testEntity;
+				el = doc.createElement("NPC");
+				roomEl.appendChild(el);
+				el.setAttribute("typ", npc.getType()+"");
+				el.setAttribute("x", npc.getPosition().x+"");
+				el.setAttribute("y", npc.getPosition().y+"");
+				el.setAttribute("text", npc.getText());
+				
+				if(npc.getType() == 2) {
+					Item testItem;
+					Element item;
+					for(Iterator<Item> it = npc.getItems().iterator(); it.hasNext();) {
+						testItem = it.next();
+						item = doc.createElement("item");
+						el.appendChild(item);
+						item.setAttribute("typ", testItem.getType()+"");
+						item.setAttribute("staerke", testItem.getDamage()+"");
+						item.setAttribute("beschreibung", testItem.getDesc());
+						item.setAttribute("name", testItem.getName());
+						item.setAttribute("wert", testItem.getValue()+"");
+						item.setAttribute("x", testItem.getPosition().x+"");
+						item.setAttribute("y", testItem.getPosition().y+"");
+					}
+				}
+			}
+		}
+		
+		
+		//Transformiert Document in einen String
+		
+		//Transformer-Setup
+		DOMSource domSource = new DOMSource(doc);
+		TransformerFactory tf = TransformerFactory.newInstance();
+		Transformer transformer = tf.newTransformer();
+		transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+		transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+		transformer.setOutputProperty(OutputKeys.ENCODING,"UTF-8");
+		transformer.setOutputProperty
+			("{http://xml.apache.org/xslt}indent-amount", "4");
+		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+		
+		//transformieren
+		java.io.StringWriter sw = new java.io.StringWriter();
+		StreamResult sr = new StreamResult(sw);
+		transformer.transform(domSource, sr);
+		
+		
+		//Schreibt xml-String in Datei
+		String filename = null;
+		if(ID < 10)
+			filename = "0"+ID;
+		else
+			filename = Integer.toString(ID);
+		BufferedWriter writer = null;
+		writer = new BufferedWriter(new FileWriter(mapDir +File.separator+ filename+".xml"));
+		writer.write(sw.toString());
+		writer.close();
 	}
 	
 	private void checkpointBuildLater(Field location) {

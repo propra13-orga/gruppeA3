@@ -5,6 +5,8 @@ import java.util.LinkedList;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 import com.github.propra13.gruppeA3.Game;
 import com.github.propra13.gruppeA3.Exceptions.InvalidRoomLinkException;
@@ -38,6 +40,7 @@ public class Editor extends JTabbedPane {
 	public ChooseClickType chooseClick=ChooseClickType.NONE;
 	
 	private String mapName;
+	protected String saveAsName; //Name, unter der die Karte gespeichert werden soll
 	@SuppressWarnings("unused")
 	private LinkedList<JPanel> roomTabs = new LinkedList<JPanel>();
 	public LinkedList<Link> mapLinks = new LinkedList<Link>();
@@ -51,7 +54,7 @@ public class Editor extends JTabbedPane {
 		super(JTabbedPane.TOP);
 		
 		editor = this;
-		this.mapName = mapName;
+		this.mapName = saveAsName = mapName;
 		
 		linkEditor = new LinkWindow();
 		warning = new WarningWindow();
@@ -91,6 +94,25 @@ public class Editor extends JTabbedPane {
 		setSelectedIndex(1);
 		repaint();
 		setVisible(true);
+	}
+	
+	/**
+	 * Schreibt die aktuelle Karte.
+	 */
+	public void write() {
+		boolean error = false;
+		try {
+			Map.writeRooms(saveAsName);
+		} catch (TransformerException | ParserConfigurationException
+				| IOException e) {
+			error = true;
+			warning.showWindow("Ein Fehler ist aufgetreten.");
+		}
+		if(!error) {
+			System.out.println("gespeichert");
+			warning.showWindow("Gespeichert.");
+			mapName = saveAsName;
+		}
 	}
 	
 	/** Beendet den Editor und holt Hauptmenü wieder aus der Versenkung

@@ -32,7 +32,7 @@ public class NPC extends Entities {
 	/**
 	 * Der Konstruktor erzeugt einen NPC mit folgenden Paramtern
 	 * @param room_bind Der Raum, in dem sich der NPC befindet
-	 * @param type Typ des NPCs
+	 * @param type Typ des NPCs (1: Info, 2: Shop)
 	 * @param desc Beschreibung des NPCs
 	 * @param name Name des NPCs
 	 * @param x Position X Achse
@@ -132,6 +132,7 @@ public class NPC extends Entities {
 		desc = npc.getDesc();
 		name = npc.getName(); 
 		pos = npc.getPosition();
+		items = npc.getItems();
 	}
 	
 	/**

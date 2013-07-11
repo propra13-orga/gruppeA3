@@ -33,7 +33,7 @@ public class AttackBuff extends Buff {
 	}
 	
 	public void terminate() {
-		player.setBuff(null);
+		player.delBuff();
 		player.delAttackFactor(factor);
 	}
 

@@ -11,6 +11,7 @@ import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -603,12 +604,13 @@ public class MenuStart extends JPanel implements ActionListener {
 		
 		//Falls schon eine Karte gemeistert wurde, Nächste-Karte-Button anzeigen
 		if(nextMap > 1 && nextMap < 4) {
+			background.setVisible(true);
 			buttonNextMap.setVisible(true);
+			buttonHelp.setVisible(true);
+			buttonBeenden.setVisible(true);
 			buttonNextMap.setBounds(buttonPosX,buttonPosY,    200,30);
-			buttonNewGame.setBounds(buttonPosX,buttonPosY+40, 200,30);
-			buttonEditor.setBounds(buttonPosX, buttonPosY+80, 200,30);
-			buttonHelp.setBounds(buttonPosX,   buttonPosY+120,200,30);
-			buttonBeenden.setBounds(buttonPosX,buttonPosY+160,200,30);
+			buttonHelp.setBounds(buttonPosX,   buttonPosY+40,200,30);
+			buttonBeenden.setBounds(buttonPosX,buttonPosY+80,200,30);
 		}
 		// Ansonsten normales Hauptmenü anzeigen
 		else {
@@ -1090,7 +1092,7 @@ public class MenuStart extends JPanel implements ActionListener {
 	 * Zentriert ein Fenster über Hauptspielfenster.
 	 * @param dialog Zu zentrierender JDialog.
 	 */
-	public static void centerWindow(JDialog dialog) {
+	public static void centerWindow(Window dialog) {
 		Point framePos = Game.frame.getLocationOnScreen();
 		Point newPos = new Point();
 		Rectangle bounds = dialog.getBounds(); //Kantenlänge des Dialogs

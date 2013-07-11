@@ -23,7 +23,7 @@ public class WarningWindow extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	
 	public enum Type{ LINKEXISTS, LINKPOS, LINKCHOSEN, TRIGGERCHOSEN, TRIGGERTARGETCHOSEN,
-		HASNOLINK}
+		HASNOLINK, OVERWRITE, NONE}
 	private Type type;
 	
 	final public static int MINWIDTH = 400;
@@ -88,8 +88,9 @@ public class WarningWindow extends JDialog implements ActionListener {
 	 * @param type Warning-Typ, den das Warnung-Fenster ausgibt.
 	 */
 	public void showWindow(Type type) {
+
+		bCancel.setVisible(true);
 		this.type = type;
-		MenuStart.centerWindow(this);
 		
 		switch(type) {
 		case LINKEXISTS:
@@ -121,16 +122,24 @@ public class WarningWindow extends JDialog implements ActionListener {
 			infotext.setText("<html><body>Das ausgewählte Feld hat keinen Link,<br> der getriggert werden könnte.</body></html>");
 			bOk.setText("Ok");
 			bCancel.setText("Auswahl abbrechen");
+			break;
+		case OVERWRITE:
+			infotext.setText("Möchtest du die Karte überschreiben?");
+			bOk.setText("Ja");
+			bCancel.setText("Nein");
+			break;
 		}
 		
 		setVisible(true);
 	}
 	
 	public void showWindow(String msg) {
+		MenuStart.centerWindow(this);
 		infotext.setText(msg);
 		bOk.setText("Ok");
-		bOk.setText("Ok");
+		bCancel.setVisible(false);
 		setVisible(true);
+		type = Type.NONE;
 	}
 
 	@Override
@@ -147,6 +156,8 @@ public class WarningWindow extends JDialog implements ActionListener {
 				Editor.editor.triggerEditor.chooseTrigger();
 			else if(type == Type.TRIGGERTARGETCHOSEN)
 				Editor.editor.triggerEditor.chooseTarget();
+			else if(type == Type.OVERWRITE)
+				Editor.editor.write();
 		}
 		
 		//Abbrechen / Auswahl abbrechen / ...

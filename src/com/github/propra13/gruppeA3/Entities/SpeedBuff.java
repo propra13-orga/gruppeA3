@@ -33,7 +33,7 @@ public class SpeedBuff extends Buff{
 	}
 	
 	public void terminate() {
-		player.setBuff(null);
+		player.delBuff();
 		player.delSpeedFactor(factor);
 	}
 }

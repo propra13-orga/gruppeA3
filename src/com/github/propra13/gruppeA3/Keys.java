@@ -19,6 +19,7 @@ public class Keys implements KeyListener {
 	public static int leftCtr=0;
 	public static int downCtr=0;
 	public static int rightCtr=0;
+	public static int noDirCtr=0;
 	WarningWindow msgWindow = new WarningWindow();
 
 	//Konstruktor
@@ -87,10 +88,13 @@ public class Keys implements KeyListener {
 					
 				//Debug-Info-Knopf
 				case KeyEvent.VK_L:
-					msgWindow.showWindow("<html><body>Rauf: "+upCtr+"<br>" +
-							"Links: "+leftCtr+"<br>" +
-							"Runter: "+downCtr+"<br>" +
-							"Rechts: "+rightCtr+"<br></body></html>");
+					msgWindow.showWindow("<html><body>" +
+							"Rauf (r%6 = 0): "+upCtr+"<br>" +
+							"Links (r%6 = 2): "+leftCtr+"<br>" +
+							"Runter (r%6 = 1): "+downCtr+"<br>" +
+							"Rechts (r%6 = 3): "+rightCtr+"<br>" +
+							"Keine (ansonsten) / 2: "+noDirCtr/2+"<br>" +
+							"</body></html>");
 					break;
 			}
 		}

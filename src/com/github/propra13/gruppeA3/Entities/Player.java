@@ -462,14 +462,10 @@ public class Player extends Moveable {
     }
     
     /** 
-     * Besetzt den Buff-Slot des Spielers mit einem Buff
-     * @param buff Zu setzender Buff
+     * Löscht den Buff des Spielers.
      */
-    public void setBuff(Buff buff) {
-    	// Falls der Buff durch einen anderen ersetzt werden soll
-    	if(this.buff != null && buff != null)
-    		this.buff.terminate();
-    	this.buff = buff;
+    public void delBuff() {
+    	buff = null;
     }
     
     /**
@@ -484,7 +480,7 @@ public class Player extends Moveable {
      * Setzt einen Geschwindigkeitsbuff; doppelte Geschwindigkeit für fünf Sekunden
      */
     public void setSpeedBuff() {
-    	if (getMana() -  SpeedBuff.manaCost >= 0)
+    	if (buff == null && getMana() -  SpeedBuff.manaCost >= 0)
     		buff = new SpeedBuff(this, 2.0, 5);
     }
     
@@ -492,7 +488,7 @@ public class Player extends Moveable {
      * Setzt einen Angriffsbuff, 1.5-fache Angriffsstärke für fünf Sekunden
      */
     public void setAttackBuff() {
-    	if (getMana() -  SpeedBuff.manaCost >= 0)
+    	if (buff == null && getMana() -  SpeedBuff.manaCost >= 0)
     		buff = new AttackBuff(this, 1.5, 5);
     }
     

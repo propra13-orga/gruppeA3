@@ -173,10 +173,9 @@ public abstract class Moveable extends Entities {
             				// Ansonsten liegt Kollision vor, daher Annäherung an Feldgrenze
             			} else {
             				int distance = fieldsToWalk[0].pos.toPosition().x - getPosition().getCornerTopRight(hitbox).x;
-            				if (distance != 0)
-            					setPosition(getPosition().x + distance, nextPos.y);
+            				setPosition(getPosition().x + distance, nextPos.y);
             				//Projektile verpuffen an Wand
-            				else if(this instanceof Projectile){
+            				if(distance == 0 && this instanceof Projectile){
             					Projectile proj = (Projectile)this;
             					proj.terminate();
             				}
@@ -311,7 +310,7 @@ public abstract class Moveable extends Entities {
 					if(((test.getPosition().y - (test.getHitbox().height/2)) - (pos.y + (this.getHitbox().height/2)) >= 0))
 						return true;
 					else {
-						collision(test);
+						//collision(test); <-- mutterseelenallein vorgefunden
 						return false;
 					}
 				}

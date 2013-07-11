@@ -37,7 +37,7 @@ import com.github.propra13.gruppeA3.Menu.MenuStart;
  * @author christian
  *
  */
-public class MonsterWindow extends JDialog implements ActionListener, ListCellRenderer<JPanel>, ListSelectionListener {
+public class MonsterWindow extends JDialog implements ActionListener, ListSelectionListener {
 	private static final long serialVersionUID = 1L;
 	
 	Monster workingMonster; //Arbeitskopie des Monsters
@@ -76,7 +76,7 @@ public class MonsterWindow extends JDialog implements ActionListener, ListCellRe
 		 */
 		//JList-Setup
 		monsterList = new JList<JPanel>();
-		monsterList.setCellRenderer(this);
+		monsterList.setCellRenderer(new ListRenderer());
 		monsterList.addListSelectionListener(this);
 		monsterList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		monsterList.setLayoutOrientation(JList.VERTICAL);
@@ -342,19 +342,6 @@ public class MonsterWindow extends JDialog implements ActionListener, ListCellRe
 	
 	private void showBoss() {
 		workingMonster.setType(5);
-	}
-
-	/**
-	 * Listenrenderer für die JLabels in monsterList
-	 */
-	@Override
-	public Component getListCellRendererComponent(JList<? extends JPanel> arg0,
-			JPanel panel, int cellIndex, boolean isSelected, boolean cellHasFocus) {
-		
-		Component component = (Component) panel;
-	    component.setForeground (Color.white);
-	    component.setBackground (isSelected ? UIManager.getColor("Table.focusCellForeground") : Color.white);
-	    return component;
 	}
 
 	/**

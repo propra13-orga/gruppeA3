@@ -8,7 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
+
+import com.github.propra13.gruppeA3.Game;
 
 /**
  * Menü-Tab für den Map-Editor
@@ -64,7 +67,7 @@ public class Menu extends JPanel implements ActionListener {
 		saveConstraints.insets = new Insets(2,4,2,4);
 		add(bSave, saveConstraints);
 		
-		bSaveAs = new JButton("Speichern unter ...");
+		bSaveAs = new JButton("Speichern als ...");
 		bSaveAs.setPreferredSize(stdButtonSize);
 		GridBagConstraints saveAsConstraints = new GridBagConstraints();
 		saveAsConstraints.gridx = 0;
@@ -183,13 +186,23 @@ public class Menu extends JPanel implements ActionListener {
 	
 	/**Wird aufgerufen, wenn "Speichern" gedrückt wurde.*/
 	private void bSave() {
-		System.out.println("\"Speichern\" gedrückt");
-		
+		Editor.editor.warning.showWindow(WarningWindow.Type.OVERWRITE);
 	}
 	
 	/**Wird aufgerufen, wenn "Speichern unter" gedrückt wurde.*/
 	private void bSaveAs() {
-		System.out.println("\"Speichern unter ...\" gedrückt");
+		JFileChooser fc = new JFileChooser();
+		fc.setCurrentDirectory(new java.io.File("./data/maps"));
+		fc.setDialogTitle("Karte wählen");
+		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		fc.setAcceptAllFileFilterUsed(false);
+		add(fc);
+		
+		// Falls Map ausgewählt wurde, wirf Editor an
+		if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) { 
+			Editor.editor.saveAsName = fc.getSelectedFile().getName();
+			Editor.editor.warning.showWindow(WarningWindow.Type.OVERWRITE);
+		}
 		
 	}
 	
