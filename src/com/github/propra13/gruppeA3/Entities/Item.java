@@ -52,6 +52,10 @@ public class Item extends Entities {
 	 * @param value		Der Wert des Items
 	 * @param element	Das Element des Items
 	 **/
+	
+	/*Hinweis: Der erste Konstruktor sollte, sobald in der XML-Datei alle Items mit einem Element ausgestattet wurden, 
+	 * nicht mehr verwendet und gelöscht werden.
+	 */
 	public Item(int damage, int type, int x, int y, String desc, String name, int value) {
 		this.damage = damage;
 		this.type = type;
@@ -60,6 +64,7 @@ public class Item extends Entities {
 		this.hitbox = Hitbox.standard;
 		this.pos = new Position(x+(hitbox.width/2),y+(hitbox.height/2));
 		this.value = value;
+		this.element = Elements.PHYSICAL;
 	}
 	
 	public Item(int damage, int type, int x, int y, String desc, String name, int value, Elements element) {

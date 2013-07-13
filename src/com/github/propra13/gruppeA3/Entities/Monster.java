@@ -42,6 +42,10 @@ public class Monster extends Moveable {
 	 * @param element Element des Monsters
 	 */
 	
+	/*Hinweis: Der erste Konstruktor sollte, sobald in der XML-Datei alle Monster mit einem Element ausgestattet wurden, 
+	 * nicht mehr verwendet und gelöscht werden.
+	 */
+	
 	public Monster (int roomID, double speed, int power, int type, int life, 
 					int x, int y, String desc, int coinValue, int coinType, int armour, boolean isBoss){
 		super(roomID);
@@ -201,12 +205,7 @@ public class Monster extends Moveable {
 						if(testent instanceof Player){
 							if(this.getAttackCount() == 0){
 								player = (Player) testent;
-								if((this.getAttack() - player.getArmour()) > 0){
-									player.setHealth(player.getHealth() - (this.getAttack() - player.getArmour()));
-								}
-								else{
-									player.setHealth(player.getHealth() -1);
-								}
+								player.setHealth(player.getHealth() - calculateDamage(player));
 								if(player.getHealth() <= 0){
 									player.death();
 								}
@@ -218,6 +217,101 @@ public class Monster extends Moveable {
 			}
 		}
 	}
+	
+	 private int calculateDamage(Player player){
+			int damage=0;
+			switch(this.getElement()){
+				case PHYSICAL:{
+					switch(player.getDefenseElement()){
+						case PHYSICAL:{
+							damage = this.getAttack() - player.getArmour();
+							break;
+						}
+						case FIRE:{
+							damage = (int)((this.getAttack() - player.getArmour())*0.7);
+							break;
+						}
+						case WATER:{
+							damage = (int)((this.getAttack() - player.getArmour())*0.7);
+							break;
+						}
+						case ICE:{
+							damage = (int)((this.getAttack() - player.getArmour())*0.7);
+							break;
+						}
+					}
+					break;
+				}
+				case FIRE:{
+					switch(player.getDefenseElement()){
+						case PHYSICAL:{
+							damage = this.getAttack() - player.getArmour();
+							break;
+						}
+						case FIRE:{
+							damage = (int)((damage = this.getAttack() - player.getArmour())*0.7);
+							break;
+						}
+						case WATER:{
+							damage = (int)((this.getAttack() - player.getArmour())*0.5);
+							break;
+						}
+						case ICE:{
+							damage = (int)((this.getAttack() - player.getArmour())*2.0);
+							break;
+						}
+					}
+					break;
+				}
+				case WATER:{
+					switch(player.getDefenseElement()){
+						case PHYSICAL:{
+							damage = this.getAttack() - player.getArmour();
+							break;
+						}
+						case FIRE:{
+							damage = (int)((this.getAttack() - player.getArmour())*2.0);
+							break;
+						}
+						case WATER:{
+							damage = (int)((this.getAttack() - player.getArmour())*0.7);
+							break;
+						}
+						case ICE:{
+							damage = (int)((this.getAttack() - player.getArmour())*0.5);
+							break;
+						}
+					}
+					break;
+				}
+				case ICE:{
+					switch(player.getDefenseElement()){
+						case PHYSICAL:{
+							damage = this.getAttack() - player.getArmour();
+							break;
+						}
+						case FIRE:{
+							damage = (int)((this.getAttack() - player.getArmour())*0.5);
+							break;
+						}
+						case WATER:{
+							damage = (int)((this.getAttack() - player.getArmour())*2.0);
+							break;
+						}
+						case ICE:{
+							damage = (int)((this.getAttack() - player.getArmour())*0.7);
+							break;
+						}
+					}
+					break;
+				}
+			}
+			
+			if(damage <= 0){
+				damage = 1;
+			}
+			return damage;
+		}
 	
 	
 	/*

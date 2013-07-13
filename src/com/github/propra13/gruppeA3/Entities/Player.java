@@ -36,7 +36,8 @@ public class Player extends Moveable {
     // Konstruktoren
     public Player(int roomID) {
         super(roomID);
-        //+16: damit Player in der Mitte des Felds landet
+        this.atkelement = Elements.PHYSICAL;
+        this.defelement = Elements.PHYSICAL;
         hitbox = new Hitbox(28, 28);
         setFaceDirection(Direction.DOWN);
         setHealth(100);
@@ -373,12 +374,7 @@ public class Player extends Moveable {
 					if(hitboxCheck(temp, testent) == false){
 						if(testent instanceof Monster){
 							monster = (Monster)testent;
-							if((this.getAttack() - monster.getArmour()) > 0 ){
-								monster.setHealth(monster.getHealth() - (this.getAttack() - monster.getArmour()));
-							}
-							else{
-								monster.setHealth(monster.getHealth() -1 );
-							}
+							monster.setHealth(monster.getHealth() - calculateDamage(monster));
 							if(monster.getHealth() <= 0){
 								monster.death();
 							}
@@ -389,7 +385,7 @@ public class Player extends Moveable {
 		}
 	}
     
-    protected int calculateDamage(Monster monster){
+    private int calculateDamage(Monster monster){
 		int damage=0;
 		switch(this.getAttackElement()){
 			case PHYSICAL:{
@@ -706,11 +702,13 @@ public class Player extends Moveable {
 		case 4:
 			this.addAttackSummand(item.getDamage());
 			this.items.add(item);
+			this.setAttackElement(item.getElement());
 			break;
 			
 		case 5:
 			this.setArmour(this.getArmour() + item.getDamage());
 			this.items.add(item);
+			this.setDefenseElement(item.getElement());
 			break;
 			
 		default:
