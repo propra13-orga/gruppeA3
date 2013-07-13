@@ -78,7 +78,8 @@ public class Editor extends JTabbedPane {
 			break;
 		}
 		try {
-			Map.initialize(this.mapName, xmlName);
+			Map.initialize(this.mapName);
+			Map.loadXML(xmlName);
 		} catch (MapFormatException | IOException | InvalidRoomLinkException e) {
 			e.printStackTrace();
 		}

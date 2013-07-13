@@ -8,6 +8,8 @@ package com.github.propra13.gruppeA3.XMLParser;
 
 public class SAXCrawlerReader {
 	
+	private CrawlerSAX handler;
+	
 	/**
 	 * @author Majida Dere
 	 * Konstruktor erzeugt einen Reader
@@ -18,9 +20,15 @@ public class SAXCrawlerReader {
 	
 	public String read(String fileName)
 							throws Exception{
-		CrawlerSAX handler=new CrawlerSAX();
+		handler=new CrawlerSAX();
 		SAX.parse(fileName,handler);
 		return handler.toString();
 	}
-	
+
+	/**
+	 * @return the handler
+	 */
+	public CrawlerSAX getHandler() {
+		return handler;
+	}
 }

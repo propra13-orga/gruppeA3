@@ -110,7 +110,7 @@ public class MenuStart extends JPanel implements ActionListener {
 	 *
 	 */
     public static enum GameStatus {INGAME, MAINMENU, EDITOR, GAMEWON, GAMEOVER, MAPWON, NETWORK}
-    public static enum NetworkStatus {NONE, DEATH, COOP}
+    public static enum NetworkStatus {NONE, DEATHMATCH, COOP}
     private static GameStatus gameStatus;
     private static NetworkStatus netstat = NetworkStatus.NONE;
 	
@@ -245,11 +245,12 @@ public class MenuStart extends JPanel implements ActionListener {
     }
     
     // Startet Spiel
-    public void initGame(String mapName, String xmlName) {
+    public void initGame(String mapName, String xmlName, int playerID) {
 
     	// Stellt Map auf
 	 	try {
-	 		Map.initialize(mapName, xmlName);
+	 		Map.initialize(mapName);
+	 		Map.loadXML(xmlName);
 	 	} catch (InvalidRoomLinkException | IOException | MapFormatException e) {
 	 		e.printStackTrace();
 	 	}
@@ -257,7 +258,7 @@ public class MenuStart extends JPanel implements ActionListener {
 	 	randomgen = new Random(System.currentTimeMillis());
 		activeRoom = Map.getRoom(0);
 		if(nextMap == 1)
-			player = new Player(0);
+			player = new Player(playerID);
 		else
 			player.initialize();
 		addKeyListener(new Keys(player));
@@ -556,7 +557,7 @@ public class MenuStart extends JPanel implements ActionListener {
         		if(getNetstat() == NetworkStatus.COOP)
         			paintMessage("Co-Op", g);
         		// Deathmatch erscheinen, wenn anschließend der Deatchmatch Button gedrückt wurde
-        		else if(getNetstat() == NetworkStatus.DEATH)
+        		else if(getNetstat() == NetworkStatus.DEATHMATCH)
         			paintMessage("Deathmatch", g);
         		// Multiplayer erscheinen, da wir im Multiplayer Modus sind
         		else
@@ -674,13 +675,13 @@ public class MenuStart extends JPanel implements ActionListener {
 			String action = e.getActionCommand();
 			if("newgame".equals(action)) {
 				nextMap = 1;
-				initGame("Story01", "level1");
+				initGame("Story01", "level1", 0);
 			}
 			else if("nextmap".equals(action)) {
 				if (nextMap < 10)
-					initGame("Story0"+nextMap, "level"+nextMap);
+					initGame("Story0"+nextMap, "level"+nextMap, 0);
 				else
-					initGame("Story"+nextMap, "level"+nextMap);
+					initGame("Story"+nextMap, "level"+nextMap, 0);
 			}
 			
 			//Hilfe
@@ -697,7 +698,7 @@ public class MenuStart extends JPanel implements ActionListener {
 				networkMenu();
 			}
 			else if ("deathmatch".equals(action)){
-				setNetstat(NetworkStatus.DEATH);
+				setNetstat(NetworkStatus.DEATHMATCH);
 				networkMenu();
 			}
 			else if("create".equals(action)){
@@ -841,7 +842,7 @@ public class MenuStart extends JPanel implements ActionListener {
 	}
 
 	public void backMenu(){
-		if((getNetstat() == NetworkStatus.COOP) || (getNetstat() == NetworkStatus.DEATH)){
+		if((getNetstat() == NetworkStatus.COOP) || (getNetstat() == NetworkStatus.DEATHMATCH)){
 			setNetstat(NetworkStatus.NONE);
 			buttonBack.setVisible(true);
 			buttonBack.setBounds(buttonPosX,buttonPosY+120,200,30);

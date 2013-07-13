@@ -56,7 +56,7 @@ public class Map {
 	 * @throws IOException System-IO-Fehler
 	 * @throws InvalidRoomLinkException Falls ein Fehler bei einem Link vorliegt
 	 */
-	public static void initialize(String dirName, String xmlName) 
+	public static void initialize(String dirName) 
 			throws FileNotFoundException, MapFormatException, IOException, InvalidRoomLinkException {
 		
 		spawns[0] = spawns[1] = null;
@@ -74,8 +74,17 @@ public class Map {
 		linkBuffer.clear();
 		checkpointFieldsToBuild.clear();
 		checkpointLinksToBuild.clear();
-		
-		if(xmlName != null && xmlName != "") {
+
+		System.out.println("Map gebaut!");
+		//checkLinks();
+	}
+	
+	/**
+	 * Lädt eine XML-Datei 
+	 * @param xmlName
+	 */
+	public static void loadXML(String xmlName){
+		if(xmlName != null && !xmlName.equals("")) {
 			SAXCrawlerReader reader=new SAXCrawlerReader();
 		 	try {
 		 		reader.read("data/levels/"+xmlName+".xml");
@@ -84,10 +93,6 @@ public class Map {
 		 			e.printStackTrace();
 		 	}
 		}
-	 	
-		
-		System.out.println("Map gebaut!");
-		//checkLinks();
 	}
 	
 	/**
