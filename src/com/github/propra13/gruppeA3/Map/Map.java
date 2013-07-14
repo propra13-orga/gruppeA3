@@ -75,7 +75,7 @@ public class Map {
 		checkpointFieldsToBuild.clear();
 		checkpointLinksToBuild.clear();
 		
-		if(xmlName != null && xmlName != "") {
+		/*if(xmlName != null && xmlName != "") {
 			SAXCrawlerReader reader=new SAXCrawlerReader();
 		 	try {
 		 		reader.read("data/levels/"+xmlName+".xml");
@@ -83,7 +83,7 @@ public class Map {
 		 	} catch (Exception e) {
 		 			e.printStackTrace();
 		 	}
-		}
+		}*/
 	 	
 		
 		System.out.println("Map gebaut!");

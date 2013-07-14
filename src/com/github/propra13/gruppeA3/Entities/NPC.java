@@ -29,6 +29,9 @@ public class NPC extends Entities {
 	private Position pos=null;
 	private Hitbox hitbox=null;
 	
+	final public static int INFO_NPC = 1;
+	final public static int SHOP_NPC = 2;
+	
 	/**
 	 * Der Konstruktor erzeugt einen NPC mit folgenden Paramtern
 	 * @param room_bind Der Raum, in dem sich der NPC befindet
@@ -43,7 +46,7 @@ public class NPC extends Entities {
 		this.setName(name);
 		this.type = type;
 		this.hitbox = Hitbox.standard;
-		this.pos = new Position(x + hitbox.width/2, y + hitbox.height/2);
+		pos = new Position(x, y);
 		//Bei Type 1 NPCs bleibt er leer und wird nicht benutzt.
 		this.items = new LinkedList<Item>();
 	}
@@ -133,6 +136,7 @@ public class NPC extends Entities {
 		name = npc.getName(); 
 		pos = npc.getPosition();
 		items = npc.getItems();
+		text = npc.getText();
 	}
 	
 	/**
@@ -144,5 +148,13 @@ public class NPC extends Entities {
 				name,
 				pos.getDrawPosition(hitbox).x,
 				pos.getDrawPosition(hitbox).y);	
+	}
+	
+	/**
+	 * Ändert den Typ des NPCs.
+	 * @param type Neuer NPC-Typ
+	 */
+	public void setType(int type) {
+		this.type = type;
 	}
 }

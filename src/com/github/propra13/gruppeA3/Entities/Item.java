@@ -36,6 +36,20 @@ public class Item extends Entities {
 	private Hitbox hitbox=null;
 	private int value=0;
 	
+	//Standard-Stärken von Standard-Items
+	final public static int standardManaPower = 30;
+	final public static int standardHealthPower = 20;
+	final public static int standardPoisonPower = 15;
+	final public static int standardSwordPower = 2;
+	final public static int standardShieldPower = 2;
+	
+	//Standard-Münzwerte von Standard-Items
+	final public static int standardManaValue = 4;
+	final public static int standardHealthValue = 4;
+	final public static int standardPoisonValue = 4;
+	final public static int standardSwordValue = 10;
+	final public static int standardShieldValue = 10;
+	
 	
 	/**
 	 * Der Konstruktor erzeugt ein neues Item mit den übergebenen Parametern
@@ -55,7 +69,7 @@ public class Item extends Entities {
 		this.desc = desc;
 		this.name = name;
 		this.hitbox = Hitbox.standard;
-		this.pos = new Position(x+(hitbox.width/2),y+(hitbox.height/2));
+		pos = new Position(x, y);
 		this.value = value;
 	}
 

@@ -24,7 +24,7 @@ public class Music {
 	 * Erzeigt ein neues Music objekt, was direkt die Titelmelodie abspielt
 	 */
 	public Music() {
-		play("title");
+		//play("title");
 	}
 	
 	/**

@@ -15,8 +15,6 @@ public class Field {
 	public int texture; //für Abwechslung in Feldtexturen
 	public int attribute1;
 	public int attribute2;
-	public int entityType;
-	public int entityAttr;
 	
 	public boolean walkable = false;
 	public Link link = null;

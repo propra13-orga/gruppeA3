@@ -89,6 +89,7 @@ public class WarningWindow extends JDialog implements ActionListener {
 	 */
 	public void showWindow(Type type) {
 
+		MenuStart.centerWindow(this);
 		bCancel.setVisible(true);
 		this.type = type;
 		
@@ -128,6 +129,11 @@ public class WarningWindow extends JDialog implements ActionListener {
 			bOk.setText("Ja");
 			bCancel.setText("Nein");
 			break;
+		case NONE:
+			infotext.setText("Dieser Dialog sollte eigentlich nicht auftauchen.");
+			bOk.setText("Ok");
+			bCancel.setText("Ich widerspreche!");
+			break;
 		}
 		
 		setVisible(true);
@@ -138,13 +144,12 @@ public class WarningWindow extends JDialog implements ActionListener {
 		infotext.setText(msg);
 		bOk.setText("Ok");
 		bCancel.setVisible(false);
-		setVisible(true);
 		type = Type.NONE;
+		setVisible(true);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		setVisible(false);
 		
 		//Ok / Ja / ...
 		if(e.getSource() == bOk) {
@@ -169,6 +174,9 @@ public class WarningWindow extends JDialog implements ActionListener {
 				Editor.editor.linkEditor.showWindow();
 			}
 		}
+
+		setVisible(false);
+		//type = Type.NONE;
 	}
 	
 	
