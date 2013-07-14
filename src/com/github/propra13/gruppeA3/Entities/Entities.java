@@ -3,7 +3,7 @@ import com.github.propra13.gruppeA3.Map.Position;
 /** 
  * 
  * @author Majida Dere
- * Diese Klasse liefert alle Methoden, Attribute für alle Objekte im Dungeon
+ * Dies ist eine abstrakte Klasse für alle Objekte im Spiel
  */
 
 
@@ -13,8 +13,6 @@ public abstract class Entities {
 	
 	public abstract Position getPosition();
 	public abstract Hitbox getHitbox();
-	abstract void setHealth(int health);
-	abstract int getHealth();
 	abstract void tick();
 	abstract void collision(Entities entity);
 

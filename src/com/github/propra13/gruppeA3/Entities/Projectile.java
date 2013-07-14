@@ -23,8 +23,8 @@ public abstract class Projectile extends Moveable {
 	
 	public void collision(Entities entity) {
 		if(entity instanceof Monster) {
-			entity = (Monster)entity;
-			entity.setHealth(entity.getHealth() - getDamage());
+			Monster monster = (Monster)entity;
+			monster.setHealth(monster.getHealth() - getDamage());
 			terminate();
 		}
 	}

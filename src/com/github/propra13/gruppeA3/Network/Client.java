@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.github.propra13.gruppeA3.Network;
 
 import java.io.IOException;
@@ -41,7 +38,7 @@ public class Client extends JFrame {
 		if(connect(gui.getHost(), gui.getPort())){
 			System.out.println("Verbindung erfolgreich");
 			chat = new Chat(gui.getName(), this.protocol);
-			chat.setVisible(true);
+			chat.setVisible(false);
 		}else{
 			System.out.println("Fehlgeschlagen");
 		}

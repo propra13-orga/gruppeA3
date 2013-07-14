@@ -317,4 +317,23 @@ public class Protocol {
     public int receivePlayerID() throws IOException{
     	return this.in.readInt();
     }
+    
+    /**
+     * Key senden
+     * @param key
+     * @throws IOException
+     */
+    public void sendKey(int key) throws IOException{
+    	sendString("key");
+    	this.out.writeInt(key);
+    }
+    
+    /**
+     * Key empfangen
+     * @return
+     * @throws IOException
+     */
+    public int receiveKey() throws IOException{
+    	return this.in.readInt();
+    }
 }

@@ -29,8 +29,6 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -76,6 +74,7 @@ public class Room {
 	 * @throws IOException
 	 * @throws MapFormatException
 	 */
+	@SuppressWarnings("unused")
 	private Field[][] readFile_old (String filename)
 			throws FileNotFoundException, IOException, MapFormatException {
 		

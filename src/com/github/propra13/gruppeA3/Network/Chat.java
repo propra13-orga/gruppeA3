@@ -34,7 +34,7 @@ public class Chat extends JFrame implements WindowListener{
     private JTextField userText=null;
     private JTextArea chatWindow=null;
     private Protocol protocol=null;
-    private ChatThread ct;
+    private ChatUpdater ct;
     
     /**
      * Erzeugt ein Chatfenster
@@ -73,7 +73,7 @@ public class Chat extends JFrame implements WindowListener{
 		chatWindow.setEditable(false);
 		getContentPane().add(new JScrollPane(chatWindow));
 		setSize(300,250);
-		ct = new ChatThread(this);
+		ct = new ChatUpdater(this);
 		ct.start();
 	}
 

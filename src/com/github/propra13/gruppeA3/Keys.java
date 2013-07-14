@@ -1,9 +1,6 @@
 package com.github.propra13.gruppeA3;
 
 import java.awt.event.*;
-import java.util.Iterator;
-import java.util.LinkedList;
-
 import com.github.propra13.gruppeA3.Editor.WarningWindow;
 import com.github.propra13.gruppeA3.Entities.Player;
 import com.github.propra13.gruppeA3.Entities.Moveable.Direction;

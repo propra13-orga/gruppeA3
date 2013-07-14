@@ -65,6 +65,7 @@ public class Editor extends JTabbedPane {
 		NPCEditor = new NPCWindow();
 		
 		// init Map //TODO: xmlName ist Provisorium
+		@SuppressWarnings("unused")
 		String xmlName = null;
 		switch(mapName) {
 		case "Story01":
@@ -80,7 +81,8 @@ public class Editor extends JTabbedPane {
 			break;
 		}
 		try {
-			Map.initialize(this.mapName, xmlName);
+			Map.initialize(this.mapName);
+			//Map.loadXML(xmlName);
 		} catch (MapFormatException | IOException | InvalidRoomLinkException e) {
 			e.printStackTrace();
 		}

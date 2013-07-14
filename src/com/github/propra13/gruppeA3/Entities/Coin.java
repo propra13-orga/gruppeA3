@@ -60,15 +60,6 @@ public class Coin extends Entities {
 	}
 
 	@Override
-	void setHealth(int health) {		
-	}
-
-	@Override
-	int getHealth() {
-		return 0;
-	}
-
-	@Override
 	void tick() {		
 	}
 

@@ -124,9 +124,9 @@ public class CrawlerSAX extends DefaultHandler{
 			npc = new NPC(type, desc, name, posx, posy);
 		}
 		else if(qName.equals("player")){
-			int playerID = Integer.parseInt("id");
-			int posx = Integer.parseInt("posx");
-			int posy = Integer.parseInt("posy");
+			int playerID = Integer.parseInt(attrs.getValue("id"));
+			int posx = Integer.parseInt(attrs.getValue("posx"));
+			int posy = Integer.parseInt(attrs.getValue("posy"));
 			player[playerID] = new Player(roomID, playerID, posx, posy);
 		}
 		

@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
 
+import com.github.propra13.gruppeA3.Entities.Player;
+
 /**
  * ServerThread ist eine Hilfsklasse für die Klasse Server
  * Diese wird von Server erzeugt und existiert pro Client einmal
@@ -15,7 +17,7 @@ import java.net.SocketException;
  * @author Majida Dere
  *
  */
-public class ServerThread extends Thread {
+public class ServerUpdater extends Thread {
 	
 	/**
 	 * Attribute:
@@ -25,22 +27,26 @@ public class ServerThread extends Thread {
 	 */
 	private Protocol protocol;
 	private boolean started;
-	private ServerThread[] threads;
+	private ServerUpdater[] threads;
+	private int playerID;
+	private Player[] player;
 	
 	/**
 	 * Erzeugt einen neuen ServerThread
 	 * @param s Socket das die Verbindung zum Client darstellt
 	 * @throws IOException Wird im Fehlerfall geworfen
 	 */
-	public ServerThread(Socket s) throws IOException {
+	public ServerUpdater(Socket s, Player[] player, int playerID) throws IOException {
 		this.protocol = new Protocol(s);
+		this.player = player;
+		this.playerID = playerID;
 	}
 	
 	/**
 	 * Setzt ServerThread array threads
 	 * @param threads Referenz zum Array
 	 */
-	public void setThreads(ServerThread[] threads){
+	public void setThreads(ServerUpdater[] threads){
 		this.threads = threads;
 	}
 
@@ -89,12 +95,12 @@ public class ServerThread extends Thread {
 			{
 				if(!this.protocol.isInputShutdown())
 					vergleich = protocol.receiveString();
-				else vergleich = null;
-				 
-				if(null == vergleich)
+				else{
 					started = false;
+					continue;
+				}
 				
-				else if(vergleich.equalsIgnoreCase("chat"))
+				if(vergleich.equalsIgnoreCase("chat"))
 				{
 					sendMessage(receiveMessage());
 				}

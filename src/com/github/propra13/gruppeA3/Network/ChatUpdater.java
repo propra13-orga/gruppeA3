@@ -10,7 +10,7 @@ import java.io.IOException;
  * @author Majida Dere
  *
  */
-public class ChatThread extends Thread {
+public class ChatUpdater extends Thread {
 	
 	/**
 	 * Attribute:
@@ -22,7 +22,7 @@ public class ChatThread extends Thread {
 	 * Erzeugt ein Thread welcher im Hintergrund läuft
 	 * @param chat Das Chatfenster
 	 */
-	public ChatThread(Chat chat) {
+	public ChatUpdater(Chat chat) {
 		this.chat = chat;
 	}
 	
