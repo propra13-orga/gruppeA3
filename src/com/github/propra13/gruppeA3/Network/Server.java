@@ -28,7 +28,7 @@ public class Server extends Thread{
 	 * 				 Das Array ist so groß wie Clienten da sind, maximal 4.
 	 */
 	private ServerSocket server = null;
-	private ServerThread[] threads;
+	private ServerUpdater[] threads;
 	private int playerCount=1;
 	private Player[] player=null;
 	
@@ -53,7 +53,6 @@ public class Server extends Thread{
 	 		Map.initialize(mapName);
 		} catch (MapFormatException | IOException
 				| InvalidRoomLinkException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	 	
@@ -75,10 +74,9 @@ public class Server extends Thread{
 	 */
 	public void run() {
 		try {
-			// TODO: vorläufig 2 Clienten
-			threads = new ServerThread[playerCount];
+			threads = new ServerUpdater[playerCount];
 			for(int i = 0; i < playerCount; i++){
-				threads[i] = new ServerThread(server.accept());
+				threads[i] = new ServerUpdater(server.accept(),  player, i);
 				threads[i].setThreads(threads);
 				threads[i].start();
 				System.out.println("Spieler "+(i+1)+" connected");
