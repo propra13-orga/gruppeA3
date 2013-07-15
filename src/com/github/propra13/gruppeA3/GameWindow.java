@@ -91,14 +91,14 @@ public class GameWindow {
     public static BufferedImage manaPosion;
     public static BufferedImage sword;
     public static BufferedImage shield;
+    public static BufferedImage drachenei; 
     
     public static BufferedImage background;
 
     protected Toolkit tool;
     protected String GamePath;
     
-    
-	public GameWindow(){
+    public GameWindow(){
 		GamePath = System.getProperty("user.dir");
 	    tool = Toolkit.getDefaultToolkit();
 	    
@@ -174,6 +174,7 @@ public class GameWindow {
 	    manaPosion = this.getBufferedImage(this.GamePath + "/data/images/Items room/T3.png");
 	    sword = this.getBufferedImage(this.GamePath + "/data/images/Items room/W1.png");
 	    shield = this.getBufferedImage(this.GamePath + "/data/images/Items room/S1.png");
+	    drachenei = this.getBufferedImage(this.GamePath + "/data/images/Items room/ei.png");
 	    //Infoleiste 
 	    heart = this.getBufferedImage(this.GamePath + "/data/images/Infoleiste/herz.png");
 	    coin = this.getBufferedImage(this.GamePath + "/data/images/Infoleiste/coin.png");

@@ -40,9 +40,18 @@ public class Client extends JFrame {
 	 * Erzeugt einen neuen Clienten
 	 * @param gui Das Menü
 	 * @param netstat Wird verwendet um zwischen Deathmatch und Co-Op zu unterscheiden
+	 * @param serverStarted Läuft der Client auf dem selben Rechner wie der Server?
 	 */
-	public Client(MenuStart gui, NetworkStatus netstat) {
+	public Client(MenuStart gui, NetworkStatus netstat, boolean serverStarted) {
 		this.gui = gui;
+		try {
+			if (!serverStarted){
+				Map.initialize("Story01");
+				Map.loadXML(netstat.toString().toLowerCase()+"1");
+			}
+	 	} catch (InvalidRoomLinkException | IOException | MapFormatException e) {
+	 		e.printStackTrace();
+	 	}
 		System.out.println("Client " + netstat.toString() + " started");
 		if(connect(gui.getHost(), gui.getPort())){
 			System.out.println("Verbindung erfolgreich");
@@ -53,12 +62,6 @@ public class Client extends JFrame {
 		}else{
 			System.out.println("Fehlgeschlagen");
 		}
-		try {
-	 		Map.initialize("Story01");
-	 		Map.loadXML(netstat.toString().toLowerCase()+"1");
-	 	} catch (InvalidRoomLinkException | IOException | MapFormatException e) {
-	 		e.printStackTrace();
-	 	}
 	 	
 	 	gui.setRandom(new Random(System.currentTimeMillis()));
 		MenuStart.setActiveRoom(Map.getRoom(0));

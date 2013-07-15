@@ -31,7 +31,7 @@ public class NPC extends Entities {
 	
 	final public static int INFO_NPC = 1;
 	final public static int SHOP_NPC = 2;
-	
+	//final public static int Quest_NPC = 3; 
 	/**
 	 * Der Konstruktor erzeugt einen NPC mit folgenden Paramtern
 	 * @param room_bind Der Raum, in dem sich der NPC befindet
