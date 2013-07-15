@@ -394,6 +394,10 @@ public class MenuStart extends JPanel implements ActionListener {
             		case 5:
             			g2d.drawImage(GameWindow.shield, entityPos.x, entityPos.y, panel);
             			break;
+            		case 6:
+            			g2d.drawImage(GameWindow.drachenei, entityPos.x, entityPos.y, panel);
+            			break;
+            			
             	}
             }
             else if (testEntity instanceof Coin){
@@ -524,6 +528,8 @@ public class MenuStart extends JPanel implements ActionListener {
             		case 2:
             			g2d.drawImage(GameWindow.npc2, entityPos.x, entityPos.y, panel);
             			break;
+            		case 3:
+            			g2d.drawImage(GameWindow.npc4, entityPos.x, entityPos.y, panel);
             	}
             }
             else if (testEntity instanceof PlasmaBall) {

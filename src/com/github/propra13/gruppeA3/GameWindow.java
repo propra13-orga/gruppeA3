@@ -84,6 +84,7 @@ public class GameWindow {
     public static Image manaPosion;
     public static Image sword;
     public static Image shield;
+    public static Image drachenei; 
     
     public static Image background;
 
@@ -162,6 +163,7 @@ public class GameWindow {
     manaPosion = this.getImage(this.GamePath + "/data/images/Items room/T3.png");
     sword = this.getImage(this.GamePath + "/data/images/Items room/W1.png");
     shield = this.getImage(this.GamePath + "/data/images/Items room/S1.png");
+    drachenei = this.getImage(this.GamePath + "/data/images/Items room/ei.png");
     //Infoleiste 
     heart = this.getImage(this.GamePath + "/data/images/Infoleiste/herz.png");
     coin = this.getImage(this.GamePath + "/data/images/Infoleiste/coin.png");
