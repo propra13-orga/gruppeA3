@@ -17,7 +17,7 @@ import javax.swing.JTextField;
  * Port und Spielername eingestellt werden koennen
  * @author Majida Dere
  */
-class MenuOption extends JFrame implements ActionListener 
+class NetworkOptions extends JFrame implements ActionListener 
 {
 	/**
 	 * 
@@ -29,7 +29,7 @@ class MenuOption extends JFrame implements ActionListener
 	/**
 	 * Erstellt das Optionsfenster
 	 */
-	public MenuOption(MenuStart gui) 
+	public NetworkOptions(MenuStart gui) 
 	{
         super("Server Einstellungen");
         setVisible(true);

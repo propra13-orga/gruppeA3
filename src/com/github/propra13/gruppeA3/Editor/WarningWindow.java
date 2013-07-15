@@ -3,7 +3,6 @@ package com.github.propra13.gruppeA3.Editor;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,7 +11,6 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-import com.github.propra13.gruppeA3.Game;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 
 /**
@@ -44,11 +42,7 @@ public class WarningWindow extends JDialog implements ActionListener {
         setLayout(layout);
         
         // Ausrichten: Zentrieren über Hauptfenster
-        Point framePos = Game.frame.getLocationOnScreen();
-     	Point thisPos = new Point();
-     	thisPos.x = framePos.x - (Game.MINWIDTH/2) + MINWIDTH/2;
-		thisPos.y = framePos.y - (Game.MINHEIGHT/2) + MINHEIGHT/2;
-     	setLocation(thisPos);
+        MenuStart.centerWindow(this);
         
         //Fensterinhalt-Layout
         bOk.addActionListener(this);

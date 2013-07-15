@@ -92,7 +92,8 @@ public class MenuStart extends JPanel implements ActionListener {
 	private JButton buttonCoop;
 	private JButton buttonJoin;
 	private JButton buttonCreate;
-	private JButton buttonOptions;
+	private JButton buttonEinstellungen; //Netzwerkeinstellungen
+	private JButton buttonOptionen; //Hauptmenüeinstellungen
 	private int buttonPosX;
 	private int buttonPosY;
 	
@@ -165,7 +166,8 @@ public class MenuStart extends JPanel implements ActionListener {
      	buttonCoop = new JButton("Co-Op");
      	buttonCreate = new JButton("Spiel erzeugen");
      	buttonJoin = new JButton("Spiel beitreten");
-     	buttonOptions = new JButton("Einstellungen");
+     	buttonEinstellungen = new JButton("Einstellungen");
+     	buttonOptionen = new JButton("Optionen");
      	
      	// benenne Aktionen
     	buttonNewGame.setActionCommand("newgame");
@@ -178,7 +180,7 @@ public class MenuStart extends JPanel implements ActionListener {
     	buttonCoop.setActionCommand("coop");
     	buttonCreate.setActionCommand("create");
     	buttonJoin.setActionCommand("join");
-    	buttonOptions.setActionCommand("options");
+    	buttonEinstellungen.setActionCommand("options");
     	
     	// ActionListener hinzufügen
     	buttonNewGame.addActionListener(this);
@@ -192,7 +194,8 @@ public class MenuStart extends JPanel implements ActionListener {
     	buttonCoop.addActionListener(this);
     	buttonCreate.addActionListener(this);
     	buttonJoin.addActionListener(this);
-    	buttonOptions.addActionListener(this);
+    	buttonEinstellungen.addActionListener(this);
+    	buttonOptionen.addActionListener(this);
     	
     	// füge Buttons zum Panel hinzu
     	add(buttonNewGame);
@@ -206,7 +209,9 @@ public class MenuStart extends JPanel implements ActionListener {
     	add(buttonCoop);
     	add(buttonCreate);
     	add(buttonJoin);
-    	add(buttonOptions);
+    	add(buttonEinstellungen);
+    	add(buttonOptionen);
+    	add(buttonEinstellungen);
      	initMenu();
      	music = new Music();
     }
@@ -260,13 +265,20 @@ public class MenuStart extends JPanel implements ActionListener {
 		}
     }
     
-    public void setButtonVisible(boolean bground, boolean bNGame, boolean bNMap, boolean bNetwork, 
+    private void showOptions() {
+    	setVisible(false);
+		Game.frame.add(new MainOptions());
+		Game.frame.validate();
+    }
+    
+    public void setButtonVisible(boolean bground, boolean bNGame, boolean bNMap, boolean bNetwork, boolean bOptionen,
     							boolean bHelp, boolean bEditor, boolean bBeenden, boolean bDeathmatch, 
-    							boolean bCoop, boolean bCreate, boolean bJoin, boolean bOptions){
+    							boolean bCoop, boolean bCreate, boolean bJoin, boolean bNWOptions){
 		background.setVisible(bground);
 		buttonNewGame.setVisible(bNGame);
 		buttonNextMap.setVisible(bNMap);
 		buttonNetwork.setVisible(bNetwork);
+		buttonOptionen.setVisible(bOptionen);
 		buttonHelp.setVisible(bHelp);
 		buttonEditor.setVisible(bEditor);
 		buttonBeenden.setVisible(bBeenden);
@@ -274,7 +286,7 @@ public class MenuStart extends JPanel implements ActionListener {
 		buttonCoop.setVisible(bCoop);
 		buttonCreate.setVisible(bCreate);
 		buttonJoin.setVisible(bJoin);
-		buttonOptions.setVisible(bOptions);
+		buttonEinstellungen.setVisible(bNWOptions);
     }
     
     // Startet Spiel
@@ -299,7 +311,8 @@ public class MenuStart extends JPanel implements ActionListener {
 		
 		// Menü-Buttons ausblenden, Status ändern
 		setButtonVisible(false, false, false, false, false, false,
-						 false, false, false, false, false, false);
+						 false, false, false, false, false, false,
+						 false);
 			
 		setGameStatus(GameStatus.INGAME);
  	}
@@ -334,7 +347,20 @@ public class MenuStart extends JPanel implements ActionListener {
             		break;
             	//Wasser
             	case 3:
-            		g2d.drawImage(GameWindow.backgroundimg_3, i*32, j*32, panel);
+            		switch(room.roomFields[i][j].attribute1) {
+            		case 0:
+            			g2d.drawImage(GameWindow.riverimg_u, i*32, j*32, panel);
+            			break;
+            		case 1:
+            			g2d.drawImage(GameWindow.riverimg_r, i*32, j*32, panel);
+            			break;
+            		case 2:
+            			g2d.drawImage(GameWindow.riverimg_d, i*32, j*32, panel);
+            			break;
+            		case 3:
+            			g2d.drawImage(GameWindow.riverimg_l, i*32, j*32, panel);
+            			break;
+            		}
             		break;
             	//Link
             	case 5:
@@ -342,7 +368,7 @@ public class MenuStart extends JPanel implements ActionListener {
             		break;
             	// Checkpoint-Link
             	case 6:
-            		g2d.drawImage(GameWindow.backgroundimg_3, i*32, j*32, panel);
+            		g2d.drawImage(GameWindow.riverimg_r, i*32, j*32, panel);
             		break;
             	//Trigger
             	case 7:
@@ -630,11 +656,13 @@ public class MenuStart extends JPanel implements ActionListener {
 		if(nextMap > 1 && nextMap < 4) {
 			background.setVisible(true);
 			buttonNextMap.setVisible(true);
+			buttonOptionen.setVisible(true);
 			buttonHelp.setVisible(true);
 			buttonBeenden.setVisible(true);
 			buttonNextMap.setBounds(buttonPosX,buttonPosY,    200,30);
-			buttonHelp.setBounds(buttonPosX,   buttonPosY+40,200,30);
-			buttonBeenden.setBounds(buttonPosX,buttonPosY+80,200,30);
+			buttonOptionen.setBounds(buttonPosX,buttonPosY+40, 200,30);
+			buttonHelp.setBounds(buttonPosX,   buttonPosY+80, 200,30);
+			buttonBeenden.setBounds(buttonPosX,buttonPosY+120,200,30);
 		}
 		// Ansonsten normales Hauptmenü anzeigen
 		else {
@@ -642,8 +670,9 @@ public class MenuStart extends JPanel implements ActionListener {
 			buttonNewGame.setBounds(buttonPosX,buttonPosY,    200,30);
 			buttonNetwork.setBounds(buttonPosX,buttonPosY+40, 200,30);
 			buttonEditor.setBounds(buttonPosX, buttonPosY+80, 200,30);
-			buttonHelp.setBounds(buttonPosX,   buttonPosY+120,200,30);
-			buttonBeenden.setBounds(buttonPosX,buttonPosY+160,200,30);
+			buttonOptionen.setBounds(buttonPosX,buttonPosY+120,200,30);
+			buttonHelp.setBounds(buttonPosX,   buttonPosY+160,200,30);
+			buttonBeenden.setBounds(buttonPosX,buttonPosY+200,200,30);
 		}
 	}
 
@@ -713,6 +742,11 @@ public class MenuStart extends JPanel implements ActionListener {
 			else if(e.getSource() == buttonHelpOk)
 				helpDialog.dispose();
 			
+			//Optionen
+			else if(e.getSource() == buttonOptionen)
+				showOptions();
+			
+			//Netzwerk-Kram
 			else if("network".equals(action)){
 				initNetwork();
 			}
@@ -736,7 +770,7 @@ public class MenuStart extends JPanel implements ActionListener {
 				backMenu();
 			}
 			else if("options".equals(action)){
-				new MenuOption(this);
+				new NetworkOptions(this);
 			}
 			else if("editor".equals(action))
 				initEditor();
@@ -846,17 +880,17 @@ public class MenuStart extends JPanel implements ActionListener {
 		buttonBack.setVisible(true);
 		buttonDeathmatch.setVisible(true);
 		buttonCoop.setVisible(true);
-		buttonOptions.setVisible(true);
+		buttonEinstellungen.setVisible(true);
 		buttonDeathmatch.setBounds(buttonPosX,buttonPosY,   200,30);
 		buttonCoop.setBounds(buttonPosX,buttonPosY+40,	 200,30);
-		buttonOptions.setBounds(buttonPosX,buttonPosY+80,	 200,30);
+		buttonEinstellungen.setBounds(buttonPosX,buttonPosY+80,	 200,30);
 		buttonBack.setBounds(buttonPosX,buttonPosY+120,200,30);
 	}
 	
 	public void networkMenu(){
 		buttonDeathmatch.setVisible(false);
 		buttonCoop.setVisible(false);
-		buttonOptions.setVisible(false);
+		buttonEinstellungen.setVisible(false);
 		buttonCreate.setBounds(buttonPosX,buttonPosY,   200,30);
 		buttonJoin.setBounds(buttonPosX,buttonPosY+40,	 200,30);
 		buttonBack.setBounds(buttonPosX,buttonPosY+80,200,30);
@@ -871,7 +905,7 @@ public class MenuStart extends JPanel implements ActionListener {
 			buttonBack.setBounds(buttonPosX,buttonPosY+120,200,30);
 			buttonDeathmatch.setVisible(true);
 			buttonCoop.setVisible(true);
-			buttonOptions.setVisible(true);
+			buttonEinstellungen.setVisible(true);
 			buttonCreate.setVisible(false);
 			buttonJoin.setVisible(false);
 		} else {
@@ -880,12 +914,13 @@ public class MenuStart extends JPanel implements ActionListener {
 			buttonNextMap.setVisible(true);
 			buttonNetwork.setVisible(true);
 			buttonHelp.setVisible(true);
+			buttonOptionen.setVisible(true);
 			buttonEditor.setVisible(true);
 			buttonBeenden.setVisible(true);
 			buttonBack.setVisible(false);
 			buttonDeathmatch.setVisible(false);
 			buttonCoop.setVisible(false);
-			buttonOptions.setVisible(false);
+			buttonEinstellungen.setVisible(false);
 		}
 	}
 	

@@ -3,13 +3,20 @@ package com.github.propra13.gruppeA3.Editor;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import com.github.propra13.gruppeA3.Map.Map;
+import com.github.propra13.gruppeA3.Menu.MenuStart;
 
 /**
  * Menü-Tab für den Map-Editor
@@ -22,6 +29,9 @@ public class Menu extends JPanel implements ActionListener {
 	Editor editor;
 	
 	JButton bNewMap, bOpen, bSave, bSaveAs, bExit, bAdd, bMove, bDel;
+	
+	JDialog dialog = null;
+	JTextField textField = null;
 	
 	public Menu(Editor editor) {
 		
@@ -121,6 +131,7 @@ public class Menu extends JPanel implements ActionListener {
 		add(bDel, delConstraints);
 
 		// Button-Actions
+		bNewMap.addActionListener(this);
 		bOpen.addActionListener(this);
 		bSave.addActionListener(this);
 		bSaveAs.addActionListener(this);
@@ -160,7 +171,34 @@ public class Menu extends JPanel implements ActionListener {
 	
 	/**Wird aufgerufen, wenn "Neu" gedrückt wurde.*/
 	private void bNewMap() {
-		System.out.println("\"Neu\" gedrückt");
+		dialog = new JDialog();
+		JLabel text = new JLabel("Name der neuen Karte");
+		JButton bOk = new JButton("Ok");
+		JButton bCancel = new JButton("Abbrechen");
+		JTextField textField = new JTextField(30);
+		bOk.setActionCommand("new map");
+		bCancel.setActionCommand("close dialog");
+		bOk.addActionListener(this);
+		bCancel.addActionListener(this);
+		
+		dialog.setTitle("Neue Karte");
+		dialog.setSize(400, 80);
+		dialog.setModal(true);
+		dialog.setResizable(false);
+		dialog.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+		
+		MenuStart.centerWindow(dialog);
+		
+		GridLayout layout = new GridLayout(2,2);
+		layout.setHgap(6);
+		layout.setVgap(6);
+		dialog.setLayout(layout);
+		dialog.add(text);
+		dialog.add(textField);
+		dialog.add(bOk);
+		dialog.add(bCancel);
+
+		dialog.setVisible(true);
 		
 	}
 
@@ -231,6 +269,12 @@ public class Menu extends JPanel implements ActionListener {
 			bMove();
 		else if(e.getSource() == bDel)
 			bDel();
+		
+		//Dialog-Knöpfe
+		else if(e.getActionCommand().equals("new map"))
+			Map.newMap(textField.getText());
+		else if(e.getActionCommand().equals("close dialog"))
+			dialog.setVisible(false);
 	}
 
 }

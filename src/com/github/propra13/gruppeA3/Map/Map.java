@@ -24,6 +24,11 @@ public class Map {
 	final public static int ROOMHEIGHT = 17;
 	final public static int ROOMWIDTH = 25;
 	
+	/**
+	 * Liste der Namen aller verfügbaren Maps. Wird mit updateMapList() aktualisiert.
+	 */
+	public static LinkedList<String> mapList = new LinkedList<String>();
+	
 	static public Room[] mapRooms;
 	static public LinkedList<Field> spawns = new LinkedList<Field>();
 	static public Link[] links;
@@ -34,7 +39,7 @@ public class Map {
 	final static String roomEnding = "room";
 	final static String metaEnding = "xml";
 	
-	// Ob man durchs Ziel gehen kann oder nicht
+	/** Ob man durchs Ziel gehen kann oder nicht*/
 	public static boolean endIsOpen = false;
 	
 	// Temporäre Sammellisten
@@ -78,6 +83,53 @@ public class Map {
 	}
 	
 	/**
+	 * Erstellt eine neue Karte.
+	 * @param mapName Name der neuen Karte
+	 */
+	public static void newMap(String mapName) {
+		
+	}
+	
+	/**
+	 * Updatet die Liste der verfügbaren Maps.
+	 */
+	public static void updateMapList() {
+		/*
+		 * Sammle Verzeichnisse in maps/
+		 */
+		//Alle Dateien in maps/
+		String dir = System.getProperty("user.dir");
+		dir = dir + File.separator + "data" + File.separator + "maps";
+		File f = new File(dir);
+		if (! f.exists())
+			try {
+				throw new FileNotFoundException(dir);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		
+		File[] mapsDirEntries = f.listFiles();
+		
+		//Verzeichnisse raussuchen
+		LinkedList<File> dirs = new LinkedList<File>();
+		for(int i=0; i < mapsDirEntries.length; i++) {
+			if(mapsDirEntries[i].isDirectory())
+				dirs.add(mapsDirEntries[i]);
+		}
+		
+		//In Verzeichnissen die raussuchen, die .room-Dateien haben
+		mapList.clear();
+		for(Iterator<File> iter = dirs.iterator(); iter.hasNext();) {
+			String fileName = iter.next().getName();
+			String[] fileNameParts = fileName.split("\\.(?=[^\\.]+$)");
+			
+			//Falls eventuell Raum-Datei, zur Map-Liste hinzufügen
+			if(fileNameParts.length > 1 && fileNameParts[1].equals(roomEnding))
+				mapList.add(fileName);
+		}
+	}
+	
+	/**
 	 * Lädt eine XML-Datei des alten Formats
 	 * @param xmlName
 	 */
@@ -86,7 +138,7 @@ public class Map {
 			SAXCrawlerReader reader=new SAXCrawlerReader();
 		 	try {
 		 		reader.read("data/levels/"+xmlName+".xml");
-		 		
+		 		throw new Exception("Veraltete Einlesemethode");
 		 	} catch (Exception e) {
 		 			e.printStackTrace();
 		 	}

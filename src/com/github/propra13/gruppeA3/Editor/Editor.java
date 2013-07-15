@@ -98,7 +98,7 @@ public class Editor extends JTabbedPane implements ChangeListener {
 		//Raum-Tabs
 		for(int i=0; i < Map.mapRooms.length; i++) {
 			RoomTab roomTab = new RoomTab(Map.getRoom(i));
-			Component tabComp = add(roomTab);
+			add(roomTab);
 		}
 		
 	    setSelectedIndex(1);

@@ -382,8 +382,8 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 			else {
 				Editor.editor.warning.showWindow("<html><body>" +
 						"Ein Fluss kann nur gerade gezogen werden.<br>" +
-						"Setze \"Kurven\" aus mehreren Teilstücken<br>" +
-						"zusammen." +
+						"Setze Kurven und Ecken aus mehreren<br>" +
+						" Teilstücken zusammen." +
 						"</body></html>");
 				return;
 			}
@@ -400,7 +400,6 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 	 * Zeigt das Kontextmenü an der Cursor-Position
 	 * @param e MouseEvent, das die Methode ausgelöst hat
 	 */
-	@SuppressWarnings("deprecation")
 	private void dropdown(MouseEvent e) {
 		
 		// Räume Dropdown-Menü auf (removeCandidates)
@@ -408,7 +407,6 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 		for( Iterator<JMenuItem> iter = removeCandidates.iterator(); iter.hasNext();) {
 			testItem = iter.next();
 			if(testItem != null) {
-				System.out.println("Räume weg: "+testItem.getLabel());
 				addSubMenu.remove(testItem);
 				dropdown.remove(testItem);
 				iter.remove();

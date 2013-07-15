@@ -22,7 +22,7 @@ public class Game extends JFrame{
 	public static JFrame frame;
 	public static MenuStart Menu;
 	
-	public Game(){
+	public Game() {
 		setTitle("Dungeon Crawler");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	//schließen button belegt
 		setSize(MINWIDTH,MINHEIGHT);
@@ -34,6 +34,7 @@ public class Game extends JFrame{
 		setLocation((int)((d.getWidth() - this.getWidth()) / 2), (int)((d.getHeight() - this.getHeight()) / 2));
 
 		//Game Start
+		Map.updateMapList();
 		Menu = new MenuStart();
 		add(Menu);
 		setVisible(true);
