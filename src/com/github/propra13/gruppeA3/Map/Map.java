@@ -31,6 +31,7 @@ public class Map {
 	
 	private static String mapName;
 	
+
 	final static String roomEnding = "room";
 	final static String metaEnding = "xml";
 	
@@ -60,7 +61,7 @@ public class Map {
 			throws FileNotFoundException, MapFormatException, IOException, InvalidRoomLinkException {
 		
 		spawns.clear();
-		mapName = dirName;
+		setMapName(dirName);
 		
 		//Map einlesen
 		mapRooms = readRooms();
@@ -343,5 +344,9 @@ public class Map {
 	
 	public static String getName() {
 		return mapName;
+	}
+	
+	public static void setMapName(String mapName) {
+		Map.mapName = mapName;
 	}
 }

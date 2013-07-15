@@ -727,10 +727,10 @@ public class MenuStart extends JPanel implements ActionListener {
 			else if("create".equals(action)){
 				Server server = new Server(this.getPort(), MenuStart.getNetstat());
 				server.start();
-				new Client(this, MenuStart.getNetstat());
+				new Client(this, MenuStart.getNetstat(), true);
 			}
 			else if("join".equals(action)){
-				new Client(this, MenuStart.getNetstat());
+				new Client(this, MenuStart.getNetstat(), false);
 			}
 			else if("back".equals(action)){
 				backMenu();
