@@ -50,16 +50,18 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 	private JMenuItem addSubMenu;
 	private JMenuItem addLink;
 	private JMenuItem addRiver; //TODO
-	private JMenuItem changeNPC; //TODO
+	private JMenuItem changeNPC;
 	
 	private JMenu addTrigger;
 	private JMenuItem addCheckpoint;
+	private JMenuItem addSpawn;
 	
 	//Ändere-Kram
 	private JMenuItem changeLink;
 	private JMenuItem changeTrigger;
 	private JMenuItem changeMonster;
 	private JMenuItem changeItem;
+	private JMenuItem delSpawn;
 	
 	private LinkedList<JMenuItem> removeCandidates = new LinkedList<JMenuItem>();
 
@@ -115,6 +117,8 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 		changeTrigger.addActionListener(this);
 		addLink = new JMenuItem("Link");
 		addLink.addActionListener(this);
+		addSpawn = new JMenuItem("Spawn");
+		addSpawn.addActionListener(this);
 		
 		changeMonster = new JMenuItem("Monster ...");
 		changeMonster.addActionListener(this);
@@ -122,6 +126,8 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 		changeNPC.addActionListener(this);
 		changeItem = new JMenuItem("Item ...");
 		changeItem.addActionListener(this);
+		delSpawn = new JMenuItem("Spawn löschen");
+		delSpawn.addActionListener(this);
 		
 		addTrigger = new JMenu("Trigger für ...");
 		addCheckpoint = new JMenuItem("Checkpoint");
@@ -130,8 +136,8 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 		
 		//Spawns markieren
 		if(room.ID == 0) {
-			for(int i=0; i < Map.spawns.length; i++) {
-				highlightField(Map.spawns[i], FieldHighlight.Type.SPAWN);
+			for(Iterator<Field> iter = Map.spawns.iterator(); iter.hasNext();) {
+				highlightField(iter.next(), FieldHighlight.Type.SPAWN);
 			}
 		}
 		
@@ -177,8 +183,8 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 		
 		//Spawns wieder markieren
 		if(room.ID == 0) {
-			for(int i=0; i < Map.spawns.length; i++) {
-				highlightField(Map.spawns[i], FieldHighlight.Type.SPAWN);
+			for(Iterator<Field> iter = Map.spawns.iterator(); iter.hasNext();) {
+				highlightField(iter.next(), FieldHighlight.Type.SPAWN);
 			}
 		}
 		validate();
@@ -278,6 +284,28 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 		Editor.editor.NPCEditor.showWindow(this, affectedField, NPCToShow);
 	}
 	
+	/**
+	 * Fügt das angeklickte Feld als Spawn zur Spawn-Liste hinzu.
+	 */
+	private void addSpawn() {
+		if(room.ID == 0)
+			Map.spawns.add(affectedField);
+		clearHighlights();
+	}
+	
+	/**
+	 * Löscht das angeklickte Feld aus der Spawn-Liste.
+	 */
+	private void deleteSpawn() {
+		Field spawn;
+		for(Iterator<Field> iter = Map.spawns.iterator(); iter.hasNext();) {
+			spawn = iter.next();
+			if(spawn == affectedField)
+				iter.remove();
+		}
+		clearHighlights();
+	}
+	
 	/** 
 	 * Zeigt das Kontextmenü an der Cursor-Position
 	 * @param e MouseEvent, das die Methode ausgelöst hat
@@ -363,6 +391,28 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 			removeCandidates.add(changeNPC);
 		}
 		
+		//Spawn-Optionen
+		if(room.ID == 0) {
+			Field spawn;
+			boolean spawnOnField = false;
+			for(Iterator<Field> iter = Map.spawns.iterator(); iter.hasNext();) {
+				spawn = iter.next();
+				if(spawn == affectedField) {
+					spawnOnField = true;
+					break;
+				}
+			}
+			
+			if(spawnOnField) {
+				dropdown.add(delSpawn);
+				removeCandidates.add(delSpawn);
+			}
+			else {
+				addSubMenu.add(addSpawn);
+				removeCandidates.add(addSpawn);
+			}
+		}
+		
 
 		// Menü anzeigen
 		dropdown.show(this, e.getX(), e.getY());
@@ -406,6 +456,10 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 			changeNPC();
 		else if(e.getSource() == this.changeItem)
 			changeItem();
+		else if(e.getSource() == this.addSpawn)
+			addSpawn();
+		else if(e.getSource() == this.delSpawn)
+			deleteSpawn();
 	}
 
 	/**

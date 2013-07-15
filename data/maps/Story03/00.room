@@ -478,13 +478,14 @@
     <field textur="0" typ="2" x="24" y="16"/>
     <spawn x="5" y="8"/>
     <spawn x="6" y="8"/>
+    <item beschreibung="A fresh drink." name="Life Drink" staerke="10" typ="1" wert="2" x="80" y="112"/>
+    <item beschreibung="Deadly Posion" name="Posion Drink" staerke="-2" typ="2" wert="2" x="752" y="336"/>
+    <item beschreibung="A strong protection." name="sword" staerke="2" typ="4" wert="5" x="464" y="80"/>
+    <item beschreibung="A way to protect." name="shield" staerke="2" typ="5" wert="5" x="496" y="48"/>
     <monster angriff="3" beschreibung="Monster-Snake" geschwindigkeit="1.0" leben="10" muenzen="10" ruestung="1" typ="1" x="464" y="176"/>
     <monster angriff="3" beschreibung="Spider-Man" geschwindigkeit="1.0" leben="15" muenzen="15" ruestung="1" typ="2" x="528" y="144"/>
     <monster angriff="5" beschreibung="Pinky the Rat" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="0" typ="3" x="304" y="272"/>
     <monster angriff="5" beschreibung="Pinky the Rat" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="0" typ="3" x="336" y="368"/>
     <monster angriff="5" beschreibung="Pinky the Rat" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="0" typ="3" x="80" y="304"/>
-    <item beschreibung="A way to protect." name="shield" staerke="2" typ="5" wert="5" x="496" y="48"/>
-    <item beschreibung="A strong protection." name="sword" staerke="2" typ="4" wert="5" x="464" y="80"/>
-    <item beschreibung="Deadly Posion" name="Posion Drink" staerke="-2" typ="2" wert="2" x="752" y="336"/>
-    <item beschreibung="A fresh drink." name="Life Drink" staerke="10" typ="1" wert="2" x="80" y="112"/>
+    <NPC beschreibung="" name="Nancy" text="&lt;html&gt;&lt;body&gt;Du bist der Fremde,&lt;br&gt;&#10;der schon 2 Drachen getötet hat?&lt;br&gt;&#10;Wahnsinn!&lt;/body&gt;&lt;/html&gt;" typ="1" x="176" y="112"/>
 </room>

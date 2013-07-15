@@ -457,17 +457,6 @@ public class Room {
 			}
 		}
 		
-		//Items
-		NodeList itemNodes = doc.getElementsByTagName("item");
-		Element itemEl;
-		for(int i=0; i < monsterNodes.getLength(); i++) {
-			if(itemNodes.item(i) instanceof Element) {
-				itemEl = (Element)itemNodes.item(i);
-				
-				entities.add(parseItem(itemEl));
-			}
-		}
-		
 		//NPCs
 		NodeList npcNodes = doc.getElementsByTagName("NPC");
 		Element npcEl;
@@ -482,37 +471,61 @@ public class Room {
 						Integer.parseInt(npcEl.getAttribute("x")),
 						Integer.parseInt(npcEl.getAttribute("y"))
 						);
+				
 				npc.setText(npcEl.getAttribute("text"));
 				
-				if(npc.getType() == NPC.SHOP_NPC) {
-					NodeList shopNodes = npcEl.getElementsByTagName("item");
+				entities.add(npc);
+			}
+		}
+		
+		//Items
+		NodeList itemNodes = doc.getElementsByTagName("item");
+		Element itemEl;
+		LinkedList<Item> itemsToDo = new LinkedList<Item>();
+		
+		for(int i=0; i < itemNodes.getLength(); i++) {
+			if(itemNodes.item(i) instanceof Element) {
+				itemEl = (Element)itemNodes.item(i);
+				itemsToDo.add(new Item(
+						Integer.parseInt(itemEl.getAttribute("staerke")),
+						Integer.parseInt(itemEl.getAttribute("typ")),
+						Integer.parseInt(itemEl.getAttribute("x")),
+						Integer.parseInt(itemEl.getAttribute("y")),
+						itemEl.getAttribute("beschreibung"),
+						itemEl.getAttribute("name"),
+						Integer.parseInt(itemEl.getAttribute("wert"))
+						));
+			}
+		}
+		
+		//Shop-Items auf Raum und Shops verteilen anhand der Position von Shop und Item
+		Item testItem;
+		for(Iterator<Item> itemIter = itemsToDo.iterator(); itemIter.hasNext();) {
+			testItem = itemIter.next();
+			
+			//Entities-Liste nach NPC durchsuchen, der auf der selben Position wie das Item ist
+			boolean shopFound = false;
+			Entities testEntity;
+			for(Iterator<Entities> entIter = entities.iterator(); entIter.hasNext();) {
+				testEntity = entIter.next();
+				
+				if(testEntity instanceof NPC) {
+					NPC npc = (NPC)testEntity;
 					
-					//Items der Shopliste hinzufügen
-					for(int j=0; j < shopNodes.getLength(); j++) {
-						if(shopNodes.item(i) instanceof Element)
-							npc.getItems().add(parseItem((Element)shopNodes.item(i)));
+					if(npc.getPosition().equals(testItem.getPosition())) {
+						npc.getItems().add(testItem);
+						itemIter.remove();
+						shopFound = true;
 					}
 				}
 			}
+			
+			//Falls kein Shop gefunden, Item auf Raum legen
+			if(! shopFound)
+				entities.addFirst(testItem);
 		}
 
 		return fields;
-	}
-	
-	/**
-	 * Erstellt aus den Informationen eines Item-DOM-Elements ein Item.
-	 * @param el Item-Element
-	 * @return geparstes Item
-	 */
-	private Item parseItem(Element itemEl) {
-		return new Item(Integer.parseInt(itemEl.getAttribute("staerke")),
-				Integer.parseInt(itemEl.getAttribute("typ")),
-				Integer.parseInt(itemEl.getAttribute("x")),
-				Integer.parseInt(itemEl.getAttribute("y")),
-				itemEl.getAttribute("beschreibung"),
-				itemEl.getAttribute("name"),
-				Integer.parseInt(itemEl.getAttribute("wert"))
-				);
 	}
 	
 	/**
@@ -625,11 +638,12 @@ public class Room {
 		//Spawns hinzufügen
 		if(ID == 0) {
 			Element spawnToAppend;
-			for(int i=0; i < Map.spawns.length; i++) {
+			for(Iterator<Field> iter = Map.spawns.iterator(); iter.hasNext();) {
+				Field spawn = iter.next();
 				spawnToAppend = doc.createElement("spawn");
 				roomEl.appendChild(spawnToAppend);
-				spawnToAppend.setAttribute("x", Map.spawns[i].pos.x+"");
-				spawnToAppend.setAttribute("y", Map.spawns[i].pos.y+"");
+				spawnToAppend.setAttribute("x", spawn.pos.x+"");
+				spawnToAppend.setAttribute("y", spawn.pos.y+"");
 			}
 		}
 		
@@ -698,8 +712,8 @@ public class Room {
 						item.setAttribute("beschreibung", testItem.getDesc());
 						item.setAttribute("name", testItem.getName());
 						item.setAttribute("wert", testItem.getValue()+"");
-						item.setAttribute("x", testItem.getPosition().x+"");
-						item.setAttribute("y", testItem.getPosition().y+"");
+						item.setAttribute("x", npc.getPosition().x+"");
+						item.setAttribute("y", npc.getPosition().y+"");
 					}
 				}
 			}

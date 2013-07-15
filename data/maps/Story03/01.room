@@ -433,9 +433,13 @@
     <monster angriff="5" beschreibung="Spider-Man" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="1" typ="2" x="688" y="272"/>
     <monster angriff="5" beschreibung="Spider-Man" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="1" typ="2" x="720" y="400"/>
     <monster angriff="5" beschreibung="Spider-Man" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="1" typ="2" x="720" y="464"/>
-    <item beschreibung="A way to protect" name="Shield" staerke="2" typ="5" wert="10" x="80" y="208"/>
-    <item beschreibung="Deadly Poison" name="Poison Drink" staerke="2" typ="2" wert="4" x="80" y="208"/>
-    <item beschreibung="Increases your Mana" name="Mana Drink" staerke="2" typ="3" wert="4" x="80" y="208"/>
-    <item beschreibung="A strong protection" name="Sword" staerke="2" typ="4" wert="10" x="80" y="208"/>
-    <item beschreibung="A fresh drink" name="Life Drink" staerke="10" typ="1" wert="4" x="80" y="208"/>
+    <NPC beschreibung="" name="Harald der Barbar" text="&lt;html&gt;&lt;body&gt;Hallo Fremder,&lt;br&gt;&lt;br&gt;&#10;Halte die Augen offen nach wertvollen Dingen.&lt;br&gt;&#10;Falls du Gold findest, ich hörte, man kann es tauschen!&#10;&lt;/body&gt;&lt;/html&gt;" typ="2" x="144" y="144">
+        <item beschreibung="Bringt dich wieder zu Kräften" name="Lebenstrank" staerke="10" typ="1" wert="4" x="144" y="144"/>
+        <item beschreibung="Bringt dich wieder zu Kräften" name="Lebenstrank" staerke="10" typ="1" wert="4" x="144" y="144"/>
+        <item beschreibung="Erweckt deine Zauberkräfte" name="Mana-Trank" staerke="30" typ="3" wert="4" x="144" y="144"/>
+        <item beschreibung="Erweckt deine Zauberkräfte" name="Mana-Trank" staerke="30" typ="3" wert="4" x="144" y="144"/>
+        <item beschreibung="Vergiftet dich" name="Gift-Trank" staerke="10" typ="2" wert="4" x="144" y="144"/>
+        <item beschreibung="Verstärkt deinen Angriff" name="Schwert" staerke="2" typ="4" wert="10" x="144" y="144"/>
+        <item beschreibung="Erhöht deine Verteidigung" name="Schild" staerke="2" typ="5" wert="10" x="144" y="144"/>
+    </NPC>
 </room>

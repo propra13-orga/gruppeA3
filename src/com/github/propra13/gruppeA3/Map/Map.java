@@ -25,7 +25,7 @@ public class Map {
 	final public static int ROOMWIDTH = 25;
 	
 	static public Room[] mapRooms;
-	static public Field[] spawns = new Field[2];
+	static public LinkedList<Field> spawns = new LinkedList<Field>();
 	static public Link[] links;
 	static public Field end;
 	
@@ -59,7 +59,7 @@ public class Map {
 	public static void initialize(String dirName) 
 			throws FileNotFoundException, MapFormatException, IOException, InvalidRoomLinkException {
 		
-		spawns[0] = spawns[1] = null;
+		spawns.clear();
 		mapName = dirName;
 		
 		//Map einlesen
@@ -321,10 +321,7 @@ public class Map {
 	 * @param spawn Spawn, der hinzugefügt werden soll
 	 */
 	public static void addSpawn(Field spawn) {
-		if (spawns[0] == null)
-			spawns[0] = spawn;
-		else if (spawns[1] == null)
-			spawns[1] = spawn;
+		spawns.add(spawn);
 	}
 	
 	/** Setzt Ziel der Map

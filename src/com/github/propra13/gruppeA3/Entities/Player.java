@@ -111,7 +111,8 @@ public class Player extends Moveable {
     	resetAttack();
     	setRoomID(0);
     	getRoom().entities.add(this);
-    	setPosition(Map.spawns[0].pos.toPosition().x+16, Map.spawns[0].pos.toPosition().y+16);
+    	Field spawn = Map.spawns.getFirst();
+    	setPosition(spawn.pos.toPosition().x+16, spawn.pos.toPosition().y+16);
     	
     }
 
@@ -484,7 +485,8 @@ public class Player extends Moveable {
      * Beendet die Karte. Wird aufgerufen, wenn der Spieler die Karte gewonnen hat.
      */
     public void win() {
-    	setPosition(Map.spawns[0].pos.toPosition().x+16, Map.spawns[0].pos.toPosition().y+16);
+    	Field spawn = Map.spawns.getFirst();
+    	setPosition(spawn.pos.toPosition().x+16, spawn.pos.toPosition().y+16);
     	MenuStart.winMap();
     }
     
@@ -494,7 +496,8 @@ public class Player extends Moveable {
      */
     public void death() {
     	setLives(getLives()-1);
-    	setPosition(Map.spawns[0].pos.toPosition().x+16, Map.spawns[0].pos.toPosition().y+16);
+    	Field spawn = Map.spawns.getFirst();
+    	setPosition(spawn.pos.toPosition().x+16, spawn.pos.toPosition().y+16);
     	setRoom(0);
     	MenuStart.activeRoom = Map.getRoom(0);
     	setHealth(100);
