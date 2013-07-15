@@ -58,7 +58,7 @@ public class Monster extends Moveable {
 		this.desc = desc;
 		this.hitbox = new Hitbox();
 		this.isBoss = isBoss;
-		pos = new Position(x, y);
+		pos = new Position(x*32+(hitbox.width/2), y*32+(hitbox.height/2));;
 		setDirection(Direction.NONE);
 		coins=new Coin(coinValue, coinType, this.pos);
 		this.type = type;
@@ -84,7 +84,7 @@ public class Monster extends Moveable {
 		this.desc = desc;
 		this.hitbox = new Hitbox();
 		this.isBoss = isBoss;
-		setPosition(x+(hitbox.width/2),y+(hitbox.height/2));
+		pos = new Position(x+(hitbox.width/2), y+(hitbox.height/2)); //kein setPos()!
 		setDirection(Direction.NONE);
 		coins=new Coin(coinValue, coinType, this.pos);
 		this.type = type;

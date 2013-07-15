@@ -428,17 +428,17 @@
     <field textur="0" typ="2" x="24" y="14"/>
     <field textur="0" typ="2" x="24" y="15"/>
     <field textur="0" typ="2" x="24" y="16"/>
-    <monster angriff="3" beschreibung="Monster-Snake" geschwindigkeit="1.5" leben="10" muenzen="5" ruestung="1" typ="1" x="240" y="112"/>
-    <monster angriff="5" beschreibung="Spider-Man" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="1" typ="2" x="336" y="80"/>
-    <monster angriff="5" beschreibung="Spider-Man" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="1" typ="2" x="688" y="432"/>
-    <monster angriff="5" beschreibung="Spider-Man" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="1" typ="2" x="112" y="368"/>
-    <monster angriff="5" beschreibung="Spider-Man" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="1" typ="2" x="368" y="368"/>
-    <NPC beschreibung="The barbarian" name="Harald" text="Hallo Unbekannter,&#10;&#10;halte die Augen offen nach wertvollen Dingen.&#10;Falls du Gold findest, ich hörte man kann es tauschen!" typ="2" x="592" y="144">
-        <item beschreibung="A way to protect" name="Shield" staerke="2" typ="5" wert="10" x="592" y="144"/>
-        <item beschreibung="Deadly Poison" name="Poison Drink" staerke="2" typ="2" wert="4" x="592" y="144"/>
-        <item beschreibung="Increases your Mana" name="Mana Drink" staerke="2" typ="3" wert="4" x="592" y="144"/>
-        <item beschreibung="A strong protection" name="Sword" staerke="2" typ="4" wert="10" x="592" y="144"/>
-        <item beschreibung="A fresh drink" name="Life Drink" staerke="10" typ="1" wert="4" x="592" y="144"/>
-        <item beschreibung="A fresh drink" name="Life Drink" staerke="10" typ="1" wert="4" x="592" y="144"/>
+    <monster angriff="3" beschreibung="Monster-Snake" geschwindigkeit="1.5" leben="10" muenzen="5" ruestung="1" typ="1" x="7" y="3"/>
+    <monster angriff="5" beschreibung="Spider-Man" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="1" typ="2" x="10" y="2"/>
+    <monster angriff="5" beschreibung="Spider-Man" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="1" typ="2" x="21" y="13"/>
+    <monster angriff="5" beschreibung="Spider-Man" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="1" typ="2" x="3" y="11"/>
+    <monster angriff="5" beschreibung="Spider-Man" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="1" typ="2" x="11" y="11"/>
+    <NPC beschreibung="The barbarian" name="Harald" text="Hallo Unbekannter,&#10;&#10;halte die Augen offen nach wertvollen Dingen.&#10;Falls du Gold findest, ich hörte man kann es tauschen!" typ="2" x="18" y="4">
+        <item beschreibung="A way to protect" name="Shield" staerke="2" typ="5" wert="10" x="18" y="4"/>
+        <item beschreibung="Deadly Poison" name="Poison Drink" staerke="2" typ="2" wert="4" x="18" y="4"/>
+        <item beschreibung="Increases your Mana" name="Mana Drink" staerke="2" typ="3" wert="4" x="18" y="4"/>
+        <item beschreibung="A strong protection" name="Sword" staerke="2" typ="4" wert="10" x="18" y="4"/>
+        <item beschreibung="A fresh drink" name="Life Drink" staerke="10" typ="1" wert="4" x="18" y="4"/>
+        <item beschreibung="A fresh drink" name="Life Drink" staerke="10" typ="1" wert="4" x="18" y="4"/>
     </NPC>
 </room>

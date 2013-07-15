@@ -21,7 +21,7 @@ public class Menu extends JPanel implements ActionListener {
 	
 	Editor editor;
 	
-	JButton bNewMap, bOpen, bSave, bSaveAs, bExit, bAdd, bMove, bDel, bSpawns;
+	JButton bNewMap, bOpen, bSave, bSaveAs, bExit, bAdd, bMove, bDel;
 	
 	public Menu(Editor editor) {
 		
@@ -119,17 +119,6 @@ public class Menu extends JPanel implements ActionListener {
 		delConstraints.weightx = moveConstraints.weighty = 1;
 		delConstraints.insets = new Insets(2,4,16,4);
 		add(bDel, delConstraints);
-		
-		bSpawns = new JButton("Spawns ändern");
-		bSpawns.setPreferredSize(stdButtonSize);
-		GridBagConstraints spawnConstraints = new GridBagConstraints();
-		spawnConstraints.gridx = 0;
-		spawnConstraints.gridy = 8;
-		spawnConstraints.gridheight = spawnConstraints.gridwidth = 1;
-		spawnConstraints.fill = GridBagConstraints.HORIZONTAL;
-		spawnConstraints.weightx = spawnConstraints.weighty = 1;
-		spawnConstraints.insets = new Insets(2,4,2,4);
-		add(bSpawns, spawnConstraints);
 
 		// Button-Actions
 		bOpen.addActionListener(this);
@@ -139,7 +128,6 @@ public class Menu extends JPanel implements ActionListener {
 		bAdd.addActionListener(this);
 		bMove.addActionListener(this);
 		bDel.addActionListener(this);
-		bSpawns.addActionListener(this);
 		
 		
 		//Unsichtbares Panel rechts
@@ -224,11 +212,6 @@ public class Menu extends JPanel implements ActionListener {
 	private void bDel() {
 		System.out.println("\"Raum löschen\" gedrückt");
 	}
-	
-	/**Wird aufgerufen, wenn "Spawns ändern" gedrückt wurde.*/
-	private void bSpawns() {
-		System.out.println("\"Spawns ändern\" gedrückt");
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -248,8 +231,6 @@ public class Menu extends JPanel implements ActionListener {
 			bMove();
 		else if(e.getSource() == bDel)
 			bDel();
-		else if(e.getSource() == bSpawns)
-			bSpawns();
 	}
 
 }

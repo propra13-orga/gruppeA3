@@ -1,10 +1,13 @@
 package com.github.propra13.gruppeA3.Editor;
 
+import java.awt.Component;
 import java.io.IOException;
 import java.util.LinkedList;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
@@ -20,7 +23,7 @@ import com.github.propra13.gruppeA3.Menu.MenuStart.GameStatus;
 /** @author CK
  * Hauptklasse des Map-Editors
  */
-public class Editor extends JTabbedPane {
+public class Editor extends JTabbedPane implements ChangeListener {
   
 	private static final long serialVersionUID = 1L;
 	
@@ -37,7 +40,7 @@ public class Editor extends JTabbedPane {
 	/** Falls der nächste Klick ein aus einem Dialog hervorgegangener
 	 *  spezieller Auswahlklick ist (zB für den Link-Dialog)
 	 */
-	public enum ChooseClickType {LINK,CHECKPOINTFIELD,CHECKPOINTLINK,NONE}
+	public enum ChooseClickType {LINK,CHECKPOINTFIELD,CHECKPOINTLINK,RIVER,NONE}
 	public ChooseClickType chooseClick=ChooseClickType.NONE;
 	
 	private String mapName;
@@ -46,6 +49,8 @@ public class Editor extends JTabbedPane {
 	private LinkedList<JPanel> roomTabs = new LinkedList<JPanel>();
 	public LinkedList<Link> mapLinks = new LinkedList<Link>();
 	public LinkedList<Trigger> mapTriggers = new LinkedList<Trigger>();
+	
+	private int activeTab = 1; //ID des Tabs wird gespeichert, um Änderungen mitteilen zu können
 
 	/**
 	 * Initialisiert Map und baut Tab-Fenster auf.
@@ -92,10 +97,12 @@ public class Editor extends JTabbedPane {
 		
 		//Raum-Tabs
 		for(int i=0; i < Map.mapRooms.length; i++) {
-			String title = ""+i;
-			addTab(title, new RoomTab(Map.getRoom(i)));
+			RoomTab roomTab = new RoomTab(Map.getRoom(i));
+			Component tabComp = add(roomTab);
 		}
-		setSelectedIndex(1);
+		
+	    setSelectedIndex(1);
+	    addChangeListener(this);
 		repaint();
 		setVisible(true);
 	}
@@ -143,5 +150,27 @@ public class Editor extends JTabbedPane {
 	 */
 	public void notify(Trigger trigger) {
 		mapTriggers.add(trigger);
+	}
+
+	/**
+	 * Event-Listener: Tab gewechselt
+	 * Teilt den Raum-Tabs mit, wenn sie den Fokus verlieren oder bekommen.
+	 */
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		//Alten Tab benachrichtigen
+		Component tab = getComponentAt(activeTab);
+		if(tab instanceof RoomTab) {
+			RoomTab roomTab = (RoomTab)tab;
+			roomTab.focusLost();
+		}
+		
+		//Neuen Tab benachrichtigen
+		activeTab = getSelectedIndex();
+		tab = getComponentAt(activeTab);
+		if(tab instanceof RoomTab) {
+			RoomTab roomTab = (RoomTab)tab;
+			roomTab.focusGained();
+		}
 	}
 } 

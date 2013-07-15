@@ -39,6 +39,7 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 	private JPopupMenu dropdown;
 	
 	private Field affectedField;
+	private Field riverStart = null; //Für 'Fluss hinzufügen'; merkt sich den Anfang
 	public Room room;
 	private int lastFieldType = 2; //speichert letzte Feldkonvertierung für Linksklick
 	
@@ -107,7 +108,7 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 		addSubMenu = new JMenu("Füge hinzu ...");
 		dropdown.add(addSubMenu);
 		
-		addRiver = new JMenuItem("Fluss");
+		addRiver = new JMenuItem("Fluss ziehen");
 		addRiver.addActionListener(this);
 		addSubMenu.add(addRiver);
 		
@@ -318,6 +319,83 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 		clearHighlights();
 	}
 	
+	/**
+	 * Fügt einen Fluss hinzu.
+	 */
+	private void addRiver() {
+		//Falls Anfang des Fluss-Ziehens, Anfang setzen
+		if(riverStart == null) {
+			riverStart = affectedField;
+			affectedField.type = 3;
+			affectedField.attribute1 = 1;
+			Editor.editor.chooseClick = Editor.ChooseClickType.RIVER;
+		}
+		//Ansonsten Fluss von riverStart zum geklickten Feld ziehen
+		else {
+			//Falls Startfeld und angeklicktes Feld auf einer Linie sind, Fluss ziehen
+			
+			//Fluss geht horizontal
+			if(riverStart.pos.y == affectedField.pos.y) {
+				//von links nach rechts
+				if(riverStart.pos.x <= affectedField.pos.x) {
+					Field field;
+					for(int i=riverStart.pos.x; i <= affectedField.pos.x; i++) {
+						field = room.roomFields[i][affectedField.pos.y];
+						field.type = 3;
+						field.attribute1 = 1;
+					}
+				}
+				//von rechts nach links
+				else {
+					Field field;
+					for(int i=affectedField.pos.x; i <= riverStart.pos.x; i++) {
+						field = room.roomFields[i][affectedField.pos.y];
+						field.type = 3;
+						field.attribute1 = 3;
+					}
+				}
+			}
+			
+			//Fluss geht vertikal
+			else if(riverStart.pos.x == affectedField.pos.x) {
+				//von oben nach unten
+				if(riverStart.pos.y <= affectedField.pos.y) {
+					Field field;
+					for(int i=riverStart.pos.y; i <= affectedField.pos.y; i++) {
+						field = room.roomFields[affectedField.pos.x][i];
+						field.type = 3;
+						field.attribute1 = 2;
+					}
+				}
+				//von unten nach oben
+				else {
+					Field field;
+					for(int i=affectedField.pos.y; i <= riverStart.pos.y; i++) {
+						field = room.roomFields[affectedField.pos.x][i];
+						field.type = 3;
+						field.attribute1 = 0;
+					}
+				}
+			}
+			
+			//Ansonsten Meldung
+			else {
+				Editor.editor.warning.showWindow("<html><body>" +
+						"Ein Fluss kann nur gerade gezogen werden.<br>" +
+						"Setze \"Kurven\" aus mehreren Teilstücken<br>" +
+						"zusammen." +
+						"</body></html>");
+				return;
+			}
+			
+			clearHighlights();
+			validate();
+			repaint();
+			riverStart = null;
+			Editor.editor.chooseClick = Editor.ChooseClickType.NONE;
+		}
+	}
+	
 	/** 
 	 * Zeigt das Kontextmenü an der Cursor-Position
 	 * @param e MouseEvent, das die Methode ausgelöst hat
@@ -468,6 +546,8 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 			changeTrigger();
 		else if(e.getSource() == this.addCheckpoint)
 			addCheckpoint();
+		else if(e.getSource() == this.addRiver)
+			addRiver();
 		else if(e.getSource() == this.changeMonster)
 			changeMonster();
 		else if(e.getSource() == this.changeNPC)
@@ -531,6 +611,10 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 					highlightField(Editor.editor.triggerEditor.workingTrigger.getField(), FieldHighlight.Type.TRIGGER);
 				break;
 				
+			case RIVER:
+				addRiver();
+				break;
+				
 			default:
 				break;
 			}
@@ -549,6 +633,19 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 			clearHighlights();
 			changeFieldType(lastFieldType);
 		}
+	}
+	
+	/**
+	 * Wird vom Editor aufgerufen, wenn der Tab den Fokus bekommt.
+	 */
+	protected void focusGained() {
+		clearHighlights();
+	}
+	
+	/**
+	 * Wird vom Editor aufgerufen, wenn der Tab den Fokus verliert.
+	 */
+	protected void focusLost() {
 	}
 
 	
@@ -569,6 +666,9 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 	@Override
 	public void mouseReleased(MouseEvent arg0) {}
 
-	
+	@Override
+	public String getName() {
+		return Integer.toString(room.ID);
+	}
 
 }

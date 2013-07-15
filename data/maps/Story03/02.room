@@ -479,8 +479,8 @@
     <field textur="0" typ="2" x="24" y="15"/>
     <field textur="0" typ="2" x="24" y="16"/>
     <ziel x="19" y="16"/>
-    <item beschreibung="A way to protect." name="shield" staerke="2" typ="5" wert="10" x="4" y="9"/>
-    <monster angriff="15" beschreibung="Bossi" geschwindigkeit="0.5" leben="60" muenzen="15" ruestung="3" typ="5" x="560" y="432"/>
-    <NPC beschreibung="" name="Nancy" text="Haha, er wird dich töten!" typ="1" x="48" y="496"/>
-    <item beschreibung="Erfrischt" name="Lebenstrank" staerke="30" typ="3" wert="4" x="368" y="272"/>
+    <item beschreibung="Erfrischt" name="Lebenstrank" staerke="30" typ="3" wert="4" x="11" y="8"/>
+    <item beschreibung="A way to protect." name="shield" staerke="2" typ="5" wert="10" x="0" y="0"/>
+    <monster angriff="15" beschreibung="Bossi" geschwindigkeit="0.5" leben="60" muenzen="15" ruestung="3" typ="5" x="17" y="13"/>
+    <NPC beschreibung="" name="Nancy" text="Haha, er wird dich töten!" typ="1" x="1" y="15"/>
 </room>

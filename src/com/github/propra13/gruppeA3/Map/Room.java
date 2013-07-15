@@ -670,8 +670,8 @@ public class Room {
 				el.setAttribute("beschreibung", monster.getDesc());
 				el.setAttribute("muenzen", monster.getCoin().getValue()+"");
 				el.setAttribute("ruestung", monster.getArmour()+"");
-				el.setAttribute("x", monster.getPosition().x+"");
-				el.setAttribute("y", monster.getPosition().y+"");
+				el.setAttribute("x", monster.getPosition().toFieldPos().x+"");
+				el.setAttribute("y", monster.getPosition().toFieldPos().y+"");
 			}
 			
 			//Items
@@ -684,8 +684,8 @@ public class Room {
 				el.setAttribute("beschreibung", item.getDesc());
 				el.setAttribute("name", item.getName());
 				el.setAttribute("wert", item.getValue()+"");
-				el.setAttribute("x", item.getPosition().x+"");
-				el.setAttribute("y", item.getPosition().y+"");
+				el.setAttribute("x", item.getPosition().toFieldPos().x+"");
+				el.setAttribute("y", item.getPosition().toFieldPos().y+"");
 			}
 			
 			//NPC
@@ -694,8 +694,8 @@ public class Room {
 				el = doc.createElement("NPC");
 				roomEl.appendChild(el);
 				el.setAttribute("typ", npc.getType()+"");
-				el.setAttribute("x", npc.getPosition().x+"");
-				el.setAttribute("y", npc.getPosition().y+"");
+				el.setAttribute("x", npc.getPosition().toFieldPos().x+"");
+				el.setAttribute("y", npc.getPosition().toFieldPos().y+"");
 				el.setAttribute("text", npc.getText());
 				el.setAttribute("beschreibung", npc.getDesc());
 				el.setAttribute("name", npc.getName());
@@ -712,8 +712,8 @@ public class Room {
 						item.setAttribute("beschreibung", testItem.getDesc());
 						item.setAttribute("name", testItem.getName());
 						item.setAttribute("wert", testItem.getValue()+"");
-						item.setAttribute("x", npc.getPosition().x+"");
-						item.setAttribute("y", npc.getPosition().y+"");
+						item.setAttribute("x", npc.getPosition().toFieldPos().x+"");
+						item.setAttribute("y", npc.getPosition().toFieldPos().y+"");
 					}
 				}
 			}

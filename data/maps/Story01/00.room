@@ -478,14 +478,14 @@
     <field textur="0" typ="2" x="24" y="16"/>
     <spawn x="19" y="5"/>
     <spawn x="21" y="6"/>
-    <item beschreibung="A way to protect." name="shield" staerke="2" typ="5" wert="5" x="592" y="400"/>
-    <item beschreibung="A strong protection." name="sword" staerke="2" typ="4" wert="5" x="176" y="240"/>
-    <item beschreibung="Deadly Posion" name="Posion Drink" staerke="-2" typ="2" wert="2" x="112" y="176"/>
-    <item beschreibung="A fresh drink." name="Life Drink" staerke="16" typ="1" wert="2" x="560" y="208"/>
-    <monster angriff="3" beschreibung="Monster-Snake" geschwindigkeit="1.0" leben="10" muenzen="10" ruestung="1" typ="1" x="112" y="144"/>
-    <monster angriff="3" beschreibung="Spider-Man" geschwindigkeit="1.0" leben="15" muenzen="15" ruestung="1" typ="2" x="240" y="304"/>
-    <monster angriff="5" beschreibung="Pinky the Rat" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="0" typ="3" x="304" y="144"/>
-    <monster angriff="5" beschreibung="Pinky the Rat" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="0" typ="3" x="528" y="368"/>
-    <monster angriff="5" beschreibung="Pinky the Rat" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="0" typ="3" x="400" y="272"/>
-    <NPC beschreibung="The nurse" name="Nancy" text="Willkommen Abenteurer,&#10;&#10;Oh, du bist neu hier?!&#10; Kämpfe mit A&#10; Zaubere mit 1-4 &#10;Ach ja , siehst du hinter mir das Feld?!&#10; wenn du dieses im Bossraum betrittst,&#10;und gegen den starken Boss verlierst,&#10; kannst du diese Abkürzung nutzen!!!!&#10;Gute Reise Unbekannter!" typ="1" x="688" y="144"/>
+    <item beschreibung="A fresh drink." name="Life Drink" staerke="16" typ="1" wert="2" x="17" y="6"/>
+    <item beschreibung="Deadly Posion" name="Posion Drink" staerke="-2" typ="2" wert="2" x="3" y="5"/>
+    <item beschreibung="A strong protection." name="sword" staerke="2" typ="4" wert="5" x="5" y="7"/>
+    <item beschreibung="A way to protect." name="shield" staerke="2" typ="5" wert="5" x="18" y="12"/>
+    <monster angriff="3" beschreibung="Monster-Snake" geschwindigkeit="1.0" leben="10" muenzen="10" ruestung="1" typ="1" x="3" y="4"/>
+    <monster angriff="3" beschreibung="Spider-Man" geschwindigkeit="1.0" leben="15" muenzen="15" ruestung="1" typ="2" x="7" y="9"/>
+    <monster angriff="5" beschreibung="Pinky the Rat" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="0" typ="3" x="9" y="4"/>
+    <monster angriff="5" beschreibung="Pinky the Rat" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="0" typ="3" x="16" y="11"/>
+    <monster angriff="5" beschreibung="Pinky the Rat" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="0" typ="3" x="12" y="8"/>
+    <NPC beschreibung="The nurse" name="Nancy" text="Willkommen Abenteurer,&#10;&#10;Oh, du bist neu hier?!&#10; Kämpfe mit A&#10; Zaubere mit 1-4 &#10;Ach ja , siehst du hinter mir das Feld?!&#10; wenn du dieses im Bossraum betrittst,&#10;und gegen den starken Boss verlierst,&#10; kannst du diese Abkürzung nutzen!!!!&#10;Gute Reise Unbekannter!" typ="1" x="21" y="4"/>
 </room>

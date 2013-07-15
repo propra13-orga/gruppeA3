@@ -76,7 +76,7 @@ public class Item extends Entities {
 		this.desc = desc;
 		this.name = name;
 		this.hitbox = Hitbox.standard;
-		pos = new Position(x, y);
+		pos = new Position(x*32+(hitbox.width/2),y*32+(hitbox.height/2));
 		this.value = value;
 		this.element = Elements.PHYSICAL;
 	}

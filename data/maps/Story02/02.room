@@ -479,10 +479,10 @@
     <field textur="0" typ="2" x="24" y="15"/>
     <field textur="0" typ="2" x="24" y="16"/>
     <ziel x="24" y="14"/>
-    <item beschreibung="A way to protect." name="shield" staerke="2" typ="5" wert="5" x="752" y="208"/>
-    <item beschreibung="A strong protection." name="sword" staerke="2" typ="4" wert="5" x="688" y="208"/>
-    <item beschreibung="Deadly Posion" name="Posion Drink" staerke="-2" typ="2" wert="2" x="720" y="208"/>
-    <item beschreibung="A fresh drink." name="Life Drink" staerke="10" typ="1" wert="2" x="752" y="496"/>
-    <monster angriff="15" beschreibung="Bossi" geschwindigkeit="0.5" leben="60" muenzen="15" ruestung="3" typ="5" x="624" y="336"/>
-    <NPC beschreibung="The nurse" name="Nancy" text="DU?!!&#10; Du hast schon einen Drachen getötet ?!&#10; das glaub ich erst,&#10; wenn ich es sehe !!! " typ="1" x="176" y="272"/>
+    <item beschreibung="A fresh drink." name="Life Drink" staerke="10" typ="1" wert="2" x="23" y="15"/>
+    <item beschreibung="Deadly Posion" name="Posion Drink" staerke="-2" typ="2" wert="2" x="22" y="6"/>
+    <item beschreibung="A strong protection." name="sword" staerke="2" typ="4" wert="5" x="21" y="6"/>
+    <item beschreibung="A way to protect." name="shield" staerke="2" typ="5" wert="5" x="23" y="6"/>
+    <monster angriff="15" beschreibung="Bossi" geschwindigkeit="0.5" leben="60" muenzen="15" ruestung="3" typ="5" x="19" y="10"/>
+    <NPC beschreibung="The nurse" name="Nancy" text="DU?!!&#10; Du hast schon einen Drachen getötet ?!&#10; das glaub ich erst,&#10; wenn ich es sehe !!! " typ="1" x="5" y="8"/>
 </room>
