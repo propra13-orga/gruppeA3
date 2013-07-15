@@ -5,10 +5,12 @@ package com.github.propra13.gruppeA3.Network;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.Iterator;
 
 import com.github.propra13.gruppeA3.Entities.Player;
 import com.github.propra13.gruppeA3.Exceptions.InvalidRoomLinkException;
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
+import com.github.propra13.gruppeA3.Map.Field;
 import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 import com.github.propra13.gruppeA3.XMLParser.SAXCrawlerReader;
@@ -30,7 +32,7 @@ public class Server extends Thread{
 	private ServerSocket server = null;
 	private ServerUpdater[] threads;
 	private int playerCount=1;
-	private Player[] player=null;
+	private Player[] players=null;
 	
 	/**
 	 * Erzeugt einen neuen Server
@@ -61,11 +63,26 @@ public class Server extends Thread{
 		 	try {
 		 		reader.read("data/levels/"+xmlName+"1.xml");
 		 		this.playerCount = reader.getHandler().getPlayerCount();
-		 		this.player = reader.getHandler().getPlayer();
+		 		this.players = reader.getHandler().getPlayer();
 		 	} catch (Exception e) {
 		 			e.printStackTrace();
 		 	}
 		}
+		
+		//Spawns setzen
+		
+	    if(Map.spawns.size() < players.length)
+	    	System.out.println("nicht genug Spawns für alle Spieler");
+	    else {
+	        Iterator<Field> iter = (Iterator<Field>) Map.spawns.iterator();
+	        Field spawn;
+	        for(int i=0; i < players.length; i++) {
+	            spawn = iter.next();
+	            players[i].setPosition(spawn.pos.toPosition());
+	            for(int j=0; j < players.length; j++)
+	            	players[i].getRoom().entities.add(players[j]);
+	        }
+	    }
 	}
 	
 	/**
@@ -76,7 +93,7 @@ public class Server extends Thread{
 		try {
 			threads = new ServerUpdater[playerCount];
 			for(int i = 0; i < playerCount; i++){
-				threads[i] = new ServerUpdater(server.accept(),  player, i);
+				threads[i] = new ServerUpdater(server.accept(),  players, i);
 				threads[i].setThreads(threads);
 				threads[i].start();
 				System.out.println("Spieler "+(i+1)+" connected");
