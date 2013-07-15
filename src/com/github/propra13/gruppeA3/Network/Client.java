@@ -1,11 +1,17 @@
 package com.github.propra13.gruppeA3.Network;
 
 import java.io.IOException;
+import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import com.github.propra13.gruppeA3.Entities.Player;
+import com.github.propra13.gruppeA3.Exceptions.InvalidRoomLinkException;
+import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
+import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
+import com.github.propra13.gruppeA3.Menu.MenuStart.GameStatus;
 import com.github.propra13.gruppeA3.Menu.MenuStart.NetworkStatus;
 
 /**
@@ -26,6 +32,9 @@ public class Client extends JFrame {
 	private Protocol protocol=null;
 	private MenuStart gui;
 	private Chat chat;
+	private ClientUpdater clientUpdater;
+	private Player[] players;
+	private int playerID;
 
 	/**
 	 * Erzeugt einen neuen Clienten
@@ -37,12 +46,48 @@ public class Client extends JFrame {
 		System.out.println("Client " + netstat.toString() + " started");
 		if(connect(gui.getHost(), gui.getPort())){
 			System.out.println("Verbindung erfolgreich");
+			clientUpdater = new ClientUpdater(gui, protocol, players, playerID);
+			clientUpdater.start();
 			chat = new Chat(gui.getName(), this.protocol);
 			chat.setVisible(false);
 		}else{
 			System.out.println("Fehlgeschlagen");
 		}
-		// TODO Auto-generated constructor stub
+		try {
+	 		Map.initialize("Story01");
+	 		Map.loadXML(netstat.toString().toLowerCase()+"1");
+	 	} catch (InvalidRoomLinkException | IOException | MapFormatException e) {
+	 		e.printStackTrace();
+	 	}
+	 	
+	 	gui.setRandom(new Random(System.currentTimeMillis()));
+		MenuStart.setActiveRoom(Map.getRoom(0));
+		
+		
+		// Menü-Buttons ausblenden, Status ändern
+		gui.setButtonVisible(false, false, false, false, false, false,
+						 false, false, false, false, false, false);
+			
+		MenuStart.setGameStatus(GameStatus.INGAME);
+	}
+	
+	/**
+	 * 
+	 * @throws IOException
+	 */
+	private void loadNextGame() throws IOException {
+		String vergleich = protocol.receiveString();
+		vergleich = protocol.receiveString();
+    	if(vergleich.equals("player"))
+    	{
+    		players = protocol.receivePlayers();
+    	}
+    	vergleich = protocol.receiveString();
+    	if(vergleich.equals("playerID"))
+    	{
+    		playerID = protocol.receivePlayerID();
+    	}
+    	
 	}
 	
 	/**
@@ -57,6 +102,7 @@ public class Client extends JFrame {
 		{
 			this.protocol = new Protocol(serverName,port);
 			try {
+				this.loadNextGame();
 				this.protocol.sendString("chat");
 				this.protocol.sendString(this.gui.getName() + " hat den Raum betreten\n");
 			} catch (IOException e) {

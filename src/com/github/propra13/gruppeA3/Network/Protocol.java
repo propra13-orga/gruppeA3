@@ -256,12 +256,39 @@ public class Protocol {
     }
     
     /**
+     * Spielerarray wird gesendet
+     * @param spieler - Das Playerarray
+     * @throws IOException
+     */
+    public void sendPlayers(Player[] player) throws IOException
+    {
+    	this.sendString("player");
+    	int laenge = player.length;
+    	this.out.writeInt(laenge);
+    	for (int i = 0; i < laenge; i++)
+    		sendPlayer(player[i]);
+    }
+    
+    /**
+     * Spielerarray wird empfangen
+     * @return alle Player als array
+     * @throws IOException
+     */
+    public Player[] receivePlayers() throws IOException
+    {
+    	int laenge = this.in.readInt();
+    	Player[] player = new Player[laenge];
+    	for(int i=0;i<laenge;i++)
+    		player[i] = receivePlayer();
+    	return player;
+    }
+
+    /**
      * Spieler senden
      * @param player
      * @throws IOException
      */
     public void sendPlayer(Player player) throws IOException{
-    	sendString("player");
     	this.out.writeInt(player.getRoomID());
     	this.out.writeInt(player.getPlayerID());
     	this.out.writeInt(player.getLives());

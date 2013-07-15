@@ -80,6 +80,16 @@ public class ServerUpdater extends Thread {
 	public String receiveMessage() throws IOException{
 		return this.protocol.receiveString();
 	}
+	/**
+	 * Wird vom Server pro Level aufgerufen
+	 * @throws IOException
+	 */
+	public void sendNextGame() throws IOException
+	{
+		this.protocol.sendString("start");
+		this.protocol.sendPlayers(player);
+		this.protocol.sendPlayerID(playerID);
+	}
 	
 	/**
 	 * Die Hauptthreadfunktion

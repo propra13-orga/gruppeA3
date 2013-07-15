@@ -212,6 +212,22 @@ public class MenuStart extends JPanel implements ActionListener {
     }
     
     /**
+     * Aktiven Raum setzen
+     * @param room
+     */
+    public static void setActiveRoom(Room room){
+    	activeRoom = room;
+    }
+    
+    /**
+     * Random setzen
+     * @param rand
+     */
+    public void setRandom(Random rand){
+    	this.randomgen = rand;
+    }
+    
+    /**
      * Zeigt Dateiauswahldialog für Karten und startet ggf. den Editor
      */
     private void initEditor() {
@@ -244,6 +260,23 @@ public class MenuStart extends JPanel implements ActionListener {
 		}
     }
     
+    public void setButtonVisible(boolean bground, boolean bNGame, boolean bNMap, boolean bNetwork, 
+    							boolean bHelp, boolean bEditor, boolean bBeenden, boolean bDeathmatch, 
+    							boolean bCoop, boolean bCreate, boolean bJoin, boolean bOptions){
+		background.setVisible(bground);
+		buttonNewGame.setVisible(bNGame);
+		buttonNextMap.setVisible(bNMap);
+		buttonNetwork.setVisible(bNetwork);
+		buttonHelp.setVisible(bHelp);
+		buttonEditor.setVisible(bEditor);
+		buttonBeenden.setVisible(bBeenden);
+		buttonDeathmatch.setVisible(bDeathmatch);
+		buttonCoop.setVisible(bCoop);
+		buttonCreate.setVisible(bCreate);
+		buttonJoin.setVisible(bJoin);
+		buttonOptions.setVisible(bOptions);
+    }
+    
     // Startet Spiel
     public void initGame(String mapName, String xmlName, int playerID) {
 
@@ -265,18 +298,8 @@ public class MenuStart extends JPanel implements ActionListener {
 		
 		
 		// Menü-Buttons ausblenden, Status ändern
-		background.setVisible(false);
-		buttonNewGame.setVisible(false);
-		buttonNextMap.setVisible(false);
-		buttonNetwork.setVisible(false);
-		buttonHelp.setVisible(false);
-		buttonEditor.setVisible(false);
-		buttonBeenden.setVisible(false);
-		buttonDeathmatch.setVisible(false);
-		buttonCoop.setVisible(false);
-		buttonCreate.setVisible(false);
-		buttonJoin.setVisible(false);
-		buttonOptions.setVisible(false);
+		setButtonVisible(false, false, false, false, false, false,
+						 false, false, false, false, false, false);
 			
 		setGameStatus(GameStatus.INGAME);
  	}
@@ -866,8 +889,6 @@ public class MenuStart extends JPanel implements ActionListener {
 		}
 	}
 	
-	
-	
 	private void executeEnemyActions(){
 		Entities testent = null;	//durch alle Entitys der Liste iterieren
 		Monster testmonster = null;
@@ -1159,5 +1180,9 @@ public class MenuStart extends JPanel implements ActionListener {
 
 	public static void setNetstat(NetworkStatus netstat) {
 		MenuStart.netstat = netstat;
+	}
+	
+	public void setPlayer(Player player){
+		this.player = player;
 	}
 }

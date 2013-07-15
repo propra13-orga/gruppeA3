@@ -44,10 +44,10 @@ public class Server extends Thread{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		loadGame("Story01", netstat.toString().toLowerCase());
+		get_started("Story01", netstat.toString().toLowerCase());
 	}
 	
-	public void loadGame(String mapName, String xmlName) {
+	public void get_started(String mapName, String xmlName) {
 		
 	 	try {
 	 		Map.initialize(mapName);
@@ -66,13 +66,13 @@ public class Server extends Thread{
 		 			e.printStackTrace();
 		 	}
 		}
-
 	}
 	
 	/**
 	 * Die Runmethode, startet alle threads
 	 */
 	public void run() {
+		boolean started = true;
 		try {
 			threads = new ServerUpdater[playerCount];
 			for(int i = 0; i < playerCount; i++){
@@ -82,6 +82,9 @@ public class Server extends Thread{
 				System.out.println("Spieler "+(i+1)+" connected");
 			}
 			System.out.println("Server gestartet");
+			for(int i = 0; i < threads.length; i++)
+				if(threads[i] != null)
+					threads[i].sendNextGame();
 		}catch ( IOException e ) {
 		      e.printStackTrace();
 	    }
