@@ -60,7 +60,7 @@ public class Player extends Moveable {
     	resetAttack();
     	setRoomID(playerID);
     	getRoom().entities.add(this);
-    	setPosition(Map.spawns[0].pos.toPosition().x+16, Map.spawns[0].pos.toPosition().y+16);
+    	setPosition(Map.spawns.getFirst().pos.toPosition().x+16, Map.spawns.getFirst().pos.toPosition().y+16);
     }
     
     /**
