@@ -11,8 +11,6 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 
-import com.github.propra13.gruppeA3.Game;
-
 /**
  * Menü-Tab für den Map-Editor
  * @author Christian

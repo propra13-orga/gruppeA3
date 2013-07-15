@@ -283,7 +283,7 @@ public class MenuStart extends JPanel implements ActionListener {
     	// Stellt Map auf
 	 	try {
 	 		Map.initialize(mapName);
-	 		Map.loadXML(xmlName);
+	 		//Map.loadXML(xmlName);
 	 	} catch (InvalidRoomLinkException | IOException | MapFormatException e) {
 	 		e.printStackTrace();
 	 	}

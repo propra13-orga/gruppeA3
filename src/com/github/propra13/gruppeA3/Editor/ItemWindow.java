@@ -1,7 +1,5 @@
 package com.github.propra13.gruppeA3.Editor;
 
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -18,24 +16,23 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
-import javax.swing.UIManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import com.github.propra13.gruppeA3.Game;
 import com.github.propra13.gruppeA3.GameWindow;
-import com.github.propra13.gruppeA3.Entities.Monster;
+import com.github.propra13.gruppeA3.Entities.Hitbox;
+import com.github.propra13.gruppeA3.Entities.Item;
 import com.github.propra13.gruppeA3.Map.Field;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 
-public class ItemWindow extends JDialog implements ActionListener, ListCellRenderer<JPanel>, ListSelectionListener {
+public class ItemWindow extends JDialog implements ActionListener, ListSelectionListener {
 private static final long serialVersionUID = 1L;
 	
-	Monster workingItem; //Arbeitskopie des Items
-	Monster itemToEdit; //Item, das geändert werden soll
+	Item workingItem; //Arbeitskopie des Items
+	Item itemToEdit; //Item, das geändert werden soll
 	Field affectedField; //Feld, auf dem sich das Item befindet
 	RoomTab roomTab; //Raum-Tab, auf dessen Raum sich das Item befindet
 	
@@ -44,15 +41,14 @@ private static final long serialVersionUID = 1L;
 	
 	//Fensterelemente
 	JButton bDone, bCancel;
-	String type, size, strength, health, armor, speed, coinVal;
-	boolean isBoss;
+	String type, power,  coinVal;
 	JList<JPanel> itemList;
 	JTable attributeTable;
 	String[][] tableContent;
 	DefaultTableModel tableModel;
 	
 	//Listeneinträge
-	JPanel emptyPanel, scorpPanel, snakePanel, zombiePanel, spiderPanel, bossPanel;
+	JPanel emptyPanel, healthPanel, poisonPanel, manaPanel, shieldPanel, swordPanel;
 	
 	public ItemWindow() {
 		//JDialog aufbauen
@@ -65,47 +61,45 @@ private static final long serialVersionUID = 1L;
 		setTitle("Monster-Editor");
 		setResizable(false);
 		
-		/* Monster-Liste //TODO: Dynamisch einlesen
+		/* Item-Liste //TODO: Dynamisch einlesen
 		 * Listeneinträge sind JPanels, die JLabels beinhalten
 		 */
 		//JList-Setup
 		itemList = new JList<JPanel>();
-		itemList.setCellRenderer(this);
+		itemList.setCellRenderer(new ListRenderer());
 		itemList.addListSelectionListener(this);
 		itemList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		itemList.setLayoutOrientation(JList.VERTICAL);
 		itemList.setFixedCellHeight(38);
 		
 		//JLabels
-		JLabel emptyEntry = new JLabel("Kein Monster");
-		JLabel scorpEntry = new JLabel("Skorpion", new ImageIcon(GameWindow.monsterimg_1up), JLabel.LEFT);
-		JLabel snakeEntry = new JLabel("Schlange", new ImageIcon(GameWindow.monsterimg_2up), JLabel.LEFT);
-		JLabel zombieEntry = new JLabel("Zombie", new ImageIcon(GameWindow.monsterimg_3up), JLabel.LEFT);
-		JLabel spiderEntry = new JLabel("Spinne", new ImageIcon(GameWindow.monsterimg_4up), JLabel.LEFT);
-		//Boss-Icon auf 32x32 verkleinern
-		ImageIcon bossIcon = new ImageIcon(GameWindow.bossimg_1up.getScaledInstance(32,32, java.awt.Image.SCALE_SMOOTH));
-		JLabel bossEntry = new JLabel("Boss-Monster", bossIcon, JLabel.LEFT);
+		JLabel emptyEntry = new JLabel("Kein Item");
+		JLabel healthEntry = new JLabel("Lebenstrank", new ImageIcon(GameWindow.lifePosion), JLabel.LEFT);
+		JLabel poisonEntry = new JLabel("Gifttrank", new ImageIcon(GameWindow.deadlyPosion), JLabel.LEFT);
+		JLabel manaEntry = new JLabel("Manatrank", new ImageIcon(GameWindow.manaPosion), JLabel.LEFT);
+		JLabel swordEntry = new JLabel("Schwert", new ImageIcon(GameWindow.sword), JLabel.LEFT);
+		JLabel shieldEntry = new JLabel("Schild", new ImageIcon(GameWindow.shield), JLabel.LEFT);
 		
 		//Zugehörige JPanels
 		emptyPanel = new JPanel(new GridBagLayout());
-		scorpPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		snakePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		zombiePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		spiderPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		bossPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		healthPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		poisonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		manaPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		swordPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		shieldPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		
 		//Labels auf Panels klatschen
 		GridBagConstraints emptyConstr = new GridBagConstraints();
 		emptyConstr.fill = GridBagConstraints.HORIZONTAL;
 		emptyPanel.add(emptyEntry, emptyConstr);
-		scorpPanel.add(scorpEntry);
-		snakePanel.add(snakeEntry);
-		zombiePanel.add(zombieEntry);
-		spiderPanel.add(spiderEntry);
-		bossPanel.add(bossEntry);
+		healthPanel.add(healthEntry);
+		poisonPanel.add(poisonEntry);
+		manaPanel.add(manaEntry);
+		swordPanel.add(swordEntry);
+		shieldPanel.add(shieldEntry);
 		
 		//Panels auf JList legen; Liste auf Scrollpane legen
-		JPanel[] panels = {emptyPanel, scorpPanel, snakePanel, zombiePanel, spiderPanel, bossPanel};
+		JPanel[] panels = {emptyPanel, healthPanel, poisonPanel, manaPanel, swordPanel, shieldPanel};
 		itemList.setListData(panels);
 		JScrollPane monsterListPane = new JScrollPane(itemList);
 		monsterListPane.setPreferredSize(new Dimension(100, 300)); //Größe der Liste
@@ -122,18 +116,14 @@ private static final long serialVersionUID = 1L;
 		add(monsterListPane, listConstraints);
 		
 		/*
-		 * Monster-Eigenschaften-Tabelle
+		 * Item-Eigenschaften-Tabelle
 		 */
 		
 		type = "unset";
 		String[][] tableData =
 			{
 				{"Typ", type},
-				{"Größe", size},
-				{"Angriffsstärke",strength},
-				{"Leben",health},
-				{"Rüstung",armor},
-				{"Geschwindigkeit",speed},
+				{"Stärke",power},
 				{"Münzen",coinVal}
 			};
 		tableContent = tableData;
@@ -178,22 +168,27 @@ private static final long serialVersionUID = 1L;
 	}
 	
 	/**
-	 * Zeigt das Monster-Editor-Fenster mit dem angegebenen Monster
-	 * @param room Raum, in dem sich das zu bearbeitende Monster befindet.
-	 * @param field Feld, auf dem sich das Monster befindet.
-	 * @param monster Monster, das bearbeitet werden soll.
+	 * Zeigt das Item-Editor-Fenster mit dem angegebenen Item
+	 * @param room Raum, in dem sich das zu bearbeitende Item befindet.
+	 * @param field Feld, auf dem sich das Item befindet.
+	 * @param monster Item, das bearbeitet werden soll.
 	 */
-	public void showWindow(RoomTab roomTab, Field field, Monster monster) {
+	public void showWindow(RoomTab roomTab, Field field, Item item) {
 		this.roomTab = roomTab;
+		this.affectedField = field;
 		
-		//workingMonster und monsterToEdit setzen
-		itemToEdit = monster;
+		//workingItem und itemToEdit setzen
+		itemToEdit = item;
 		
 		if(itemToEdit == null)
-			workingItem = new Monster(Editor.editor.getSelectedIndex(), 1.0, 1, 0, 10, 
-					5, 5, "unset", 10, 10, 10, false);
+			workingItem = new Item(
+					Item.standardHealthPower, 1, 
+					affectedField.pos.x*32+Hitbox.standard.width/2,
+					affectedField.pos.y*32+Hitbox.standard.height/2, "Erfrischt", 
+					"Lebenstrank", Item.standardHealthValue
+					);
 		else
-			workingItem = monster.clone();
+			workingItem = item.clone();
 		
 		//Auswahl in Liste setzen
 		itemList.setSelectedIndex(workingItem.getType());
@@ -205,58 +200,36 @@ private static final long serialVersionUID = 1L;
 	}
 	
 	/**
-	 * Updatet die Monster-Eigenschaften-Tabelle.
+	 * Updatet die Item-Eigenschaften-Tabelle.
 	 */
 	private void update() {
 		if(workingItem.getType() != 0)
 			attributeTable.setVisible(true);
 		switch(workingItem.getType()) {
 		case 1:
-			tableContent[0][1] = "Skorpion";	//Typ
-			tableContent[1][1] = "todo";		//Größe
-			tableContent[2][1] = "todo";		//Stärke
-			tableContent[3][1] = "todo";		//Leben
-			tableContent[4][1] = "todo";		//Rüstung
-			tableContent[5][1] = "todo";		//Geschwindigkeit
-			tableContent[6][1] = "todo";		//Münzwert
-			isBoss = false;
+			tableContent[0][1] = "Lebenstrank";					//Typ
+			tableContent[1][1] = Item.standardHealthPower+"";	//Stärke
+			tableContent[2][1] = Item.standardHealthValue+"";	//Münzwert
+			break;
 		case 2:
-			tableContent[0][1] = "Schlange";	//Typ
-			tableContent[1][1] = "todo";		//Größe
-			tableContent[2][1] = "todo";		//Stärke
-			tableContent[3][1] = "todo";		//Leben
-			tableContent[4][1] = "todo";		//Rüstung
-			tableContent[5][1] = "todo";		//Geschwindigkeit
-			tableContent[6][1] = "todo";		//Münzwert
-			isBoss = false;
+			tableContent[0][1] = "Gifttrank";					//Typ
+			tableContent[1][1] = Item.standardPoisonPower+"";	//Stärke
+			tableContent[2][1] = Item.standardPoisonValue+"";	//Münzwert
 			break;
 		case 3:
-			tableContent[0][1] = "Zombie";		//Typ
-			tableContent[1][1] = "todo";		//Größe
-			tableContent[2][1] = "todo";		//Stärke
-			tableContent[3][1] = "todo";		//Leben
-			tableContent[4][1] = "todo";		//Rüstung
-			tableContent[5][1] = "todo";		//Geschwindigkeit
-			tableContent[6][1] = "todo";		//Münzwert
+			tableContent[0][1] = "Manatrank";					//Typ
+			tableContent[1][1] = Item.standardManaPower+"";		//Stärke
+			tableContent[2][1] = Item.standardManaValue+"";		//Münzwert
 			break;
 		case 4:
-			tableContent[0][1] = "Spinne";		//Typ
-			tableContent[1][1] = "todo";		//Größe
-			tableContent[2][1] = "todo";		//Stärke
-			tableContent[3][1] = "todo";		//Leben
-			tableContent[4][1] = "todo";		//Rüstung
-			tableContent[5][1] = "todo";		//Geschwindigkeit
-			tableContent[6][1] = "todo";		//Münzwert
+			tableContent[0][1] = "Schwert";						//Typ
+			tableContent[1][1] = Item.standardSwordPower+"";	//Stärke
+			tableContent[2][1] = Item.standardSwordValue+"";	//Münzwert
 			break;
 		case 5:
-			tableContent[0][1] = "Boss-Monster";//Typ
-			tableContent[1][1] = "todo";		//Größe
-			tableContent[2][1] = "todo";		//Stärke
-			tableContent[3][1] = "todo";		//Leben
-			tableContent[4][1] = "todo";		//Rüstung
-			tableContent[5][1] = "todo";		//Geschwindigkeit
-			tableContent[6][1] = "todo";		//Münzwert
-			isBoss = true;
+			tableContent[0][1] = "Schild";						//Typ
+			tableContent[1][1] = Item.standardShieldPower+"";	//Stärke
+			tableContent[2][1] = Item.standardShieldValue+"";	//Münzwert
 			break;
 		default:
 			type = "unbekannt";
@@ -273,22 +246,22 @@ private static final long serialVersionUID = 1L;
 	 */
 	
 	/**
-	 * Übernimmt die Änderungen und schließt den Monster-Editor.
+	 * Übernimmt die Änderungen und schließt den Item-Editor.
 	 * Wird aufgerufen, falls "Fertig" gedrückt wurde.
 	 */
 	private void save() {
 		
-		//Ein bestehendes Monster wird gelöscht
+		//Ein bestehendes Item wird gelöscht
 		if(workingItem.getType() == 0 && itemToEdit != null)
-			workingItem.getRoom().entities.remove(itemToEdit);
+			roomTab.room.entities.remove(itemToEdit);
 		
-		//Ein bestehendes Monster wird geändert
+		//Ein bestehendes Item wird geändert
 		else if(workingItem.getType() != 0 && itemToEdit != null)
 			itemToEdit.edit(workingItem);
 		
-		//Ein neues Monster wird hinzugefügt
+		//Ein neues Item wird hinzugefügt
 		else if(workingItem.getType() != 0 && itemToEdit == null)
-			workingItem.getRoom().entities.add(workingItem);
+			roomTab.room.entities.add(workingItem);
 		
 		itemToEdit = workingItem = null;
 		roomTab.clearHighlights();
@@ -297,7 +270,7 @@ private static final long serialVersionUID = 1L;
 	}
 	
 	/**
-	 * Schließt den Monster-Editor, verwirft alle Änderungen.
+	 * Schließt den Item-Editor, verwirft alle Änderungen.
 	 * Wird aufgerufen, falls "Abbrechen" gedrückt wurde.
 	 */
 	private void cancel() {
@@ -317,39 +290,36 @@ private static final long serialVersionUID = 1L;
 	}
 	
 	/*
-	 * Provisorische Display-Methoden für die einzelnen Monster
+	 * Provisorische Display-Methoden für die einzelnen Items
 	 */
-	private void showScorp() {
+	private void showHealth() {
 		workingItem.setType(1);
+		workingItem.setDamage(Item.standardHealthPower);
+		workingItem.setValue(Item.standardHealthValue);
 	}
 	
-	private void showSnake() {
+	private void showPoison() {
 		workingItem.setType(2);
+		workingItem.setDamage(Item.standardPoisonPower);
+		workingItem.setValue(Item.standardPoisonValue);
 	}
 	
-	private void showZombie() {
+	private void showMana() {
 		workingItem.setType(3);
+		workingItem.setDamage(Item.standardManaPower);
+		workingItem.setValue(Item.standardManaValue);
 	}
 	
-	private void showSpider() {
+	private void showSword() {
 		workingItem.setType(4);
+		workingItem.setDamage(Item.standardSwordPower);
+		workingItem.setValue(Item.standardSwordValue);
 	}
 	
-	private void showBoss() {
+	private void showShield() {
 		workingItem.setType(5);
-	}
-
-	/**
-	 * Listenrenderer für die JLabels in monsterList
-	 */
-	@Override
-	public Component getListCellRendererComponent(JList<? extends JPanel> arg0,
-			JPanel panel, int cellIndex, boolean isSelected, boolean cellHasFocus) {
-		
-		Component component = (Component) panel;
-	    component.setForeground (Color.white);
-	    component.setBackground (isSelected ? UIManager.getColor("Table.focusCellForeground") : Color.white);
-	    return component;
+		workingItem.setDamage(Item.standardShieldPower);
+		workingItem.setValue(Item.standardShieldValue);
 	}
 
 	/**
@@ -366,15 +336,15 @@ private static final long serialVersionUID = 1L;
 			else {
 				attributeTable.setVisible(true);
 				if(itemList.getSelectedIndex() == 1)
-					showScorp();
+					showHealth();
 				else if(itemList.getSelectedIndex() == 2)
-					showSnake();
+					showPoison();
 				else if(itemList.getSelectedIndex() == 3)
-					showZombie();
+					showMana();
 				else if(itemList.getSelectedIndex() == 4)
-					showSpider();
+					showSword();
 				else if(itemList.getSelectedIndex() == 5)
-					showBoss();
+					showShield();
 	
 				update();
 				attributeTable.setVisible(true);

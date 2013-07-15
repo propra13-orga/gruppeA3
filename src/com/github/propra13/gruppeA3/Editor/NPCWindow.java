@@ -1,6 +1,5 @@
 package com.github.propra13.gruppeA3.Editor;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -32,6 +31,7 @@ import javax.swing.event.ListSelectionListener;
 
 import com.github.propra13.gruppeA3.Game;
 import com.github.propra13.gruppeA3.GameWindow;
+import com.github.propra13.gruppeA3.Entities.Hitbox;
 import com.github.propra13.gruppeA3.Entities.Item;
 import com.github.propra13.gruppeA3.Entities.NPC;
 import com.github.propra13.gruppeA3.Map.Field;
@@ -60,7 +60,7 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 	JButton bDone, bCancel;
 	
 	//Listeneinträge
-	JRadioButton infoRB, shopRB;
+	JRadioButton infoRB, shopRB, delRB;
 
 	JTextField nameField;
 	
@@ -96,6 +96,19 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 		setTitle("NPC-Editor");
 		setResizable(false);
 		
+		/*
+		 * Linkes Panel
+		 */
+		//Panel
+		JPanel leftPanel = new JPanel();
+		leftPanel.setLayout(new GridBagLayout());
+		GridBagConstraints lPanelConstr = new GridBagConstraints();
+		lPanelConstr.gridx = lPanelConstr.gridy = 0;
+		lPanelConstr.gridheight = lPanelConstr.gridwidth = 1;
+		lPanelConstr.fill = GridBagConstraints.BOTH;
+		lPanelConstr.weightx = lPanelConstr.weighty = 1;
+		lPanelConstr.insets = new Insets(2,2,2,2);
+		add(leftPanel, lPanelConstr);
 		
 		//NPC-Name
 		JLabel nameLabel = new JLabel("Name des NPCs");
@@ -106,10 +119,10 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 		nameLConstr.fill = GridBagConstraints.HORIZONTAL;
 		nameLConstr.weightx = nameLConstr.weighty = 1;
 		nameLConstr.insets = new Insets(1,20,1,4);
-		add(nameLabel, nameLConstr);
+		leftPanel.add(nameLabel, nameLConstr);
 		
 		nameField = new JTextField(15);
-		//nameField.setPreferredSize(new Dimension(120, 20));
+		nameField.setMinimumSize(nameField.getPreferredSize());
 		GridBagConstraints nameConstr = new GridBagConstraints();
 		nameConstr.gridx = 0;
 		nameConstr.gridy = 1;
@@ -117,7 +130,7 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 		nameConstr.fill = GridBagConstraints.HORIZONTAL;
 		nameConstr.weightx = nameConstr.weighty = 1;
 		nameConstr.insets = new Insets(1,4,20,4);
-		add(nameField, nameConstr);
+		leftPanel.add(nameField, nameConstr);
 		
 		/*
 		 * Radio-Button-Liste
@@ -130,7 +143,7 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 		typeLConstraints.fill = GridBagConstraints.HORIZONTAL;
 		typeLConstraints.weightx = typeLConstraints.weighty = 1;
 		typeLConstraints.insets = new Insets(1,20,2,4);
-		add(typeL, typeLConstraints);
+		leftPanel.add(typeL, typeLConstraints);
 		
 		infoRB = new JRadioButton("Info-NPC");
 		infoRB.addActionListener(this);
@@ -141,7 +154,7 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 		infoConstraints.fill = GridBagConstraints.HORIZONTAL;
 		infoConstraints.weightx = infoConstraints.weighty = 1;
 		infoConstraints.insets = new Insets(1,4,2,4);
-		add(infoRB, infoConstraints);
+		leftPanel.add(infoRB, infoConstraints);
 		
 		shopRB = new JRadioButton("Shop");
 		shopRB.addActionListener(this);
@@ -152,19 +165,31 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 		shopConstr.fill = GridBagConstraints.HORIZONTAL;
 		shopConstr.weightx = shopConstr.weighty = 1;
 		shopConstr.insets = new Insets(1,4,2,4);
-		add(shopRB, shopConstr);
+		leftPanel.add(shopRB, shopConstr);
+		
+		delRB = new JRadioButton("NPC löschen");
+		delRB.addActionListener(this);
+		GridBagConstraints delConstr = new GridBagConstraints();
+		delConstr.gridx = 0;
+		delConstr.gridy = 5;
+		delConstr.gridheight = delConstr.gridwidth = 1;
+		delConstr.fill = GridBagConstraints.HORIZONTAL;
+		delConstr.weightx = delConstr.weighty = 1;
+		delConstr.insets = new Insets(1,4,2,4);
+		leftPanel.add(delRB, delConstr);
 		
 		//Button-Gruppe, damit nur einer selektiert sein kann
 		ButtonGroup group = new ButtonGroup();
 		group.add(infoRB);
 		group.add(shopRB);
+		group.add(delRB);
 		
 		
 		//Senkrechte Linie
 		GridBagConstraints sepConstr = new GridBagConstraints();
 		sepConstr.gridx = 1;
 		sepConstr.gridy = 0;
-		sepConstr.gridheight = 6;
+		sepConstr.gridheight = 1;
 		sepConstr.gridwidth = 1; //Für Symmetrie der unteren Buttons
 		sepConstr.fill = GridBagConstraints.VERTICAL;
 		sepConstr.weightx = 0.1;
@@ -178,7 +203,7 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 		panelConstr = new GridBagConstraints();
 		panelConstr.gridx = 2;
 		panelConstr.gridy = 0;
-		panelConstr.gridheight = 6;
+		panelConstr.gridheight = 1;
 		panelConstr.gridwidth = 1;
 		panelConstr.fill = GridBagConstraints.BOTH;
 		panelConstr.weightx = 7;
@@ -191,13 +216,14 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 		infoNPC_P = new JPanel();
 		infoNPC_P.setLayout(new BoxLayout(infoNPC_P, BoxLayout.Y_AXIS));
 		
-		JLabel desc = new JLabel("Dialogtext:");
+		JLabel desc = new JLabel("Dialogtext");
 		desc.setAlignmentY(Component.TOP_ALIGNMENT);
 		infoNPC_P.add(desc);
 		
 		infoNPC_P.add(Box.createRigidArea(new Dimension(6,6)));
 		
-		textArea = new JTextArea(30, 50);
+		textArea = new JTextArea(9, 40);
+		textArea.setMinimumSize(textArea.getPreferredSize());
 		textArea.setAlignmentY(Component.TOP_ALIGNMENT);
 		infoNPC_P.add(textArea);
 		
@@ -242,10 +268,12 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 		shopList.setLayoutOrientation(JList.VERTICAL);
 		shopList.setFixedCellHeight(38);
 		shopList.setListData(shopData);
+		shopList.setMinimumSize(shopList.getPreferredSize());
 		
 		//List auf Scrollpane legen
 		JScrollPane shopListPane = new JScrollPane(shopList);
-		shopListPane.setPreferredSize(new Dimension(100, 300)); //Größe der Liste
+		shopListPane.setPreferredSize(new Dimension(130, 200)); //Größe der Liste
+		shopListPane.setMinimumSize(shopListPane.getPreferredSize());
 		shopNPC_P.add(shopListPane);
 		
 		//Scrollpane hinzufügen
@@ -307,7 +335,8 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 		textPanel.add(Box.createRigidArea(new Dimension(6,6)));
 
         JScrollPane shopTextScroller = new JScrollPane();
-        shopTextArea = new JTextArea(30,30);
+        shopTextArea = new JTextArea(7,20);
+        shopTextArea.setMinimumSize(shopTextArea.getPreferredSize());
         shopTextScroller.setViewportView(shopTextArea);
 		textPanel.add(shopTextScroller);
 		
@@ -320,7 +349,7 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 		buttonPanel.setLayout(new GridBagLayout());
 		GridBagConstraints buttPConstr = new GridBagConstraints();
 		buttPConstr.gridx = 0;
-		buttPConstr.gridy = 6;
+		buttPConstr.gridy = 1;
 		buttPConstr.gridheight = 1;
 		buttPConstr.gridwidth = 3;
 		buttPConstr.fill = GridBagConstraints.HORIZONTAL;
@@ -360,11 +389,17 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 	 */
 	public void showWindow(RoomTab roomTab, Field field, NPC npc) {
 		this.roomTab = roomTab;
+		affectedField = field;
+		
+		//Shop-Zähler zurücksetzen
+		healthCtr = poisonCtr = manaCtr = shieldCtr = swordCtr = 0;
 		
 		//workingNPC und NPCToEdit setzen
 		NPCToEdit = npc;
 		if(NPCToEdit == null)
-			workingNPC = new NPC(1, "", "", field.pos.x, field.pos.y);
+			workingNPC = new NPC(1, "", "", 
+					affectedField.pos.toPosition().x+Hitbox.standard.width/2,
+					affectedField.pos.toPosition().y+Hitbox.standard.height/2);
 		else
 			workingNPC = npc;
 		
@@ -373,6 +408,8 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 		switch(workingNPC.getType()) {
 		//Info-NPC
 		case 1:
+			textArea.setText(workingNPC.getText());
+			
 			infoRB.setSelected(true);
 			remove(shopNPC_P);
 			add(infoNPC_P);
@@ -434,16 +471,55 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 	private void save() {
 		
 		//Ein bestehender NPC wird gelöscht
-		if(workingNPC.getType() == 0 && NPCToEdit != null)
+		if(delRB.isSelected() && NPCToEdit != null)
 			roomTab.room.entities.remove(NPCToEdit);
 		
-		//Ein bestehender NPC wird geändert
-		else if(workingNPC.getType() != 0 && NPCToEdit != null)
-			NPCToEdit.edit(workingNPC);
-		
-		//Ein neuer NPC wird hinzugefügt
-		else if(workingNPC.getType() != 0 && NPCToEdit == null)
-			roomTab.room.entities.add(workingNPC);
+		//NPC speichern (Werte aus Feldern abgrasen)
+		else {
+			//Info-NPC
+			if(infoRB.isSelected()) {
+				workingNPC.setText(textArea.getText());
+				workingNPC.setType(1);
+				workingNPC.setName(nameField.getText());
+			}
+			else if(shopRB.isSelected()) {
+				workingNPC.setText(shopTextArea.getText());
+				workingNPC.setType(2);
+				workingNPC.setName(nameField.getText());
+				
+				//Shop zusammensammeln
+				System.out.println("Shop-Inhalt: "+healthCtr+" "+poisonCtr+" "+manaCtr+" "+swordCtr+" "+shieldCtr);
+				for(int i = healthCtr; i > 0; i--) {
+					workingNPC.getItems().add(new Item(10, 1, 
+							affectedField.pos.x, affectedField.pos.y, 
+							"Bringt dich wieder zu Kräften", "Lebenstrank", 4));
+					System.out.println("Lebenstrank hinzugefügt. i: "+i);
+				}
+				for(int i = manaCtr; i > 0; i--)
+					workingNPC.getItems().add(new Item(30, 3,
+							affectedField.pos.x, affectedField.pos.y,
+							"Erweckt deine Zauberkräfte", "Mana-Trank", 4));
+				for(int i = poisonCtr; i > 0; i--)
+					workingNPC.getItems().add(new Item(10, 2,
+							affectedField.pos.x, affectedField.pos.y,
+							"Vergiftet dich", "Gift-Trank", 4));
+				for(int i = swordCtr; i > 0; i--)
+					workingNPC.getItems().add(new Item(2, 4,
+							affectedField.pos.x, affectedField.pos.y,
+							"Verstärkt deinen Angriff", "Schwert", 10));
+				for(int i = shieldCtr; i > 0; i--)
+					workingNPC.getItems().add(new Item(2, 5,
+							affectedField.pos.x, affectedField.pos.y,
+							"Erhöht deine Verteidigung", "Schild", 10));
+			}
+			//Ein bestehender NPC wird geändert
+			if(! delRB.isSelected() && NPCToEdit != null)
+				NPCToEdit.edit(workingNPC);
+			
+			//Ein neuer NPC wird hinzugefügt
+			else if(! delRB.isSelected() && NPCToEdit == null)
+				roomTab.room.entities.add(workingNPC);
+		}	
 		
 		NPCToEdit = workingNPC = null;
 		roomTab.clearHighlights();
@@ -466,11 +542,11 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 	 */
 	private void update() {
 
-		healthPEntry.setText("HP-Tränke: "+healthCtr);
-		manaPEntry.setText("Mana-Tränke: "+manaCtr);
-		poisonPEntry.setText("Gifttränke: "+poisonCtr);
-		swordEntry.setText("Schwerter: "+swordCtr);
-		shieldEntry.setText("Schilde: "+shieldCtr);
+		healthPEntry.setText(healthCtr + " HP-Tränke");
+		manaPEntry.setText(manaCtr + " Mana-Tränke");
+		poisonPEntry.setText(poisonCtr + " Gifttränke");
+		swordEntry.setText(swordCtr + " Schwerter");
+		shieldEntry.setText(shieldCtr + " Schilde");
 		shopList.setListData(shopData);
 	}
 	
@@ -557,6 +633,12 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 		}
 		else if(e.getSource() == shopRB) {
 			add(shopNPC_P, panelConstr);
+			remove(infoNPC_P);
+			validate();
+			repaint();
+		}
+		else if(e.getSource() == delRB) {
+			remove(shopNPC_P);
 			remove(infoNPC_P);
 			validate();
 			repaint();

@@ -74,16 +74,14 @@ public class Map {
 		linkBuffer.clear();
 		checkpointFieldsToBuild.clear();
 		checkpointLinksToBuild.clear();
-
-		System.out.println("Map gebaut!");
-		//checkLinks();
+		
 	}
 	
 	/**
-	 * Lädt eine XML-Datei 
+	 * Lädt eine XML-Datei des alten Formats
 	 * @param xmlName
 	 */
-	public static void loadXML(String xmlName){
+	public static void loadXML(String xmlName) {
 		if(xmlName != null && !xmlName.equals("")) {
 			SAXCrawlerReader reader=new SAXCrawlerReader();
 		 	try {

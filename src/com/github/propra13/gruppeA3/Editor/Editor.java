@@ -31,6 +31,7 @@ public class Editor extends JTabbedPane {
 	protected WarningWindow warning;
 	protected TriggerWindow triggerEditor;
 	protected MonsterWindow monsterEditor;
+	protected ItemWindow itemEditor;
 	protected NPCWindow NPCEditor;
 	
 	/** Falls der nächste Klick ein aus einem Dialog hervorgegangener
@@ -60,9 +61,11 @@ public class Editor extends JTabbedPane {
 		warning = new WarningWindow();
 		triggerEditor = new TriggerWindow();
 		monsterEditor = new MonsterWindow();
+		itemEditor = new ItemWindow();
 		NPCEditor = new NPCWindow();
 		
 		// init Map //TODO: xmlName ist Provisorium
+		@SuppressWarnings("unused")
 		String xmlName = null;
 		switch(mapName) {
 		case "Story01":
@@ -79,7 +82,7 @@ public class Editor extends JTabbedPane {
 		}
 		try {
 			Map.initialize(this.mapName);
-			Map.loadXML(xmlName);
+			//Map.loadXML(xmlName);
 		} catch (MapFormatException | IOException | InvalidRoomLinkException e) {
 			e.printStackTrace();
 		}

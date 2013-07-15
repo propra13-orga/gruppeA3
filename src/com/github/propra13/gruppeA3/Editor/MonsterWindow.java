@@ -1,7 +1,5 @@
 package com.github.propra13.gruppeA3.Editor;
 
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -18,15 +16,14 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
-import javax.swing.UIManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import com.github.propra13.gruppeA3.Game;
 import com.github.propra13.gruppeA3.GameWindow;
+import com.github.propra13.gruppeA3.Entities.Hitbox;
 import com.github.propra13.gruppeA3.Entities.Monster;
 import com.github.propra13.gruppeA3.Map.Field;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
@@ -191,12 +188,14 @@ public class MonsterWindow extends JDialog implements ActionListener, ListSelect
 	 */
 	public void showWindow(RoomTab roomTab, Field field, Monster monster) {
 		this.roomTab = roomTab;
+		affectedField = field;
 		
 		//workingMonster und monsterToEdit setzen
 		monsterToEdit = monster;//TODO Monster werden nicht abgebildet
 		if(monsterToEdit == null)
-			workingMonster = new Monster(Editor.editor.getSelectedIndex() - 1, 1.0, 1, 0, 10, 
-					field.pos.x*32, field.pos.y*32, "unset", 10, 10, 10, false);
+			workingMonster = new Monster(roomTab.room.ID, 1.0, 1, 0, 10, 
+					field.pos.x*32+Hitbox.standard.width/2,
+					field.pos.y*32+Hitbox.standard.height/2, "unset", 10, 10, 10, false);
 		else
 			workingMonster = monster;
 		

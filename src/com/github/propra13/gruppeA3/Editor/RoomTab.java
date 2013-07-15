@@ -238,6 +238,26 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 	}
 	
 	/**
+	 * Ruft den Item-Editor mit dem Item des angeklickten Felds auf.
+	 */
+	public void changeItem() {
+		clearHighlights();
+		
+		Item itemToShow = null;
+		//Sucht das Item auf affectedField
+		Entities testEntity;
+		for(Iterator<Entities> iter = room.entities.iterator(); iter.hasNext();) {
+			testEntity = iter.next();
+			if (testEntity instanceof Item)
+				if(room.getField(testEntity.getPosition()) == affectedField)
+					itemToShow = (Item)testEntity;
+		}
+			
+		highlightField(affectedField, FieldHighlight.Type.FIELD);
+		Editor.editor.itemEditor.showWindow(this, affectedField, itemToShow);
+	}
+	
+	/**
 	 * Ruft den NPC-Editor mit dem NPC des angeklickten Felds auf.
 	 */
 	public void changeNPC() {
@@ -384,6 +404,8 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 			changeMonster();
 		else if(e.getSource() == this.changeNPC)
 			changeNPC();
+		else if(e.getSource() == this.changeItem)
+			changeItem();
 	}
 
 	/**
