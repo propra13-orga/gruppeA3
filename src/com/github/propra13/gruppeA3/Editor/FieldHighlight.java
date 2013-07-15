@@ -25,7 +25,7 @@ public class FieldHighlight extends JComponent {
 	 * FIELD: Normales Feld, das hervorgehoben wird
 	 * LINK: Link wird hervorgehoben
 	 * TRIGGER: Trigger wird hervorgehoben */
-	public enum Type {FIELD, LINK, TRIGGER, SPAWN}
+	public enum Type {FIELD, LINK, TRIGGER, SPAWN, END}
 	
 	/**
 	 * 
@@ -49,6 +49,9 @@ public class FieldHighlight extends JComponent {
 			break;
 		case SPAWN:
 			color = Color.decode("#ffe200");
+			break;
+		case END:
+			color = Color.WHITE;
 			break;
 		}
 	}

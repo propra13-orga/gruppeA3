@@ -62,6 +62,7 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 	private JMenuItem changeMonster;
 	private JMenuItem changeItem;
 	private JMenuItem delSpawn;
+	private JMenuItem changeEnd;
 	
 	private LinkedList<JMenuItem> removeCandidates = new LinkedList<JMenuItem>();
 
@@ -128,18 +129,15 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 		changeItem.addActionListener(this);
 		delSpawn = new JMenuItem("Spawn löschen");
 		delSpawn.addActionListener(this);
+		changeEnd = new JMenuItem("Kartenziel");
+		changeEnd.addActionListener(this);
 		
 		addTrigger = new JMenu("Trigger für ...");
 		addCheckpoint = new JMenuItem("Checkpoint");
 		addTrigger.add(addCheckpoint);
 		addCheckpoint.addActionListener(this);
 		
-		//Spawns markieren
-		if(room.ID == 0) {
-			for(Iterator<Field> iter = Map.spawns.iterator(); iter.hasNext();) {
-				highlightField(iter.next(), FieldHighlight.Type.SPAWN);
-			}
-		}
+		clearHighlights();
 		
 		addMouseListener(this);
 		setVisible(true);
@@ -187,6 +185,12 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 				highlightField(iter.next(), FieldHighlight.Type.SPAWN);
 			}
 		}
+		
+		//Ziel markieren
+		if(Map.end.getRoom() == room)
+			highlightField(Map.end, FieldHighlight.Type.END);
+		
+		
 		validate();
 		repaint();
 	}
@@ -306,6 +310,14 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 		clearHighlights();
 	}
 	
+	/**
+	 * Versetzt das Kartenziel auf das angeklickte Feld.
+	 */
+	private void changeEnd() {
+		Map.end = affectedField;
+		clearHighlights();
+	}
+	
 	/** 
 	 * Zeigt das Kontextmenü an der Cursor-Position
 	 * @param e MouseEvent, das die Methode ausgelöst hat
@@ -392,7 +404,7 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 		}
 		
 		//Spawn-Optionen
-		if(room.ID == 0) {
+		if(room.ID == 0 && Map.end != affectedField) {
 			Field spawn;
 			boolean spawnOnField = false;
 			for(Iterator<Field> iter = Map.spawns.iterator(); iter.hasNext();) {
@@ -411,6 +423,12 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 				addSubMenu.add(addSpawn);
 				removeCandidates.add(addSpawn);
 			}
+		}
+		
+		//Ziel
+		if(Map.end != affectedField) {
+			addSubMenu.add(changeEnd);
+			removeCandidates.add(changeEnd);
 		}
 		
 
@@ -460,6 +478,8 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 			addSpawn();
 		else if(e.getSource() == this.delSpawn)
 			deleteSpawn();
+		else if(e.getSource() == this.changeEnd)
+			changeEnd();
 	}
 
 	/**
