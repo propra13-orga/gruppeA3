@@ -67,22 +67,7 @@ public class Server extends Thread{
 		 	} catch (Exception e) {
 		 			e.printStackTrace();
 		 	}
-		}
-		
-		//Spawns setzen
-		
-	    if(Map.spawns.size() < players.length)
-	    	System.out.println("nicht genug Spawns für alle Spieler");
-	    else {
-	        Iterator<Field> iter = (Iterator<Field>) Map.spawns.iterator();
-	        Field spawn;
-	        for(int i=0; i < players.length; i++) {
-	            spawn = iter.next();
-	            players[i].setPosition(spawn.pos.toPosition());
-	            for(int j=0; j < players.length; j++)
-	            	players[i].getRoom().entities.add(players[j]);
-	        }
-	    }
+		}		
 	}
 	
 	/**
@@ -99,9 +84,9 @@ public class Server extends Thread{
 				System.out.println("Spieler "+(i+1)+" connected");
 			}
 			System.out.println("Server gestartet");
-			for(int i = 0; i < threads.length; i++)
-				if(threads[i] != null)
-					threads[i].sendNextGame();
+			//for(int i = 0; i < threads.length; i++)
+			//	if(threads[i] != null)
+			//		threads[i].sendNextGame();
 		}catch ( IOException e ) {
 		      e.printStackTrace();
 	    }

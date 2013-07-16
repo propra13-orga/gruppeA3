@@ -133,7 +133,9 @@ public class MenuStart extends JPanel implements ActionListener {
 	private String name="Player1", host="localhost";
 	private int port=1337;
 	
-	Music music=null;
+	public static Music music=null;
+	public static Client client;
+	
 	
 	/**
 	 * 
@@ -760,10 +762,10 @@ public class MenuStart extends JPanel implements ActionListener {
 			else if("create".equals(action)){
 				Server server = new Server(this.getPort(), MenuStart.getNetstat());
 				server.start();
-				new Client(this, MenuStart.getNetstat(), true);
+				client = new Client(this, MenuStart.getNetstat(), true);
 			}
 			else if("join".equals(action)){
-				new Client(this, MenuStart.getNetstat(), false);
+				client = new Client(this, MenuStart.getNetstat(), false);
 			}
 			else if("back".equals(action)){
 				backMenu();
@@ -1135,7 +1137,7 @@ public class MenuStart extends JPanel implements ActionListener {
 										
 									case 3:
 										if(questFinished == false){
-											System.out.println("eierzählen1");
+											//System.out.println("eierzählen1");
 											LinkedList<Entities> roomitems = (LinkedList<Entities>) player.getRoom().entities;
 											Iterator<Entities> itemsiter = roomitems.iterator();
 											int eggcount = 0;
@@ -1144,12 +1146,12 @@ public class MenuStart extends JPanel implements ActionListener {
 											while(itemsiter.hasNext()){
 												testentitem = itemsiter.next();
 												if(testentitem instanceof Item){
-													System.out.println("eierzählen2");
+													//System.out.println("eierzählen2");
 													testitem = (Item)testentitem;
 													if(testitem.getType() == 6){
-														System.out.println("ei gefunden");
+														//System.out.println("ei gefunden");
 														eggcount++;
-														System.out.println("eggcount:" + eggcount);
+														//System.out.println("eggcount:" + eggcount);
 													}
 												}
 											}
@@ -1167,7 +1169,7 @@ public class MenuStart extends JPanel implements ActionListener {
 											}
 											else{
 												JOptionPane.showMessageDialog(null, "Danke für die Hilfe, hier hast du deine Belohnung" , npc.getName(), JOptionPane.PLAIN_MESSAGE);
-												new Shop(this.player, npc);
+												new Quest(this.player, npc);
 											}
 										}
 										talk = false;

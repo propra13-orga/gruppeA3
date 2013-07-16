@@ -76,6 +76,10 @@ public class Keys implements KeyListener {
 					MenuStart.talk = true;
 					break;
 					
+				case KeyEvent.VK_T:
+					MenuStart.client.getChat().setVisible(true);
+					break;
+					
 				/* Test-Cheat-Kram
 				 */
 				//Setzt Mana wieder auf 100
