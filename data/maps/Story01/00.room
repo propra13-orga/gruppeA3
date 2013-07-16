@@ -485,6 +485,12 @@
     <item beschreibung="Drachenei." name="Ei" staerke ="0" typ="6" wert="0" x="16" y="4"/>
     <item beschreibung="Drachenei." name="Ei" staerke ="0" typ="6" wert="0" x="15" y="4"/>
     <item beschreibung="Drachenei." name="Ei" staerke ="0" typ="6" wert="0" x="17" y="4"/>
+    <item beschreibung="A fire sword." name="fire sword" staerke="2" typ="7" wert="5" x="11" y="4"/>
+    <item beschreibung="A water sword." name="water sword" staerke="2" typ="8" wert="5" x="10" y="4"/>
+    <item beschreibung="A ice sword." name="ice sword" staerke="2" typ="9" wert="6" x="9" y="4"/>
+    <item beschreibung="A fire shield." name="fire shield" staerke="2" typ="10" wert="5" x="12" y="4"/>
+    <item beschreibung="A water shield." name="water shield" staerke ="2" typ="11" wert="5" x="13" y="4"/>
+    <item beschreibung="A ice shield." name="ice shield" staerke ="2" typ="12" wert="5" x="14" y="4"/>
     <monster angriff="3" beschreibung="Monster-Snake" geschwindigkeit="1.0" leben="10" muenzen="10" ruestung="1" typ="1" x="3" y="4"/>
     <monster angriff="3" beschreibung="Spider-Man" geschwindigkeit="1.0" leben="15" muenzen="15" ruestung="1" typ="2" x="7" y="9"/>
     <monster angriff="5" beschreibung="Pinky the Rat" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="0" typ="3" x="9" y="4"/>

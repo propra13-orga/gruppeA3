@@ -92,7 +92,14 @@ public class GameWindow {
     public static BufferedImage sword;
     public static BufferedImage shield;
     public static BufferedImage drachenei; 
+    public static BufferedImage swordfeuer;
+    public static BufferedImage swordwasser;
+    public static BufferedImage swordeis;
+    public static BufferedImage shieldfeuer;
+    public static BufferedImage shieldwasser;
+    public static BufferedImage shieldeis; 
     
+    //Hintergrund bild
     public static BufferedImage background;
 
     protected Toolkit tool;
@@ -175,6 +182,12 @@ public class GameWindow {
 	    sword = this.getBufferedImage(this.GamePath + "/data/images/Items room/W1.png");
 	    shield = this.getBufferedImage(this.GamePath + "/data/images/Items room/S1.png");
 	    drachenei = this.getBufferedImage(this.GamePath + "/data/images/Items room/ei.png");
+	    swordfeuer = this.getBufferedImage(this.GamePath + "/data/images/Items room/Wfeuer.png");
+	    swordwasser = this.getBufferedImage(this.GamePath + "/data/images/Items room/Wwasser.png");
+	    swordeis = this.getBufferedImage(this.GamePath + "/data/images/Items room/Weis.png");
+	    shieldfeuer= this.getBufferedImage(this.GamePath + "/data/images/Items room/Sfeuer.png");
+	    shieldwasser = this.getBufferedImage(this.GamePath + "/data/images/Items room/Swasser.png");
+	    shieldeis = this.getBufferedImage(this.GamePath + "/data/images/Items room/Seis.png");
 	    //Infoleiste 
 	    heart = this.getBufferedImage(this.GamePath + "/data/images/Infoleiste/herz.png");
 	    coin = this.getBufferedImage(this.GamePath + "/data/images/Infoleiste/coin.png");
@@ -182,7 +195,7 @@ public class GameWindow {
 	    infosword = this.getBufferedImage(this.GamePath + "/data/images/Infoleiste/schwert.png");
 	    infoshield = this.getBufferedImage(this.GamePath + "/data/images/Infoleiste/schild.png");
 	    
-	    
+	    //hintergrundbild
 	    background = this.getBufferedImage(this.GamePath + "/data/images/hintergrund.jpg");
 	    
     }

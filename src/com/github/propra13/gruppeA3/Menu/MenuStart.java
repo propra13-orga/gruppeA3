@@ -410,6 +410,24 @@ public class MenuStart extends JPanel implements ActionListener {
             			g2d.drawImage(GameWindow.drachenei, entityPos.x, entityPos.y, panel);
             			break;
             			
+            		case 7:
+        				g2d.drawImage(GameWindow.swordfeuer, entityPos.x, entityPos.y, panel);
+        				break;
+            		case 8:
+        				g2d.drawImage(GameWindow.swordwasser, entityPos.x, entityPos.y, panel);
+        				break;
+            		case 9:
+            			g2d.drawImage(GameWindow.swordeis, entityPos.x, entityPos.y, panel);
+            			break;
+            		case 10:
+            			g2d.drawImage(GameWindow.shieldfeuer, entityPos.x, entityPos.y, panel);
+            			break;
+            		case 11:
+            			g2d.drawImage(GameWindow.shieldwasser, entityPos.x, entityPos.y, panel);
+            			break;
+            		case 12:
+            			g2d.drawImage(GameWindow.shieldeis, entityPos.x, entityPos.y, panel);
+            			break;
             	}
             }
             else if (testEntity instanceof Coin){
