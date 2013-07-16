@@ -24,7 +24,7 @@ public class Monster extends Moveable {
 	private int type;
 	private int roomID;
 	private int power;
-	private Elements element;
+	private Element element;
 	
 	/**
 	 * Der Konstruktor erzeugt ein Monster mit folgenden Parametern
@@ -62,7 +62,7 @@ public class Monster extends Moveable {
 		setDirection(Direction.NONE);
 		coins=new Coin(coinValue, coinType, this.pos);
 		this.type = type;
-		this.element = Elements.PHYSICAL;
+		this.element = Element.PHYSICAL;
 		/**
 		 * Diese Abfrage ist für Bossmonster, die größer sind als gewöhnliche Monster
 		 */
@@ -73,7 +73,7 @@ public class Monster extends Moveable {
 	}
 
 	public Monster (int roomID, double speed, int power, int type, int life, 
-			int x, int y, String desc, int coinValue, int coinType, int armour, boolean isBoss,Elements element){
+			int x, int y, String desc, int coinValue, int coinType, int armour, boolean isBoss,Element element){
 		super(roomID);
 		this.roomID = roomID;
 		addSpeedFactor(speed);
@@ -366,11 +366,11 @@ public class Monster extends Moveable {
 				isBoss);	
 	}
 	
-	public void setElement(Elements element){
+	public void setElement(Element element){
 		this.element = element;
 	}
 	
-	public Elements getElement(){
+	public Element getElement(){
 		return this.element;
 	}
 }

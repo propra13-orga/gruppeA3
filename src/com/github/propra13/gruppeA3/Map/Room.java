@@ -561,7 +561,7 @@ public class Room {
 	 * @throws ParserConfigurationException 
 	 * @throws IOException 
 	 */
-	public void writeFile(String mapDir) throws TransformerException, ParserConfigurationException, IOException {
+	public void writeFile() throws TransformerException, ParserConfigurationException, IOException {
 		
 		//Document-Setup
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -698,6 +698,22 @@ public class Room {
 				el.setAttribute("ruestung", monster.getArmour()+"");
 				el.setAttribute("x", monster.getPosition().toFieldPos().x+"");
 				el.setAttribute("y", monster.getPosition().toFieldPos().y+"");
+				
+				//Element
+				switch(monster.getElement()) {
+				case FIRE:
+					el.setAttribute("element", "feuer");
+					break;
+				case ICE:
+					el.setAttribute("element", "eis");
+					break;
+				case PHYSICAL:
+					el.setAttribute("element", "physisch");
+					break;
+				case WATER:
+					el.setAttribute("element", "wasser");
+					break;
+				}
 			}
 			
 			//Items
@@ -712,6 +728,22 @@ public class Room {
 				el.setAttribute("wert", item.getValue()+"");
 				el.setAttribute("x", item.getPosition().toFieldPos().x+"");
 				el.setAttribute("y", item.getPosition().toFieldPos().y+"");
+				
+				//Element
+				switch(item.getElement()) {
+				case FIRE:
+					el.setAttribute("element", "feuer");
+					break;
+				case ICE:
+					el.setAttribute("element", "eis");
+					break;
+				case PHYSICAL:
+					el.setAttribute("element", "physisch");
+					break;
+				case WATER:
+					el.setAttribute("element", "wasser");
+					break;
+				}
 			}
 			
 			//NPC
@@ -740,6 +772,22 @@ public class Room {
 						item.setAttribute("wert", testItem.getValue()+"");
 						item.setAttribute("x", npc.getPosition().toFieldPos().x+"");
 						item.setAttribute("y", npc.getPosition().toFieldPos().y+"");
+						
+						//Element
+						switch(testItem.getElement()) {
+						case FIRE:
+							item.setAttribute("element", "feuer");
+							break;
+						case ICE:
+							item.setAttribute("element", "eis");
+							break;
+						case PHYSICAL:
+							item.setAttribute("element", "physisch");
+							break;
+						case WATER:
+							item.setAttribute("element", "wasser");
+							break;
+						}
 					}
 				}
 			}
@@ -771,9 +819,19 @@ public class Room {
 			filename = "0"+ID;
 		else
 			filename = Integer.toString(ID);
-		BufferedWriter writer = null;
-		writer = new BufferedWriter(new FileWriter(
-				mapDir +File.separator+ Map.header.mapName +File.separator+ filename+"."+Map.roomEnding));
+		
+		File f = new File(Map.mapDir +File.separator+ Map.header.mapName +File.separator+ filename+"."+Map.roomEnding);
+		System.out.println("Datei: "+f.getName());
+		
+		File mapDir = new File(Map.mapDir+File.separator+Map.header.mapName);
+		
+		//Falls die Datei nicht existiert, Verzeichnisse und Datei anlegen
+		if(! f.exists()) {
+			mapDir.mkdirs();
+			f.createNewFile();
+		}
+		
+		BufferedWriter writer = new BufferedWriter(new FileWriter(f));
 		writer.write(sw.toString());
 		writer.close();
 	}

@@ -24,7 +24,7 @@ public abstract class Moveable extends Entities {
 	private Direction facedirect;
 	protected Position pos;
 	protected int roomID;
-	public static enum Elements{PHYSICAL,FIRE,WATER,ICE}
+	public static enum Element {PHYSICAL,FIRE,WATER,ICE}
 
 	protected Hitbox hitbox;
 	protected int health;

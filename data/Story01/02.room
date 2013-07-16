@@ -1,13 +1,15 @@
 <room>
     <field textur="0" typ="2" x="0" y="0"/>
-    <field textur="0" typ="3" x="0" y="1">
-        <fluss richtung="rechts"/>
+    <field textur="0" typ="6" x="0" y="1">
+        <checkpointlink ID="2" zielraum="0"/>
     </field>
     <field textur="0" typ="2" x="0" y="2"/>
     <field textur="0" typ="2" x="0" y="3"/>
     <field textur="0" typ="2" x="0" y="4"/>
     <field textur="0" typ="2" x="0" y="5"/>
-    <field textur="0" typ="2" x="0" y="6"/>
+    <field textur="0" typ="5" x="0" y="6">
+        <link ID="1" zielraum="1"/>
+    </field>
     <field textur="0" typ="2" x="0" y="7"/>
     <field textur="0" typ="2" x="0" y="8"/>
     <field textur="0" typ="2" x="0" y="9"/>
@@ -22,37 +24,37 @@
     <field textur="0" typ="3" x="1" y="1">
         <fluss richtung="rechts"/>
     </field>
-    <field textur="0" typ="2" x="1" y="2"/>
+    <field textur="0" typ="1" x="1" y="2"/>
     <field textur="0" typ="1" x="1" y="3"/>
     <field textur="0" typ="1" x="1" y="4"/>
     <field textur="0" typ="1" x="1" y="5"/>
-    <field textur="0" typ="1" x="1" y="6"/>
-    <field textur="0" typ="1" x="1" y="7"/>
+    <field textur="0" typ="7" x="1" y="6">
+        <checkpoint ID="2"/>
+    </field>
+    <field textur="0" typ="2" x="1" y="7"/>
     <field textur="0" typ="1" x="1" y="8"/>
     <field textur="0" typ="1" x="1" y="9"/>
     <field textur="0" typ="1" x="1" y="10"/>
-    <field textur="0" typ="2" x="1" y="11"/>
+    <field textur="0" typ="1" x="1" y="11"/>
     <field textur="0" typ="1" x="1" y="12"/>
     <field textur="0" typ="1" x="1" y="13"/>
     <field textur="0" typ="1" x="1" y="14"/>
     <field textur="0" typ="1" x="1" y="15"/>
-    <field textur="0" typ="5" x="1" y="16">
-        <link ID="0" zielraum="1"/>
-    </field>
+    <field textur="0" typ="2" x="1" y="16"/>
     <field textur="0" typ="2" x="2" y="0"/>
     <field textur="0" typ="3" x="2" y="1">
         <fluss richtung="rechts"/>
     </field>
-    <field textur="0" typ="2" x="2" y="2"/>
+    <field textur="0" typ="1" x="2" y="2"/>
     <field textur="0" typ="1" x="2" y="3"/>
     <field textur="0" typ="1" x="2" y="4"/>
     <field textur="0" typ="1" x="2" y="5"/>
     <field textur="0" typ="1" x="2" y="6"/>
-    <field textur="0" typ="1" x="2" y="7"/>
+    <field textur="0" typ="2" x="2" y="7"/>
     <field textur="0" typ="1" x="2" y="8"/>
     <field textur="0" typ="1" x="2" y="9"/>
     <field textur="0" typ="1" x="2" y="10"/>
-    <field textur="0" typ="2" x="2" y="11"/>
+    <field textur="0" typ="1" x="2" y="11"/>
     <field textur="0" typ="1" x="2" y="12"/>
     <field textur="0" typ="1" x="2" y="13"/>
     <field textur="0" typ="1" x="2" y="14"/>
@@ -62,94 +64,94 @@
     <field textur="0" typ="3" x="3" y="1">
         <fluss richtung="rechts"/>
     </field>
-    <field textur="0" typ="2" x="3" y="2"/>
+    <field textur="0" typ="1" x="3" y="2"/>
     <field textur="0" typ="1" x="3" y="3"/>
     <field textur="0" typ="1" x="3" y="4"/>
     <field textur="0" typ="1" x="3" y="5"/>
     <field textur="0" typ="1" x="3" y="6"/>
-    <field textur="0" typ="1" x="3" y="7"/>
+    <field textur="0" typ="2" x="3" y="7"/>
     <field textur="0" typ="1" x="3" y="8"/>
     <field textur="0" typ="1" x="3" y="9"/>
     <field textur="0" typ="1" x="3" y="10"/>
-    <field textur="0" typ="2" x="3" y="11"/>
+    <field textur="0" typ="1" x="3" y="11"/>
     <field textur="0" typ="1" x="3" y="12"/>
     <field textur="0" typ="1" x="3" y="13"/>
-    <field textur="0" typ="2" x="3" y="14"/>
-    <field textur="0" typ="2" x="3" y="15"/>
+    <field textur="0" typ="1" x="3" y="14"/>
+    <field textur="0" typ="1" x="3" y="15"/>
     <field textur="0" typ="2" x="3" y="16"/>
     <field textur="0" typ="2" x="4" y="0"/>
     <field textur="0" typ="3" x="4" y="1">
         <fluss richtung="rechts"/>
     </field>
-    <field textur="0" typ="2" x="4" y="2"/>
+    <field textur="0" typ="1" x="4" y="2"/>
     <field textur="0" typ="1" x="4" y="3"/>
     <field textur="0" typ="2" x="4" y="4"/>
     <field textur="0" typ="2" x="4" y="5"/>
     <field textur="0" typ="2" x="4" y="6"/>
     <field textur="0" typ="2" x="4" y="7"/>
-    <field textur="0" typ="2" x="4" y="8"/>
+    <field textur="0" typ="1" x="4" y="8"/>
     <field textur="0" typ="1" x="4" y="9"/>
     <field textur="0" typ="1" x="4" y="10"/>
-    <field textur="0" typ="2" x="4" y="11"/>
+    <field textur="0" typ="1" x="4" y="11"/>
     <field textur="0" typ="1" x="4" y="12"/>
     <field textur="0" typ="1" x="4" y="13"/>
-    <field textur="0" typ="2" x="4" y="14"/>
-    <field textur="0" typ="2" x="4" y="15"/>
+    <field textur="0" typ="1" x="4" y="14"/>
+    <field textur="0" typ="1" x="4" y="15"/>
     <field textur="0" typ="2" x="4" y="16"/>
     <field textur="0" typ="2" x="5" y="0"/>
     <field textur="0" typ="3" x="5" y="1">
         <fluss richtung="rechts"/>
     </field>
-    <field textur="0" typ="2" x="5" y="2"/>
+    <field textur="0" typ="1" x="5" y="2"/>
     <field textur="0" typ="1" x="5" y="3"/>
     <field textur="0" typ="2" x="5" y="4"/>
     <field textur="0" typ="1" x="5" y="5"/>
     <field textur="0" typ="1" x="5" y="6"/>
     <field textur="0" typ="1" x="5" y="7"/>
-    <field textur="0" typ="2" x="5" y="8"/>
+    <field textur="0" typ="1" x="5" y="8"/>
     <field textur="0" typ="1" x="5" y="9"/>
     <field textur="0" typ="1" x="5" y="10"/>
-    <field textur="0" typ="2" x="5" y="11"/>
+    <field textur="0" typ="1" x="5" y="11"/>
     <field textur="0" typ="1" x="5" y="12"/>
     <field textur="0" typ="1" x="5" y="13"/>
-    <field textur="0" typ="2" x="5" y="14"/>
-    <field textur="0" typ="2" x="5" y="15"/>
+    <field textur="0" typ="1" x="5" y="14"/>
+    <field textur="0" typ="1" x="5" y="15"/>
     <field textur="0" typ="2" x="5" y="16"/>
     <field textur="0" typ="2" x="6" y="0"/>
     <field textur="0" typ="3" x="6" y="1">
         <fluss richtung="rechts"/>
     </field>
-    <field textur="0" typ="2" x="6" y="2"/>
+    <field textur="0" typ="1" x="6" y="2"/>
     <field textur="0" typ="1" x="6" y="3"/>
     <field textur="0" typ="2" x="6" y="4"/>
     <field textur="0" typ="1" x="6" y="5"/>
     <field textur="0" typ="1" x="6" y="6"/>
     <field textur="0" typ="1" x="6" y="7"/>
-    <field textur="0" typ="2" x="6" y="8"/>
+    <field textur="0" typ="1" x="6" y="8"/>
     <field textur="0" typ="1" x="6" y="9"/>
     <field textur="0" typ="1" x="6" y="10"/>
-    <field textur="0" typ="2" x="6" y="11"/>
+    <field textur="0" typ="1" x="6" y="11"/>
     <field textur="0" typ="1" x="6" y="12"/>
     <field textur="0" typ="1" x="6" y="13"/>
-    <field textur="0" typ="2" x="6" y="14"/>
-    <field textur="0" typ="2" x="6" y="15"/>
+    <field textur="0" typ="1" x="6" y="14"/>
+    <field textur="0" typ="1" x="6" y="15"/>
     <field textur="0" typ="2" x="6" y="16"/>
     <field textur="0" typ="2" x="7" y="0"/>
     <field textur="0" typ="3" x="7" y="1">
         <fluss richtung="rechts"/>
     </field>
-    <field textur="0" typ="2" x="7" y="2"/>
+    <field textur="0" typ="1" x="7" y="2"/>
     <field textur="0" typ="1" x="7" y="3"/>
     <field textur="0" typ="2" x="7" y="4"/>
-    <field textur="0" typ="2" x="7" y="5"/>
+    <field textur="0" typ="1" x="7" y="5"/>
     <field textur="0" typ="1" x="7" y="6"/>
     <field textur="0" typ="2" x="7" y="7"/>
     <field textur="0" typ="2" x="7" y="8"/>
-    <field textur="0" typ="1" x="7" y="9"/>
-    <field textur="0" typ="1" x="7" y="10"/>
-    <field textur="0" typ="2" x="7" y="11"/>
+    <field textur="0" typ="2" x="7" y="9"/>
+    <field textur="0" typ="2" x="7" y="10"/>
+    <field textur="0" typ="1" x="7" y="11"/>
     <field textur="0" typ="1" x="7" y="12"/>
-    <field textur="0" typ="1" x="7" y="13"/>
+    <field textur="0" typ="2" x="7" y="13"/>
     <field textur="0" typ="2" x="7" y="14"/>
     <field textur="0" typ="2" x="7" y="15"/>
     <field textur="0" typ="2" x="7" y="16"/>
@@ -157,71 +159,71 @@
     <field textur="0" typ="3" x="8" y="1">
         <fluss richtung="rechts"/>
     </field>
-    <field textur="0" typ="2" x="8" y="2"/>
+    <field textur="0" typ="1" x="8" y="2"/>
     <field textur="0" typ="1" x="8" y="3"/>
-    <field textur="0" typ="1" x="8" y="4"/>
-    <field textur="0" typ="2" x="8" y="5"/>
+    <field textur="0" typ="2" x="8" y="4"/>
+    <field textur="0" typ="1" x="8" y="5"/>
     <field textur="0" typ="1" x="8" y="6"/>
-    <field textur="0" typ="1" x="8" y="7"/>
+    <field textur="0" typ="2" x="8" y="7"/>
     <field textur="0" typ="1" x="8" y="8"/>
     <field textur="0" typ="1" x="8" y="9"/>
     <field textur="0" typ="1" x="8" y="10"/>
-    <field textur="0" typ="2" x="8" y="11"/>
+    <field textur="0" typ="1" x="8" y="11"/>
     <field textur="0" typ="1" x="8" y="12"/>
     <field textur="0" typ="1" x="8" y="13"/>
-    <field textur="0" typ="2" x="8" y="14"/>
-    <field textur="0" typ="2" x="8" y="15"/>
+    <field textur="0" typ="1" x="8" y="14"/>
+    <field textur="0" typ="1" x="8" y="15"/>
     <field textur="0" typ="2" x="8" y="16"/>
     <field textur="0" typ="2" x="9" y="0"/>
     <field textur="0" typ="3" x="9" y="1">
         <fluss richtung="rechts"/>
     </field>
-    <field textur="0" typ="2" x="9" y="2"/>
+    <field textur="0" typ="1" x="9" y="2"/>
     <field textur="0" typ="1" x="9" y="3"/>
-    <field textur="0" typ="1" x="9" y="4"/>
-    <field textur="0" typ="2" x="9" y="5"/>
+    <field textur="0" typ="2" x="9" y="4"/>
+    <field textur="0" typ="1" x="9" y="5"/>
     <field textur="0" typ="1" x="9" y="6"/>
-    <field textur="0" typ="1" x="9" y="7"/>
+    <field textur="0" typ="2" x="9" y="7"/>
     <field textur="0" typ="1" x="9" y="8"/>
     <field textur="0" typ="1" x="9" y="9"/>
     <field textur="0" typ="1" x="9" y="10"/>
-    <field textur="0" typ="2" x="9" y="11"/>
+    <field textur="0" typ="1" x="9" y="11"/>
     <field textur="0" typ="1" x="9" y="12"/>
     <field textur="0" typ="1" x="9" y="13"/>
-    <field textur="0" typ="2" x="9" y="14"/>
-    <field textur="0" typ="2" x="9" y="15"/>
+    <field textur="0" typ="1" x="9" y="14"/>
+    <field textur="0" typ="1" x="9" y="15"/>
     <field textur="0" typ="2" x="9" y="16"/>
     <field textur="0" typ="2" x="10" y="0"/>
     <field textur="0" typ="3" x="10" y="1">
         <fluss richtung="rechts"/>
     </field>
-    <field textur="0" typ="2" x="10" y="2"/>
+    <field textur="0" typ="1" x="10" y="2"/>
     <field textur="0" typ="1" x="10" y="3"/>
     <field textur="0" typ="1" x="10" y="4"/>
-    <field textur="0" typ="2" x="10" y="5"/>
+    <field textur="0" typ="1" x="10" y="5"/>
     <field textur="0" typ="1" x="10" y="6"/>
-    <field textur="0" typ="1" x="10" y="7"/>
+    <field textur="0" typ="2" x="10" y="7"/>
     <field textur="0" typ="1" x="10" y="8"/>
-    <field textur="0" typ="2" x="10" y="9"/>
-    <field textur="0" typ="2" x="10" y="10"/>
-    <field textur="0" typ="2" x="10" y="11"/>
+    <field textur="0" typ="1" x="10" y="9"/>
+    <field textur="0" typ="1" x="10" y="10"/>
+    <field textur="0" typ="1" x="10" y="11"/>
     <field textur="0" typ="1" x="10" y="12"/>
     <field textur="0" typ="1" x="10" y="13"/>
-    <field textur="0" typ="2" x="10" y="14"/>
-    <field textur="0" typ="2" x="10" y="15"/>
+    <field textur="0" typ="1" x="10" y="14"/>
+    <field textur="0" typ="1" x="10" y="15"/>
     <field textur="0" typ="2" x="10" y="16"/>
     <field textur="0" typ="2" x="11" y="0"/>
     <field textur="0" typ="3" x="11" y="1">
         <fluss richtung="rechts"/>
     </field>
-    <field textur="0" typ="2" x="11" y="2"/>
+    <field textur="0" typ="1" x="11" y="2"/>
     <field textur="0" typ="1" x="11" y="3"/>
     <field textur="0" typ="1" x="11" y="4"/>
-    <field textur="0" typ="2" x="11" y="5"/>
+    <field textur="0" typ="1" x="11" y="5"/>
     <field textur="0" typ="1" x="11" y="6"/>
-    <field textur="0" typ="1" x="11" y="7"/>
+    <field textur="0" typ="2" x="11" y="7"/>
     <field textur="0" typ="1" x="11" y="8"/>
-    <field textur="0" typ="2" x="11" y="9"/>
+    <field textur="0" typ="1" x="11" y="9"/>
     <field textur="0" typ="1" x="11" y="10"/>
     <field textur="0" typ="1" x="11" y="11"/>
     <field textur="0" typ="1" x="11" y="12"/>
@@ -234,66 +236,66 @@
         <fluss richtung="rechts"/>
     </field>
     <field textur="0" typ="2" x="12" y="2"/>
-    <field textur="0" typ="1" x="12" y="3"/>
-    <field textur="0" typ="1" x="12" y="4"/>
+    <field textur="0" typ="2" x="12" y="3"/>
+    <field textur="0" typ="2" x="12" y="4"/>
     <field textur="0" typ="2" x="12" y="5"/>
-    <field textur="0" typ="1" x="12" y="6"/>
-    <field textur="0" typ="1" x="12" y="7"/>
-    <field textur="0" typ="1" x="12" y="8"/>
+    <field textur="0" typ="2" x="12" y="6"/>
+    <field textur="0" typ="2" x="12" y="7"/>
+    <field textur="0" typ="2" x="12" y="8"/>
     <field textur="0" typ="2" x="12" y="9"/>
-    <field textur="0" typ="1" x="12" y="10"/>
+    <field textur="0" typ="2" x="12" y="10"/>
     <field textur="0" typ="1" x="12" y="11"/>
     <field textur="0" typ="1" x="12" y="12"/>
-    <field textur="0" typ="1" x="12" y="13"/>
-    <field textur="0" typ="1" x="12" y="14"/>
-    <field textur="0" typ="1" x="12" y="15"/>
+    <field textur="0" typ="2" x="12" y="13"/>
+    <field textur="0" typ="2" x="12" y="14"/>
+    <field textur="0" typ="2" x="12" y="15"/>
     <field textur="0" typ="2" x="12" y="16"/>
     <field textur="0" typ="2" x="13" y="0"/>
     <field textur="0" typ="3" x="13" y="1">
         <fluss richtung="rechts"/>
     </field>
-    <field textur="0" typ="2" x="13" y="2"/>
+    <field textur="0" typ="1" x="13" y="2"/>
     <field textur="0" typ="1" x="13" y="3"/>
-    <field textur="0" typ="1" x="13" y="4"/>
-    <field textur="0" typ="2" x="13" y="5"/>
+    <field textur="0" typ="2" x="13" y="4"/>
+    <field textur="0" typ="1" x="13" y="5"/>
     <field textur="0" typ="1" x="13" y="6"/>
     <field textur="0" typ="1" x="13" y="7"/>
-    <field textur="0" typ="1" x="13" y="8"/>
+    <field textur="0" typ="2" x="13" y="8"/>
     <field textur="0" typ="2" x="13" y="9"/>
-    <field textur="0" typ="1" x="13" y="10"/>
+    <field textur="0" typ="2" x="13" y="10"/>
     <field textur="0" typ="1" x="13" y="11"/>
-    <field textur="0" typ="2" x="13" y="12"/>
+    <field textur="0" typ="1" x="13" y="12"/>
     <field textur="0" typ="2" x="13" y="13"/>
-    <field textur="0" typ="1" x="13" y="14"/>
-    <field textur="0" typ="1" x="13" y="15"/>
+    <field textur="0" typ="2" x="13" y="14"/>
+    <field textur="0" typ="2" x="13" y="15"/>
     <field textur="0" typ="2" x="13" y="16"/>
     <field textur="0" typ="2" x="14" y="0"/>
     <field textur="0" typ="3" x="14" y="1">
         <fluss richtung="rechts"/>
     </field>
-    <field textur="0" typ="2" x="14" y="2"/>
+    <field textur="0" typ="1" x="14" y="2"/>
     <field textur="0" typ="1" x="14" y="3"/>
-    <field textur="0" typ="1" x="14" y="4"/>
-    <field textur="0" typ="2" x="14" y="5"/>
+    <field textur="0" typ="2" x="14" y="4"/>
+    <field textur="0" typ="1" x="14" y="5"/>
     <field textur="0" typ="1" x="14" y="6"/>
     <field textur="0" typ="1" x="14" y="7"/>
-    <field textur="0" typ="1" x="14" y="8"/>
+    <field textur="0" typ="2" x="14" y="8"/>
     <field textur="0" typ="2" x="14" y="9"/>
     <field textur="0" typ="2" x="14" y="10"/>
     <field textur="0" typ="1" x="14" y="11"/>
     <field textur="0" typ="1" x="14" y="12"/>
     <field textur="0" typ="2" x="14" y="13"/>
-    <field textur="0" typ="1" x="14" y="14"/>
-    <field textur="0" typ="1" x="14" y="15"/>
+    <field textur="0" typ="2" x="14" y="14"/>
+    <field textur="0" typ="2" x="14" y="15"/>
     <field textur="0" typ="2" x="14" y="16"/>
     <field textur="0" typ="2" x="15" y="0"/>
     <field textur="0" typ="3" x="15" y="1">
         <fluss richtung="rechts"/>
     </field>
-    <field textur="0" typ="2" x="15" y="2"/>
+    <field textur="0" typ="1" x="15" y="2"/>
     <field textur="0" typ="1" x="15" y="3"/>
-    <field textur="0" typ="1" x="15" y="4"/>
-    <field textur="0" typ="2" x="15" y="5"/>
+    <field textur="0" typ="2" x="15" y="4"/>
+    <field textur="0" typ="1" x="15" y="5"/>
     <field textur="0" typ="1" x="15" y="6"/>
     <field textur="0" typ="1" x="15" y="7"/>
     <field textur="0" typ="1" x="15" y="8"/>
@@ -301,7 +303,7 @@
     <field textur="0" typ="2" x="15" y="10"/>
     <field textur="0" typ="1" x="15" y="11"/>
     <field textur="0" typ="1" x="15" y="12"/>
-    <field textur="0" typ="2" x="15" y="13"/>
+    <field textur="0" typ="1" x="15" y="13"/>
     <field textur="0" typ="1" x="15" y="14"/>
     <field textur="0" typ="1" x="15" y="15"/>
     <field textur="0" typ="2" x="15" y="16"/>
@@ -309,10 +311,10 @@
     <field textur="0" typ="3" x="16" y="1">
         <fluss richtung="rechts"/>
     </field>
-    <field textur="0" typ="2" x="16" y="2"/>
+    <field textur="0" typ="1" x="16" y="2"/>
     <field textur="0" typ="1" x="16" y="3"/>
-    <field textur="0" typ="1" x="16" y="4"/>
-    <field textur="0" typ="2" x="16" y="5"/>
+    <field textur="0" typ="2" x="16" y="4"/>
+    <field textur="0" typ="1" x="16" y="5"/>
     <field textur="0" typ="1" x="16" y="6"/>
     <field textur="0" typ="1" x="16" y="7"/>
     <field textur="0" typ="1" x="16" y="8"/>
@@ -320,7 +322,7 @@
     <field textur="0" typ="2" x="16" y="10"/>
     <field textur="0" typ="1" x="16" y="11"/>
     <field textur="0" typ="1" x="16" y="12"/>
-    <field textur="0" typ="2" x="16" y="13"/>
+    <field textur="0" typ="1" x="16" y="13"/>
     <field textur="0" typ="1" x="16" y="14"/>
     <field textur="0" typ="1" x="16" y="15"/>
     <field textur="0" typ="2" x="16" y="16"/>
@@ -328,18 +330,18 @@
     <field textur="0" typ="3" x="17" y="1">
         <fluss richtung="rechts"/>
     </field>
-    <field textur="0" typ="2" x="17" y="2"/>
+    <field textur="0" typ="1" x="17" y="2"/>
     <field textur="0" typ="1" x="17" y="3"/>
-    <field textur="0" typ="1" x="17" y="4"/>
-    <field textur="0" typ="2" x="17" y="5"/>
+    <field textur="0" typ="2" x="17" y="4"/>
+    <field textur="0" typ="1" x="17" y="5"/>
     <field textur="0" typ="1" x="17" y="6"/>
     <field textur="0" typ="1" x="17" y="7"/>
     <field textur="0" typ="1" x="17" y="8"/>
     <field textur="0" typ="1" x="17" y="9"/>
-    <field textur="0" typ="2" x="17" y="10"/>
+    <field textur="0" typ="1" x="17" y="10"/>
     <field textur="0" typ="1" x="17" y="11"/>
     <field textur="0" typ="1" x="17" y="12"/>
-    <field textur="0" typ="2" x="17" y="13"/>
+    <field textur="0" typ="1" x="17" y="13"/>
     <field textur="0" typ="1" x="17" y="14"/>
     <field textur="0" typ="1" x="17" y="15"/>
     <field textur="0" typ="2" x="17" y="16"/>
@@ -347,18 +349,18 @@
     <field textur="0" typ="3" x="18" y="1">
         <fluss richtung="rechts"/>
     </field>
-    <field textur="0" typ="2" x="18" y="2"/>
+    <field textur="0" typ="1" x="18" y="2"/>
     <field textur="0" typ="1" x="18" y="3"/>
     <field textur="0" typ="2" x="18" y="4"/>
-    <field textur="0" typ="2" x="18" y="5"/>
-    <field textur="0" typ="2" x="18" y="6"/>
-    <field textur="0" typ="2" x="18" y="7"/>
+    <field textur="0" typ="1" x="18" y="5"/>
+    <field textur="0" typ="1" x="18" y="6"/>
+    <field textur="0" typ="1" x="18" y="7"/>
     <field textur="0" typ="1" x="18" y="8"/>
     <field textur="0" typ="1" x="18" y="9"/>
-    <field textur="0" typ="2" x="18" y="10"/>
+    <field textur="0" typ="1" x="18" y="10"/>
     <field textur="0" typ="1" x="18" y="11"/>
     <field textur="0" typ="1" x="18" y="12"/>
-    <field textur="0" typ="2" x="18" y="13"/>
+    <field textur="0" typ="1" x="18" y="13"/>
     <field textur="0" typ="1" x="18" y="14"/>
     <field textur="0" typ="1" x="18" y="15"/>
     <field textur="0" typ="2" x="18" y="16"/>
@@ -368,16 +370,16 @@
     </field>
     <field textur="0" typ="1" x="19" y="2"/>
     <field textur="0" typ="1" x="19" y="3"/>
-    <field textur="0" typ="1" x="19" y="4"/>
+    <field textur="0" typ="2" x="19" y="4"/>
     <field textur="0" typ="1" x="19" y="5"/>
     <field textur="0" typ="1" x="19" y="6"/>
-    <field textur="0" typ="2" x="19" y="7"/>
+    <field textur="0" typ="1" x="19" y="7"/>
     <field textur="0" typ="1" x="19" y="8"/>
     <field textur="0" typ="1" x="19" y="9"/>
     <field textur="0" typ="2" x="19" y="10"/>
-    <field textur="0" typ="2" x="19" y="11"/>
-    <field textur="0" typ="2" x="19" y="12"/>
-    <field textur="0" typ="2" x="19" y="13"/>
+    <field textur="0" typ="1" x="19" y="11"/>
+    <field textur="0" typ="1" x="19" y="12"/>
+    <field textur="0" typ="1" x="19" y="13"/>
     <field textur="0" typ="1" x="19" y="14"/>
     <field textur="0" typ="1" x="19" y="15"/>
     <field textur="0" typ="2" x="19" y="16"/>
@@ -387,13 +389,13 @@
     </field>
     <field textur="0" typ="1" x="20" y="2"/>
     <field textur="0" typ="1" x="20" y="3"/>
-    <field textur="0" typ="1" x="20" y="4"/>
+    <field textur="0" typ="2" x="20" y="4"/>
     <field textur="0" typ="1" x="20" y="5"/>
     <field textur="0" typ="1" x="20" y="6"/>
-    <field textur="0" typ="2" x="20" y="7"/>
+    <field textur="0" typ="1" x="20" y="7"/>
     <field textur="0" typ="1" x="20" y="8"/>
     <field textur="0" typ="1" x="20" y="9"/>
-    <field textur="0" typ="1" x="20" y="10"/>
+    <field textur="0" typ="2" x="20" y="10"/>
     <field textur="0" typ="1" x="20" y="11"/>
     <field textur="0" typ="1" x="20" y="12"/>
     <field textur="0" typ="1" x="20" y="13"/>
@@ -406,13 +408,13 @@
     </field>
     <field textur="0" typ="1" x="21" y="2"/>
     <field textur="0" typ="1" x="21" y="3"/>
-    <field textur="0" typ="1" x="21" y="4"/>
+    <field textur="0" typ="2" x="21" y="4"/>
     <field textur="0" typ="1" x="21" y="5"/>
     <field textur="0" typ="1" x="21" y="6"/>
-    <field textur="0" typ="2" x="21" y="7"/>
+    <field textur="0" typ="1" x="21" y="7"/>
     <field textur="0" typ="1" x="21" y="8"/>
     <field textur="0" typ="1" x="21" y="9"/>
-    <field textur="0" typ="1" x="21" y="10"/>
+    <field textur="0" typ="2" x="21" y="10"/>
     <field textur="0" typ="1" x="21" y="11"/>
     <field textur="0" typ="1" x="21" y="12"/>
     <field textur="0" typ="1" x="21" y="13"/>
@@ -425,13 +427,13 @@
     </field>
     <field textur="0" typ="1" x="22" y="2"/>
     <field textur="0" typ="1" x="22" y="3"/>
-    <field textur="0" typ="1" x="22" y="4"/>
+    <field textur="0" typ="2" x="22" y="4"/>
     <field textur="0" typ="1" x="22" y="5"/>
     <field textur="0" typ="1" x="22" y="6"/>
-    <field textur="0" typ="2" x="22" y="7"/>
+    <field textur="0" typ="1" x="22" y="7"/>
     <field textur="0" typ="1" x="22" y="8"/>
     <field textur="0" typ="1" x="22" y="9"/>
-    <field textur="0" typ="1" x="22" y="10"/>
+    <field textur="0" typ="2" x="22" y="10"/>
     <field textur="0" typ="1" x="22" y="11"/>
     <field textur="0" typ="1" x="22" y="12"/>
     <field textur="0" typ="1" x="22" y="13"/>
@@ -444,13 +446,13 @@
     </field>
     <field textur="0" typ="1" x="23" y="2"/>
     <field textur="0" typ="1" x="23" y="3"/>
-    <field textur="0" typ="1" x="23" y="4"/>
+    <field textur="0" typ="2" x="23" y="4"/>
     <field textur="0" typ="1" x="23" y="5"/>
     <field textur="0" typ="1" x="23" y="6"/>
-    <field textur="0" typ="2" x="23" y="7"/>
+    <field textur="0" typ="1" x="23" y="7"/>
     <field textur="0" typ="1" x="23" y="8"/>
     <field textur="0" typ="1" x="23" y="9"/>
-    <field textur="0" typ="1" x="23" y="10"/>
+    <field textur="0" typ="2" x="23" y="10"/>
     <field textur="0" typ="1" x="23" y="11"/>
     <field textur="0" typ="1" x="23" y="12"/>
     <field textur="0" typ="1" x="23" y="13"/>
@@ -458,14 +460,14 @@
     <field textur="0" typ="1" x="23" y="15"/>
     <field textur="0" typ="2" x="23" y="16"/>
     <field textur="0" typ="2" x="24" y="0"/>
-    <field textur="0" typ="6" x="24" y="1">
-        <checkpointlink ID="2" zielraum="2"/>
+    <field textur="0" typ="3" x="24" y="1">
+        <fluss richtung="rechts"/>
     </field>
     <field textur="0" typ="2" x="24" y="2"/>
     <field textur="0" typ="2" x="24" y="3"/>
     <field textur="0" typ="2" x="24" y="4"/>
     <field textur="0" typ="2" x="24" y="5"/>
-    <field textur="0" typ="2" x="24" y="6"/>
+    <field textur="0" typ="1" x="24" y="6"/>
     <field textur="0" typ="2" x="24" y="7"/>
     <field textur="0" typ="2" x="24" y="8"/>
     <field textur="0" typ="2" x="24" y="9"/>
@@ -476,20 +478,15 @@
     <field textur="0" typ="2" x="24" y="14"/>
     <field textur="0" typ="2" x="24" y="15"/>
     <field textur="0" typ="2" x="24" y="16"/>
-    <spawn x="19" y="5"/>
-    <spawn x="21" y="6"/>
-    <item beschreibung="Drachenei." element="physisch" name="Ei" staerke="0" typ="6" wert="0" x="17" y="4"/>
-    <item beschreibung="Drachenei." element="physisch" name="Ei" staerke="0" typ="6" wert="0" x="15" y="4"/>
-    <item beschreibung="Drachenei." element="physisch" name="Ei" staerke="0" typ="6" wert="0" x="16" y="4"/>
-    <item beschreibung="A way to protect." element="physisch" name="shield" staerke="2" typ="5" wert="5" x="18" y="12"/>
-    <item beschreibung="A strong protection." element="physisch" name="sword" staerke="2" typ="4" wert="5" x="5" y="7"/>
-    <item beschreibung="Deadly Posion" element="physisch" name="Posion Drink" staerke="-2" typ="2" wert="2" x="3" y="5"/>
-    <item beschreibung="A fresh drink." element="physisch" name="Life Drink" staerke="16" typ="1" wert="2" x="17" y="6"/>
-    <monster angriff="3" beschreibung="Monster-Snake" element="physisch" geschwindigkeit="1.0" leben="10" muenzen="10" ruestung="1" typ="1" x="3" y="4"/>
-    <monster angriff="3" beschreibung="Spider-Man" element="physisch" geschwindigkeit="1.0" leben="15" muenzen="15" ruestung="1" typ="2" x="7" y="9"/>
-    <monster angriff="5" beschreibung="Pinky the Rat" element="physisch" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="0" typ="3" x="9" y="4"/>
-    <monster angriff="5" beschreibung="Pinky the Rat" element="physisch" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="0" typ="3" x="16" y="11"/>
-    <monster angriff="5" beschreibung="Pinky the Rat" element="physisch" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="0" typ="3" x="12" y="8"/>
-    <NPC beschreibung="The nurse" name="Nancy" text="Willkommen Abenteurer,&#10;&#10;Oh, du bist neu hier?!&#10; Kämpfe mit A&#10; Zaubere mit 1-4 &#10;Ach ja , siehst du hinter mir das Feld?!&#10; wenn du dieses im Bossraum betrittst,&#10;und gegen den starken Boss verlierst,&#10; kannst du diese Abkürzung nutzen!!!!&#10;Gute Reise Unbekannter!" typ="1" x="21" y="4"/>
-    <NPC beschreibung="Questgeber" name="Questgeber" text="Bitte sammle die 3 Dracheneier." typ="3" x="23" y="4"/>
+    <ziel x="24" y="6"/>
+    <item beschreibung="A fresh drink." name="Life Drink" staerke="16" typ="1" wert="2" x="10" y="10"/>
+    <item beschreibung="A fresh drink." name="Life Drink" staerke="16" typ="1" wert="2" x="15" y="5"/>
+    <item beschreibung="A strong protection." name="sword" staerke="2" typ="4" wert="5" x="10" y="15"/>
+    <item beschreibung="A way to protect." name="shield" staerke="2" typ="5" wert="5" x="23" y="3"/>
+    <monster angriff="15" beschreibung="Bossi" geschwindigkeit="0.5" leben="60" muenzen="15" ruestung="3" typ="5" x="19" y="7"/>
+    <monster angriff="3" beschreibung="Spider-Man" geschwindigkeit="1.0" leben="15" muenzen="15" ruestung="1" typ="2" x="19" y="10"/>
+    <monster angriff="5" beschreibung="Pinky the Rat" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="0" typ="3" x="21" y="11"/>
+    <monster angriff="3" beschreibung="Spider-Man" geschwindigkeit="1.0" leben="15" muenzen="15" ruestung="1" typ="2" x="3" y="10"/>
+    <monster angriff="5" beschreibung="Pinky the Rat" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="0" typ="3" x="4" y="8"/>
+    <NPC beschreibung="The nurse" name="Nancy" text=" Oh, du bist der ... &#10;Auser*ääääh* Unbekannte,&#10; von dem alle reden!&#10;Wusstest du schon,&#10; das in den grünen Tränken, Gift ist?! " typ="1" x="3" y="5"/>
 </room>

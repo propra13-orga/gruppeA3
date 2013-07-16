@@ -122,6 +122,7 @@ public class Editor extends JTabbedPane implements ChangeListener {
 			Map.writeMap();
 		} catch (TransformerException | ParserConfigurationException
 				| IOException e) {
+			e.printStackTrace();
 			error = true;
 			warning.showWindow("Ein Fehler ist aufgetreten.");
 		}

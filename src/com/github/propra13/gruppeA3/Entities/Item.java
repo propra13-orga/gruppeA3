@@ -1,6 +1,6 @@
 package com.github.propra13.gruppeA3.Entities;
 
-import com.github.propra13.gruppeA3.Entities.Moveable.Elements;
+import com.github.propra13.gruppeA3.Entities.Moveable.Element;
 import com.github.propra13.gruppeA3.Map.Position;
 
 /**
@@ -37,7 +37,7 @@ public class Item extends Entities {
 	private String name=null;
 	private Hitbox hitbox=null;
 	private int value=0;
-	private Elements element;
+	private Element element;
 	
 	//Standard-Stärken von Standard-Items
 	final public static int standardManaPower = 30;
@@ -78,10 +78,10 @@ public class Item extends Entities {
 		this.hitbox = Hitbox.standard;
 		pos = new Position(x*32+(hitbox.width/2),y*32+(hitbox.height/2));
 		this.value = value;
-		this.element = Elements.PHYSICAL;
+		this.element = Element.PHYSICAL;
 	}
 	
-	public Item(int damage, int type, int x, int y, String desc, String name, int value, Elements element) {
+	public Item(int damage, int type, int x, int y, String desc, String name, int value, Element element) {
 		this.damage = damage;
 		this.type = type;
 		this.desc = desc;
@@ -218,11 +218,11 @@ public class Item extends Entities {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public void setElement(Elements element){
+	public void setElement(Element element){
 		this.element = element;
 	}
 	
-	public Elements getElement(){
+	public Element getElement(){
 		return this.element;
 	}
 }

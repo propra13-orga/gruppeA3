@@ -344,7 +344,7 @@ public class Map {
 		
 		//Räume schreiben
 		for(int i=0; i < mapRooms.length; i++) {
-			mapRooms[i].writeFile(dir);
+			mapRooms[i].writeFile();
 		}
 		
 		//Header schreiben
@@ -400,11 +400,17 @@ public class Map {
 		StreamResult sr = new StreamResult(sw);
 		transformer.transform(domSource, sr);
 		
+		//Datei schreiben
+		File f = new File(mapDir +File.separator+header.mapName+File.separator+"header"+"."+headerEnding);
+		File mapdir = new File(mapDir +File.separator+header.mapName);
 		
-		//Schreibt xml-String in Datei
-		BufferedWriter writer = null;
-		writer = new BufferedWriter(new FileWriter(
-				mapDir +File.separator+header.mapName+File.separator+"header"+"."+headerEnding));
+		//Falls die Datei nicht existiert, Verzeichnisse und Datei anlegen
+		if(! f.exists()) {
+			mapdir.mkdirs();
+			f.createNewFile();
+		}
+		
+		BufferedWriter writer = new BufferedWriter(new FileWriter(f));
 		writer.write(sw.toString());
 		writer.close();
 	}

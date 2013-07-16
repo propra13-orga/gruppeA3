@@ -26,8 +26,8 @@ public class Player extends Moveable {
 	public LinkedList<Item> items = null;
 	
 	private Buff buff;
-	private Elements atkelement;
-	private Elements defelement;
+	private Element atkelement;
+	private Element defelement;
 
 	final public static int movePx = Moveable.movePx;
 
@@ -36,8 +36,8 @@ public class Player extends Moveable {
     // Konstruktoren
     public Player(int roomID) {
         super(roomID);
-        this.atkelement = Elements.PHYSICAL;
-        this.defelement = Elements.PHYSICAL;
+        this.atkelement = Element.PHYSICAL;
+        this.defelement = Element.PHYSICAL;
         hitbox = new Hitbox(28, 28);
         setFaceDirection(Direction.DOWN);
         setHealth(100);
@@ -47,8 +47,8 @@ public class Player extends Moveable {
 
     public Player(int roomID, int playerID, int x, int y){
     	super(roomID);
-        this.atkelement = Elements.PHYSICAL;
-        this.defelement = Elements.PHYSICAL;
+        this.atkelement = Element.PHYSICAL;
+        this.defelement = Element.PHYSICAL;
         hitbox = new Hitbox(28, 28);
         setFaceDirection(Direction.DOWN);
         setHealth(100);
@@ -756,19 +756,19 @@ public class Player extends Moveable {
 	public void setPlayerID(int playerID) {
 		this.playerID = playerID;
 	}
-	public void setAttackElement(Elements element){
+	public void setAttackElement(Element element){
 		this.atkelement = element;
 	}
 	
-	public Elements getAttackElement(){
+	public Element getAttackElement(){
 		return this.atkelement;
 	}
 	
-	public void setDefenseElement(Elements element){
+	public void setDefenseElement(Element element){
 		this.defelement = element;
 	}
 	
-	public Elements getDefenseElement(){
+	public Element getDefenseElement(){
 		return this.defelement;
 	}
 }
