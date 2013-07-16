@@ -49,7 +49,7 @@ public class MonsterWindow extends JDialog implements ActionListener, ListSelect
 	
 	//Fensterelemente
 	JButton bDone, bCancel;
-	String type, size, strength, health, armor, speed, coinVal;
+	String type, size, strength, health, armor, speed, coinVal, element;
 	boolean isBoss;
 	JList<JPanel> monsterList;
 	JTable attributeTable;
@@ -57,7 +57,8 @@ public class MonsterWindow extends JDialog implements ActionListener, ListSelect
 	DefaultTableModel tableModel;
 	
 	//Listeneinträge
-	JPanel emptyPanel, scorpPanel, snakePanel, zombiePanel, spiderPanel, bossPanel;
+	JPanel emptyPanel, scorpPanel, snakePanel, zombiePanel, spiderPanel, 
+			phyBossPanel, iceBossPanel, fireBossPanel, waterBossPanel;
 	
 	public MonsterWindow() {
 		//JDialog aufbauen
@@ -87,9 +88,15 @@ public class MonsterWindow extends JDialog implements ActionListener, ListSelect
 		JLabel snakeEntry = new JLabel("Schlange", new ImageIcon(GameWindow.monsterimg_2up), JLabel.LEFT);
 		JLabel zombieEntry = new JLabel("Zombie", new ImageIcon(GameWindow.monsterimg_3up), JLabel.LEFT);
 		JLabel spiderEntry = new JLabel("Spinne", new ImageIcon(GameWindow.monsterimg_4up), JLabel.LEFT);
-		//Boss-Icon auf 32x32 verkleinern
-		ImageIcon bossIcon = new ImageIcon(GameWindow.bossimg_1up.getScaledInstance(32,32, java.awt.Image.SCALE_SMOOTH));
-		JLabel bossEntry = new JLabel("Boss-Monster", bossIcon, JLabel.LEFT);
+		//Boss-Icons auf 32x32 verkleinern
+		ImageIcon phyBossIcon = new ImageIcon(GameWindow.bossimg_1up.getScaledInstance(32,32, java.awt.Image.SCALE_SMOOTH));
+		JLabel phyBossEntry = new JLabel("Boss-Monster", phyBossIcon, JLabel.LEFT);
+		ImageIcon iceBossIcon = new ImageIcon(GameWindow.bossimg_eisu.getScaledInstance(32,32, java.awt.Image.SCALE_SMOOTH));
+		JLabel iceBossEntry = new JLabel("Eis-Boss", phyBossIcon, JLabel.LEFT);
+		ImageIcon fireBossIcon = new ImageIcon(GameWindow.bossimg_feueru.getScaledInstance(32,32, java.awt.Image.SCALE_SMOOTH));
+		JLabel fireBossEntry = new JLabel("Feuer-Boss", phyBossIcon, JLabel.LEFT);
+		ImageIcon waterBossIcon = new ImageIcon(GameWindow.bossimg_wasseru.getScaledInstance(32,32, java.awt.Image.SCALE_SMOOTH));
+		JLabel waterBossEntry = new JLabel("Wasser-Boss", phyBossIcon, JLabel.LEFT);
 		
 		//Zugehörige JPanels
 		emptyPanel = new JPanel(new GridBagLayout());
@@ -97,7 +104,10 @@ public class MonsterWindow extends JDialog implements ActionListener, ListSelect
 		snakePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		zombiePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		spiderPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		bossPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		phyBossPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		iceBossPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		fireBossPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		waterBossPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		
 		//Labels auf Panels klatschen
 		GridBagConstraints emptyConstr = new GridBagConstraints();
@@ -107,10 +117,14 @@ public class MonsterWindow extends JDialog implements ActionListener, ListSelect
 		snakePanel.add(snakeEntry);
 		zombiePanel.add(zombieEntry);
 		spiderPanel.add(spiderEntry);
-		bossPanel.add(bossEntry);
+		phyBossPanel.add(phyBossEntry);
+		iceBossPanel.add(iceBossEntry);
+		fireBossPanel.add(fireBossEntry);
+		waterBossPanel.add(waterBossEntry);
 		
 		//Panels auf JList legen; Liste auf Scrollpane legen
-		JPanel[] panels = {emptyPanel, scorpPanel, snakePanel, zombiePanel, spiderPanel, bossPanel};
+		JPanel[] panels = {emptyPanel, scorpPanel, snakePanel, zombiePanel, spiderPanel,
+				phyBossPanel, iceBossPanel, fireBossPanel, waterBossPanel};
 		monsterList.setListData(panels);
 		JScrollPane monsterListPane = new JScrollPane(monsterList);
 		monsterListPane.setPreferredSize(new Dimension(100, 300)); //Größe der Liste
@@ -139,7 +153,8 @@ public class MonsterWindow extends JDialog implements ActionListener, ListSelect
 				{"Leben",health},
 				{"Rüstung",armor},
 				{"Geschwindigkeit",speed},
-				{"Münzen",coinVal}
+				{"Münzen",coinVal},
+				{"Element", element}
 			};
 		tableContent = tableData;
 		tableModel = new DefaultTableModel(tableContent, tableContent[0]);
@@ -226,6 +241,7 @@ public class MonsterWindow extends JDialog implements ActionListener, ListSelect
 			tableContent[4][1] = "todo";		//Rüstung
 			tableContent[5][1] = "todo";		//Geschwindigkeit
 			tableContent[6][1] = "todo";		//Münzwert
+			tableContent[7][1] = "Physisch";	//Element
 			isBoss = false;
 		case 2:
 			tableContent[0][1] = "Schlange";	//Typ
@@ -235,6 +251,7 @@ public class MonsterWindow extends JDialog implements ActionListener, ListSelect
 			tableContent[4][1] = "todo";		//Rüstung
 			tableContent[5][1] = "todo";		//Geschwindigkeit
 			tableContent[6][1] = "todo";		//Münzwert
+			tableContent[7][1] = "Physisch";	//Element
 			isBoss = false;
 			break;
 		case 3:
@@ -245,6 +262,7 @@ public class MonsterWindow extends JDialog implements ActionListener, ListSelect
 			tableContent[4][1] = "todo";		//Rüstung
 			tableContent[5][1] = "todo";		//Geschwindigkeit
 			tableContent[6][1] = "todo";		//Münzwert
+			tableContent[7][1] = "Physisch";	//Element
 			break;
 		case 4:
 			tableContent[0][1] = "Spinne";		//Typ
@@ -254,15 +272,17 @@ public class MonsterWindow extends JDialog implements ActionListener, ListSelect
 			tableContent[4][1] = "todo";		//Rüstung
 			tableContent[5][1] = "todo";		//Geschwindigkeit
 			tableContent[6][1] = "todo";		//Münzwert
+			tableContent[7][1] = "Physisch";	//Element
 			break;
 		case 5:
-			tableContent[0][1] = "Boss-Monster";//Typ
+			tableContent[0][1] = "Normaler Boss";//Typ
 			tableContent[1][1] = "todo";		//Größe
 			tableContent[2][1] = "todo";		//Stärke
 			tableContent[3][1] = "todo";		//Leben
 			tableContent[4][1] = "todo";		//Rüstung
 			tableContent[5][1] = "todo";		//Geschwindigkeit
 			tableContent[6][1] = "todo";		//Münzwert
+			tableContent[7][1] = Moveable.getElementName(workingMonster.getElement());	//Element
 			isBoss = true;
 			break;
 		default:
@@ -328,23 +348,46 @@ public class MonsterWindow extends JDialog implements ActionListener, ListSelect
 	 */
 	private void showScorp() {
 		workingMonster.setType(1);
+		workingMonster.setElement(Moveable.Element.PHYSICAL);
 	}
 	
 	private void showSnake() {
 		workingMonster.setType(2);
+		workingMonster.setElement(Moveable.Element.PHYSICAL);
 	}
 	
 	private void showZombie() {
 		workingMonster.setType(3);
+		workingMonster.setElement(Moveable.Element.PHYSICAL);
 	}
 	
 	private void showSpider() {
 		workingMonster.setType(4);
+		workingMonster.setElement(Moveable.Element.PHYSICAL);
 	}
 	
-	private void showBoss() {
+	private void showPhyBoss() {
 		workingMonster.setType(5);
+		workingMonster.setElement(Moveable.Element.PHYSICAL);
 	}
+	
+	private void showIceBoss() {
+		workingMonster.setType(5);
+		workingMonster.setElement(Moveable.Element.ICE);
+	}
+
+	
+	private void showFireBoss() {
+		workingMonster.setType(5);
+		workingMonster.setElement(Moveable.Element.FIRE);
+	}
+
+	
+	private void showWaterBoss() {
+		workingMonster.setType(5);
+		workingMonster.setElement(Moveable.Element.WATER);
+	}
+
 
 	/**
 	 * EventListener für die Auswahl in der Monsterliste
@@ -368,7 +411,13 @@ public class MonsterWindow extends JDialog implements ActionListener, ListSelect
 				else if(monsterList.getSelectedIndex() == 4)
 					showSpider();
 				else if(monsterList.getSelectedIndex() == 5)
-					showBoss();
+					showPhyBoss();
+				else if(monsterList.getSelectedIndex() == 6)
+					showIceBoss();
+				else if(monsterList.getSelectedIndex() == 7)
+					showFireBoss();
+				else if(monsterList.getSelectedIndex() == 8)
+					showWaterBoss();
 	
 				update();
 				attributeTable.setVisible(true);
