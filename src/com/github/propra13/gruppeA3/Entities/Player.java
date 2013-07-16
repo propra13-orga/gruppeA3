@@ -55,10 +55,10 @@ public class Player extends Moveable {
         this.items = new LinkedList<Item>();
     	setPlayerID(playerID);
     	setPosition(x,y);
-    	MenuStart.activeRoom = Map.getRoom(playerID);
+    	MenuStart.activeRoom = Map.getRoom(roomID);
     	direct = Direction.NONE;
     	resetAttack();
-    	setRoomID(playerID);
+    	setRoomID(roomID);
     	//getRoom().entities.add(this);
     	setPosition(Map.spawns.getFirst().pos.toPosition().x+16, Map.spawns.getFirst().pos.toPosition().y+16);
     }

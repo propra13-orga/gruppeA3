@@ -7,6 +7,7 @@ import com.github.propra13.gruppeA3.Map.Field;
 import com.github.propra13.gruppeA3.Map.FieldPosition;
 import com.github.propra13.gruppeA3.Map.Link;
 import com.github.propra13.gruppeA3.Map.Map;
+import com.github.propra13.gruppeA3.Map.Room;
 
 /**
  * @author Majida Dere
@@ -32,6 +33,7 @@ public class CrawlerSAX extends DefaultHandler{
 	private int levelID;
 	private int playerCount;
 	private int playerID;
+	private int roomCount;
 	private int roomID=0;
 	private boolean checkNPC=false;
 	private NPC npc=null;
@@ -74,12 +76,16 @@ public class CrawlerSAX extends DefaultHandler{
 			setLevelID(Integer.parseInt(attrs.getValue("id")));
 			setTitle(new String(attrs.getValue("desc")));
 			setPlayerCount(Integer.parseInt(attrs.getValue("player")));
+			roomCount = Integer.parseInt(attrs.getValue("rooms"));
+			Map.mapRooms = new Room[roomCount];
 			this.player = new Player[playerCount];
 			playerID = 0;
 		}
 		else if (qName.equals("rooms")){
 			roomID = Integer.parseInt(attrs.getValue("id"));
 			fields = new Field[Map.ROOMWIDTH][Map.ROOMHEIGHT];
+			Map.mapRooms[roomID] = new Room(roomID);
+			Map.getRoom(roomID).roomFields = fields;
 		}
 		else if(qName.equals("monster")){
 			//int size = Integer.parseInt(attrs.getValue("size"));
@@ -172,6 +178,9 @@ public class CrawlerSAX extends DefaultHandler{
 		else if(qName.equals("spawn")){
 			int x = Integer.parseInt(attrs.getValue("x"));
 			int y = Integer.parseInt(attrs.getValue("y"));
+			System.out.println("roomID "+roomID);
+			System.out.println("playerID "+playerID);
+			System.out.println("playerCount "+playerCount);
 			Map.addSpawn(fields[x][y]);
 			player[playerID] = new Player(roomID, playerID, x, y);
 			playerID++;
@@ -225,8 +234,10 @@ public class CrawlerSAX extends DefaultHandler{
 				}
 				break;
 			case 7:
-				field.attribute1 = linkID;
-				Map.getRoom(roomID).checkpointBuildLater(field);
+				if(isCheckpoint){
+					field.attribute1 = linkID;
+					Map.getRoom(roomID).checkpointBuildLater(field);
+				}
 				break;
 			default:
 				break;
