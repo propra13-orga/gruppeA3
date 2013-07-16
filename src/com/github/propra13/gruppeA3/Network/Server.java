@@ -79,15 +79,16 @@ public class Server extends Thread{
 		try {
 			threads = new ServerUpdater[playerCount];
 			for(int i = 0; i < playerCount; i++){
+				players[i] = new Player(i);
 				threads[i] = new ServerUpdater(server.accept(),  players, i);
 				threads[i].setThreads(threads);
 				threads[i].start();
 				System.out.println("Spieler "+(i+1)+" connected");
 			}
 			System.out.println("Server gestartet");
-			//for(int i = 0; i < threads.length; i++)
-			//	if(threads[i] != null)
-			//		threads[i].sendNextGame();
+			for(int i = 0; i < threads.length; i++)
+				if(threads[i] != null)
+					threads[i].sendNextGame();
 		}catch ( IOException e ) {
 		      e.printStackTrace();
 	    }

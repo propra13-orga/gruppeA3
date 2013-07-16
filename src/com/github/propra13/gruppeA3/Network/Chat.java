@@ -58,7 +58,6 @@ public class Chat extends JFrame implements WindowListener{
             			try {
             				protocol.sendString("chat");
 							protocol.sendString(name + ": " + userText.getText() + "\n");
-							System.out.println("chat set: "+userText.getText());
 						} catch (IOException ex) {
 							// TODO Auto-generated catch block
 							ex.printStackTrace();
@@ -74,8 +73,7 @@ public class Chat extends JFrame implements WindowListener{
 		chatWindow.setEditable(false);
 		getContentPane().add(new JScrollPane(chatWindow));
 		setSize(300,250);
-		//ct = new ChatUpdater(this);
-		//ct.start();
+		setVisible(false);
 	}
 
 	/**

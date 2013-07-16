@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import com.github.propra13.gruppeA3.Game;
+import com.github.propra13.gruppeA3.Keys;
 import com.github.propra13.gruppeA3.Entities.Player;
 import com.github.propra13.gruppeA3.Exceptions.InvalidRoomLinkException;
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
@@ -65,19 +66,7 @@ public class Client extends JFrame {
 						| InvalidRoomLinkException e) {
 					e.printStackTrace();
 				}
-				/*//Map.initialize("Story01");
-				SAXCrawlerReader reader=new SAXCrawlerReader();
-			 	try {
-			 		reader.read("data/levels/"+netstat.toString().toLowerCase()+"1.xml");
-			 		//this.playerCount = reader.getHandler().getPlayerCount();
-			 		//this.players = reader.getHandler().getPlayer();
-			 	} catch (Exception e) {
-			 			e.printStackTrace();
-			 	}*/
-			}
-	 	//} catch (InvalidRoomLinkException | IOException | MapFormatException e) {
-	 	//	e.printStackTrace();
-	 	//}
+			 }
 		System.out.println("Client " + netstat.toString() + " started");
 		if(connect(gui.getHost(), gui.getPort())){
 			System.out.println("Verbindung erfolgreich");
@@ -89,8 +78,14 @@ public class Client extends JFrame {
 			System.out.println("Fehlgeschlagen");
 			return;
 		}
+		
+		gui.setPlayer(players[playerID]);
+		gui.addKeyListener(new Keys(players[playerID]));
+		
+		for(int i = 0; i < players.length; i++)
+			Map.getRoom(0).entities.add(players[i]);
 	 	
-	 /*	gui.setRandom(new Random(System.currentTimeMillis()));
+		gui.setRandom(new Random(System.currentTimeMillis()));
 		MenuStart.setActiveRoom(Map.getRoom(0));
 		
 		
@@ -99,7 +94,7 @@ public class Client extends JFrame {
 						 false, false, false, false, false, false, false);
 			
 		MenuStart.setGameStatus(GameStatus.INGAME);
-	*/}
+	}
 	
 	/**
 	 * 
@@ -132,7 +127,7 @@ public class Client extends JFrame {
 		{
 			this.protocol = new Protocol(serverName,port);
 			try {
-				//this.loadNextGame();
+				this.loadNextGame();
 				this.protocol.sendString("chat");
 				this.protocol.sendString(this.gui.getName() + " hat den Raum betreten\n");
 			} catch (IOException e) {

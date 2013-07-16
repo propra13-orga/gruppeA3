@@ -43,11 +43,11 @@ public class ClientUpdater extends Thread {
 	 */
 	private void loadNextGame() throws IOException {
 		String vergleich = protocol.receiveString();
-    	/*if(vergleich.equals("player"))
+    	if(vergleich.equals("player"))
     	{
-    		//players = protocol.receivePlayers();
-    	}*/
-    	//vergleich = protocol.receiveString();
+    		players = protocol.receivePlayers();
+    	}
+    	vergleich = protocol.receiveString();
     	if(vergleich.equals("playerID"))
     	{
     		playerID = protocol.receivePlayerID();
@@ -75,8 +75,8 @@ public class ClientUpdater extends Thread {
 					String s = protocol.receiveString();
 					chat.append(s);
 				}
-				//else if(vergleich.equals("start"))
-				//	loadNextGame();
+				else if(vergleich.equals("start"))
+					loadNextGame();
 				else if (vergleich.equalsIgnoreCase("player"))
 					players = this.protocol.receivePlayers();
 				else if(vergleich.equalsIgnoreCase("eog")){
