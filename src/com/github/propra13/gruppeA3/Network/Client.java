@@ -1,15 +1,18 @@
 package com.github.propra13.gruppeA3.Network;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import com.github.propra13.gruppeA3.Game;
 import com.github.propra13.gruppeA3.Entities.Player;
 import com.github.propra13.gruppeA3.Exceptions.InvalidRoomLinkException;
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
 import com.github.propra13.gruppeA3.Map.Map;
+import com.github.propra13.gruppeA3.Map.MapHeader;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 import com.github.propra13.gruppeA3.Menu.MenuStart.GameStatus;
 import com.github.propra13.gruppeA3.Menu.MenuStart.NetworkStatus;
@@ -47,7 +50,22 @@ public class Client extends JFrame {
 		this.gui = gui;
 		//try {
 			if (!serverStarted){
-				//Map.initialize("Story01");
+				Iterator<MapHeader> iter = Game.mapHeaders.iterator();
+				MapHeader map=null;
+				while(iter.hasNext()){
+					map = iter.next();
+					if(map.mapName.equalsIgnoreCase(netstat.toString()))
+						break;
+				}
+				
+			 	try {
+			 		if(null != map)
+			 			Map.initialize(map);
+				} catch (MapFormatException | IOException
+						| InvalidRoomLinkException e) {
+					e.printStackTrace();
+				}
+				/*//Map.initialize("Story01");
 				SAXCrawlerReader reader=new SAXCrawlerReader();
 			 	try {
 			 		reader.read("data/levels/"+netstat.toString().toLowerCase()+"1.xml");
@@ -55,7 +73,7 @@ public class Client extends JFrame {
 			 		//this.players = reader.getHandler().getPlayer();
 			 	} catch (Exception e) {
 			 			e.printStackTrace();
-			 	}
+			 	}*/
 			}
 	 	//} catch (InvalidRoomLinkException | IOException | MapFormatException e) {
 	 	//	e.printStackTrace();
@@ -63,16 +81,16 @@ public class Client extends JFrame {
 		System.out.println("Client " + netstat.toString() + " started");
 		if(connect(gui.getHost(), gui.getPort())){
 			System.out.println("Verbindung erfolgreich");
-			clientUpdater = new ClientUpdater(gui, protocol, players, playerID);
-			clientUpdater.start();
 			chat = new Chat(gui.getName(), this.protocol);
 			chat.setVisible(true);
+			clientUpdater = new ClientUpdater(gui, chat, protocol, players, playerID);
+			clientUpdater.start();
 		}else{
 			System.out.println("Fehlgeschlagen");
 			return;
 		}
 	 	
-	/* 	gui.setRandom(new Random(System.currentTimeMillis()));
+	 /*	gui.setRandom(new Random(System.currentTimeMillis()));
 		MenuStart.setActiveRoom(Map.getRoom(0));
 		
 		

@@ -87,7 +87,7 @@ public class ServerUpdater extends Thread {
 	public void sendNextGame() throws IOException
 	{
 		this.protocol.sendString("start");
-		//this.protocol.sendPlayers(player);
+		this.protocol.sendPlayers(player);
 		this.protocol.sendPlayerID(playerID);
 	}
 	

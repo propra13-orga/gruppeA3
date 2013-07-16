@@ -224,7 +224,7 @@ public class MenuStart extends JPanel implements ActionListener {
     	add(buttonJoin);
     	add(buttonEinstellungen);
     	add(buttonOptionen);
-    	add(buttonEinstellungen);
+    	//add(buttonEinstellungen);
      	initMenu();
      	music = new Music();
     }
@@ -876,10 +876,10 @@ public class MenuStart extends JPanel implements ActionListener {
 			else if("create".equals(action)){
 				Server server = new Server(this.getPort(), MenuStart.getNetstat());
 				server.start();
-				client = new Client(this, MenuStart.getNetstat(), true);
+				setClient(new Client(this, MenuStart.getNetstat(), true));
 			}
 			else if("join".equals(action)){
-				client = new Client(this, MenuStart.getNetstat(), false);
+				setClient(new Client(this, MenuStart.getNetstat(), false));
 			}
 			else if("back".equals(action)){
 				backMenu();
@@ -1379,5 +1379,13 @@ public class MenuStart extends JPanel implements ActionListener {
 	
 	public void setPlayer(Player player){
 		this.player = player;
+	}
+
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
 	}
 }

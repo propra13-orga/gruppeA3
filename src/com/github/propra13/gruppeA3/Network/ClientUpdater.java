@@ -16,6 +16,7 @@ public class ClientUpdater extends Thread {
 	private Protocol protocol = null;
 	private Player[] players = null;
 	private int playerID;
+	private Chat chat;
 	
 	/**
 	 * Setzt die noetigen Parameter
@@ -24,9 +25,10 @@ public class ClientUpdater extends Thread {
 	 * @param players Das Spielerarray mit allen Spielern
 	 * @param playerID Die Spielernummer des lokalen Spielers
 	 */
-	public ClientUpdater(MenuStart gui, Protocol protocol,
+	public ClientUpdater(MenuStart gui, Chat chat, Protocol protocol,
 						Player[] players, int playerID){
 		this.gui = gui;
+		this.chat = chat;
 		this.protocol = protocol;
 		this.players = players;
 		this.playerID = playerID;
@@ -68,13 +70,18 @@ public class ClientUpdater extends Thread {
 					continue;
 				}
 				
-				//if(vergleich.equalsIgnoreCase("start"))
+				
+				if(vergleich.equals("chat")){
+					String s = protocol.receiveString();
+					chat.append(s);
+				}
+				//else if(vergleich.equals("start"))
 				//	loadNextGame();
-				//else if (vergleich.equalsIgnoreCase("player"))
-				//	players = this.protocol.receivePlayers();
-				//else if(vergleich.equalsIgnoreCase("eog")){
-				//	running = false;
-				//}			
+				else if (vergleich.equalsIgnoreCase("player"))
+					players = this.protocol.receivePlayers();
+				else if(vergleich.equalsIgnoreCase("eog")){
+					running = false;
+				}			
 			}catch(IOException ex){ex.printStackTrace();}//TODO bessere Exception
 		}	
 	}

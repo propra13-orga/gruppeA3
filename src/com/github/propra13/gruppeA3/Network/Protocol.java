@@ -101,7 +101,7 @@ public class Protocol {
     {
     	this.out.writeInt(str.length());
     	this.out.writeChars(str);
-    	System.out.println("send: "+str);
+    	//System.out.println("send: "+str);
     }
     
     /**
@@ -112,11 +112,11 @@ public class Protocol {
     public String receiveString() throws IOException
     {
     	int laenge = this.in.readInt();
-    	System.out.println("rec länge: "+laenge);
+    	//System.out.println("rec länge: "+laenge);
     	char[] chars = new char[laenge];
 		for (int i = 0; i < laenge; i++)
 			chars[i] = in.readChar();
-		System.out.println("rec String: "+new String(chars));
+		//System.out.println("rec String: "+new String(chars));
 		return new String(chars);
     }
     

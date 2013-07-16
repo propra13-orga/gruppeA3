@@ -7,13 +7,13 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.Iterator;
 
+import com.github.propra13.gruppeA3.Game;
 import com.github.propra13.gruppeA3.Entities.Player;
 import com.github.propra13.gruppeA3.Exceptions.InvalidRoomLinkException;
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
-import com.github.propra13.gruppeA3.Map.Field;
 import com.github.propra13.gruppeA3.Map.Map;
+import com.github.propra13.gruppeA3.Map.MapHeader;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
-import com.github.propra13.gruppeA3.XMLParser.SAXCrawlerReader;
 
 /**
  * Diese Klasse erzeugt einen Server
@@ -46,28 +46,28 @@ public class Server extends Thread{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		get_started("Story01", netstat.toString().toLowerCase());
+		get_started(netstat.toString());
 	}
 	
-	public void get_started(String mapName, String xmlName) {
+	public void get_started(String mapName) {
 		
-	 	/*try {
-	 		Map.initialize(mapName);
+		Iterator<MapHeader> iter = Game.mapHeaders.iterator();
+		MapHeader map=null;
+		while(iter.hasNext()){
+			map = iter.next();
+			if(map.mapName.equalsIgnoreCase(mapName))
+				break;
+		}
+		
+	 	try {
+	 		if(null != map){
+	 			Map.initialize(map);
+	 			this.playerCount = map.maxPlayers;
+	 		}
 		} catch (MapFormatException | IOException
 				| InvalidRoomLinkException e) {
 			e.printStackTrace();
-		}*/
-	 	
-		if(xmlName != null && !xmlName.equals("")) {
-			SAXCrawlerReader reader=new SAXCrawlerReader();
-		 	try {
-		 		reader.read("data/levels/"+xmlName+"1.xml");
-		 		this.playerCount = reader.getHandler().getPlayerCount();
-		 		this.players = reader.getHandler().getPlayer();
-		 	} catch (Exception e) {
-		 			e.printStackTrace();
-		 	}
-		}		
+		}	
 	}
 	
 	/**
@@ -75,6 +75,7 @@ public class Server extends Thread{
 	 */
 	public void run() {
 		boolean started = true;
+		this.players = new Player[playerCount];
 		try {
 			threads = new ServerUpdater[playerCount];
 			for(int i = 0; i < playerCount; i++){
