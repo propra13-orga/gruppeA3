@@ -1,5 +1,10 @@
 package com.github.propra13.gruppeA3;
 
+/**
+ * Main-Klasse des Spiels
+ *Initalisiert das JFrame und setzt die Parameter fürs Fenster fest
+ */
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.io.IOException;
@@ -28,6 +33,10 @@ public class Game extends JFrame{
 	public static LinkedList<MapHeader> mapHeaders = new LinkedList<MapHeader>();
 	/**Die Header von allen verfÃ¼gbaren Kampagnenmaps*/
 	public static LinkedList<MapHeader> storyHeaders = new LinkedList<MapHeader>();
+	
+	/*
+	 * Konstruktur für den JFrame
+	 */
 	
 	public Game() {
 		setTitle("Dungeon Crawler");
