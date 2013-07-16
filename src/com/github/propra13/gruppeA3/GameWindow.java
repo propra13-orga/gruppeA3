@@ -1,5 +1,6 @@
 package com.github.propra13.gruppeA3;
 
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -10,16 +11,34 @@ import javax.imageio.ImageIO;
 /**
  * Klasse für GUI: Spielgrafik
  * @autor Jenny Lenz
+ * 
+ * Bilder werden hier eingelesen und eingebunden 
  */
 
 
 public class GameWindow {
 	//monster
-	public static BufferedImage bossimg_1left;
-	public static BufferedImage bossimg_1right;
-	public static BufferedImage bossimg_1up;
-	public static BufferedImage bossimg_1down;
+	//boss monster
+	public static Image bossimg_1left;
+	public static Image bossimg_1right;
+	public static Image bossimg_1up;
+	public static Image bossimg_1down;
 	
+	public static BufferedImage bossimg_feuerl;
+	public static BufferedImage bossimg_feuerr;
+	public static BufferedImage bossimg_feueru;
+	public static BufferedImage bossimg_feuerd;
+	
+	public static BufferedImage bossimg_wasserl;
+	public static BufferedImage bossimg_wasserr;
+	public static BufferedImage bossimg_wasseru;
+	public static BufferedImage bossimg_wasserd;
+	
+	public static BufferedImage bossimg_eisl;
+	public static BufferedImage bossimg_eisr;
+	public static BufferedImage bossimg_eisu;
+	public static BufferedImage bossimg_eisd;
+	//normale Monster
 	public static BufferedImage monsterimg_1left;
 	public static BufferedImage monsterimg_1right;
 	public static BufferedImage monsterimg_1up;
@@ -114,6 +133,22 @@ public class GameWindow {
 	    bossimg_1right = this.getBufferedImage(this.GamePath + "/data/images/Monster/B1right.png");
 	    bossimg_1up = this.getBufferedImage(this.GamePath + "/data/images/Monster/B1up.png");
 	    bossimg_1down = this.getBufferedImage(this.GamePath + "/data/images/Monster/B1down.png");
+	    
+	    bossimg_feuerd = this.getBufferedImage(this.GamePath + "/data/images/Monster/Bfeuer.png");
+	    bossimg_feuerl = rotate(bossimg_feuerd);
+	    bossimg_feueru = rotate(bossimg_feuerl);
+	    bossimg_feuerr = rotate(bossimg_feueru);
+	    
+	    bossimg_wasserd = this.getBufferedImage(this.GamePath + "/data/images/Monster/Bwasser.png");
+	    bossimg_wasserl = rotate(bossimg_wasserd);
+	    bossimg_wasseru = rotate(bossimg_wasserl);
+	    bossimg_wasserr = rotate(bossimg_wasseru);
+	    
+	    bossimg_eisd = this.getBufferedImage(this.GamePath + "/data/images/Monster/Beis.png");
+	    bossimg_eisl = rotate(bossimg_eisd);
+	    bossimg_eisu = rotate(bossimg_eisl);
+	    bossimg_eisr = rotate(bossimg_eisu);
+	    
 	    
 	    //Monster
 	    monsterimg_1left = this.getBufferedImage(this.GamePath + "/data/images/Monster/M1left.png");

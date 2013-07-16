@@ -45,7 +45,7 @@ import com.github.propra13.gruppeA3.Network.Client;
 import com.github.propra13.gruppeA3.Network.Server;
 
 /**
- * Klasse für Menu- und Spielablauf
+ * Klasse fï¿½r Menu- und Spielablauf
  *
  */
 
@@ -143,7 +143,7 @@ public class MenuStart extends JPanel implements ActionListener {
 	
 	/**
 	 * Konstruktor der Klasse MenuStart
-	 * Initalisiert alle Komponenten die für das Spiel notwendig sind
+	 * Initalisiert alle Komponenten die fï¿½r das Spiel notwendig sind
 	 * Setzt das Layout des Panels fest
 	 */
     public MenuStart() {
@@ -553,7 +553,74 @@ public class MenuStart extends JPanel implements ActionListener {
                 				g2d.drawImage(GameWindow.bossimg_1down, entityPos.x, entityPos.y , panel);
             			
             			break;
-                			}
+            			
+                		/*case 6:{
+                	          	
+                    			switch(monster.getFaceDirection()){
+                    			case UP: 
+                    				g2d.drawImage(GameWindow.bossimg_feueru, entityPos.x, entityPos.y , panel);
+                    				break;
+                    			case DOWN:
+                    				g2d.drawImage(GameWindow.bossimg_feuerd, entityPos.x, entityPos.y , panel);
+                    				break;
+                    			case LEFT:
+                    				g2d.drawImage(GameWindow.bossimg_feuerl, entityPos.x, entityPos.y , panel);
+                    				break;
+                    			case RIGHT:
+                    				g2d.drawImage(GameWindow.bossimg_feuerr, entityPos.x, entityPos.y , panel);
+                    				break;	
+                    			default:
+                    				g2d.drawImage(GameWindow.bossimg_feuerd, entityPos.x, entityPos.y , panel);
+                			
+                			break;
+                			
+                    			case 7:{
+                    	          	
+                        			switch(monster.getFaceDirection()){
+                        			case UP: 
+                        				g2d.drawImage(GameWindow.bossimg_wasseru, entityPos.x, entityPos.y , panel);
+                        				break;
+                        			case DOWN:
+                        				g2d.drawImage(GameWindow.bossimg_wasserd, entityPos.x, entityPos.y , panel);
+                        				break;
+                        			case LEFT:
+                        				g2d.drawImage(GameWindow.bossimg_wasserl, entityPos.x, entityPos.y , panel);
+                        				break;
+                        			case RIGHT:
+                        				g2d.drawImage(GameWindow.bossimg_wasserr, entityPos.x, entityPos.y , panel);
+                        				break;	
+                        			default:
+                        				g2d.drawImage(GameWindow.bossimg_wasserd, entityPos.x, entityPos.y , panel);
+                    			
+                    			break;
+                    			
+                        			case 8:{
+                        	          	
+                            			switch(monster.getFaceDirection()){
+                            			case UP: 
+                            				g2d.drawImage(GameWindow.bossimg_eisu, entityPos.x, entityPos.y , panel);
+                            				break;
+                            			case DOWN:
+                            				g2d.drawImage(GameWindow.bossimg_eisd, entityPos.x, entityPos.y , panel);
+                            				break;
+                            			case LEFT:
+                            				g2d.drawImage(GameWindow.bossimg_eisl, entityPos.x, entityPos.y , panel);
+                            				break;
+                            			case RIGHT:
+                            				g2d.drawImage(GameWindow.bossimg_eisr, entityPos.x, entityPos.y , panel);
+                            				break;	
+                            			default:
+                            				g2d.drawImage(GameWindow.bossimg_eisd, entityPos.x, entityPos.y , panel);
+                        			
+                        			break;
+                            		      	}
+                            			  }
+                            			}
+                        			}
+                            	}
+                            }
+                           */
+                		}
             		}
             	}
             }
@@ -662,7 +729,7 @@ public class MenuStart extends JPanel implements ActionListener {
     }
     
     /**
-     * Setzt die Menü-Button aufs JPanel, je nachdem welchen Zustand das Menü gerade hat
+     * Setzt die Menï¿½-Button aufs JPanel, je nachdem welchen Zustand das Menï¿½ gerade hat
      */
 	public void initMenu(){
 		// Zeichne MenÃ¼elemente
@@ -709,7 +776,7 @@ public class MenuStart extends JPanel implements ActionListener {
 
 	/**
 	 * Gibt alle Spielrelevaten Informationen in der Infoleiste wieder
-	 * Informationen für Leben, Coins etc. werden duch getter und setter Methoden aus dem Player aufgerufen
+	 * Informationen fï¿½r Leben, Coins etc. werden duch getter und setter Methoden aus dem Player aufgerufen
 	 * @param g
 	 */
 	public void Score(Graphics2D g) {
@@ -733,7 +800,7 @@ public class MenuStart extends JPanel implements ActionListener {
 	}
 
 	/**
-	 * Gibt eine Message aus, ob das Spiel gewonnen oder verloren wurde und ermöglicht den Neustart des Spiels
+	 * Gibt eine Message aus, ob das Spiel gewonnen oder verloren wurde und ermï¿½glicht den Neustart des Spiels
 	 * @param msg
 	 * @param g
 	 */
@@ -749,10 +816,10 @@ public class MenuStart extends JPanel implements ActionListener {
 	}
 
 	/**
-	 * Prüft, ob das Spiel gestartet ist oder nicht
-	 * Wenn das Spiel läuft wird das JPanel neu gezeichnet
+	 * Prï¿½ft, ob das Spiel gestartet ist oder nicht
+	 * Wenn das Spiel lï¿½uft wird das JPanel neu gezeichnet
 	 * Wird vom Timer gesteuert
-	 * actionPerfomed müssen alle Aktionen übergeben werden, die der Timer ausführen soll
+	 * actionPerfomed mï¿½ssen alle Aktionen ï¿½bergeben werden, die der Timer ausfï¿½hren soll
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
