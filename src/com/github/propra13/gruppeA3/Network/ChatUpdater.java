@@ -30,7 +30,6 @@ public class ChatUpdater extends Thread {
 	 * Die Run Methode, hier werden die Nachrichten abgefangen
 	 */
 	public void run() {
-		System.out.println("run...");
 		boolean running = true;
 		String vergleich;
 		while(running){
@@ -55,6 +54,7 @@ public class ChatUpdater extends Thread {
 				if(vergleich.equalsIgnoreCase("chat")){
 					String s = chat.getProtocol().receiveString();
 					chat.append(s);
+					System.out.println("chat rec:"+s);
 				}
 				} catch (IOException e) {
 					// TODO Auto-generated catch block

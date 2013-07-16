@@ -30,8 +30,8 @@ public class ClientUpdater extends Thread {
 		this.protocol = protocol;
 		this.players = players;
 		this.playerID = playerID;
-		gui.setPlayer(players[playerID]);
-		gui.addKeyListener(new Keys(players[playerID]));
+		//gui.setPlayer(players[playerID]);
+		//gui.addKeyListener(new Keys(players[playerID]));
 	}
 	
 	/**
@@ -41,11 +41,11 @@ public class ClientUpdater extends Thread {
 	 */
 	private void loadNextGame() throws IOException {
 		String vergleich = protocol.receiveString();
-    	if(vergleich.equals("player"))
+    	/*if(vergleich.equals("player"))
     	{
-    		players = protocol.receivePlayers();
-    	}
-    	vergleich = protocol.receiveString();
+    		//players = protocol.receivePlayers();
+    	}*/
+    	//vergleich = protocol.receiveString();
     	if(vergleich.equals("playerID"))
     	{
     		playerID = protocol.receivePlayerID();
@@ -68,13 +68,13 @@ public class ClientUpdater extends Thread {
 					continue;
 				}
 				
-				if(vergleich.equalsIgnoreCase("start"))
-					loadNextGame();
-				else if (vergleich.equalsIgnoreCase("player"))
-					players = this.protocol.receivePlayers();
-				else if(vergleich.equalsIgnoreCase("eog")){
-					running = false;
-				}			
+				//if(vergleich.equalsIgnoreCase("start"))
+				//	loadNextGame();
+				//else if (vergleich.equalsIgnoreCase("player"))
+				//	players = this.protocol.receivePlayers();
+				//else if(vergleich.equalsIgnoreCase("eog")){
+				//	running = false;
+				//}			
 			}catch(IOException ex){ex.printStackTrace();}//TODO bessere Exception
 		}	
 	}

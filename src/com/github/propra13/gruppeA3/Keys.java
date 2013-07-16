@@ -93,6 +93,9 @@ public class Keys implements KeyListener {
 							"Keine (ansonsten) / 2: "+noDirCtr/2+"<br>" +
 							"</body></html>");
 					break;
+				case KeyEvent.VK_T:
+					Game.Menu.client.getChat().setVisible(true);
+					break;
 			}
 		}
 	}

@@ -132,7 +132,9 @@ public class MenuStart extends JPanel implements ActionListener {
 	private String name="Player1", host="localhost";
 	private int port=1337;
 	
-	Music music=null;
+	public static Music music=null;
+	public static Client client;
+	
 	
 	/**
 	 * 
@@ -767,10 +769,10 @@ public class MenuStart extends JPanel implements ActionListener {
 			else if("create".equals(action)){
 				Server server = new Server(this.getPort(), MenuStart.getNetstat());
 				server.start();
-				new Client(this, MenuStart.getNetstat(), true);
+				client = new Client(this, MenuStart.getNetstat(), true);
 			}
 			else if("join".equals(action)){
-				new Client(this, MenuStart.getNetstat(), false);
+				client = new Client(this, MenuStart.getNetstat(), false);
 			}
 			else if("back".equals(action)){
 				backMenu();

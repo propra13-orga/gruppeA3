@@ -66,12 +66,13 @@ public class Client extends JFrame {
 			clientUpdater = new ClientUpdater(gui, protocol, players, playerID);
 			clientUpdater.start();
 			chat = new Chat(gui.getName(), this.protocol);
-			chat.setVisible(false);
+			chat.setVisible(true);
 		}else{
 			System.out.println("Fehlgeschlagen");
+			return;
 		}
 	 	
-	 	gui.setRandom(new Random(System.currentTimeMillis()));
+	/* 	gui.setRandom(new Random(System.currentTimeMillis()));
 		MenuStart.setActiveRoom(Map.getRoom(0));
 		
 		
@@ -80,7 +81,7 @@ public class Client extends JFrame {
 						 false, false, false, false, false, false, false);
 			
 		MenuStart.setGameStatus(GameStatus.INGAME);
-	}
+	*/}
 	
 	/**
 	 * 
@@ -113,7 +114,7 @@ public class Client extends JFrame {
 		{
 			this.protocol = new Protocol(serverName,port);
 			try {
-				this.loadNextGame();
+				//this.loadNextGame();
 				this.protocol.sendString("chat");
 				this.protocol.sendString(this.gui.getName() + " hat den Raum betreten\n");
 			} catch (IOException e) {
@@ -128,5 +129,9 @@ public class Client extends JFrame {
 					JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
+	}
+
+	public Chat getChat() {
+		return chat;
 	}
 }
