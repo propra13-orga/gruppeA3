@@ -23,7 +23,7 @@ public class Player extends Moveable {
 	private int lives = 7;
 	private int money = 0;
 	private int mana = 100;
-	private LinkedList<Item> items = null;
+	public LinkedList<Item> items = null;
 	
 	private Buff buff;
 	private Elements atkelement;
