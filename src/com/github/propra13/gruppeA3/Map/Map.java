@@ -53,7 +53,6 @@ public class Map {
 	private static String mapName;
 	
 	public static MapHeader header;
-	
 
 	final protected static String roomEnding = "room";
 	final protected static String headerEnding = "map";

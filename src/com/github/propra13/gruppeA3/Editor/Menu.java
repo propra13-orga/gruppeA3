@@ -7,10 +7,13 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.File;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -26,14 +29,18 @@ import com.github.propra13.gruppeA3.Menu.MenuStart;
  * @author Christian
  *
  */
-public class Menu extends JPanel implements ActionListener {
+public class Menu extends JPanel implements ActionListener, ItemListener {
 	private static final long serialVersionUID = 1L;
 	
 	JButton bNewMap, bOpen, bSave, bSaveAs, bExit, bAdd, bMove, bDel;
 	
 	OpenMapWindow openWindow;
 	
+	JComboBox<String> addRoomBox; //JCombobox vom "Raum hinzufügen"-Dialog
+	
 	MapHeader tempHeader; //für "Neue Karte"-Button
+	
+	
 	
 	JDialog dialog = null;
 	JTextField textField = null;
@@ -253,7 +260,7 @@ public class Menu extends JPanel implements ActionListener {
 		openWindow.showWindow();
 	}
 	
-	/**Wird aufgerufen, wenn "Speichern" gedrückt wurde.*/
+	/**Wird aufgerufen, wenn "Speichern" gedrückt wurde oder "speichern unter" bestätigt wurde.*/
 	private void bSave() {
 		File mapFile = new File(Map.mapDir+File.separator+Map.header.mapName);
 		if(mapFile.exists())
@@ -297,13 +304,49 @@ public class Menu extends JPanel implements ActionListener {
 	
 	/**Wird aufgerufen, wenn "Beenden" gedrückt wurde.*/
 	private void bExit() {
-		System.out.println("\"Beenden\" gedrückt");
 		Editor.editor.exit();
 	}
 	
 	/**Wird aufgerufen, wenn "Raum hinzufügen" gedrückt wurde.*/
 	private void bAdd() {
-		System.out.println("\"Raum hinzufügen\" gedrückt");
+		if(! Editor.editor.mapIsOpened)
+			Editor.editor.warning.showWindow("Es ist keine Karte geöffnet.");
+		else {
+			dialog = new JDialog();
+			JLabel text = new JLabel("Index des neuen Raums:");
+			JButton bOk = new JButton("Hinzufügen");
+			JButton bCancel = new JButton("Abbrechen");
+			textField = new JTextField(30);
+			bOk.setActionCommand("add room");
+			bCancel.setActionCommand("close dialog");
+			bOk.addActionListener(this);
+			bCancel.addActionListener(this);
+			
+			dialog.setTitle("Raum hinzufügen");
+			dialog.setSize(400, 80);
+			dialog.setModal(true);
+			dialog.setResizable(false);
+			dialog.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+			
+			String[] numbers = new String[Map.mapRooms.length + 1];
+			for(int i=0; i < numbers.length; i++)
+				numbers[i] = Integer.toString(i);
+			
+			addRoomBox = new JComboBox<String>(numbers);
+			
+			MenuStart.centerWindow(dialog);
+			
+			GridLayout layout = new GridLayout(2,2);
+			layout.setHgap(6);
+			layout.setVgap(6);
+			dialog.setLayout(layout);
+			dialog.add(text);
+			dialog.add(addRoomBox);
+			dialog.add(bOk);
+			dialog.add(bCancel);
+	
+			dialog.setVisible(true);
+		}
 	}
 	
 	/**Wird aufgerufen, wenn "Raum verschieben" gedrückt wurde.*/
@@ -363,6 +406,25 @@ public class Menu extends JPanel implements ActionListener {
 			tempHeader.type = MapHeader.DEATHMATCH_MAP;
 		else if(e.getActionCommand().equals("coop map"))
 			tempHeader.type = MapHeader.COOP_MAP;
+		
+		
+		//Raum hinzufügen
+		else if(e.getActionCommand().equals("add room")) {
+			for(int i=0; i <= Map.mapRooms.length; i++) {
+				String choice = (String)addRoomBox.getSelectedItem();
+				if (i == Integer.parseInt(choice)) {
+					Editor.editor.addRoom(i);
+					break;
+				}
+			}
+			dialog.setVisible(false);
+		}
+	}
+
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -16,6 +16,7 @@ import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
 import com.github.propra13.gruppeA3.Map.Link;
 import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Map.MapHeader;
+import com.github.propra13.gruppeA3.Map.Room;
 import com.github.propra13.gruppeA3.Map.Trigger;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 import com.github.propra13.gruppeA3.Menu.MenuStart.GameStatus;
@@ -38,6 +39,8 @@ public class Editor extends JTabbedPane implements ChangeListener {
 	protected NPCWindow NPCEditor;
 	
 	private Menu menuPanel = new Menu();
+	
+	public boolean mapIsOpened = false;
 	
 	/** Falls der nächste Klick ein aus einem Dialog hervorgegangener
 	 *  spezieller Auswahlklick ist (zB für den Link-Dialog)
@@ -100,6 +103,7 @@ public class Editor extends JTabbedPane implements ChangeListener {
 		
 		//Raum-Tabs
 		for(int i=0; i < Map.mapRooms.length; i++) {
+			mapIsOpened = true;
 			RoomTab roomTab = new RoomTab(Map.getRoom(i));
 			add(roomTab);
 		}
@@ -135,6 +139,38 @@ public class Editor extends JTabbedPane implements ChangeListener {
 		setVisible(false);
 		Game.Menu.remove(this);
 		Game.Menu.setVisible(true);
+	}
+	
+	/**
+	 * Fügt einen neuen Raum zur Karte hinzu.
+	 * @param index Index des neuen Raums. Alle bestehenden Räume werden daran angepasst.
+	 */
+	public void addRoom(int index) {
+		if(index == 0 && ! Map.spawns.isEmpty()) {
+			warning.showWindow("Spawns dürfen nur in Raum 0 sein.");
+			return;
+		}
+		
+		Room newRoom = new Room(index);
+		Room[] newMapRooms = new Room[Map.mapRooms.length + 1];
+		
+		//Räume in neues Array kopieren
+		for(int i=0; i < newMapRooms.length; i++) {
+			//Räume vor neuem Raum
+			if(i < index)
+				newMapRooms[i] = Map.mapRooms[i];
+			//Neuer Raum
+			else if(i == index)
+				newMapRooms[i] = newRoom;
+			//Räume hinter neuem Raum
+			else if(i > index) {
+				newMapRooms[i] = Map.mapRooms[i - 1];
+				newMapRooms[i].ID = i;
+			}
+		}
+		
+		Map.mapRooms = newMapRooms;
+		updateTabs();
 	}
 
 	/**
