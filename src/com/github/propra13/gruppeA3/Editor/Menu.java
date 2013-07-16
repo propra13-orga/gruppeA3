@@ -175,7 +175,7 @@ public class Menu extends JPanel implements ActionListener {
 		JLabel text = new JLabel("Name der neuen Karte");
 		JButton bOk = new JButton("Ok");
 		JButton bCancel = new JButton("Abbrechen");
-		JTextField textField = new JTextField(30);
+		textField = new JTextField(30);
 		bOk.setActionCommand("new map");
 		bCancel.setActionCommand("close dialog");
 		bOk.addActionListener(this);
@@ -271,8 +271,10 @@ public class Menu extends JPanel implements ActionListener {
 			bDel();
 		
 		//Dialog-Knöpfe
-		else if(e.getActionCommand().equals("new map"))
+		else if(e.getActionCommand().equals("new map")) {
 			Map.newMap(textField.getText());
+			dialog.setVisible(false);
+		}
 		else if(e.getActionCommand().equals("close dialog"))
 			dialog.setVisible(false);
 	}

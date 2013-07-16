@@ -3,12 +3,14 @@ package com.github.propra13.gruppeA3;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.io.IOException;
+import java.util.LinkedList;
 
 import javax.swing.JFrame;
 
 import com.github.propra13.gruppeA3.Exceptions.InvalidRoomLinkException;
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
 import com.github.propra13.gruppeA3.Map.Map;
+import com.github.propra13.gruppeA3.Map.MapHeader;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 import com.github.propra13.gruppeA3.XMLParser.SAXCrawlerReader;
 
@@ -21,6 +23,8 @@ public class Game extends JFrame{
 	
 	public static JFrame frame;
 	public static MenuStart Menu;
+	
+	public static LinkedList<MapHeader> mapHeaders = new LinkedList<MapHeader>();
 	
 	public Game() {
 		setTitle("Dungeon Crawler");

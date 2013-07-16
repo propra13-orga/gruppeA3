@@ -7,9 +7,17 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import com.github.propra13.gruppeA3.Game;
 import com.github.propra13.gruppeA3.Editor.Editor;
 import com.github.propra13.gruppeA3.Exceptions.*;
 import com.github.propra13.gruppeA3.Map.Map;
@@ -36,9 +44,11 @@ public class Map {
 	
 	private static String mapName;
 	
+	public static MapHeader header;
+	
 
 	final static String roomEnding = "room";
-	final static String metaEnding = "xml";
+	final static String headerEnding = "map";
 	
 	/** Ob man durchs Ziel gehen kann oder nicht*/
 	public static boolean endIsOpen = false;
@@ -55,18 +65,18 @@ public class Map {
 	
 	/**
 	 * Baut Map aus gegebenem Verzeichnisnamen.
-	 * Interpretiert alle durchnummerierten "xy.room"-Dateien als Rooms.
+	 * Interpretiert alle durchnummerierten "xy.room"-Dateien als Raum-Dateien.
 	 * @param dirName Verzeichnisname der Map
 	 * @throws FileNotFoundException Falls eine geforderte Datei nicht vorhanden ist
 	 * @throws MapFormatException Falls beim Lesen der Map ein Fehler auftrat, der auf das Format der Mapdateien zurückzuführen ist
 	 * @throws IOException System-IO-Fehler
 	 * @throws InvalidRoomLinkException Falls ein Fehler bei einem Link vorliegt
 	 */
-	public static void initialize(String dirName) 
+	public static void initialize(String mapName) 
 			throws FileNotFoundException, MapFormatException, IOException, InvalidRoomLinkException {
 		
 		spawns.clear();
-		setMapName(dirName);
+		setMapName(mapName);
 		
 		//Map einlesen
 		mapRooms = readRooms();
@@ -84,11 +94,20 @@ public class Map {
 	}
 	
 	/**
-	 * Erstellt eine neue Karte.
+	 * Erstellt eine neue Karte mit einem leeren Raum.
 	 * @param mapName Name der neuen Karte
 	 */
 	public static void newMap(String mapName) {
+		Map.mapName = mapName;
 		
+		//Attribute und Listen zurücksetzen
+		spawns.clear();
+		links = null;
+		end = null;
+		endIsOpen = false;
+		
+		mapRooms = new Room[1];
+		mapRooms[0] = new Room(0);
 	}
 	
 	/**
@@ -118,16 +137,89 @@ public class Map {
 				dirs.add(mapsDirEntries[i]);
 		}
 		
-		//In Verzeichnissen die raussuchen, die .room-Dateien haben
-		mapList.clear();
+		//In Verzeichnissen die raussuchen, die .room- und .map-Dateien haben
+		LinkedList<File> mapHeaderFiles = new LinkedList<File>(); //Sammlung aller einzulesenden Header-Dateien
+		LinkedList<MapHeader> headers = new LinkedList<MapHeader>();
+		
+		//Iteriert über Map-Verzeichnise
+		File testDir;
 		for(Iterator<File> iter = dirs.iterator(); iter.hasNext();) {
-			String fileName = iter.next().getName();
-			String[] fileNameParts = fileName.split("\\.(?=[^\\.]+$)");
+			testDir = iter.next();
+			boolean hasRoom = false;
+			boolean hasHeader = false;
 			
-			//Falls eventuell Raum-Datei, zur Map-Liste hinzufügen
-			if(fileNameParts.length > 1 && fileNameParts[1].equals(roomEnding))
-				mapList.add(fileName);
+			File[] mapFiles = testDir.listFiles();
+			File header=null;
+			
+			//Iteriert über Dateien in Map-Verzeichnis
+			for(int i=0; i < mapFiles.length; i++) {
+				String fileName = mapFiles[i].getName();
+				String[] fileNameParts = fileName.split("\\.(?=[^\\.]+$)");
+				
+				//Auf Raum- und Headerdateien prüfen
+				if(fileNameParts.length > 1) {
+					if(fileNameParts[1].equals(roomEnding))
+						hasRoom = true;
+					else if(fileNameParts[1].equals(headerEnding)) {
+						header = mapFiles[i];
+						hasHeader = true;
+					}
+				}
+			}
+			
+			//Falls Header und Raumdateien gefunden wurden, ist dieses Verzeichnis eine Map
+			if(hasRoom && hasHeader)
+				mapHeaderFiles.add(header);
 		}
+		
+		
+		//Liest Header aus
+		File header;
+		for(Iterator<File> iter = mapHeaderFiles.iterator(); iter.hasNext();) {
+			header = iter.next();
+			
+			//DOM-doc mit xml-Inhalt erzeugen
+			Document doc = null;
+			try {
+				DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+				doc = dBuilder.parse(header);
+			} catch (SAXException | IOException | ParserConfigurationException e) {
+				e.printStackTrace();
+			}
+			doc.getDocumentElement().normalize();
+			
+			
+			/*
+			 * Header-Inhalt auslesen
+			 */
+			
+			NodeList headerNodes = doc.getElementsByTagName("header");
+			Element headerEl = (Element)headerNodes.item(0);
+			
+			int type = -1;
+			switch(headerEl.getAttribute("typ")) {
+			case "kampagne":
+				type = MapHeader.STORY_MAP;
+				break;
+			case "coop":
+				type = MapHeader.COOP_MAP;
+				break;
+			case "deathmatch":
+				type = MapHeader.DEATHMATCH_MAP;
+				break;
+			case "einzelspieler":
+				type = MapHeader.CUSTOM_MAP;
+				break;
+			}
+			
+			String name = headerEl.getAttribute("name");
+			int maxPlayers = Integer.parseInt(headerEl.getAttribute("maxSpieler"));
+			int storyID = Integer.parseInt(headerEl.getAttribute("kampagneID"));
+			
+			headers.add(new MapHeader(name, type, maxPlayers, storyID));
+		}
+		
+		Game.mapHeaders = headers;
 	}
 	
 	/**
@@ -172,19 +264,19 @@ public class Map {
 		
 		
 		//Sortiere Dateien (Rooms-Array (sortiert), sonstige)
-		String[] roomNames = new String[fileArray.length];
+		String[] roomNames = new String[fileArray.length - 1];
 		int roomFoundCounter=0;
 		for (int i=0; i < fileArray.length; i++) {
 			String fileName = fileArray[i].getName();
 			String[] fileNameParts = fileName.split("\\.(?=[^\\.]+$)");
 			
-			if(fileNameParts.length > 1) {
+			if(fileNameParts.length > 1) { //TODO
 				switch (fileNameParts[1]) {
 					case Map.roomEnding:
 						roomNames[roomFoundCounter] = fileNameParts[0];
 						roomFoundCounter++;
 						break;
-					case Map.metaEnding:
+					case Map.headerEnding:
 						/* TODO:
 						 * Datei mit Mapinformationen (xml)
 						 */
@@ -303,38 +395,6 @@ public class Map {
 			targetFields[1].setLink(link);
 			
 		}
-	}
-	
-	/* TODO: Überprüft die Links zwischen Rooms auf Konsistenz
-	 * Derzeit: Testweise Ausgabe aller Links
-	 * TODO: Kriterien für vernünftige Links:
-	 * 			Ein Feld hinter Link ist frei
-	 * 			Neben Links sind Wände (Links sind einzelne Einbuchtungen in der Randwand)
-	 * 
-	 */
-	@SuppressWarnings("unused")
-	private void checkLinks() throws InvalidRoomLinkException {
-		//Iteriert über Räume
-		for (int k=0; k < Map.mapRooms.length; k++) {
-			
-			//Iteriert über Zeilen
-			for (int i=0; i < Map.mapRooms[k].roomFields[0].length; i++) {
-				
-				//Iteriert über Spalten
-				for (int j=0; j < Map.mapRooms[k].roomFields.length; j++) {
-					
-					if(Map.mapRooms[k].roomFields[j][i].link != null) {
-						FieldPosition pos1 = Map.mapRooms[k].roomFields[j][i].link.targetFields[0].pos;
-						FieldPosition pos2 = Map.mapRooms[k].roomFields[j][i].link.targetFields[1].pos;
-						Room room1 = Map.mapRooms[k].roomFields[j][i].link.targetRooms[0];
-						Room room2 = Map.mapRooms[k].roomFields[j][i].link.targetRooms[1];
-						Room room = Map.mapRooms[k];
-						FieldPosition pos = Map.mapRooms[k].roomFields[j][i].pos;
-					}
-				}
-			}
-		}
-		
 	}
 	
 	/**

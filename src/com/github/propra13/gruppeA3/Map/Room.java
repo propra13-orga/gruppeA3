@@ -61,9 +61,35 @@ public class Room {
 	public Room(int roomID, String filename)
 			throws IOException, MapFormatException {
 		this.ID = roomID;
-		System.out.println("Baue Raum: "+ID);
 		this.roomFields = readFile(filename);
 		buildCheckpoints();
+	}
+	
+	/**
+	 * Baut frischen Raum mit Wänden am Rand und Boden in der Mitte.
+	 * Wird für den Editor benötigt.
+	 * @param ID ID des neuen Raums
+	 */
+	public Room(int ID) {
+		this.ID = ID;
+		roomFields = new Field[Map.ROOMWIDTH][Map.ROOMHEIGHT];
+		
+		//Felder setzen
+		//Iteriert über Spalten
+		for (int i = 0; i < roomFields.length; i++) {
+			//Iteriert über Zeilen
+			for (int j = 0; j < roomFields[i].length; j++) {
+				
+				//Raumrand
+				if(i == 0 || i == roomFields.length - 1 ||
+						j == 0 || j == roomFields[i].length - 1)
+					roomFields[i][j] = new Field(this, 2, 0, 0, 0, new FieldPosition(i, j));
+				
+				//kein Raumrand
+				else
+					roomFields[i][j] = new Field(this, 1, 0, 0, 0, new FieldPosition(i, j));
+			}
+		}
 	}
 	
 	/**

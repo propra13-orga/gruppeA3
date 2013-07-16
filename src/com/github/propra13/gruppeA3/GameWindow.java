@@ -198,6 +198,11 @@ public class GameWindow {
         return img;
     }
     
+    /**
+     * Produziert eine um 90° gedrehte Kopie eines BufferedImages.
+     * @param img zu drehendes Bild
+     * @return gedrehtes Bild
+     */
     public static BufferedImage rotate(BufferedImage img) {
     	BufferedImage bufImg = (BufferedImage)img;
         int width = bufImg.getWidth();

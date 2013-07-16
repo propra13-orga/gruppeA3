@@ -69,22 +69,6 @@ public class Editor extends JTabbedPane implements ChangeListener {
 		itemEditor = new ItemWindow();
 		NPCEditor = new NPCWindow();
 		
-		// init Map //TODO: xmlName ist Provisorium
-		@SuppressWarnings("unused")
-		String xmlName = null;
-		switch(mapName) {
-		case "Story01":
-			xmlName = "level1";
-			break;
-		case "Story02":
-			xmlName = "level2";
-			break;
-		case "Story03":
-			xmlName = "level3";
-			break;
-		default:
-			break;
-		}
 		try {
 			Map.initialize(this.mapName);
 			//Map.loadXML(xmlName);
@@ -109,6 +93,7 @@ public class Editor extends JTabbedPane implements ChangeListener {
 	
 	/**
 	 * Schreibt die aktuelle Karte.
+	 * TODO: Sanity-Check
 	 */
 	public void write() {
 		boolean error = false;

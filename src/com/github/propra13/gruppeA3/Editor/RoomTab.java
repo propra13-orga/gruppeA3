@@ -188,7 +188,7 @@ public class RoomTab extends JPanel implements MouseListener, ActionListener {
 		}
 		
 		//Ziel markieren
-		if(Map.end.getRoom() == room)
+		if(Map.end != null && Map.end.getRoom() == room)
 			highlightField(Map.end, FieldHighlight.Type.END);
 		
 		
