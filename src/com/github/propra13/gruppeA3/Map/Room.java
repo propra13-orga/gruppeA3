@@ -772,7 +772,8 @@ public class Room {
 		else
 			filename = Integer.toString(ID);
 		BufferedWriter writer = null;
-		writer = new BufferedWriter(new FileWriter(mapDir +File.separator+ filename+".room"));
+		writer = new BufferedWriter(new FileWriter(
+				mapDir +File.separator+ Map.header.mapName +File.separator+ filename+"."+Map.roomEnding));
 		writer.write(sw.toString());
 		writer.close();
 	}

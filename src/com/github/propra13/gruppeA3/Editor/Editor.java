@@ -85,7 +85,7 @@ public class Editor extends JTabbedPane implements ChangeListener {
 	public void openMap(MapHeader header) {
 		
 		try {
-			Map.initialize(header.mapName);
+			Map.initialize(header);
 		} catch (MapFormatException | IOException | InvalidRoomLinkException e) {
 			e.printStackTrace();
 		}
@@ -165,6 +165,65 @@ public class Editor extends JTabbedPane implements ChangeListener {
 			//Räume hinter neuem Raum
 			else if(i > index) {
 				newMapRooms[i] = Map.mapRooms[i - 1];
+				newMapRooms[i].ID = i;
+			}
+		}
+		
+		Map.mapRooms = newMapRooms;
+		updateTabs();
+	}
+	
+	/**
+	 * Verschiebt einen Raum.
+	 * @param roomToMove Raum, der verschoben wird
+	 * @param newIndex Neue Stelle des Raums
+	 */
+	public void moveRoom(int indexToMove, int newIndex) {
+		if( (indexToMove==0 || newIndex==0) && ! Map.spawns.isEmpty() ) {
+			warning.showWindow("Spawns dürfen nur in Raum 0 sein.");
+			return;
+		}
+		
+		Room roomToMove = Map.mapRooms[indexToMove];
+		
+		//Verschieben
+		for(int i=0; i < Map.mapRooms.length; i++) {
+			//Verschiebung nach rechts; alle im Zwischenraum einen nach links schieben
+			if(indexToMove < newIndex && i > indexToMove && i <= newIndex) {
+				Map.mapRooms[i - 1] = Map.mapRooms[i];
+				Map.mapRooms[i-1].ID = i-1;
+			}
+			//Verschiebung nach links; alle im Zwischenraum einen nach rechts schieben
+			else if(indexToMove > newIndex && i > newIndex && i <= indexToMove) {
+				Map.mapRooms[i + 1] = Map.mapRooms[i];
+				Map.mapRooms[i+1].ID = i+1;
+			}
+		}
+		
+		Map.mapRooms[newIndex] = roomToMove;
+		Map.mapRooms[newIndex].ID = newIndex;
+		updateTabs();
+	}
+	
+	/**
+	 * Löscht einen Raum.
+	 * @param indexToDelete Raum, der gelöscht werden soll.
+	 */
+	public void deleteRoom(int indexToDelete) {
+		//ggf. Spawns und Ende in Map löschen
+		if(indexToDelete == 0)
+			Map.spawns.clear();
+		if(Map.end != null && Map.end.getRoom() == Map.getRoom(indexToDelete)) {
+			Map.end = null;
+		}
+		
+		//Raum löschen
+		Room[] newMapRooms = new Room[Map.mapRooms.length - 1];
+		for(int i=0; i < newMapRooms.length; i++) {
+			if(i < indexToDelete)
+				newMapRooms[i] = Map.mapRooms[i];
+			else {
+				newMapRooms[i] = Map.mapRooms[i+1];
 				newMapRooms[i].ID = i;
 			}
 		}

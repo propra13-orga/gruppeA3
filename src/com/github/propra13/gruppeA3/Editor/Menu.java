@@ -7,8 +7,6 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.io.File;
 
 import javax.swing.ButtonGroup;
@@ -29,14 +27,16 @@ import com.github.propra13.gruppeA3.Menu.MenuStart;
  * @author Christian
  *
  */
-public class Menu extends JPanel implements ActionListener, ItemListener {
+public class Menu extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	
 	JButton bNewMap, bOpen, bSave, bSaveAs, bExit, bAdd, bMove, bDel;
 	
 	OpenMapWindow openWindow;
 	
-	JComboBox<String> addRoomBox; //JCombobox vom "Raum hinzufügen"-Dialog
+	JComboBox<String> addRoomBox; //JComboBox vom "Raum hinzufügen"-Dialog
+	JComboBox<String> moveRoomFromBox; //linke JComboBox vom "Raum verschieben"-Dialog
+	JComboBox<String> moveRoomToBox; //rechte JCombobox vom "Raum verschieben"-Dialog
 	
 	MapHeader tempHeader; //für "Neue Karte"-Button
 	
@@ -351,12 +351,95 @@ public class Menu extends JPanel implements ActionListener, ItemListener {
 	
 	/**Wird aufgerufen, wenn "Raum verschieben" gedrückt wurde.*/
 	private void bMove() {
-		System.out.println("\"Raum verschieben\" gedrückt");
+		if(! Editor.editor.mapIsOpened) {
+			Editor.editor.warning.showWindow("Es ist keine Karte geöffnet.");
+			return;
+		}
+		dialog = new JDialog();
+		JLabel textFrom = new JLabel("Verschiebe Raum ...");
+		JLabel textTo = new JLabel("nach ...");
+		JButton bOk = new JButton("Verschieben");
+		JButton bCancel = new JButton("Abbrechen");
+		bOk.setActionCommand("move room");
+		bCancel.setActionCommand("close dialog");
+		bOk.addActionListener(this);
+		bCancel.addActionListener(this);
+		
+		dialog.setTitle("Raum verschieben");
+		dialog.setSize(350, 120);
+		dialog.setModal(true);
+		dialog.setResizable(false);
+		dialog.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+		
+		String[] numbers1 = new String[Map.mapRooms.length];
+		for(int i=0; i < numbers1.length; i++)
+			numbers1[i] = Integer.toString(i);
+		
+		String[] numbers2 = new String[Map.mapRooms.length];
+		for(int i=0; i < numbers2.length; i++)
+			numbers2[i] = Integer.toString(i);
+		
+		moveRoomFromBox = new JComboBox<String>(numbers1);
+		moveRoomToBox = new JComboBox<String>(numbers2);
+		
+		MenuStart.centerWindow(dialog);
+		
+		GridLayout layout = new GridLayout(3,2);
+		layout.setHgap(6);
+		layout.setVgap(6);
+		dialog.setLayout(layout);
+		dialog.add(textFrom);
+		dialog.add(moveRoomFromBox);
+		
+		dialog.add(textTo);
+		dialog.add(moveRoomToBox);
+		
+		dialog.add(bOk);
+		dialog.add(bCancel);
+
+		dialog.setVisible(true);
 	}
 	
 	/**Wird aufgerufen, wenn "Raum löschen" gedrückt wurde.*/
 	private void bDel() {
-		System.out.println("\"Raum löschen\" gedrückt");
+		if(! Editor.editor.mapIsOpened) {
+			Editor.editor.warning.showWindow("Es ist keine Karte geöffnet.");
+			return;
+		}
+		dialog = new JDialog();
+		JLabel text = new JLabel("Lösche Raum ...");
+		JButton bOk = new JButton("Löschen");
+		JButton bCancel = new JButton("Abbrechen");
+		bOk.setActionCommand("delete room");
+		bCancel.setActionCommand("close dialog");
+		bOk.addActionListener(this);
+		bCancel.addActionListener(this);
+		
+		dialog.setTitle("Raum löschen");
+		dialog.setSize(350, 80);
+		dialog.setModal(true);
+		dialog.setResizable(false);
+		dialog.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+		
+		String[] numbers = new String[Map.mapRooms.length];
+		for(int i=0; i < numbers.length; i++)
+			numbers[i] = Integer.toString(i);
+		
+		moveRoomFromBox = new JComboBox<String>(numbers);
+		
+		MenuStart.centerWindow(dialog);
+		
+		GridLayout layout = new GridLayout(2,2);
+		layout.setHgap(6);
+		layout.setVgap(6);
+		dialog.setLayout(layout);
+		dialog.add(text);
+		dialog.add(moveRoomFromBox);
+		
+		dialog.add(bOk);
+		dialog.add(bCancel);
+
+		dialog.setVisible(true);
 	}
 
 	@Override
@@ -419,12 +502,21 @@ public class Menu extends JPanel implements ActionListener, ItemListener {
 			}
 			dialog.setVisible(false);
 		}
-	}
-
-	@Override
-	public void itemStateChanged(ItemEvent e) {
-		// TODO Auto-generated method stub
 		
+		//Raum verschieben
+		else if(e.getActionCommand().equals("move room")) {
+			String roomToMove = (String)moveRoomFromBox.getSelectedItem();
+			String newIndex = (String)moveRoomToBox.getSelectedItem();
+			dialog.setVisible(false);
+			Editor.editor.moveRoom(Integer.parseInt(roomToMove), Integer.parseInt(newIndex));
+		}
+		
+		//Raum löschen
+		else if(e.getActionCommand().equals("delete room")) {
+			String roomToDelete = (String)moveRoomFromBox.getSelectedItem();
+			dialog.setVisible(false);
+			Editor.editor.deleteRoom(Integer.parseInt(roomToDelete));
+		}
 	}
 
 }

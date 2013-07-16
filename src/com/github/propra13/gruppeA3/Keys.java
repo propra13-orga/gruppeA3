@@ -83,7 +83,7 @@ public class Keys implements KeyListener {
 					player.setMana(100);
 					break;
 					
-				//Debug-Info-Knopf
+				//Debug-Knöpfe
 				case KeyEvent.VK_L:
 					msgWindow.showWindow("<html><body>" +
 							"Rauf (r%6 = 0): "+upCtr+"<br>" +
@@ -93,6 +93,9 @@ public class Keys implements KeyListener {
 							"Keine (ansonsten) / 2: "+noDirCtr/2+"<br>" +
 							"</body></html>");
 					break;
+					
+				case KeyEvent.VK_P:
+					player.win();
 			}
 		}
 	}

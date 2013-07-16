@@ -38,6 +38,7 @@ import com.github.propra13.gruppeA3.Entities.Moveable.Direction;
 import com.github.propra13.gruppeA3.Exceptions.InvalidRoomLinkException;
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
 import com.github.propra13.gruppeA3.Map.Map;
+import com.github.propra13.gruppeA3.Map.MapHeader;
 import com.github.propra13.gruppeA3.Map.Position;
 import com.github.propra13.gruppeA3.Map.Room;
 import com.github.propra13.gruppeA3.Network.Client;
@@ -114,9 +115,9 @@ public class MenuStart extends JPanel implements ActionListener {
     public static enum NetworkStatus {NONE, DEATHMATCH, COOP}
     private static GameStatus gameStatus;
     private static NetworkStatus netstat = NetworkStatus.NONE;
-	
-    // Zähler, welche Map die jeweils nächste ist
-	private static int nextMap = 1;
+    
+    /**Header der Map, die gerade gespielt wird oder zuletzt gespielt wurde*/
+    MapHeader lastMap;
 
 
 	//score infoleiste
@@ -268,20 +269,24 @@ public class MenuStart extends JPanel implements ActionListener {
     }
     
     // Startet Spiel
-    public void initGame(String mapName, String xmlName, int playerID) {
+    public void initMap(MapHeader header, int playerID) {
 
     	// Stellt Map auf
 	 	try {
-	 		Map.initialize(mapName);
-	 		//Map.loadXML(xmlName);
+	 		Map.initialize(header);
 	 	} catch (InvalidRoomLinkException | IOException | MapFormatException e) {
 	 		e.printStackTrace();
 	 	}
 	 	
 	 	randomgen = new Random(System.currentTimeMillis());
 		activeRoom = Map.getRoom(0);
-		if(nextMap == 1)
+		
+		//Falls bisher keine Map gespielt wurde oder die letzte Map nicht die letzte Storymap war
+		if(		lastMap == null || 
+				//oder die letzte Map nicht die letzte Storymap war
+				! (lastMap.type == MapHeader.STORY_MAP && lastMap.storyID == Game.storyHeaders.size()))
 			player = new Player(playerID);
+		
 		else
 			player.initialize();
 		addKeyListener(new Keys(player));
@@ -292,6 +297,7 @@ public class MenuStart extends JPanel implements ActionListener {
 						 false, false, false, false, false, false,
 						 false);
 			
+		lastMap = Map.header;
 		setGameStatus(GameStatus.INGAME);
  	}
  
@@ -637,7 +643,8 @@ public class MenuStart extends JPanel implements ActionListener {
 		// bestimme Position und Größe
 		
 		//Falls schon eine Karte gemeistert wurde, Nächste-Karte-Button anzeigen
-		if(nextMap > 1 && nextMap < 4) {
+		if(getGameStatus() == GameStatus.MAPWON) {
+			
 			background.setVisible(true);
 			buttonNextMap.setVisible(true);
 			buttonOptionen.setVisible(true);
@@ -651,6 +658,12 @@ public class MenuStart extends JPanel implements ActionListener {
 		// Ansonsten normales Hauptmenü anzeigen
 		else {
 			buttonNextMap.setVisible(false);
+			buttonNewGame.setVisible(true);
+			buttonNetwork.setVisible(true);
+			buttonEditor.setVisible(true);
+			buttonOptionen.setVisible(true);
+			buttonHelp.setVisible(true);
+			buttonBeenden.setVisible(true);
 			buttonNewGame.setBounds(buttonPosX,buttonPosY,    200,30);
 			buttonNetwork.setBounds(buttonPosX,buttonPosY+40, 200,30);
 			buttonEditor.setBounds(buttonPosX, buttonPosY+80, 200,30);
@@ -709,15 +722,17 @@ public class MenuStart extends JPanel implements ActionListener {
 		else {
 			//Spielstart
 			String action = e.getActionCommand();
-			if("newgame".equals(action)) {
-				nextMap = 1;
-				initGame("Story01", "level1", 0);
-			}
-			else if("nextmap".equals(action)) {
-				if (nextMap < 10)
-					initGame("Story0"+nextMap, "level"+nextMap, 0);
+			if("newgame".equals(action) || "nextmap".equals(action)) {
+				MapHeader mapToStart = null;
+				//Falls zuletzt keine oder die letzte Storymap gespielt wurde, erste starten
+				if(lastMap == null || lastMap.type != MapHeader.STORY_MAP ||
+						(lastMap.type == MapHeader.STORY_MAP && lastMap.storyID == Game.storyHeaders.size()))
+					mapToStart = Game.storyHeaders.getFirst();
+				//anderenfalls nächste Storymap starten
 				else
-					initGame("Story"+nextMap, "level"+nextMap, 0);
+					mapToStart = Game.storyHeaders.get(lastMap.storyID);
+				
+				initMap(mapToStart, 0);
 			}
 			
 			//Hilfe
@@ -1045,18 +1060,23 @@ public class MenuStart extends JPanel implements ActionListener {
 	 */
 	public static void death() {
 		setGameStatus(GameStatus.GAMEOVER);
-		nextMap = 1; // Reset des Spiels
+		Game.Menu.lastMap = null; // Reset des Spiels
 	}
 	
 	/** Wird von Player aufgerufen, wenn der Spieler das Ziel der Map betritt
 	 * Anhand von nextMap wird die nächste Karte ausgesucht
 	 */
 	public static void winMap() {
-		nextMap++; 
-		if (nextMap > 3) //3: Anzahl der Maps, die wir derzeit haben
-			setGameStatus(GameStatus.GAMEWON);
+		//Falls die letzte Map eine Storymap war
+		if(Game.Menu.lastMap.type == MapHeader.STORY_MAP) {
+			if(Game.Menu.lastMap.storyID >= Game.storyHeaders.size())
+				setGameStatus(GameStatus.GAMEWON);
+			else
+				setGameStatus(GameStatus.MAPWON);
+		}
+		//Falls keine Storymap, Spiel gewonnen
 		else
-			setGameStatus(GameStatus.MAPWON);
+			setGameStatus(GameStatus.GAMEWON);
 	}
 	
 	private void executeTalk(){

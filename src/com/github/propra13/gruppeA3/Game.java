@@ -24,7 +24,10 @@ public class Game extends JFrame{
 	public static JFrame frame;
 	public static MenuStart Menu;
 	
+	/**Die Header von allen verfügbaren Maps*/
 	public static LinkedList<MapHeader> mapHeaders = new LinkedList<MapHeader>();
+	/**Die Header von allen verfügbaren Kampagnenmaps*/
+	public static LinkedList<MapHeader> storyHeaders = new LinkedList<MapHeader>();
 	
 	public Game() {
 		setTitle("Dungeon Crawler");

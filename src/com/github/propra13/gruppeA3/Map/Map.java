@@ -50,8 +50,6 @@ public class Map {
 	static public Link[] links;
 	static public Field end;
 	
-	private static String mapName;
-	
 	public static MapHeader header;
 
 	final protected static String roomEnding = "room";
@@ -81,11 +79,11 @@ public class Map {
 	 * @throws IOException System-IO-Fehler
 	 * @throws InvalidRoomLinkException Falls ein Fehler bei einem Link vorliegt
 	 */
-	public static void initialize(String mapName) 
+	public static void initialize(MapHeader header) 
 			throws FileNotFoundException, MapFormatException, IOException, InvalidRoomLinkException {
 		
 		spawns.clear();
-		setMapName(mapName);
+		Map.header = header;
 		
 		//Map einlesen
 		mapRooms = readRooms();
@@ -227,6 +225,23 @@ public class Map {
 		}
 		
 		Game.mapHeaders = headers;
+		
+		//Kampagnenheader geordnet zusammensammeln
+		LinkedList<MapHeader> storyHeaders = new LinkedList<MapHeader>();
+		int storyCtr = 1;
+		MapHeader testHeader;
+		for(Iterator<MapHeader> iter = headers.iterator(); iter.hasNext();) {
+			testHeader = iter.next();
+			
+			//Den nächsten Story-Header gefunden
+			if(testHeader.type == MapHeader.STORY_MAP && testHeader.storyID == storyCtr) {
+				storyHeaders.add(testHeader);
+				iter = headers.iterator();
+				storyCtr++;
+			}
+		}
+		
+		Game.storyHeaders = storyHeaders;
 	}
 	
 	/**
@@ -263,7 +278,7 @@ public class Map {
 		
 		//Sammle Map-Dateien
 		String dir = System.getProperty("user.dir");
-		dir = dir + File.separator + "data" + File.separator + "maps" + File.separator + mapName;
+		dir = dir + File.separator + "data" + File.separator + "maps" + File.separator + header.mapName;
 		File f = new File(dir);
 		if (! f.exists())
 			throw new FileNotFoundException(dir);
@@ -388,7 +403,8 @@ public class Map {
 		
 		//Schreibt xml-String in Datei
 		BufferedWriter writer = null;
-		writer = new BufferedWriter(new FileWriter(mapDir +File.separator+"header"+headerEnding));
+		writer = new BufferedWriter(new FileWriter(
+				mapDir +File.separator+header.mapName+File.separator+"header"+"."+headerEnding));
 		writer.write(sw.toString());
 		writer.close();
 	}
@@ -404,6 +420,9 @@ public class Map {
 	 * 	Überprüft alle Links auf Konsistenz (evtl. auslagern auf Link-Klasse)
 	 */
 	private static void buildLinks() throws InvalidRoomLinkException {
+		//Vorzeitiger Abbruch, wenn es keine Links zu bauen gibt
+		if(linkBuffer.isEmpty())
+			return;
 		
 		// Sucht Link mit der höchsten ID
 		int highID = 0;
@@ -520,13 +539,5 @@ public class Map {
 	 */
 	public static Room getRoom(int roomID){
 		return mapRooms[roomID];
-	}
-	
-	public static String getName() {
-		return mapName;
-	}
-	
-	public static void setMapName(String mapName) {
-		Map.mapName = mapName;
 	}
 }
