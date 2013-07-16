@@ -44,6 +44,11 @@ import com.github.propra13.gruppeA3.Map.Room;
 import com.github.propra13.gruppeA3.Network.Client;
 import com.github.propra13.gruppeA3.Network.Server;
 
+/**
+ * Klasse für Menu- und Spielablauf
+ *
+ */
+
 @SuppressWarnings("serial")
 public class MenuStart extends JPanel implements ActionListener {
 
@@ -136,9 +141,10 @@ public class MenuStart extends JPanel implements ActionListener {
 	public static Music music=null;
 	public static Client client;
 	
-	
 	/**
-	 * 
+	 * Konstruktor der Klasse MenuStart
+	 * Initalisiert alle Komponenten die für das Spiel notwendig sind
+	 * Setzt das Layout des Panels fest
 	 */
     public MenuStart() {
     			
@@ -149,7 +155,11 @@ public class MenuStart extends JPanel implements ActionListener {
         setSize(GameMinSizeX, GameMinSizeY);
         setDoubleBuffered(true);
         
-        setGameStatus(GameStatus.MAINMENU); //wichtig fÃ¼r den ersten Spiel aufruf
+        setGameStatus(GameStatus.MAINMENU); 
+
+        /**
+         * Initalisiert und startet den Timer mit timer.start
+         */
         timer = new Timer(delay, this);
         timer.start();
         
@@ -651,6 +661,9 @@ public class MenuStart extends JPanel implements ActionListener {
         } 
     }
     
+    /**
+     * Setzt die Menü-Button aufs JPanel, je nachdem welchen Zustand das Menü gerade hat
+     */
 	public void initMenu(){
 		// Zeichne MenÃ¼elemente
 		// Lege Standardpositionen fÃ¼r Buttons fest
@@ -694,7 +707,11 @@ public class MenuStart extends JPanel implements ActionListener {
 	}
 
 
-	//Score and set Leben
+	/**
+	 * Gibt alle Spielrelevaten Informationen in der Infoleiste wieder
+	 * Informationen für Leben, Coins etc. werden duch getter und setter Methoden aus dem Player aufgerufen
+	 * @param g
+	 */
 	public void Score(Graphics2D g) {
 		g.setFont(smallfont);
 		g.setColor(Color.BLACK);
@@ -715,6 +732,11 @@ public class MenuStart extends JPanel implements ActionListener {
 		
 	}
 
+	/**
+	 * Gibt eine Message aus, ob das Spiel gewonnen oder verloren wurde und ermöglicht den Neustart des Spiels
+	 * @param msg
+	 * @param g
+	 */
 	public void paintMessage(String msg, Graphics g){
 		// Mache Buttons wieder sichtbar
 		Font small = new Font("Arial", Font.BOLD, 20);
@@ -726,6 +748,12 @@ public class MenuStart extends JPanel implements ActionListener {
 
 	}
 
+	/**
+	 * Prüft, ob das Spiel gestartet ist oder nicht
+	 * Wenn das Spiel läuft wird das JPanel neu gezeichnet
+	 * Wird vom Timer gesteuert
+	 * actionPerfomed müssen alle Aktionen übergeben werden, die der Timer ausführen soll
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
