@@ -92,11 +92,11 @@ public class MonsterWindow extends JDialog implements ActionListener, ListSelect
 		ImageIcon phyBossIcon = new ImageIcon(GameWindow.bossimg_1up.getScaledInstance(32,32, java.awt.Image.SCALE_SMOOTH));
 		JLabel phyBossEntry = new JLabel("Boss-Monster", phyBossIcon, JLabel.LEFT);
 		ImageIcon iceBossIcon = new ImageIcon(GameWindow.bossimg_eisu.getScaledInstance(32,32, java.awt.Image.SCALE_SMOOTH));
-		JLabel iceBossEntry = new JLabel("Eis-Boss", phyBossIcon, JLabel.LEFT);
+		JLabel iceBossEntry = new JLabel("Eis-Boss", iceBossIcon, JLabel.LEFT);
 		ImageIcon fireBossIcon = new ImageIcon(GameWindow.bossimg_feueru.getScaledInstance(32,32, java.awt.Image.SCALE_SMOOTH));
-		JLabel fireBossEntry = new JLabel("Feuer-Boss", phyBossIcon, JLabel.LEFT);
+		JLabel fireBossEntry = new JLabel("Feuer-Boss", fireBossIcon, JLabel.LEFT);
 		ImageIcon waterBossIcon = new ImageIcon(GameWindow.bossimg_wasseru.getScaledInstance(32,32, java.awt.Image.SCALE_SMOOTH));
-		JLabel waterBossEntry = new JLabel("Wasser-Boss", phyBossIcon, JLabel.LEFT);
+		JLabel waterBossEntry = new JLabel("Wasser-Boss", waterBossIcon, JLabel.LEFT);
 		
 		//Zugehörige JPanels
 		emptyPanel = new JPanel(new GridBagLayout());
