@@ -13,6 +13,7 @@ import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 import com.github.propra13.gruppeA3.Menu.MenuStart.GameStatus;
 import com.github.propra13.gruppeA3.Menu.MenuStart.NetworkStatus;
+import com.github.propra13.gruppeA3.XMLParser.SAXCrawlerReader;
 
 /**
  * Diese Klasse erzeugt einen Clienten
@@ -44,14 +45,21 @@ public class Client extends JFrame {
 	 */
 	public Client(MenuStart gui, NetworkStatus netstat, boolean serverStarted) {
 		this.gui = gui;
-		try {
+		//try {
 			if (!serverStarted){
-				Map.initialize("Story01");
-				Map.loadXML(netstat.toString().toLowerCase()+"1");
+				//Map.initialize("Story01");
+				SAXCrawlerReader reader=new SAXCrawlerReader();
+			 	try {
+			 		reader.read("data/levels/"+netstat.toString().toLowerCase()+"1.xml");
+			 		//this.playerCount = reader.getHandler().getPlayerCount();
+			 		//this.players = reader.getHandler().getPlayer();
+			 	} catch (Exception e) {
+			 			e.printStackTrace();
+			 	}
 			}
-	 	} catch (InvalidRoomLinkException | IOException | MapFormatException e) {
-	 		e.printStackTrace();
-	 	}
+	 	//} catch (InvalidRoomLinkException | IOException | MapFormatException e) {
+	 	//	e.printStackTrace();
+	 	//}
 		System.out.println("Client " + netstat.toString() + " started");
 		if(connect(gui.getHost(), gui.getPort())){
 			System.out.println("Verbindung erfolgreich");

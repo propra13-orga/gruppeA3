@@ -59,6 +59,7 @@ public class MenuStart extends JPanel implements ActionListener {
     private Random randomgen;
     private int movecounter = 0;
     public static boolean talk = false;
+    private boolean questFinished = false;
     
     public static final int delay = 17;
     public Graphics2D g2d;
@@ -1108,6 +1109,46 @@ public class MenuStart extends JPanel implements ActionListener {
 										} else{
 											JOptionPane.showMessageDialog(null, npc.getText(), npc.getName(), JOptionPane.PLAIN_MESSAGE);
 											new Shop(this.player, npc);
+										}
+										talk = false;
+										break;
+										
+									case 3:
+										if(questFinished == false){
+											System.out.println("eierzählen1");
+											LinkedList<Entities> roomitems = (LinkedList<Entities>) player.getRoom().entities;
+											Iterator<Entities> itemsiter = roomitems.iterator();
+											int eggcount = 0;
+											Item testitem = null;
+											Entities testentitem = null;
+											while(itemsiter.hasNext()){
+												testentitem = itemsiter.next();
+												if(testentitem instanceof Item){
+													System.out.println("eierzählen2");
+													testitem = (Item)testentitem;
+													if(testitem.getType() == 6){
+														System.out.println("ei gefunden");
+														eggcount++;
+														System.out.println("eggcount:" + eggcount);
+													}
+												}
+											}
+											if(eggcount == 0){
+												questFinished = true;
+											}
+										}
+										if(questFinished == false){
+											JOptionPane.showMessageDialog(null, npc.getText(), npc.getName(), JOptionPane.PLAIN_MESSAGE);
+											talk = false;
+										}
+										else if(questFinished){
+											if(npc.getItems().isEmpty()){
+												JOptionPane.showMessageDialog(null, "Vielen Dank für deine Hilfe!", npc.getName(), JOptionPane.PLAIN_MESSAGE);
+											}
+											else{
+												JOptionPane.showMessageDialog(null, "Danke für die Hilfe, hier hast du deine Belohnung" , npc.getName(), JOptionPane.PLAIN_MESSAGE);
+												new Shop(this.player, npc);
+											}
 										}
 										talk = false;
 										break;

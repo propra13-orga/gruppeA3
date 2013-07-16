@@ -51,12 +51,12 @@ public class Server extends Thread{
 	
 	public void get_started(String mapName, String xmlName) {
 		
-	 	try {
+	 	/*try {
 	 		Map.initialize(mapName);
 		} catch (MapFormatException | IOException
 				| InvalidRoomLinkException e) {
 			e.printStackTrace();
-		}
+		}*/
 	 	
 		if(xmlName != null && !xmlName.equals("")) {
 			SAXCrawlerReader reader=new SAXCrawlerReader();

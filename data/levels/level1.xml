@@ -1,7 +1,7 @@
 <!-- Dieses File ist für den Levelaufbau bzw. Raumaufbau bzw. Wallaufbau gedacht -->
 <!-- id Jedes Level hat eine Id, desc Jedes Level hat eine Beschreibung, player Anzahl der Spieler -->
 
-<level id="0" desc="Dungeon Crawler" player="1">
+<level id="0" desc="Dungeon Crawler" player="1" rooms="3">
 
 	<!-- id Jeder Raum hat eine ID, length height Höhe und Breite des Raumes -->
 	<rooms id="0" length="8" height="8">
@@ -21,7 +21,11 @@
   		<item type="4" name="sword" desc="A strong protection." damage="2" x="5" y="7" value="5" />
 		<item type="5" name="shield" desc="A way to protect." damage="2" x="18" y="12" value="5" />
 		
-		<npc type="1" name="Nancy" desc="The nurse" x="21" y="4" >
+		<npc type="1" name="Nancy" desc="The nurse" x="12" y="4" >
+			<text>Willkommen Abenteurer,\n\nOh, du bist neu hier?!\n Kämpfe mit A\n Zaubere mit 1-4 \nAch ja , siehst du hinter mir das Feld?!\n wenn du dieses im Bossraum betrittst,\nund gegen den starken Boss verlierst,\n kannst du diese Abkürzung nutzen!!!!\nGute Reise Unbekannter!</text>
+		</npc>
+		
+		<npc type="1" name="Nancy" desc="The nurse" x="12" y="4" >
 			<text>Willkommen Abenteurer,\n\nOh, du bist neu hier?!\n Kämpfe mit A\n Zaubere mit 1-4 \nAch ja , siehst du hinter mir das Feld?!\n wenn du dieses im Bossraum betrittst,\nund gegen den starken Boss verlierst,\n kannst du diese Abkürzung nutzen!!!!\nGute Reise Unbekannter!</text>
 		</npc>
 	</rooms>
