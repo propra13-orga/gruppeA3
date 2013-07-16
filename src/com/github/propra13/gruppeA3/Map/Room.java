@@ -777,7 +777,7 @@ public class Room {
 		writer.close();
 	}
 	
-	private void checkpointBuildLater(Field location) {
+	public void checkpointBuildLater(Field location) {
 		checkpointsToBuild.add(location);
 	}
 	
@@ -856,6 +856,14 @@ public class Room {
 	
 	public int getHeight() {
 		return roomFields[0].length;
+	}
+
+	public List<Link> getCheckpointLinks() {
+		return checkpointLinks;
+	}
+
+	public void setCheckpointLinks(List<Link> checkpointLinks) {
+		this.checkpointLinks = checkpointLinks;
 	}
 }
 	

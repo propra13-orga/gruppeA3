@@ -5,11 +5,15 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 import com.github.propra13.gruppeA3.Entities.Coin;
+import com.github.propra13.gruppeA3.Entities.Entities;
 import com.github.propra13.gruppeA3.Entities.Hitbox;
 import com.github.propra13.gruppeA3.Entities.Item;
 import com.github.propra13.gruppeA3.Entities.Monster;
+import com.github.propra13.gruppeA3.Entities.NPC;
 import com.github.propra13.gruppeA3.Entities.Player;
 import com.github.propra13.gruppeA3.Map.Position;
 
@@ -362,5 +366,62 @@ public class Protocol {
      */
     public int receiveKey() throws IOException{
     	return this.in.readInt();
+    }
+    
+    public void sendNPC(NPC npc) throws IOException{
+    	sendString("npc");
+    	this.out.writeInt(npc.getType());
+    	sendString(npc.getDesc());
+    	sendString(npc.getName());
+    	sendString(npc.getText());
+    	sendPosition(npc.getPosition());
+    }
+    
+    public NPC receiveNPC() throws IOException{
+    	int type = this.in.readInt();
+    	String desc = receiveString();
+    	String name = receiveString();
+    	String text = receiveString();
+    	Position pos = receivePosition();
+    	
+    	NPC npc = new NPC(type, desc, name, pos.x, pos.y);
+    	npc.setText(text);
+    	return npc;
+    }
+
+    public void sendEntities(LinkedList<Entities> list) throws IOException{
+    	sendString("entities");
+    	Iterator<Entities> iter = (Iterator<Entities>)list.iterator();
+    	Entities entity;
+    	this.out.writeInt(list.size());
+    	while(iter.hasNext()) {
+    		entity = iter.next();
+    		if(entity instanceof Monster)
+    			sendMonster((Monster)entity);
+    		else if (entity instanceof Coin)
+    			sendCoin((Coin)entity);
+    		else if (entity instanceof NPC)
+    			sendNPC((NPC)entity);
+    		else if (entity instanceof Player)
+    			sendPlayer((Player)entity);
+    	}
+    }
+    
+    public LinkedList<Entities> receiveEntities() throws IOException{
+    	LinkedList<Entities> list = new LinkedList<Entities>();
+    	int length = this.in.readInt();
+    	String vergleich;
+    	for(int i = 0; i < length; i++){
+    		vergleich = receiveString();
+    		if (vergleich.equals("monster"))
+    			list.add(receiveMonster());
+    		else if (vergleich.equals("coin"))
+    			list.add(receiveCoin());
+    		else if (vergleich.equals("npc"))
+    			list.add(receiveNPC());
+    		else if (vergleich.equals("player"))
+    			list.add(receivePlayer());
+    	}
+    	return list;
     }
 }
