@@ -686,7 +686,6 @@ public class MenuStart extends JPanel implements ActionListener {
         else
         {	
         	//Macht Menü sichtbar, positioniert Buttons je nach Spielzustand
-        	initMenu();
         	// Wenn der Multiplayer Button gedrückt wurde, dann soll
         	if (getGameStatus() == GameStatus.NETWORK){
         		// Co-Op erscheinen, wenn anschließend der Co-Op Button gedrückt wurde
@@ -702,24 +701,26 @@ public class MenuStart extends JPanel implements ActionListener {
         	//Hauptmenü
         	else if(getGameStatus() == GameStatus.MAINMENU)
         	{
+        		initMenu();
         		paintMessage("Hauptmenü",g);
         	}
         	// Spiel gewonnen
         	else if(getGameStatus() == GameStatus.GAMEWON && timer.isRunning())
         	{
-        		setBackground(Color.BLACK);
+        		initMenu();
         		paintMessage("Spiel gewonnen!",g);
         		
         	}
         	// Karte gewonnen, der Spieler kann in die nächste eintreten oder von vorn beginnen
         	else if(getGameStatus() == GameStatus.MAPWON && timer.isRunning()) {
-        		setBackground(Color.BLACK);
+
+        		initMenu();
         		paintMessage("Karte gemeistert!",g);
         	}
         	// Game Over, Spieler gestorben
         	else if(getGameStatus() == GameStatus.GAMEOVER && timer.isRunning())
         	{
-        		setBackground(Color.BLACK);
+        		initMenu();
         		paintMessage("Game Over",g);
         	}
         
@@ -729,7 +730,7 @@ public class MenuStart extends JPanel implements ActionListener {
     }
     
     /**
-     * Setzt die Men�-Button aufs JPanel, je nachdem welchen Zustand das Men� gerade hat
+     * Setzt die Menü-Button aufs JPanel, je nachdem welchen Zustand das Menü gerade hat
      */
 	public void initMenu(){
 		// Zeichne Menüelemente
