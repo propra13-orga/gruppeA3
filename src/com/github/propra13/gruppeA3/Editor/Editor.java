@@ -4,7 +4,6 @@ import java.awt.Component;
 import java.io.IOException;
 import java.util.LinkedList;
 
-import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -16,6 +15,7 @@ import com.github.propra13.gruppeA3.Exceptions.InvalidRoomLinkException;
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
 import com.github.propra13.gruppeA3.Map.Link;
 import com.github.propra13.gruppeA3.Map.Map;
+import com.github.propra13.gruppeA3.Map.MapHeader;
 import com.github.propra13.gruppeA3.Map.Trigger;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 import com.github.propra13.gruppeA3.Menu.MenuStart.GameStatus;
@@ -37,30 +37,28 @@ public class Editor extends JTabbedPane implements ChangeListener {
 	protected ItemWindow itemEditor;
 	protected NPCWindow NPCEditor;
 	
+	private Menu menuPanel = new Menu();
+	
 	/** Falls der nächste Klick ein aus einem Dialog hervorgegangener
 	 *  spezieller Auswahlklick ist (zB für den Link-Dialog)
 	 */
 	public enum ChooseClickType {LINK,CHECKPOINTFIELD,CHECKPOINTLINK,RIVER,NONE}
 	public ChooseClickType chooseClick=ChooseClickType.NONE;
 	
-	private String mapName;
 	protected String saveAsName; //Name, unter der die Karte gespeichert werden soll
-	@SuppressWarnings("unused")
-	private LinkedList<JPanel> roomTabs = new LinkedList<JPanel>();
 	public LinkedList<Link> mapLinks = new LinkedList<Link>();
 	public LinkedList<Trigger> mapTriggers = new LinkedList<Trigger>();
 	
-	private int activeTab = 1; //ID des Tabs wird gespeichert, um Änderungen mitteilen zu können
+	private int activeTab = 0; //ID des Tabs wird gespeichert, um Änderungen mitteilen zu können
 
 	/**
 	 * Initialisiert Map und baut Tab-Fenster auf.
 	 * @param mapName Verzeichnisname der Map, die bearbeitet werden soll
 	 */
-	public Editor(String mapName) {
+	public Editor() {
 		super(JTabbedPane.TOP);
 		
 		editor = this;
-		this.mapName = saveAsName = mapName;
 		
 		linkEditor = new LinkWindow();
 		warning = new WarningWindow();
@@ -69,26 +67,42 @@ public class Editor extends JTabbedPane implements ChangeListener {
 		itemEditor = new ItemWindow();
 		NPCEditor = new NPCWindow();
 		
+		//Menü-Tab
+		addTab("Menü", menuPanel);
+		
+	    addChangeListener(this);
+		repaint();
+		setVisible(true);
+	}
+	
+	/**
+	 * Öffnet eine Karte im Editor.
+	 * @param header MapHeader der zu öffnenden Map.
+	 */
+	public void openMap(MapHeader header) {
+		
 		try {
-			Map.initialize(this.mapName);
-			//Map.loadXML(xmlName);
+			Map.initialize(header.mapName);
 		} catch (MapFormatException | IOException | InvalidRoomLinkException e) {
 			e.printStackTrace();
 		}
 		
-		//Menü-Tab
-		addTab("Menü", new Menu(this));
+		updateTabs();
+	}
+	
+	/**
+	 * Aktualisiert die Raum-Tabs.
+	 */
+	protected void updateTabs() {
+		//Alte Raum-Tabs entfernen
+		this.removeAll();
+		add("Menü", menuPanel);
 		
 		//Raum-Tabs
 		for(int i=0; i < Map.mapRooms.length; i++) {
 			RoomTab roomTab = new RoomTab(Map.getRoom(i));
 			add(roomTab);
 		}
-		
-	    setSelectedIndex(1);
-	    addChangeListener(this);
-		repaint();
-		setVisible(true);
 	}
 	
 	/**
@@ -96,9 +110,12 @@ public class Editor extends JTabbedPane implements ChangeListener {
 	 * TODO: Sanity-Check
 	 */
 	public void write() {
+		//Header updaten
+		Map.header.maxPlayers = Map.spawns.size();
+		
 		boolean error = false;
 		try {
-			Map.writeRooms(saveAsName);
+			Map.writeMap();
 		} catch (TransformerException | ParserConfigurationException
 				| IOException e) {
 			error = true;
@@ -107,7 +124,6 @@ public class Editor extends JTabbedPane implements ChangeListener {
 		if(!error) {
 			System.out.println("gespeichert");
 			warning.showWindow("Gespeichert.");
-			mapName = saveAsName;
 		}
 	}
 	
@@ -143,19 +159,24 @@ public class Editor extends JTabbedPane implements ChangeListener {
 	 */
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		//Alten Tab benachrichtigen
-		Component tab = getComponentAt(activeTab);
-		if(tab instanceof RoomTab) {
-			RoomTab roomTab = (RoomTab)tab;
-			roomTab.focusLost();
-		}
 		
+		//Alten Tab benachrichtigen
+		if(activeTab >= 0) {
+			Component tab = getComponentAt(activeTab);
+			if(tab instanceof RoomTab) {
+				RoomTab roomTab = (RoomTab)tab;
+				roomTab.focusLost();
+			}
+		}
+			
 		//Neuen Tab benachrichtigen
 		activeTab = getSelectedIndex();
-		tab = getComponentAt(activeTab);
-		if(tab instanceof RoomTab) {
-			RoomTab roomTab = (RoomTab)tab;
-			roomTab.focusGained();
+		if(activeTab >= 0) {
+			Component tab = getComponentAt(activeTab);
+			if(tab instanceof RoomTab) {
+				RoomTab roomTab = (RoomTab)tab;
+				roomTab.focusGained();
+			}
 		}
 	}
 } 

@@ -22,7 +22,6 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -239,30 +238,8 @@ public class MenuStart extends JPanel implements ActionListener {
     	setGameStatus(GameStatus.EDITOR);
  		
  		setVisible(false);
- 	    
-		//zu bearbeitende Map wählen
- 		String mapName = "Map02";
- 		
-		JFileChooser fc = new JFileChooser();
-		fc.setCurrentDirectory(new java.io.File("./data/maps"));
-		fc.setDialogTitle("Karte wählen");
-		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		fc.setAcceptAllFileFilterUsed(false);
-		add(fc);
-		
-		// Falls Map ausgewählt wurde, wirf Editor an
-		if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) { 
-			mapName = fc.getSelectedFile().getName();
-			System.out.println("Karte: "+mapName);
-			Game.frame.add(new Editor(mapName));
- 			Game.frame.validate();
-		}
-		
-		// Falls keine Map ausgewählt wurde, mach Menü wieder an
-		else {
-			setGameStatus(GameStatus.MAINMENU);
-			setVisible(true);
-		}
+		Game.frame.add(new Editor());
+		Game.frame.validate();
     }
     
     private void showOptions() {
