@@ -31,6 +31,7 @@ public class Game extends JFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	//schließen button belegt
 		setSize(MINWIDTH,MINHEIGHT);
 		setResizable(false);
+		
 		// Zentrierung des Fensters
 		// Auflösung
 		final Dimension d = getToolkit().getScreenSize();

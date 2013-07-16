@@ -1,7 +1,9 @@
 package com.github.propra13.gruppeA3.Map;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -10,8 +12,14 @@ import java.util.LinkedList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
+import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -45,10 +53,11 @@ public class Map {
 	private static String mapName;
 	
 	public static MapHeader header;
-	
 
-	final static String roomEnding = "room";
-	final static String headerEnding = "map";
+	final protected static String roomEnding = "room";
+	final protected static String headerEnding = "map";
+	final public static String mapDir = 
+			System.getProperty("user.dir") + File.separator + "data" + File.separator + "maps";
 	
 	/** Ob man durchs Ziel gehen kann oder nicht*/
 	public static boolean endIsOpen = false;
@@ -97,8 +106,8 @@ public class Map {
 	 * Erstellt eine neue Karte mit einem leeren Raum.
 	 * @param mapName Name der neuen Karte
 	 */
-	public static void newMap(String mapName) {
-		Map.mapName = mapName;
+	public static void newMap(MapHeader header) {
+		Map.header = header;
 		
 		//Attribute und Listen zurücksetzen
 		spawns.clear();
@@ -118,12 +127,10 @@ public class Map {
 		 * Sammle Verzeichnisse in maps/
 		 */
 		//Alle Dateien in maps/
-		String dir = System.getProperty("user.dir");
-		dir = dir + File.separator + "data" + File.separator + "maps";
-		File f = new File(dir);
+		File f = new File(mapDir);
 		if (! f.exists())
 			try {
-				throw new FileNotFoundException(dir);
+				throw new FileNotFoundException(mapDir);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -315,14 +322,75 @@ public class Map {
 	 * @throws ParserConfigurationException
 	 * @throws IOException
 	 */
-	public static void writeRooms(String mapName) throws TransformerException, ParserConfigurationException, IOException {
+	public static void writeMap() throws TransformerException, ParserConfigurationException, IOException {
 		//Sammle Map-Dateien
 		String dir = System.getProperty("user.dir");
-		dir = dir + File.separator + "data" + File.separator + "maps" + File.separator + mapName;
+		dir = dir + File.separator + "data" + File.separator + "maps" + File.separator + header.mapName;
 		
+		//Räume schreiben
 		for(int i=0; i < mapRooms.length; i++) {
 			mapRooms[i].writeFile(dir);
 		}
+		
+		//Header schreiben
+		//Document-Setup
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		DOMImplementation impl = builder.getDOMImplementation();
+		
+		Document doc = impl.createDocument(null,null,null);
+		Element headEl = doc.createElement("xml");
+		doc.appendChild(headEl);
+		
+		Element headerEl = doc.createElement("header");
+		headEl.appendChild(headerEl);
+		
+		String type = null;
+		switch(header.type) {
+		case MapHeader.STORY_MAP:
+			type = "kampagne";
+			break;
+		case MapHeader.CUSTOM_MAP:
+			type = "einzelspieler";
+			break;
+		case MapHeader.DEATHMATCH_MAP:
+			type = "deathmatch";
+			break;
+		case MapHeader.COOP_MAP:
+			type = "coop";
+			break;
+		}
+		
+		headerEl.setAttribute("typ", type);
+		headerEl.setAttribute("name", header.mapName);
+		headerEl.setAttribute("maxSpieler", Integer.toString(header.maxPlayers));
+		headerEl.setAttribute("kampagneID", Integer.toString(header.storyID));
+		
+		
+		//Transformiert Document in einen String
+		
+		//Transformer-Setup
+		DOMSource domSource = new DOMSource(doc);
+		TransformerFactory tf = TransformerFactory.newInstance();
+		Transformer transformer = tf.newTransformer();
+		transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+		transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+		transformer.setOutputProperty(OutputKeys.ENCODING,"UTF-8");
+		transformer.setOutputProperty
+			("{http://xml.apache.org/xslt}indent-amount", "4");
+		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+		
+		//transformieren
+		java.io.StringWriter sw = new java.io.StringWriter();
+		StreamResult sr = new StreamResult(sw);
+		transformer.transform(domSource, sr);
+		
+		
+		//Schreibt xml-String in Datei
+		BufferedWriter writer = null;
+		writer = new BufferedWriter(new FileWriter(mapDir +File.separator+"header"+headerEnding));
+		writer.write(sw.toString());
+		writer.close();
 	}
 	
 	

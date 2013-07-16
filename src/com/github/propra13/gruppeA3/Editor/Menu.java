@@ -7,15 +7,21 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.io.File;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import com.github.propra13.gruppeA3.Map.Map;
+import com.github.propra13.gruppeA3.Map.MapHeader;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 
 /**
@@ -23,19 +29,25 @@ import com.github.propra13.gruppeA3.Menu.MenuStart;
  * @author Christian
  *
  */
-public class Menu extends JPanel implements ActionListener {
+public class Menu extends JPanel implements ActionListener, ItemListener {
 	private static final long serialVersionUID = 1L;
 	
-	Editor editor;
-	
 	JButton bNewMap, bOpen, bSave, bSaveAs, bExit, bAdd, bMove, bDel;
+	
+	OpenMapWindow openWindow;
+	
+	JComboBox<String> addRoomBox; //JCombobox vom "Raum hinzufügen"-Dialog
+	
+	MapHeader tempHeader; //für "Neue Karte"-Button
+	
+	
 	
 	JDialog dialog = null;
 	JTextField textField = null;
 	
-	public Menu(Editor editor) {
+	public Menu() {
 		
-		this.editor = editor;
+		openWindow = new OpenMapWindow();
 		
 		setLayout(new GridBagLayout());
 		
@@ -171,12 +183,100 @@ public class Menu extends JPanel implements ActionListener {
 	
 	/**Wird aufgerufen, wenn "Neu" gedrückt wurde.*/
 	private void bNewMap() {
+		tempHeader = new MapHeader("", MapHeader.CUSTOM_MAP, 0, -1);
+		
 		dialog = new JDialog();
 		JLabel text = new JLabel("Name der neuen Karte");
 		JButton bOk = new JButton("Ok");
 		JButton bCancel = new JButton("Abbrechen");
 		textField = new JTextField(30);
 		bOk.setActionCommand("new map");
+		bCancel.setActionCommand("close dialog");
+		bOk.addActionListener(this);
+		bCancel.addActionListener(this);
+		
+		JLabel typeDesc = new JLabel("Typ der neuen Karte");
+		JLabel emptyLabel1 = new JLabel("");
+		JLabel emptyLabel2 = new JLabel("");
+		JLabel emptyLabel3 = new JLabel("");
+		
+		JRadioButton storyRB = new JRadioButton("Kampagne");
+		JRadioButton customRB = new JRadioButton("Einzelspieler");
+		JRadioButton deathmatchRB = new JRadioButton("Deathmatch");
+		JRadioButton coopRB = new JRadioButton("Co-Op");
+		
+		storyRB.setActionCommand("story map");
+		customRB.setActionCommand("custom map");
+		deathmatchRB.setActionCommand("deathmatch map");
+		coopRB.setActionCommand("coop map");
+		
+		storyRB.addActionListener(this);
+		customRB.addActionListener(this);
+		deathmatchRB.addActionListener(this);
+		coopRB.addActionListener(this);
+		
+		
+		ButtonGroup group = new ButtonGroup();
+		group.add(storyRB);
+		group.add(customRB);
+		group.add(deathmatchRB);
+		group.add(coopRB);
+		customRB.setSelected(true);
+		
+		dialog.setTitle("Neue Karte");
+		dialog.setSize(400, 200);
+		dialog.setModal(true);
+		dialog.setResizable(false);
+		dialog.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+		
+		MenuStart.centerWindow(dialog);
+		
+		GridLayout layout = new GridLayout(6, 2);
+		layout.setHgap(6);
+		layout.setVgap(6);
+		dialog.setLayout(layout);
+		
+		dialog.add(text);
+		dialog.add(textField);
+		
+		dialog.add(typeDesc);
+		dialog.add(storyRB);
+		dialog.add(emptyLabel1);
+		dialog.add(customRB);
+		dialog.add(emptyLabel2);
+		dialog.add(deathmatchRB);
+		dialog.add(emptyLabel3);
+		dialog.add(coopRB);
+		
+		dialog.add(bOk);
+		dialog.add(bCancel);
+
+		dialog.setVisible(true);
+		
+	}
+
+	/**Wird aufgerufen, wenn "Öffnen" gedrückt wurde.*/
+	private void bOpen() {
+		openWindow.showWindow();
+	}
+	
+	/**Wird aufgerufen, wenn "Speichern" gedrückt wurde oder "speichern unter" bestätigt wurde.*/
+	private void bSave() {
+		File mapFile = new File(Map.mapDir+File.separator+Map.header.mapName);
+		if(mapFile.exists())
+			Editor.editor.warning.showWindow(WarningWindow.Type.OVERWRITE);
+		else
+			Editor.editor.write();
+	}
+	
+	/**Wird aufgerufen, wenn "Speichern unter" gedrückt wurde.*/
+	private void bSaveAs() {
+		dialog = new JDialog();
+		JLabel text = new JLabel("Speichern unter:");
+		JButton bOk = new JButton("Speichern");
+		JButton bCancel = new JButton("Abbrechen");
+		textField = new JTextField(30);
+		bOk.setActionCommand("saveAs");
 		bCancel.setActionCommand("close dialog");
 		bOk.addActionListener(this);
 		bCancel.addActionListener(this);
@@ -201,44 +301,52 @@ public class Menu extends JPanel implements ActionListener {
 		dialog.setVisible(true);
 		
 	}
-
-	/**Wird aufgerufen, wenn "Öffnen" gedrückt wurde.*/
-	private void bOpen() {
-		System.out.println("\"Öffnen\" gedrückt");
-		
-	}
-	
-	/**Wird aufgerufen, wenn "Speichern" gedrückt wurde.*/
-	private void bSave() {
-		Editor.editor.warning.showWindow(WarningWindow.Type.OVERWRITE);
-	}
-	
-	/**Wird aufgerufen, wenn "Speichern unter" gedrückt wurde.*/
-	private void bSaveAs() {
-		JFileChooser fc = new JFileChooser();
-		fc.setCurrentDirectory(new java.io.File("./data/maps"));
-		fc.setDialogTitle("Karte wählen");
-		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		fc.setAcceptAllFileFilterUsed(false);
-		add(fc);
-		
-		// Falls Map ausgewählt wurde, wirf Editor an
-		if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) { 
-			Editor.editor.saveAsName = fc.getSelectedFile().getName();
-			Editor.editor.warning.showWindow(WarningWindow.Type.OVERWRITE);
-		}
-		
-	}
 	
 	/**Wird aufgerufen, wenn "Beenden" gedrückt wurde.*/
 	private void bExit() {
-		System.out.println("\"Beenden\" gedrückt");
-		editor.exit();
+		Editor.editor.exit();
 	}
 	
 	/**Wird aufgerufen, wenn "Raum hinzufügen" gedrückt wurde.*/
 	private void bAdd() {
-		System.out.println("\"Raum hinzufügen\" gedrückt");
+		if(! Editor.editor.mapIsOpened)
+			Editor.editor.warning.showWindow("Es ist keine Karte geöffnet.");
+		else {
+			dialog = new JDialog();
+			JLabel text = new JLabel("Index des neuen Raums:");
+			JButton bOk = new JButton("Hinzufügen");
+			JButton bCancel = new JButton("Abbrechen");
+			textField = new JTextField(30);
+			bOk.setActionCommand("add room");
+			bCancel.setActionCommand("close dialog");
+			bOk.addActionListener(this);
+			bCancel.addActionListener(this);
+			
+			dialog.setTitle("Raum hinzufügen");
+			dialog.setSize(400, 80);
+			dialog.setModal(true);
+			dialog.setResizable(false);
+			dialog.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+			
+			String[] numbers = new String[Map.mapRooms.length + 1];
+			for(int i=0; i < numbers.length; i++)
+				numbers[i] = Integer.toString(i);
+			
+			addRoomBox = new JComboBox<String>(numbers);
+			
+			MenuStart.centerWindow(dialog);
+			
+			GridLayout layout = new GridLayout(2,2);
+			layout.setHgap(6);
+			layout.setVgap(6);
+			dialog.setLayout(layout);
+			dialog.add(text);
+			dialog.add(addRoomBox);
+			dialog.add(bOk);
+			dialog.add(bCancel);
+	
+			dialog.setVisible(true);
+		}
 	}
 	
 	/**Wird aufgerufen, wenn "Raum verschieben" gedrückt wurde.*/
@@ -272,11 +380,51 @@ public class Menu extends JPanel implements ActionListener {
 		
 		//Dialog-Knöpfe
 		else if(e.getActionCommand().equals("new map")) {
-			Map.newMap(textField.getText());
+			Map.newMap(tempHeader);
+			Editor.editor.updateTabs();
 			dialog.setVisible(false);
 		}
 		else if(e.getActionCommand().equals("close dialog"))
 			dialog.setVisible(false);
+		
+		else if(e.getActionCommand().equals("save as")) {
+			String text = textField.getText();
+			if(text.equals("") || text == null)
+				Editor.editor.warning.showWindow("Gib bitte einen Namen an.");
+			else {
+				Map.header.mapName = textField.getText();
+				bSave();
+			}
+		}
+		
+		//neue Map: Typ-Radiobuttons
+		else if(e.getActionCommand().equals("story map"))
+			tempHeader.type = MapHeader.STORY_MAP;
+		else if(e.getActionCommand().equals("custom map"))
+			tempHeader.type = MapHeader.CUSTOM_MAP;
+		else if(e.getActionCommand().equals("deathmatch map"))
+			tempHeader.type = MapHeader.DEATHMATCH_MAP;
+		else if(e.getActionCommand().equals("coop map"))
+			tempHeader.type = MapHeader.COOP_MAP;
+		
+		
+		//Raum hinzufügen
+		else if(e.getActionCommand().equals("add room")) {
+			for(int i=0; i <= Map.mapRooms.length; i++) {
+				String choice = (String)addRoomBox.getSelectedItem();
+				if (i == Integer.parseInt(choice)) {
+					Editor.editor.addRoom(i);
+					break;
+				}
+			}
+			dialog.setVisible(false);
+		}
+	}
+
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
