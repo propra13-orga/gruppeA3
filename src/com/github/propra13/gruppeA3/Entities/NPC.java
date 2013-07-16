@@ -1,6 +1,8 @@
 package com.github.propra13.gruppeA3.Entities;
 
 import java.util.LinkedList;
+
+import com.github.propra13.gruppeA3.Map.FieldPosition;
 import com.github.propra13.gruppeA3.Map.Position;
 
 /**
@@ -41,12 +43,12 @@ public class NPC extends Entities {
 	 * @param x Position X Achse
 	 * @param y Position Y Achse
 	 */	
-	public NPC (int type, String desc, String name, int x, int y){
+	public NPC (int type, String desc, String name, FieldPosition pos){
 		this.setDesc(desc);
 		this.setName(name);
 		this.type = type;
 		this.hitbox = Hitbox.standard;
-		pos = new Position(x*32+(hitbox.width/2), y*32+(hitbox.height/2));
+		this.pos = new Position(pos.x*32+(hitbox.width/2), pos.y*32+(hitbox.height/2));
 		//Bei Type 1 NPCs bleibt er leer und wird nicht benutzt.
 		this.items = new LinkedList<Item>();
 	}
@@ -134,8 +136,10 @@ public class NPC extends Entities {
 		return new NPC(type,
 				desc,
 				name,
-				pos.getDrawPosition(hitbox).x,
-				pos.getDrawPosition(hitbox).y);	
+				new FieldPosition(
+						pos.getDrawPosition(hitbox).x,
+						pos.getDrawPosition(hitbox).y
+				));	
 	}
 	
 	/**

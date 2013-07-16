@@ -16,6 +16,7 @@ import com.github.propra13.gruppeA3.Entities.Monster;
 import com.github.propra13.gruppeA3.Entities.Moveable;
 import com.github.propra13.gruppeA3.Entities.NPC;
 import com.github.propra13.gruppeA3.Entities.Player;
+import com.github.propra13.gruppeA3.Map.FieldPosition;
 import com.github.propra13.gruppeA3.Map.Position;
 
 /**
@@ -389,7 +390,7 @@ public class Protocol {
     	String text = receiveString();
     	Position pos = receivePosition();
     	
-    	NPC npc = new NPC(type, desc, name, pos.x, pos.y);
+    	NPC npc = new NPC(type, desc, name, new FieldPosition(pos.x, pos.y));
     	npc.setText(text);
     	return npc;
     }

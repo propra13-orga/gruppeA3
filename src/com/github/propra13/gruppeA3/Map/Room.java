@@ -468,11 +468,6 @@ public class Room {
 				else
 					isBoss = false;
 				
-				
-				int x = Integer.parseInt(monsterEl.getAttribute("x"));
-				int y = Integer.parseInt(monsterEl.getAttribute("y"));
-				Position pos = new Position(x*32+(Hitbox.standard.width/2),y*32+(Hitbox.standard.height/2));
-				
 				//Element
 				Moveable.Element element = null;
 				switch(monsterEl.getAttribute("element")) {
@@ -492,6 +487,10 @@ public class Room {
 						element = Moveable.Element.PHYSICAL;
 						break;
 				}
+
+				FieldPosition pos = new FieldPosition(
+						Integer.parseInt(monsterEl.getAttribute("x")),
+						Integer.parseInt(monsterEl.getAttribute("y")));
 				
 				entities.add(new Monster(
 						this.ID,
@@ -520,8 +519,10 @@ public class Room {
 						Integer.parseInt(npcEl.getAttribute("typ")),
 						npcEl.getAttribute("beschreibung"),
 						npcEl.getAttribute("name"),
-						Integer.parseInt(npcEl.getAttribute("x")),
-						Integer.parseInt(npcEl.getAttribute("y"))
+						new FieldPosition(
+								Integer.parseInt(npcEl.getAttribute("x")),
+								Integer.parseInt(npcEl.getAttribute("y"))
+								)
 						);
 				
 				npc.setText(npcEl.getAttribute("text"));
@@ -559,9 +560,9 @@ public class Room {
 						break;
 				}
 				
-				int x = Integer.parseInt(itemEl.getAttribute("x"));
-				int y = Integer.parseInt(itemEl.getAttribute("y"));
-				Position pos = new Position(x*32+(Hitbox.standard.width/2),y*32+(Hitbox.standard.height/2));
+				FieldPosition pos = new FieldPosition(
+						Integer.parseInt(itemEl.getAttribute("x")),
+						Integer.parseInt(itemEl.getAttribute("y")));
 				
 				itemsToDo.add(new Item(
 						Integer.parseInt(itemEl.getAttribute("staerke")),

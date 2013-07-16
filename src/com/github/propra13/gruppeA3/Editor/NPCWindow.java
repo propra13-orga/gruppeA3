@@ -36,6 +36,7 @@ import com.github.propra13.gruppeA3.Entities.Item;
 import com.github.propra13.gruppeA3.Entities.Moveable;
 import com.github.propra13.gruppeA3.Entities.NPC;
 import com.github.propra13.gruppeA3.Map.Field;
+import com.github.propra13.gruppeA3.Map.FieldPosition;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 
 
@@ -398,9 +399,10 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 		//workingNPC und NPCToEdit setzen
 		NPCToEdit = npc;
 		if(NPCToEdit == null)
-			workingNPC = new NPC(1, "", "", 
+			workingNPC = new NPC(1, "", "", new FieldPosition(
 					affectedField.pos.toPosition().x+Hitbox.standard.width/2,
-					affectedField.pos.toPosition().y+Hitbox.standard.height/2);
+					affectedField.pos.toPosition().y+Hitbox.standard.height/2)
+					);
 		else
 			workingNPC = npc;
 		
@@ -492,30 +494,25 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 				System.out.println("Shop-Inhalt: "+healthCtr+" "+poisonCtr+" "+manaCtr+" "+swordCtr+" "+shieldCtr);
 				for(int i = healthCtr; i > 0; i--) {
 					workingNPC.getItems().add(new Item(10, 1, 
-							affectedField.pos.x, affectedField.pos.y, 
-							"Bringt dich wieder zu Kräften", "Lebenstrank", 4,
-							Moveable.Element.PHYSICAL));
+							affectedField.pos, "Bringt dich wieder zu Kräften",
+							"Lebenstrank", 4, Moveable.Element.PHYSICAL));
 				}
 				for(int i = manaCtr; i > 0; i--)
 					workingNPC.getItems().add(new Item(30, 3,
-							affectedField.pos.x, affectedField.pos.y,
-							"Erweckt deine Zauberkräfte", "Mana-Trank", 4,
-							Moveable.Element.PHYSICAL));
+							affectedField.pos, "Erweckt deine Zauberkräfte",
+							"Mana-Trank", 4, Moveable.Element.PHYSICAL));
 				for(int i = poisonCtr; i > 0; i--)
 					workingNPC.getItems().add(new Item(10, 2,
-							affectedField.pos.x, affectedField.pos.y,
-							"Vergiftet dich", "Gift-Trank", 4,
-							Moveable.Element.PHYSICAL));
+							affectedField.pos, "Vergiftet dich",
+							"Gift-Trank", 4, Moveable.Element.PHYSICAL));
 				for(int i = swordCtr; i > 0; i--)
 					workingNPC.getItems().add(new Item(2, 4,
-							affectedField.pos.x, affectedField.pos.y,
-							"Verstärkt deinen Angriff", "Schwert", 10,
-							Moveable.Element.PHYSICAL));
+							affectedField.pos, "Verstärkt deinen Angriff",
+							"Schwert", 10, Moveable.Element.PHYSICAL));
 				for(int i = shieldCtr; i > 0; i--)
 					workingNPC.getItems().add(new Item(2, 5,
-							affectedField.pos.x, affectedField.pos.y,
-							"Erhöht deine Verteidigung", "Schild", 10,
-							Moveable.Element.PHYSICAL));
+							affectedField.pos, "Erhöht deine Verteidigung",
+							"Schild", 10, Moveable.Element.PHYSICAL));
 			}
 			//Ein bestehender NPC wird geändert
 			if(! delRB.isSelected() && NPCToEdit != null)

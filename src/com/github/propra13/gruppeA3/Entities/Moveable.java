@@ -665,6 +665,26 @@ public abstract class Moveable extends Entities {
 		return cast;
 	}
 	
+	public static String getElementName(Element element) {
+		String elName = null;
+		switch(element) {
+		case FIRE:
+			elName = "Feuer";
+			break;
+		case ICE:
+			elName = "Eis";
+			break;
+		case PHYSICAL:
+			elName = "Physisch";
+			break;
+		case WATER:
+			elName = "Wasser";
+			break;
+		}
+		
+		return elName;
+	}
+	
 	/*
 	 * Map-Editor-Methoden
 	 */

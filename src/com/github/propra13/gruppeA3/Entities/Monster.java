@@ -3,6 +3,7 @@ package com.github.propra13.gruppeA3.Entities;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import com.github.propra13.gruppeA3.Map.FieldPosition;
 import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Map.Position;
 
@@ -67,7 +68,37 @@ public class Monster extends Moveable {
 			this.hitbox.width  = 48;
 		}
 	}
-
+	
+	public Monster (int roomID, double speed, int power, int type, int life, 
+			FieldPosition pos, String desc, int coinValue, int coinType, int armour,
+			boolean isBoss, Element element) {
+		super(roomID);
+		this.roomID = roomID;
+		addSpeedFactor(speed);
+		this.power = power;
+		addAttackFactor(power);
+		setHealth(life);
+		setArmour(armour);
+		this.desc = desc;
+		this.hitbox = new Hitbox();
+		this.isBoss = isBoss;
+		this.pos = new Position(pos.x*32+hitbox.width/2, pos.y*32+hitbox.height/2);
+		setDirection(Direction.NONE);
+		coins=new Coin(coinValue, coinType, this.pos);
+		this.type = type;
+		this.element = element;
+		/**
+		 * Diese Abfrage ist für Bossmonster, die größer sind als gewöhnliche Monster
+		 */
+		if(type == 5){ 
+			this.hitbox.height = 48;
+			this.hitbox.width  = 48;
+		}
+	}
+	
+	
+	/*Um Verwirrungen bzgl der Position zu vermeiden, sollte dieser Konstruktor bald gelöscht werden - x und y sind uneindeutig*/
+	@Deprecated
 	public Monster (int roomID, double speed, int power, int type, int life, 
 			int x, int y, String desc, int coinValue, int coinType, int armour, boolean isBoss,Element element){
 		super(roomID);

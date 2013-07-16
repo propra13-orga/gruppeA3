@@ -1,6 +1,7 @@
 package com.github.propra13.gruppeA3.Entities;
 
 import com.github.propra13.gruppeA3.Entities.Moveable.Element;
+import com.github.propra13.gruppeA3.Map.FieldPosition;
 import com.github.propra13.gruppeA3.Map.Position;
 
 /**
@@ -78,6 +79,19 @@ public class Item extends Entities {
 		this.element = element;
 	}
 	
+	public Item(int damage, int type, FieldPosition pos, String desc, String name, int value, Element element) {
+		this.damage = damage;
+		this.type = type;
+		this.desc = desc;
+		this.name = name;
+		this.hitbox = Hitbox.standard;
+		this.pos = new Position(pos.x*32+hitbox.width/2, pos.y*32+hitbox.height/2);
+		this.value = value;
+		this.element = element;
+	}
+	
+	/*Um Verwirrungen bzgl der Position zu vermeiden, sollte dieser Konstruktor bald gelöscht werden - x und y sind uneindeutig*/
+	@Deprecated
 	public Item(int damage, int type, int x, int y, String desc, String name, int value, Element element) {
 		this.damage = damage;
 		this.type = type;

@@ -43,14 +43,16 @@ private static final long serialVersionUID = 1L;
 	
 	//Fensterelemente
 	JButton bDone, bCancel;
-	String type, power,  coinVal;
+	String type, power,  coinVal, element;
 	JList<JPanel> itemList;
 	JTable attributeTable;
 	String[][] tableContent;
 	DefaultTableModel tableModel;
 	
 	//Listeneinträge
-	JPanel emptyPanel, healthPanel, poisonPanel, manaPanel, shieldPanel, swordPanel;
+	JPanel emptyPanel, healthPanel, poisonPanel, manaPanel,
+			iceShieldPanel, waterShieldPanel, fireShieldPanel, physicalShieldPanel,
+			iceSwordPanel, waterSwordPanel, fireSwordPanel, physicalSwordPanel;
 	
 	public ItemWindow() {
 		//JDialog aufbauen
@@ -60,7 +62,7 @@ private static final long serialVersionUID = 1L;
 		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
 		setSize(MINWIDTH, MINHEIGHT);
 		setModal(true); // blockiert Hauptfenster
-		setTitle("Monster-Editor");
+		setTitle("Item-Editor");
 		setResizable(false);
 		
 		/* Item-Liste //TODO: Dynamisch einlesen
@@ -79,16 +81,28 @@ private static final long serialVersionUID = 1L;
 		JLabel healthEntry = new JLabel("Lebenstrank", new ImageIcon(GameWindow.lifePosion), JLabel.LEFT);
 		JLabel poisonEntry = new JLabel("Gifttrank", new ImageIcon(GameWindow.deadlyPosion), JLabel.LEFT);
 		JLabel manaEntry = new JLabel("Manatrank", new ImageIcon(GameWindow.manaPosion), JLabel.LEFT);
-		JLabel swordEntry = new JLabel("Schwert", new ImageIcon(GameWindow.sword), JLabel.LEFT);
-		JLabel shieldEntry = new JLabel("Schild", new ImageIcon(GameWindow.shield), JLabel.LEFT);
+		JLabel physicalSwordEntry = new JLabel("Schwert", new ImageIcon(GameWindow.sword), JLabel.LEFT);
+		JLabel iceSwordEntry = new JLabel("Eisschwert", new ImageIcon(GameWindow.swordeis), JLabel.LEFT);
+		JLabel fireSwordEntry = new JLabel("Feuerschwert", new ImageIcon(GameWindow.swordfeuer), JLabel.LEFT);
+		JLabel waterSwordEntry = new JLabel("Wasserschwert", new ImageIcon(GameWindow.swordwasser), JLabel.LEFT);
+		JLabel physicalShieldEntry = new JLabel("Schild", new ImageIcon(GameWindow.shield), JLabel.LEFT);
+		JLabel iceShieldEntry = new JLabel("Eisschild", new ImageIcon(GameWindow.shieldeis), JLabel.LEFT);
+		JLabel fireShieldEntry = new JLabel("Feuerschild", new ImageIcon(GameWindow.shieldfeuer), JLabel.LEFT);
+		JLabel waterShieldEntry = new JLabel("Wasserschild", new ImageIcon(GameWindow.shieldwasser), JLabel.LEFT);
 		
 		//Zugehörige JPanels
 		emptyPanel = new JPanel(new GridBagLayout());
 		healthPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		poisonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		manaPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		swordPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		shieldPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		physicalSwordPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		iceSwordPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		fireSwordPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		waterSwordPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		physicalShieldPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		iceShieldPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		fireShieldPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		waterShieldPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		
 		//Labels auf Panels klatschen
 		GridBagConstraints emptyConstr = new GridBagConstraints();
@@ -97,11 +111,19 @@ private static final long serialVersionUID = 1L;
 		healthPanel.add(healthEntry);
 		poisonPanel.add(poisonEntry);
 		manaPanel.add(manaEntry);
-		swordPanel.add(swordEntry);
-		shieldPanel.add(shieldEntry);
+		physicalSwordPanel.add(physicalSwordEntry);
+		iceSwordPanel.add(iceSwordEntry);
+		fireSwordPanel.add(fireSwordEntry);
+		waterSwordPanel.add(waterSwordEntry);
+		physicalShieldPanel.add(physicalShieldEntry);
+		iceShieldPanel.add(iceShieldEntry);
+		fireShieldPanel.add(fireShieldEntry);
+		waterShieldPanel.add(waterShieldEntry);
 		
 		//Panels auf JList legen; Liste auf Scrollpane legen
-		JPanel[] panels = {emptyPanel, healthPanel, poisonPanel, manaPanel, swordPanel, shieldPanel};
+		JPanel[] panels = {emptyPanel, healthPanel, poisonPanel, manaPanel,
+				physicalSwordPanel, iceSwordPanel, fireSwordPanel, waterSwordPanel,
+				physicalShieldPanel, iceShieldPanel, fireShieldPanel, waterShieldPanel};
 		itemList.setListData(panels);
 		JScrollPane monsterListPane = new JScrollPane(itemList);
 		monsterListPane.setPreferredSize(new Dimension(100, 300)); //Größe der Liste
@@ -126,7 +148,8 @@ private static final long serialVersionUID = 1L;
 			{
 				{"Typ", type},
 				{"Stärke",power},
-				{"Münzen",coinVal}
+				{"Münzen",coinVal},
+				{"Element",element}
 			};
 		tableContent = tableData;
 		tableModel = new DefaultTableModel(tableContent, tableContent[0]);
@@ -213,26 +236,31 @@ private static final long serialVersionUID = 1L;
 			tableContent[0][1] = "Lebenstrank";					//Typ
 			tableContent[1][1] = Item.standardHealthPower+"";	//Stärke
 			tableContent[2][1] = Item.standardHealthValue+"";	//Münzwert
+			tableContent[3][1] = "";							//Element
 			break;
 		case 2:
 			tableContent[0][1] = "Gifttrank";					//Typ
 			tableContent[1][1] = Item.standardPoisonPower+"";	//Stärke
 			tableContent[2][1] = Item.standardPoisonValue+"";	//Münzwert
+			tableContent[3][1] = "";							//Element
 			break;
 		case 3:
 			tableContent[0][1] = "Manatrank";					//Typ
 			tableContent[1][1] = Item.standardManaPower+"";		//Stärke
 			tableContent[2][1] = Item.standardManaValue+"";		//Münzwert
+			tableContent[3][1] = "";							//Element
 			break;
 		case 4:
 			tableContent[0][1] = "Schwert";						//Typ
 			tableContent[1][1] = Item.standardSwordPower+"";	//Stärke
 			tableContent[2][1] = Item.standardSwordValue+"";	//Münzwert
+			tableContent[3][1] = Moveable.getElementName(workingItem.getElement()); //Element
 			break;
 		case 5:
 			tableContent[0][1] = "Schild";						//Typ
 			tableContent[1][1] = Item.standardShieldPower+"";	//Stärke
 			tableContent[2][1] = Item.standardShieldValue+"";	//Münzwert
+			tableContent[3][1] = Moveable.getElementName(workingItem.getElement()); //Element
 			break;
 		default:
 			type = "unbekannt";
@@ -313,16 +341,18 @@ private static final long serialVersionUID = 1L;
 		workingItem.setValue(Item.standardManaValue);
 	}
 	
-	private void showSword() {
+	private void showSword(Moveable.Element element) {
 		workingItem.setType(4);
 		workingItem.setDamage(Item.standardSwordPower);
 		workingItem.setValue(Item.standardSwordValue);
+		workingItem.setElement(element);
 	}
 	
-	private void showShield() {
+	private void showShield(Moveable.Element element) {
 		workingItem.setType(5);
 		workingItem.setDamage(Item.standardShieldPower);
 		workingItem.setValue(Item.standardShieldValue);
+		workingItem.setElement(element);
 	}
 
 	/**
@@ -344,10 +374,26 @@ private static final long serialVersionUID = 1L;
 					showPoison();
 				else if(itemList.getSelectedIndex() == 3)
 					showMana();
+				
+				//Schwerter
 				else if(itemList.getSelectedIndex() == 4)
-					showSword();
+					showSword(Moveable.Element.PHYSICAL);
 				else if(itemList.getSelectedIndex() == 5)
-					showShield();
+					showSword(Moveable.Element.ICE);
+				else if(itemList.getSelectedIndex() == 6)
+					showSword(Moveable.Element.FIRE);
+				else if(itemList.getSelectedIndex() == 7)
+					showSword(Moveable.Element.WATER);
+				
+				//Schilde
+				else if(itemList.getSelectedIndex() == 8)
+					showShield(Moveable.Element.PHYSICAL);
+				else if(itemList.getSelectedIndex() == 9)
+					showShield(Moveable.Element.ICE);
+				else if(itemList.getSelectedIndex() == 10)
+					showShield(Moveable.Element.FIRE);
+				else if(itemList.getSelectedIndex() == 11)
+					showShield(Moveable.Element.WATER);
 	
 				update();
 				attributeTable.setVisible(true);

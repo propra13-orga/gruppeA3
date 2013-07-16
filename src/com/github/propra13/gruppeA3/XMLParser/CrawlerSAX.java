@@ -139,7 +139,7 @@ public class CrawlerSAX extends DefaultHandler{
 			String desc = new String(attrs.getValue("desc"));
 			String name = new String(attrs.getValue("name"));
 			
-			npc = new NPC(type, desc, name, x, y);
+			npc = new NPC(type, desc, name, new FieldPosition(x, y));
 		}
 		else if(qName.equals("field")){
 			isCheckpointLink = false;
