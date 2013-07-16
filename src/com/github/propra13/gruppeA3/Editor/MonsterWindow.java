@@ -25,7 +25,9 @@ import com.github.propra13.gruppeA3.Game;
 import com.github.propra13.gruppeA3.GameWindow;
 import com.github.propra13.gruppeA3.Entities.Hitbox;
 import com.github.propra13.gruppeA3.Entities.Monster;
+import com.github.propra13.gruppeA3.Entities.Moveable;
 import com.github.propra13.gruppeA3.Map.Field;
+import com.github.propra13.gruppeA3.Map.Position;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 
 /**
@@ -194,8 +196,9 @@ public class MonsterWindow extends JDialog implements ActionListener, ListSelect
 		monsterToEdit = monster;//TODO Monster werden nicht abgebildet
 		if(monsterToEdit == null)
 			workingMonster = new Monster(roomTab.room.ID, 1.0, 1, 0, 10, 
-					field.pos.x*32+Hitbox.standard.width/2,
-					field.pos.y*32+Hitbox.standard.height/2, "unset", 10, 10, 10, false);
+					new Position(field.pos.x*32+Hitbox.standard.width/2,
+					field.pos.y*32+Hitbox.standard.height/2),
+					"unset", 10, 10, 10, false, Moveable.Element.PHYSICAL);
 		else
 			workingMonster = monster;
 		

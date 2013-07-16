@@ -42,12 +42,8 @@ public class Monster extends Moveable {
 	 * @param element Element des Monsters
 	 */
 	
-	/*Hinweis: Der erste Konstruktor sollte, sobald in der XML-Datei alle Monster mit einem Element ausgestattet wurden, 
-	 * nicht mehr verwendet und gelöscht werden.
-	 */
-	
 	public Monster (int roomID, double speed, int power, int type, int life, 
-					int x, int y, String desc, int coinValue, int coinType, int armour, boolean isBoss){
+					Position pos, String desc, int coinValue, int coinType, int armour, boolean isBoss, Element element){
 		super(roomID);
 		this.roomID = roomID;
 		addSpeedFactor(speed);
@@ -58,11 +54,11 @@ public class Monster extends Moveable {
 		this.desc = desc;
 		this.hitbox = new Hitbox();
 		this.isBoss = isBoss;
-		pos = new Position(x*32+(hitbox.width/2), y*32+(hitbox.height/2));;
+		this.pos = pos;
 		setDirection(Direction.NONE);
 		coins=new Coin(coinValue, coinType, this.pos);
 		this.type = type;
-		this.element = Element.PHYSICAL;
+		this.element = element;
 		/**
 		 * Diese Abfrage ist für Bossmonster, die größer sind als gewöhnliche Monster
 		 */
@@ -357,13 +353,13 @@ public class Monster extends Moveable {
 				getAttack(),
 				type,
 				getHealth(),
-				getFieldPos().x,
-				getFieldPos().y,
+				getPosition(),
 				desc,
 				coins.getValue(),
 				coins.getType(),
 				getArmour(),
-				isBoss);	
+				isBoss,
+				getElement());	
 	}
 	
 	public void setElement(Element element){

@@ -13,6 +13,7 @@ import com.github.propra13.gruppeA3.Entities.Entities;
 import com.github.propra13.gruppeA3.Entities.Hitbox;
 import com.github.propra13.gruppeA3.Entities.Item;
 import com.github.propra13.gruppeA3.Entities.Monster;
+import com.github.propra13.gruppeA3.Entities.Moveable;
 import com.github.propra13.gruppeA3.Entities.NPC;
 import com.github.propra13.gruppeA3.Entities.Player;
 import com.github.propra13.gruppeA3.Map.Position;
@@ -190,8 +191,8 @@ public class Protocol {
     	String desc = receiveString();
     	String name = receiveString();
     	int value = this.in.readInt();
-    	//TODO: statt null Raum eintragen
-		return new Item(damage, type, x, y, desc, name, value);
+    	//TODO: Element
+		return new Item(damage, type, x, y, desc, name, value, Moveable.Element.PHYSICAL);
     }
     
     /**
@@ -259,7 +260,8 @@ public class Protocol {
     	int coinType = this.in.readInt();
     	int armour = this.in.readInt();
     	boolean isBoss = this.in.readBoolean();
-    	return new Monster(roomID, speed, power, type, life, pos.x, pos.y, desc, coinValue, coinType, armour, isBoss);
+    	//TODO: Element
+    	return new Monster(roomID, speed, power, type, life, pos.x, pos.y, desc, coinValue, coinType, armour, isBoss, Moveable.Element.PHYSICAL);
     }
     
     /**

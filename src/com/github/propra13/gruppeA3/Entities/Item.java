@@ -67,18 +67,15 @@ public class Item extends Entities {
 	 * @param element	Das Element des Items
 	 **/
 	
-	/*Hinweis: Der erste Konstruktor sollte, sobald in der XML-Datei alle Items mit einem Element ausgestattet wurden, 
-	 * nicht mehr verwendet und gelöscht werden.
-	 */
-	public Item(int damage, int type, int x, int y, String desc, String name, int value) {
+	public Item(int damage, int type, Position pos, String desc, String name, int value, Element element) {
 		this.damage = damage;
 		this.type = type;
 		this.desc = desc;
 		this.name = name;
 		this.hitbox = Hitbox.standard;
-		pos = new Position(x*32+(hitbox.width/2),y*32+(hitbox.height/2));
+		this.pos = pos;
 		this.value = value;
-		this.element = Element.PHYSICAL;
+		this.element = element;
 	}
 	
 	public Item(int damage, int type, int x, int y, String desc, String name, int value, Element element) {
@@ -179,11 +176,11 @@ public class Item extends Entities {
 		return new Item(
 						damage,
 						type,
-						getPosition().toFieldPos().x,
-						getPosition().toFieldPos().y,
+						getPosition(),
 						getDesc(),
 						getName(),
-						getValue());
+						getValue(),
+						getElement());
 	}
 	
 	/**

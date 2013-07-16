@@ -2,8 +2,10 @@ package com.github.propra13.gruppeA3.Map;
 
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
 import com.github.propra13.gruppeA3.Entities.Entities;
+import com.github.propra13.gruppeA3.Entities.Hitbox;
 import com.github.propra13.gruppeA3.Entities.Item;
 import com.github.propra13.gruppeA3.Entities.Monster;
+import com.github.propra13.gruppeA3.Entities.Moveable;
 import com.github.propra13.gruppeA3.Entities.NPC;
 
 import java.io.BufferedWriter;
@@ -466,20 +468,44 @@ public class Room {
 				else
 					isBoss = false;
 				
+				
+				int x = Integer.parseInt(monsterEl.getAttribute("x"));
+				int y = Integer.parseInt(monsterEl.getAttribute("y"));
+				Position pos = new Position(x*32+(Hitbox.standard.width/2),y*32+(Hitbox.standard.height/2));
+				
+				//Element
+				Moveable.Element element = null;
+				switch(monsterEl.getAttribute("element")) {
+					case "feuer":
+						element = Moveable.Element.FIRE;
+						break;
+					case "wasser":
+						element = Moveable.Element.WATER;
+						break;
+					case "eis":
+						element = Moveable.Element.ICE;
+						break;
+					case "physisch":
+						element = Moveable.Element.PHYSICAL;
+						break;
+					default:
+						element = Moveable.Element.PHYSICAL;
+						break;
+				}
+				
 				entities.add(new Monster(
 						this.ID,
 						Double.parseDouble(monsterEl.getAttribute("geschwindigkeit")),
 						Integer.parseInt(monsterEl.getAttribute("angriff")),
 						Integer.parseInt(monsterEl.getAttribute("typ")),
 						Integer.parseInt(monsterEl.getAttribute("leben")),
-						Integer.parseInt(monsterEl.getAttribute("x")),
-						Integer.parseInt(monsterEl.getAttribute("y")),
+						pos,
 						desc,
 						Integer.parseInt(monsterEl.getAttribute("muenzen")),
 						1,
 						Integer.parseInt(monsterEl.getAttribute("ruestung")),
-						isBoss
-						));
+						isBoss,
+						element));
 			}
 		}
 		
@@ -512,14 +538,39 @@ public class Room {
 		for(int i=0; i < itemNodes.getLength(); i++) {
 			if(itemNodes.item(i) instanceof Element) {
 				itemEl = (Element)itemNodes.item(i);
+				
+				//Element
+				Moveable.Element element = null;
+				switch(itemEl.getAttribute("element")) {
+					case "feuer":
+						element = Moveable.Element.FIRE;
+						break;
+					case "wasser":
+						element = Moveable.Element.WATER;
+						break;
+					case "eis":
+						element = Moveable.Element.ICE;
+						break;
+					case "physisch":
+						element = Moveable.Element.PHYSICAL;
+						break;
+					default:
+						element = Moveable.Element.PHYSICAL;
+						break;
+				}
+				
+				int x = Integer.parseInt(itemEl.getAttribute("x"));
+				int y = Integer.parseInt(itemEl.getAttribute("y"));
+				Position pos = new Position(x*32+(Hitbox.standard.width/2),y*32+(Hitbox.standard.height/2));
+				
 				itemsToDo.add(new Item(
 						Integer.parseInt(itemEl.getAttribute("staerke")),
 						Integer.parseInt(itemEl.getAttribute("typ")),
-						Integer.parseInt(itemEl.getAttribute("x")),
-						Integer.parseInt(itemEl.getAttribute("y")),
+						pos,
 						itemEl.getAttribute("beschreibung"),
 						itemEl.getAttribute("name"),
-						Integer.parseInt(itemEl.getAttribute("wert"))
+						Integer.parseInt(itemEl.getAttribute("wert")),
+						element
 						));
 			}
 		}

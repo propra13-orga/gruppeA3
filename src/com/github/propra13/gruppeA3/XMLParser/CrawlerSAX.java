@@ -109,7 +109,7 @@ public class CrawlerSAX extends DefaultHandler{
 
 			// Es wird ein neues Monster erzeugt mit den zuvor ausgelesenen Informationen aus level.xml
 			Monster monster=new Monster(roomID, speed, power, type, life, x, y, desc, 
-										coinValue, coinType, armour, isBoss);
+										coinValue, coinType, armour, isBoss, Moveable.Element.PHYSICAL);
 			//MAP
 			//System.out.println("Monster");
 			Map.getRoom(roomID).entities.add(monster);
@@ -124,7 +124,7 @@ public class CrawlerSAX extends DefaultHandler{
 			String name = new String(attrs.getValue("name"));
 			int value = Integer.parseInt(attrs.getValue("value"));
 
-			Item item=new Item(damage, type, x, y, desc, name, value);
+			Item item=new Item(damage, type, x, y, desc, name, value, Moveable.Element.PHYSICAL);
 			
 			if(checkNPC){
 				npc.getItems().add(item);

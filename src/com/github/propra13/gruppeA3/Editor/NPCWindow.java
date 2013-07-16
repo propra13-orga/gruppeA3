@@ -33,6 +33,7 @@ import com.github.propra13.gruppeA3.Game;
 import com.github.propra13.gruppeA3.GameWindow;
 import com.github.propra13.gruppeA3.Entities.Hitbox;
 import com.github.propra13.gruppeA3.Entities.Item;
+import com.github.propra13.gruppeA3.Entities.Moveable;
 import com.github.propra13.gruppeA3.Entities.NPC;
 import com.github.propra13.gruppeA3.Map.Field;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
@@ -492,25 +493,29 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 				for(int i = healthCtr; i > 0; i--) {
 					workingNPC.getItems().add(new Item(10, 1, 
 							affectedField.pos.x, affectedField.pos.y, 
-							"Bringt dich wieder zu Kräften", "Lebenstrank", 4));
-					System.out.println("Lebenstrank hinzugefügt. i: "+i);
+							"Bringt dich wieder zu Kräften", "Lebenstrank", 4,
+							Moveable.Element.PHYSICAL));
 				}
 				for(int i = manaCtr; i > 0; i--)
 					workingNPC.getItems().add(new Item(30, 3,
 							affectedField.pos.x, affectedField.pos.y,
-							"Erweckt deine Zauberkräfte", "Mana-Trank", 4));
+							"Erweckt deine Zauberkräfte", "Mana-Trank", 4,
+							Moveable.Element.PHYSICAL));
 				for(int i = poisonCtr; i > 0; i--)
 					workingNPC.getItems().add(new Item(10, 2,
 							affectedField.pos.x, affectedField.pos.y,
-							"Vergiftet dich", "Gift-Trank", 4));
+							"Vergiftet dich", "Gift-Trank", 4,
+							Moveable.Element.PHYSICAL));
 				for(int i = swordCtr; i > 0; i--)
 					workingNPC.getItems().add(new Item(2, 4,
 							affectedField.pos.x, affectedField.pos.y,
-							"Verstärkt deinen Angriff", "Schwert", 10));
+							"Verstärkt deinen Angriff", "Schwert", 10,
+							Moveable.Element.PHYSICAL));
 				for(int i = shieldCtr; i > 0; i--)
 					workingNPC.getItems().add(new Item(2, 5,
 							affectedField.pos.x, affectedField.pos.y,
-							"Erhöht deine Verteidigung", "Schild", 10));
+							"Erhöht deine Verteidigung", "Schild", 10,
+							Moveable.Element.PHYSICAL));
 			}
 			//Ein bestehender NPC wird geändert
 			if(! delRB.isSelected() && NPCToEdit != null)

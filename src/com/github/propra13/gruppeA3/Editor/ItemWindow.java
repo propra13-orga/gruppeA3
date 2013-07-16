@@ -25,7 +25,9 @@ import com.github.propra13.gruppeA3.Game;
 import com.github.propra13.gruppeA3.GameWindow;
 import com.github.propra13.gruppeA3.Entities.Hitbox;
 import com.github.propra13.gruppeA3.Entities.Item;
+import com.github.propra13.gruppeA3.Entities.Moveable;
 import com.github.propra13.gruppeA3.Map.Field;
+import com.github.propra13.gruppeA3.Map.Position;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 
 public class ItemWindow extends JDialog implements ActionListener, ListSelectionListener {
@@ -183,9 +185,10 @@ private static final long serialVersionUID = 1L;
 		if(itemToEdit == null)
 			workingItem = new Item(
 					Item.standardHealthPower, 1, 
-					affectedField.pos.x*32+Hitbox.standard.width/2,
-					affectedField.pos.y*32+Hitbox.standard.height/2, "Erfrischt", 
-					"Lebenstrank", Item.standardHealthValue
+					new Position((affectedField.pos.x*32+Hitbox.standard.width/2),
+					(affectedField.pos.y*32+Hitbox.standard.height/2)),
+					"Erfrischt", "Lebenstrank", Item.standardHealthValue,
+					Moveable.Element.PHYSICAL
 					);
 		else
 			workingItem = item.clone();
