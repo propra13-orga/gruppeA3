@@ -81,7 +81,7 @@ public class Client extends JFrame {
 		gui.addKeyListener(new Keys(players[playerID]));
 		
 		for(int i = 0; i < players.length; i++){
-			if(i != playerID)
+			if(playerID != i)
 				Map.getRoom(0).entities.add(players[i]);
 		}
 	 	

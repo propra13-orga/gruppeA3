@@ -88,8 +88,7 @@ public class Server extends Thread{
 			}
 			System.out.println("Server gestartet");
 			for(int i = 0; i < threads.length; i++)
-				if(threads[i] != null)
-					threads[i].sendNextGame();
+				threads[i].sendNextGame();
 		}catch ( IOException e ) {
 		      e.printStackTrace();
 	    }

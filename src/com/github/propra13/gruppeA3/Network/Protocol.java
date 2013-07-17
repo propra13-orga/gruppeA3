@@ -112,11 +112,11 @@ public class Protocol {
     public String receiveString() throws IOException
     {
     	int laenge = this.in.readInt();
-    	//System.out.println("rec länge: "+laenge);
+    	System.out.println("rec länge: "+laenge);
     	char[] chars = new char[laenge];
 		for (int i = 0; i < laenge; i++)
 			chars[i] = in.readChar();
-		//System.out.println("rec String: "+new String(chars));
+		System.out.println("rec String: "+new String(chars));
 		return new String(chars);
     }
     
@@ -359,22 +359,26 @@ public class Protocol {
     }
     
     /**
-     * Key senden
+     * Key und playerID senden
      * @param key
      * @throws IOException
      */
-    public void sendKey(int key) throws IOException{
+    public void sendKey(int key, int playerID) throws IOException{
     	sendString("key");
     	this.out.writeInt(key);
+    	this.out.writeInt(playerID);
     }
     
     /**
-     * Key empfangen
+     * Key und playerID empfangen
      * @return
      * @throws IOException
      */
-    public int receiveKey() throws IOException{
-    	return this.in.readInt();
+    public int[] receiveKey() throws IOException{
+    	int[] keys = new int[2];
+    	keys[0] = this.in.readInt();
+    	keys[1] = this.in.readInt();
+    	return keys;
     }
     
     public void sendNPC(NPC npc) throws IOException{
