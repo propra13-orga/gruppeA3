@@ -78,5 +78,15 @@ public class Music {
 			System.out.println("error: " + e.getMessage() + "hit");
 		} 
 	}
-}
 
+ public static void soundmagic(){
+	try {
+		Clip clip = AudioSystem.getClip();
+		AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File(System.getProperty("user.dir")+"/data/sound/magic.wav"));
+		clip.open(inputStream);
+		clip.start(); 
+	} catch (Exception e) {
+		System.out.println("error: " + e.getMessage() + "magic");
+	} 
+}
+}

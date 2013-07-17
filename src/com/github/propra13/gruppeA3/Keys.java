@@ -71,10 +71,12 @@ public class Keys implements KeyListener {
 				
 			case KeyEvent.VK_3:
 				player.setCast("firePlasma");
+				Music.soundmagic(); //Soundeffekt magic
 				break;
 				
 			case KeyEvent.VK_4:
 				player.setCast("fireAOEPlasma");
+				Music.soundmagic(); //Soundeffekt magic
 				break;
 				
 			case KeyEvent.VK_E:

@@ -12,9 +12,9 @@ import com.github.propra13.gruppeA3.Entities.Player;
 import com.github.propra13.gruppeA3.Entities.Moveable.Direction;
 
 /**
- * ServerThread ist eine Hilfsklasse für die Klasse Server
+ * ServerUpdater ist eine Hilfsklasse für die Klasse Server
  * Diese wird von Server erzeugt und existiert pro Client einmal
- * Jede ServerThread Klasse enthält ein Array aller ServerThread Instanzen
+ * Jede ServerUpdater Klasse enthält ein Array aller ServerUpdater Instanzen
  * So können alle Clienten angesprochen werden
  * @author Majida Dere
  *
@@ -23,9 +23,9 @@ public class ServerUpdater extends Thread {
 	
 	/**
 	 * Attribute:
-	 * 		protocol: Ist das Protokoll eines jeden ServerThreads und wird zur Kommunikation mit den Clienten verwendet
+	 * 		protocol: Ist das Protokoll eines jeden ServerUpdaters und wird zur Kommunikation mit den Clienten verwendet
 	 * 		started: Ein bool'scher Wert, wird dazu verwendet um zu deklarieren wie lange der Thread läuft
-	 * 		threads: Array von ServerThreads, wo alle ServerThreads gespeichert werden, so kann man alle Clienten erreichen
+	 * 		threads: Array von ServerUpdaters, wo alle ServerUpdaters gespeichert werden, so kann man alle Clienten erreichen
 	 */
 	private Protocol protocol;
 	private boolean started;
@@ -35,7 +35,7 @@ public class ServerUpdater extends Thread {
 	private int key;
 	
 	/**
-	 * Erzeugt einen neuen ServerThread
+	 * Erzeugt einen neuen ServerUpdater
 	 * @param s Socket das die Verbindung zum Client darstellt
 	 * @throws IOException Wird im Fehlerfall geworfen
 	 */
@@ -46,7 +46,7 @@ public class ServerUpdater extends Thread {
 	}
 	
 	/**
-	 * Setzt ServerThread array threads
+	 * Setzt ServerUpdater array threads
 	 * @param threads Referenz zum Array
 	 */
 	public void setThreads(ServerUpdater[] threads){
@@ -68,7 +68,7 @@ public class ServerUpdater extends Thread {
 	}
 	
 	/**
-	 * Liefert das Protokoll des aktuellen ServerThreads
+	 * Liefert das Protokoll des aktuellen ServerUpdaters
 	 * @return Protocol
 	 */
 	private Protocol getProtocol() {
@@ -119,7 +119,7 @@ public class ServerUpdater extends Thread {
 				} else if(vergleich.equalsIgnoreCase("key")){
 					receiveKeys();
 					move();
-					// Ausertung an alle Spieler schicken
+					sendKeys(key, playerID);
 				}
 			}
 			catch(SocketException ex)
@@ -137,6 +137,12 @@ public class ServerUpdater extends Thread {
 		int keys[] = this.protocol.receiveKey();
 		key = keys[0];
 		playerID = keys[1];
+	}
+	
+	private synchronized void sendKeys(int key, int playerID) throws IOException{
+		for (int i = 0; i < threads.length; i++)
+			if(null != threads[i])
+				threads[i].protocol.sendKey(key, playerID);
 	}
 	
 	private synchronized void move() {
