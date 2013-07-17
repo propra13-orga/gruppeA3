@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 import com.github.propra13.gruppeA3.Keys;
+import com.github.propra13.gruppeA3.Music;
 import com.github.propra13.gruppeA3.Entities.Player;
 import com.github.propra13.gruppeA3.Entities.Moveable.Direction;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
@@ -127,6 +128,10 @@ public class ClientUpdater extends Thread {
 			case KeyEvent.VK_DOWN:
 				players[playerID].setDirection(Direction.DOWN);
 				players[playerID].setFaceDirection(Direction.DOWN);
+				break;
+			case KeyEvent.VK_A:
+				players[playerID].setAttack(true);
+				Music.soundattach(); //Soundeffekt hit
 				break;
 		}
 	}

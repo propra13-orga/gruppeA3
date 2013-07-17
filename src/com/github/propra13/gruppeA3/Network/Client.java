@@ -163,8 +163,10 @@ public class Client extends JFrame implements KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
+		if(arg0.getKeyCode() == KeyEvent.VK_T)
+			chat.setVisible(true);
+		
 		try {
-			System.out.println("keypressed");
 			protocol.sendKey(arg0.getExtendedKeyCode(), playerID);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -173,8 +175,7 @@ public class Client extends JFrame implements KeyListener{
 
 	@Override
 	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
+		players[playerID].setDirection(Direction.NONE);		
 	}
 
 	@Override
