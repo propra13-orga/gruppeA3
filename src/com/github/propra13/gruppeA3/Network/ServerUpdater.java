@@ -55,7 +55,7 @@ public class ServerUpdater extends Thread {
 	 * @param message Die zu sendende Nachricht
 	 * @throws IOException die im Fehlerfall geworfene Eception
 	 */
-	public void sendMessage(String message) throws IOException{
+	public synchronized void sendMessage(String message) throws IOException{
 		for(int i = 0; i < threads.length; i++){
 			if(null != threads[i]){
 				threads[i].getProtocol().sendString("chat");

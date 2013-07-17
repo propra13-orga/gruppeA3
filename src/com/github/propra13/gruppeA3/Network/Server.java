@@ -63,6 +63,7 @@ public class Server extends Thread{
 	 		if(null != map){
 	 			Map.initialize(map);
 	 			this.playerCount = map.maxPlayers;
+	 			System.out.println("playerCount: "+playerCount);
 	 		}
 		} catch (MapFormatException | IOException
 				| InvalidRoomLinkException e) {
@@ -79,7 +80,7 @@ public class Server extends Thread{
 		try {
 			threads = new ServerUpdater[playerCount];
 			for(int i = 0; i < playerCount; i++){
-				players[i] = new Player(i);
+				players[i] = new Player(0,i);
 				threads[i] = new ServerUpdater(server.accept(),  players, i);
 				threads[i].setThreads(threads);
 				threads[i].start();
