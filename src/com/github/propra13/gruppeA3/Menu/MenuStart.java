@@ -400,7 +400,6 @@ public class MenuStart extends JPanel implements ActionListener {
 
         
         // Durchläuft Liste
-        Monster monster;
         Item item;
 
         Coin coin;
@@ -489,8 +488,6 @@ public class MenuStart extends JPanel implements ActionListener {
 	        paintRoom(g2d, activeRoom, this);
 	        
 	        setBackground(Color.GRAY);
-	        
-	        Position pp = player.getPosition().getDrawPosition(player.getHitbox());
         
         	paintScore(g2d);
         }

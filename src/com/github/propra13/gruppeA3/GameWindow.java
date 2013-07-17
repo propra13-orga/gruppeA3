@@ -55,14 +55,10 @@ public class GameWindow {
     public static BufferedImage exitimg;
     
     //player
-    public static BufferedImage playerimg_left1;
-    public static BufferedImage playerimg_left2;
-    public static BufferedImage playerimg_right1;
-    public static BufferedImage playerimg_right2;
-    public static BufferedImage playerimg_up1;
-    public static BufferedImage playerimg_up2;
-    public static BufferedImage playerimg_down1;
-    public static BufferedImage playerimg_down2;
+    public static BufferedImage[] playerimg_down = new BufferedImage[2];
+    public static BufferedImage[] playerimg_left = new BufferedImage[2];
+    public static BufferedImage[] playerimg_up = new BufferedImage[2];
+    public static BufferedImage[] playerimg_right = new BufferedImage[2];
     public static BufferedImage kampfimg_left1;
     public static BufferedImage kampfimg_left2;
     public static BufferedImage kampfimg_right1;
@@ -130,22 +126,25 @@ public class GameWindow {
 	    
 	    
 	    //Monster
-	    monsterimg_1left = this.getBufferedImage(this.GamePath + "/data/images/Monster/M1left.png");
-	    monsterimg_1right = this.getBufferedImage(this.GamePath + "/data/images/Monster/M1right.png");
-	    monsterimg_1up = this.getBufferedImage(this.GamePath + "/data/images/Monster/M1up.png");
 	    monsterimg_1down = this.getBufferedImage(this.GamePath + "/data/images/Monster/M1down.png");
-	    monsterimg_2left = this.getBufferedImage(this.GamePath + "/data/images/Monster/M2left.png");
-	    monsterimg_2right = this.getBufferedImage(this.GamePath + "/data/images/Monster/M2right.png");
-	    monsterimg_2up = this.getBufferedImage(this.GamePath + "/data/images/Monster/M2up.png");
+	    monsterimg_1left = rotate(monsterimg_1down);
+	    monsterimg_1up = rotate(monsterimg_1left);
+	    monsterimg_1right = rotate(monsterimg_1up);
+
 	    monsterimg_2down = this.getBufferedImage(this.GamePath + "/data/images/Monster/M2down.png");
-	    monsterimg_3left = this.getBufferedImage(this.GamePath + "/data/images/Monster/M3left.png");
-	    monsterimg_3right = this.getBufferedImage(this.GamePath + "/data/images/Monster/M3right.png");
-	    monsterimg_3up = this.getBufferedImage(this.GamePath + "/data/images/Monster/M3up.png");
+	    monsterimg_2left = rotate(monsterimg_2down);
+	    monsterimg_2up = rotate(monsterimg_2left);
+	    monsterimg_2right = rotate(monsterimg_2up);
+
 	    monsterimg_3down = this.getBufferedImage(this.GamePath + "/data/images/Monster/M3down.png");
-	    monsterimg_4left = this.getBufferedImage(this.GamePath + "/data/images/Monster/M4left.png");
-	    monsterimg_4right = this.getBufferedImage(this.GamePath + "/data/images/Monster/M4right.png");
-	    monsterimg_4up = this.getBufferedImage(this.GamePath + "/data/images/Monster/M4up.png");
+	    monsterimg_3left = rotate(monsterimg_3down);
+	    monsterimg_3up = rotate(monsterimg_3left);
+	    monsterimg_3right = rotate(monsterimg_3up);
+
 	    monsterimg_4down = this.getBufferedImage(this.GamePath + "/data/images/Monster/M4down.png");
+	    monsterimg_4left = rotate(monsterimg_4down);
+	    monsterimg_4up = rotate(monsterimg_4left);
+	    monsterimg_4right = rotate(monsterimg_4up);
 	    
 	    
 	    //Hintergrundis
@@ -158,14 +157,14 @@ public class GameWindow {
 	    riverimg_u = rotate(riverimg_l);
 	    
 	    //Player laeuft
-	    playerimg_left1 = this.getBufferedImage(this.GamePath + "/data/images/Spieler laeuft/Pleft1.png");
-	    playerimg_left2 = this.getBufferedImage(this.GamePath + "/data/images/Spieler laeuft/Pleft2.png");
-	    playerimg_right1 = this.getBufferedImage(this.GamePath + "/data/images/Spieler laeuft/Pright1.png");
-	    playerimg_right2 = this.getBufferedImage(this.GamePath + "/data/images/Spieler laeuft/Pright2.png");
-	    playerimg_up1 = this.getBufferedImage(this.GamePath + "/data/images/Spieler laeuft/Pup1.png");
-	    playerimg_up2 = this.getBufferedImage(this.GamePath + "/data/images/Spieler laeuft/Pup2.png");
-	    playerimg_down1 = this.getBufferedImage(this.GamePath + "/data/images/Spieler laeuft/Pdown1.png");
-	    playerimg_down1 = this.getBufferedImage(this.GamePath + "/data/images/Spieler laeuft/Pdown2.png");
+	    playerimg_down[0] = this.getBufferedImage(this.GamePath + "/data/images/Spieler laeuft/Pdown1.png");
+	    playerimg_down[1] = this.getBufferedImage(this.GamePath + "/data/images/Spieler laeuft/Pdown2.png");
+	    playerimg_left[0] = rotate(playerimg_down[0]);
+	    playerimg_left[1] = rotate(playerimg_down[1]);
+	    playerimg_up[0] = rotate(playerimg_left[0]);
+	    playerimg_up[1] = rotate(playerimg_left[1]);
+	    playerimg_right[0] = rotate(playerimg_up[0]);
+	    playerimg_right[1] = rotate(playerimg_up[1]);
 	    
 	    //Player kaempft
 	    kampfimg_left1 = this.getBufferedImage(this.GamePath +"/data/images/Spieler kampf/Kleft1.png");

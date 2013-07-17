@@ -32,6 +32,7 @@ public class Player extends Moveable {
 	private Element defelement;
 	
 	private int hurtAnimationCounter = 0;
+	private int walkAnimationCounter = 0;
 	
 	public int eggCounter = 0;
 
@@ -757,6 +758,16 @@ public class Player extends Moveable {
   	public void tick() {
   		if(hurtAnimationCounter > 0)
   			hurtAnimationCounter--;
+  		
+  		if(walkAnimationCounter > 0) {
+  			walkAnimationCounter--;
+  			if(buff instanceof SpeedBuff && walkAnimationCounter % 3 == 0)
+  				walkAnimationCounter--;
+  		}
+  		else if(getDirection() != Direction.NONE)
+  			walkAnimationCounter = 16;
+  		else if(getDirection() == Direction.NONE)
+  			walkAnimationCounter = 0;
   	}
 
 
@@ -796,22 +807,27 @@ public class Player extends Moveable {
 	@Override
 	public BufferedImage getImage() {
 		BufferedImage img = null;
+		int animIndex;
+		if(walkAnimationCounter > 7)
+			animIndex = 0;
+		else
+			animIndex = 1;
 		
 		switch(getFaceDirection()) {
         case UP: 
-        	img = GameWindow.playerimg_up1;
+        	img = GameWindow.playerimg_up[animIndex];
         	break;
         case DOWN:
-        	img = GameWindow.playerimg_down1;
+        	img = GameWindow.playerimg_down[animIndex];
         	break;
         case LEFT:
-        	img = GameWindow.playerimg_left1;
+        	img = GameWindow.playerimg_left[animIndex];
         	break;
         case RIGHT:
-        	img = GameWindow.playerimg_right1;
+        	img = GameWindow.playerimg_right[animIndex];
         	break;	
         default:
-        	img = GameWindow.playerimg_down1;
+        	img = GameWindow.playerimg_down[animIndex];
         	break;
         }
 		

@@ -18,7 +18,7 @@ import com.github.propra13.gruppeA3.Menu.MenuStart;
 public abstract class Moveable extends Entities {
 	
 
-	public static enum Direction{LEFT,RIGHT,UP,DOWN,NONE}
+	public static enum Direction{DOWN,LEFT,UP,RIGHT,NONE}
 	protected Direction direct;
 	private Direction facedirect;
 	protected Position pos;
