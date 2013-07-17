@@ -65,7 +65,7 @@ public class Player extends Moveable {
     	direct = Direction.NONE;
     	resetAttack();
     	setRoomID(roomID);
-    	getRoom().entities.add(this);
+    	//getRoom().entities.add(this);
     	setPosition(Map.spawns.get(playerID).pos.toPosition().x+16, Map.spawns.get(playerID).pos.toPosition().y+16);
     }
     

@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 
 import com.github.propra13.gruppeA3.Game;
 import com.github.propra13.gruppeA3.Keys;
+import com.github.propra13.gruppeA3.Entities.Entities;
 import com.github.propra13.gruppeA3.Entities.Player;
 import com.github.propra13.gruppeA3.Exceptions.InvalidRoomLinkException;
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
@@ -48,24 +49,24 @@ public class Client extends JFrame {
 	 */
 	public Client(MenuStart gui, NetworkStatus netstat, boolean serverStarted) {
 		this.gui = gui;
-		//try {
-			if (!serverStarted){
-				Iterator<MapHeader> iter = Game.mapHeaders.iterator();
-				MapHeader map=null;
-				while(iter.hasNext()){
-					map = iter.next();
-					if(map.mapName.equalsIgnoreCase(netstat.toString()))
-						break;
-				}
+		if (!serverStarted){
+			Iterator<MapHeader> iter = Game.mapHeaders.iterator();
+			MapHeader map=null;
+			while(iter.hasNext()){
+				map = iter.next();
+				if(map.mapName.equalsIgnoreCase(netstat.toString()))
+					break;
+			}
 				
-			 	try {
-			 		if(null != map)
-			 			Map.initialize(map);
-				} catch (MapFormatException | IOException
-						| InvalidRoomLinkException e) {
-					e.printStackTrace();
-				}
-			 }
+		 	try {
+		 		if(null != map){
+		 			Map.initialize(map);
+		 		}
+			} catch (MapFormatException | IOException
+					| InvalidRoomLinkException e) {
+				e.printStackTrace();
+			}
+		 }
 		System.out.println("Client " + netstat.toString() + " started");
 		if(connect(gui.getHost(), gui.getPort())){
 			System.out.println("Verbindung erfolgreich");
@@ -80,10 +81,8 @@ public class Client extends JFrame {
 		gui.setPlayer(players[playerID]);
 		gui.addKeyListener(new Keys(players[playerID]));
 		
-		for(int i = 0; i < players.length; i++){
-			if(playerID != i)
-				Map.getRoom(0).entities.add(players[i]);
-		}
+		for(int i = 0; i < players.length; i++)
+			Map.getRoom(0).entities.add(players[i]);
 	 	
 		gui.setRandom(new Random(System.currentTimeMillis()));
 		MenuStart.setActiveRoom(Map.getRoom(0));
@@ -94,6 +93,17 @@ public class Client extends JFrame {
 						 false, false, false, false, false, false, false);
 			
 		MenuStart.setGameStatus(GameStatus.INGAME);
+		System.out.println("entitieslist "+Map.getRoom(0).entities.size());
+		Iterator<Entities> iter = Map.getRoom(0).entities.iterator();
+		Entities entity;
+		Player player;
+		while(iter.hasNext()){
+			entity = iter.next();
+			if(entity instanceof Player){
+				player = (Player)entity;
+				System.out.println("playerIDD "+player.getPlayerID());
+			}
+		}
 	}
 	
 	/**
