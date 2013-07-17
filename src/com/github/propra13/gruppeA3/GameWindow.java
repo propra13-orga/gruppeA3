@@ -266,13 +266,11 @@ public class GameWindow {
             	
             	int newBlue = smallest;
             	int newGreen = smallest;
-            	int newRed;
+            	int newRed = ((red/2 + green/3 + blue/3)<<24)>>>24;
             	
-            	//Falls schwarz, künstlich rot reinmachen
-            	if(oldRGB<<8 == 0)
-            		newRed = 0x30;
-            	else
-            		newRed = ((red/2 + green/3 + blue/3)<<24)>>>24;
+            	//Falls zu dunkel, künstlich aufhellen
+            	if(newRed < 10)
+            		newRed = newRed + (10 - newRed) * 5;
             		
             	int newRGB = (alpha<<24) + (red<<16) + (newGreen<<8) + (newBlue);
             	newRGB = (alpha<<24) + (newRed<<16);
