@@ -88,6 +88,7 @@ public class MenuStart extends JPanel implements ActionListener {
      */
 	private JButton buttonNewGame;
 	private JButton buttonNextMap;
+	private JButton buttonSingleplayer;
 	private JButton buttonNetwork;
 	private JButton buttonHelp;
 	private JButton buttonHelpOk;
@@ -167,8 +168,9 @@ public class MenuStart extends JPanel implements ActionListener {
         // Menü vorbereiten
         background = new JLabel(new ImageIcon(GameWindow.background));
         
-     	buttonNewGame = new JButton("Neues Spiel");
+     	buttonNewGame = new JButton("Neue Kampagne");
      	buttonNextMap = new JButton("Nächste Karte");
+     	buttonSingleplayer = new JButton("Einzelspiel");
      	buttonNetwork = new JButton("Multiplayer");
      	buttonEditor = new JButton("Karteneditor");
      	buttonHelp = new JButton("Hilfe");
@@ -185,6 +187,7 @@ public class MenuStart extends JPanel implements ActionListener {
      	// benenne Aktionen
     	buttonNewGame.setActionCommand("newgame");
     	buttonNextMap.setActionCommand("nextmap");
+    	buttonSingleplayer.setActionCommand("singleplayer");
     	buttonNetwork.setActionCommand("network");
     	buttonEditor.setActionCommand("editor");
     	buttonBack.setActionCommand("back");
@@ -198,6 +201,7 @@ public class MenuStart extends JPanel implements ActionListener {
     	// ActionListener hinzufügen
     	buttonNewGame.addActionListener(this);
     	buttonNextMap.addActionListener(this);
+    	buttonSingleplayer.addActionListener(this);
     	buttonNetwork.addActionListener(this);
     	buttonHelp.addActionListener(this);
     	buttonEditor.addActionListener(this);
@@ -213,6 +217,7 @@ public class MenuStart extends JPanel implements ActionListener {
     	// füge Buttons zum Panel hinzu
     	add(buttonNewGame);
     	add(buttonNextMap);
+    	add(buttonSingleplayer);
     	add(buttonNetwork);
     	add(buttonHelp);
     	add(buttonEditor);
@@ -262,12 +267,14 @@ public class MenuStart extends JPanel implements ActionListener {
 		Game.frame.validate();
     }
     
-    public void setButtonVisible(boolean bground, boolean bNGame, boolean bNMap, boolean bNetwork, boolean bOptionen,
-    							boolean bHelp, boolean bEditor, boolean bBeenden, boolean bDeathmatch, 
-    							boolean bCoop, boolean bCreate, boolean bJoin, boolean bNWOptions){
+    public void setButtonVisible(boolean bground, boolean bNGame, boolean bNMap, boolean bSplayer, 
+    							boolean bNetwork, boolean bOptionen, boolean bHelp, boolean bEditor, 
+    							boolean bBeenden, boolean bDeathmatch, boolean bCoop, boolean bCreate,
+    							boolean bJoin, boolean bNWOptions){
 		background.setVisible(bground);
 		buttonNewGame.setVisible(bNGame);
 		buttonNextMap.setVisible(bNMap);
+		buttonSingleplayer.setVisible(bSplayer);
 		buttonNetwork.setVisible(bNetwork);
 		buttonOptionen.setVisible(bOptionen);
 		buttonHelp.setVisible(bHelp);
@@ -307,7 +314,7 @@ public class MenuStart extends JPanel implements ActionListener {
 		// Menü-Buttons ausblenden, Status ändern
 		setButtonVisible(false, false, false, false, false, false,
 						 false, false, false, false, false, false,
-						 false);
+						 false, false);
 			
 		lastMap = Map.header;
 		setGameStatus(GameStatus.INGAME);
@@ -713,12 +720,13 @@ public class MenuStart extends JPanel implements ActionListener {
 			buttonOptionen.setVisible(true);
 			buttonHelp.setVisible(true);
 			buttonBeenden.setVisible(true);
-			buttonNewGame.setBounds(buttonPosX,buttonPosY,    200,30);
-			buttonNetwork.setBounds(buttonPosX,buttonPosY+40, 200,30);
-			buttonEditor.setBounds(buttonPosX, buttonPosY+80, 200,30);
-			buttonOptionen.setBounds(buttonPosX,buttonPosY+120,200,30);
-			buttonHelp.setBounds(buttonPosX,   buttonPosY+160,200,30);
-			buttonBeenden.setBounds(buttonPosX,buttonPosY+200,200,30);
+			buttonNewGame.setBounds(buttonPosX,buttonPosY,     200,30);
+			buttonSingleplayer.setBounds(buttonPosX, buttonPosY+40, 200,30);
+			buttonNetwork.setBounds(buttonPosX,buttonPosY+  80,200,30);
+			buttonEditor.setBounds(buttonPosX, buttonPosY+ 120,200,30);
+			buttonOptionen.setBounds(buttonPosX,buttonPosY+160,200,30);
+			buttonHelp.setBounds(buttonPosX,   buttonPosY+ 200,200,30);
+			buttonBeenden.setBounds(buttonPosX,buttonPosY+ 240,200,30);
 		}
 	}
 
@@ -745,6 +753,14 @@ public class MenuStart extends JPanel implements ActionListener {
 		g.drawString(Integer.toString(player.getAttack()),245,563);
 		g.drawImage(GameWindow.infoshield, 270, 543,this);
 		g.drawString(Integer.toString(player.getArmour()),305,563);
+		
+	}
+	
+	/**
+	 * Startet den Singleplayer-Modus, in dem eigene Karten
+	 * (bzw. Nicht-Kampagnen-Karten) gespielt werden können.
+	 */
+	private void startSingleplayer() {
 		
 	}
 
@@ -798,6 +814,9 @@ public class MenuStart extends JPanel implements ActionListener {
 				
 				initMap(mapToStart, 0);
 			}
+			
+			else if(e.getSource() == buttonSingleplayer)
+				startSingleplayer();
 			
 			//Hilfe
 			else if(e.getSource() == buttonHelp)
@@ -936,6 +955,7 @@ public class MenuStart extends JPanel implements ActionListener {
 		setGameStatus(GameStatus.NETWORK);
 		buttonNewGame.setVisible(false);
 		buttonNextMap.setVisible(false);
+		buttonSingleplayer.setVisible(false);
 		buttonNetwork.setVisible(false);
 		buttonEditor.setVisible(false);
 		buttonHelp.setVisible(false);
@@ -974,7 +994,8 @@ public class MenuStart extends JPanel implements ActionListener {
 		} else {
 			setGameStatus(GameStatus.MAINMENU);
 			buttonNewGame.setVisible(true);
-			buttonNextMap.setVisible(true);
+			buttonNextMap.setVisible(false);
+			buttonSingleplayer.setVisible(true);
 			buttonNetwork.setVisible(true);
 			buttonHelp.setVisible(true);
 			buttonOptionen.setVisible(true);
@@ -1329,11 +1350,11 @@ public class MenuStart extends JPanel implements ActionListener {
 		this.player = player;
 	}
 
-	public Client getClient() {
+	public static Client getClient() {
 		return client;
 	}
 
-	public void setClient(Client client) {
-		this.client = client;
+	public static void setClient(Client client) {
+		MenuStart.client = client;
 	}
 }

@@ -93,7 +93,7 @@ public class Client extends JFrame {
 		
 		
 		// Menü-Buttons ausblenden, Status ändern
-		gui.setButtonVisible(false, false, false, false, false, false,
+		gui.setButtonVisible(false, false, false, false, false, false, false,
 						 false, false, false, false, false, false, false);
 			
 		MenuStart.setGameStatus(GameStatus.INGAME);
