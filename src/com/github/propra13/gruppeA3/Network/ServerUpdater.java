@@ -3,11 +3,13 @@
  */
 package com.github.propra13.gruppeA3.Network;
 
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
 
 import com.github.propra13.gruppeA3.Entities.Player;
+import com.github.propra13.gruppeA3.Entities.Moveable.Direction;
 
 /**
  * ServerThread ist eine Hilfsklasse für die Klasse Server
@@ -115,10 +117,8 @@ public class ServerUpdater extends Thread {
 				{
 					sendMessage(receiveMessage());
 				} else if(vergleich.equalsIgnoreCase("key")){
-					int keys[] = this.protocol.receiveKey();
-					key = keys[0];
-					playerID = keys[1];
-					// Key auswerten
+					receiveKeys();
+					move();
 					// Ausertung an alle Spieler schicken
 				}
 			}
@@ -130,6 +130,38 @@ public class ServerUpdater extends Thread {
 			{
 				ex.printStackTrace();//TODO bessere Exception
 			}
+		}
+	}
+	
+	private synchronized void receiveKeys() throws IOException{
+		int keys[] = this.protocol.receiveKey();
+		key = keys[0];
+		playerID = keys[1];
+	}
+	
+	private synchronized void move() {
+		if(player[playerID].getLives() == 0)
+			return;
+		switch(key){
+			case KeyEvent.VK_LEFT:
+				player[playerID].setDirection(Direction.LEFT);
+				player[playerID].setFaceDirection(Direction.LEFT);
+				break;
+			
+			case KeyEvent.VK_RIGHT:
+				player[playerID].setDirection(Direction.RIGHT);
+				player[playerID].setFaceDirection(Direction.RIGHT);
+				break;
+				
+			case KeyEvent.VK_UP:
+				player[playerID].setDirection(Direction.UP);
+				player[playerID].setFaceDirection(Direction.UP);
+				break;
+			
+			case KeyEvent.VK_DOWN:
+				player[playerID].setDirection(Direction.DOWN);
+				player[playerID].setFaceDirection(Direction.DOWN);
+				break;
 		}
 	}
 }
