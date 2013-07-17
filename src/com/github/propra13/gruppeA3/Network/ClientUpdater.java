@@ -1,9 +1,11 @@
 package com.github.propra13.gruppeA3.Network;
 
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 import com.github.propra13.gruppeA3.Keys;
 import com.github.propra13.gruppeA3.Entities.Player;
+import com.github.propra13.gruppeA3.Entities.Moveable.Direction;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 
 /**
@@ -17,6 +19,7 @@ public class ClientUpdater extends Thread {
 	private Player[] players = null;
 	private int playerID;
 	private Chat chat;
+	private int key;
 	
 	/**
 	 * Setzt die noetigen Parameter
@@ -80,10 +83,51 @@ public class ClientUpdater extends Thread {
 					loadNextGame();
 				else if (vergleich.equalsIgnoreCase("player"))
 					players = this.protocol.receivePlayers();
+				else if(vergleich.equalsIgnoreCase("key")){
+					receiveKeys();
+					move();
+					players[playerID].move();
+				}
 				else if(vergleich.equalsIgnoreCase("eog")){
 					running = false;
 				}			
 			}catch(IOException ex){ex.printStackTrace();}//TODO bessere Exception
 		}	
+	}
+	
+	private synchronized void receiveKeys() throws IOException{
+		int keys[] = this.protocol.receiveKey();
+		key = keys[0];
+		playerID = keys[1];
+	}
+	
+	private synchronized void sendKeys(int key, int playerID) throws IOException{
+		protocol.sendKey(key, playerID);
+	}
+	
+	private synchronized void move() {
+		if(players[playerID].getLives() == 0)
+			return;
+		switch(key){
+			case KeyEvent.VK_LEFT:
+				players[playerID].setDirection(Direction.LEFT);
+				players[playerID].setFaceDirection(Direction.LEFT);
+				break;
+			
+			case KeyEvent.VK_RIGHT:
+				players[playerID].setDirection(Direction.RIGHT);
+				players[playerID].setFaceDirection(Direction.RIGHT);
+				break;
+				
+			case KeyEvent.VK_UP:
+				players[playerID].setDirection(Direction.UP);
+				players[playerID].setFaceDirection(Direction.UP);
+				break;
+			
+			case KeyEvent.VK_DOWN:
+				players[playerID].setDirection(Direction.DOWN);
+				players[playerID].setFaceDirection(Direction.DOWN);
+				break;
+		}
 	}
 }
