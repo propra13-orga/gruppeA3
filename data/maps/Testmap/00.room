@@ -261,7 +261,7 @@
     <field textur="0" typ="2" x="15" y="4"/>
     <field textur="0" typ="2" x="15" y="5"/>
     <field textur="0" typ="2" x="15" y="6"/>
-    <field textur="0" typ="2" x="15" y="7"/>
+    <field textur="0" typ="1" x="15" y="7"/>
     <field textur="0" typ="2" x="15" y="8"/>
     <field textur="0" typ="2" x="15" y="9"/>
     <field textur="0" typ="2" x="15" y="10"/>
@@ -428,5 +428,54 @@
     <spawn x="19" y="6"/>
     <spawn x="19" y="7"/>
     <spawn x="18" y="7"/>
+    <item beschreibung="Erfrischt" element="eis" name="Lebenstrank" staerke="2" typ="5" wert="10" x="3" y="5"/>
+    <item beschreibung="Erfrischt" element="feuer" name="Lebenstrank" staerke="2" typ="5" wert="10" x="3" y="7"/>
+    <item beschreibung="Erfrischt" element="physisch" name="Lebenstrank" staerke="2" typ="5" wert="10" x="3" y="9"/>
+    <item beschreibung="Erfrischt" element="wasser" name="Lebenstrank" staerke="2" typ="5" wert="10" x="3" y="3"/>
+    <item beschreibung="Erfrischt" element="eis" name="Lebenstrank" staerke="2" typ="5" wert="10" x="3" y="11"/>
+    <item beschreibung="Erfrischt" element="feuer" name="Lebenstrank" staerke="2" typ="4" wert="10" x="3" y="13"/>
+    <item beschreibung="Erfrischt" element="wasser" name="Lebenstrank" staerke="2" typ="4" wert="10" x="5" y="13"/>
+    <item beschreibung="Erfrischt" element="eis" name="Lebenstrank" staerke="2" typ="4" wert="10" x="7" y="13"/>
+    <item beschreibung="Erfrischt" element="physisch" name="Lebenstrank" staerke="2" typ="4" wert="10" x="9" y="13"/>
+    <item beschreibung="Erfrischt" element="eis" name="Lebenstrank" staerke="2" typ="4" wert="10" x="11" y="13"/>
     <NPC beschreibung="" name="Gelächter" text="&lt;html&gt;&lt;body&gt;Hahaha!&lt;br&gt;&#10;Hahahahahahaha!&lt;/body&gt;&lt;/html&gt;" typ="1" x="17" y="3"/>
+    <NPC beschreibung="" name="Testshopt" text="Hohohoho!&#10;Ich bin der Weihnachtsmann!" typ="2" x="19" y="3">
+        <item beschreibung="Bringt dich wieder zu Kräften" element="physisch" name="Lebenstrank" staerke="10" typ="1" wert="4" x="19" y="3"/>
+        <item beschreibung="Erweckt deine Zauberkräfte" element="physisch" name="Mana-Trank" staerke="30" typ="3" wert="4" x="19" y="3"/>
+        <item beschreibung="Erweckt deine Zauberkräfte" element="physisch" name="Mana-Trank" staerke="30" typ="3" wert="4" x="19" y="3"/>
+        <item beschreibung="Vergiftet dich" element="physisch" name="Gift-Trank" staerke="10" typ="2" wert="4" x="19" y="3"/>
+        <item beschreibung="Vergiftet dich" element="physisch" name="Gift-Trank" staerke="10" typ="2" wert="4" x="19" y="3"/>
+        <item beschreibung="Vergiftet dich" element="physisch" name="Gift-Trank" staerke="10" typ="2" wert="4" x="19" y="3"/>
+        <item beschreibung="Verstärkt deinen Angriff" element="physisch" name="Normales Schwert" staerke="2" typ="4" wert="10" x="19" y="3"/>
+        <item beschreibung="Verstärkt deinen Angriff" element="physisch" name="Normales Schwert" staerke="2" typ="4" wert="10" x="19" y="3"/>
+        <item beschreibung="Verstärkt deinen Angriff" element="physisch" name="Normales Schwert" staerke="2" typ="4" wert="10" x="19" y="3"/>
+        <item beschreibung="Verstärkt deinen Angriff" element="physisch" name="Normales Schwert" staerke="2" typ="4" wert="10" x="19" y="3"/>
+        <item beschreibung="Verstärkt deinen Angriff" element="feuer" name="Feuerschwert" staerke="2" typ="4" wert="10" x="19" y="3"/>
+        <item beschreibung="Verstärkt deinen Angriff" element="feuer" name="Feuerschwert" staerke="2" typ="4" wert="10" x="19" y="3"/>
+        <item beschreibung="Verstärkt deinen Angriff" element="feuer" name="Feuerschwert" staerke="2" typ="4" wert="10" x="19" y="3"/>
+        <item beschreibung="Verstärkt deinen Angriff" element="feuer" name="Feuerschwert" staerke="2" typ="4" wert="10" x="19" y="3"/>
+        <item beschreibung="Verstärkt deinen Angriff" element="feuer" name="Feuerschwert" staerke="2" typ="4" wert="10" x="19" y="3"/>
+        <item beschreibung="Verstärkt deinen Angriff" element="wasser" name="Wasserschwert" staerke="2" typ="4" wert="10" x="19" y="3"/>
+        <item beschreibung="Verstärkt deinen Angriff" element="wasser" name="Wasserschwert" staerke="2" typ="4" wert="10" x="19" y="3"/>
+        <item beschreibung="Verstärkt deinen Angriff" element="wasser" name="Wasserschwert" staerke="2" typ="4" wert="10" x="19" y="3"/>
+        <item beschreibung="Verstärkt deinen Angriff" element="wasser" name="Wasserschwert" staerke="2" typ="4" wert="10" x="19" y="3"/>
+        <item beschreibung="Verstärkt deinen Angriff" element="wasser" name="Wasserschwert" staerke="2" typ="4" wert="10" x="19" y="3"/>
+        <item beschreibung="Verstärkt deinen Angriff" element="wasser" name="Wasserschwert" staerke="2" typ="4" wert="10" x="19" y="3"/>
+        <item beschreibung="Verstärkt deinen Angriff" element="eis" name="Eisschwert" staerke="2" typ="4" wert="10" x="19" y="3"/>
+        <item beschreibung="Verstärkt deinen Angriff" element="eis" name="Eisschwert" staerke="2" typ="4" wert="10" x="19" y="3"/>
+        <item beschreibung="Verstärkt deinen Angriff" element="eis" name="Eisschwert" staerke="2" typ="4" wert="10" x="19" y="3"/>
+        <item beschreibung="Verstärkt deinen Angriff" element="eis" name="Eisschwert" staerke="2" typ="4" wert="10" x="19" y="3"/>
+        <item beschreibung="Verstärkt deinen Angriff" element="eis" name="Eisschwert" staerke="2" typ="4" wert="10" x="19" y="3"/>
+        <item beschreibung="Erhöht deine Verteidigung" element="physisch" name="Normaler Schild" staerke="2" typ="5" wert="10" x="19" y="3"/>
+        <item beschreibung="Erhöht deine Verteidigung" element="physisch" name="Normaler Schild" staerke="2" typ="5" wert="10" x="19" y="3"/>
+        <item beschreibung="Erhöht deine Verteidigung" element="physisch" name="Normaler Schild" staerke="2" typ="5" wert="10" x="19" y="3"/>
+        <item beschreibung="Erhöht deine Verteidigung" element="physisch" name="Normaler Schild" staerke="2" typ="5" wert="10" x="19" y="3"/>
+        <item beschreibung="Erhöht deine Verteidigung" element="feuer" name="Feuerschild" staerke="2" typ="5" wert="10" x="19" y="3"/>
+        <item beschreibung="Erhöht deine Verteidigung" element="feuer" name="Feuerschild" staerke="2" typ="5" wert="10" x="19" y="3"/>
+        <item beschreibung="Erhöht deine Verteidigung" element="feuer" name="Feuerschild" staerke="2" typ="5" wert="10" x="19" y="3"/>
+        <item beschreibung="Erhöht deine Verteidigung" element="wasser" name="Wasserschild" staerke="2" typ="5" wert="10" x="19" y="3"/>
+        <item beschreibung="Erhöht deine Verteidigung" element="wasser" name="Wasserschild" staerke="2" typ="5" wert="10" x="19" y="3"/>
+        <item beschreibung="Erhöht deine Verteidigung" element="eis" name="Eisschild" staerke="2" typ="5" wert="10" x="19" y="3"/>
+    </NPC>
+    <monster angriff="1" beschreibung="unset" element="wasser" geschwindigkeit="1.0" leben="10" muenzen="10" ruestung="10" typ="5" x="10" y="6"/>
 </room>

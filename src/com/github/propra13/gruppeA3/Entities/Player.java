@@ -727,7 +727,6 @@ public class Player extends Moveable {
 			
 		case 6:
 			eggCounter++;
-			System.out.println("Ei gefunden");
 			break;
 			
 		default:
