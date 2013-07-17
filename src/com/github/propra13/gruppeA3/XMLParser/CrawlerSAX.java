@@ -182,7 +182,7 @@ public class CrawlerSAX extends DefaultHandler{
 			System.out.println("playerID "+playerID);
 			System.out.println("playerCount "+playerCount);
 			Map.addSpawn(fields[x][y]);
-			player[playerID] = new Player(roomID, playerID, x, y);
+			player[playerID] = new Player(roomID, playerID);
 			playerID++;
 		}
 	}

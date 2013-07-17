@@ -44,8 +44,8 @@ public class Player extends Moveable {
         this.items = new LinkedList<Item>();
         initialize();
     }
-
-    public Player(int roomID, int playerID, int x, int y){
+    
+    public Player(int roomID, int playerID){
     	super(roomID);
         this.atkelement = Element.PHYSICAL;
         this.defelement = Element.PHYSICAL;
@@ -54,13 +54,12 @@ public class Player extends Moveable {
         setHealth(100);
         this.items = new LinkedList<Item>();
     	setPlayerID(playerID);
-    	setPosition(x,y);
     	MenuStart.activeRoom = Map.getRoom(roomID);
     	direct = Direction.NONE;
     	resetAttack();
     	setRoomID(roomID);
-    	//getRoom().entities.add(this);
-    	setPosition(Map.spawns.getFirst().pos.toPosition().x+16, Map.spawns.getFirst().pos.toPosition().y+16);
+    	getRoom().entities.add(this);
+    	setPosition(Map.spawns.get(playerID).pos.toPosition().x+16, Map.spawns.get(playerID).pos.toPosition().y+16);
     }
     
     /**
@@ -80,7 +79,7 @@ public class Player extends Moveable {
      */
     public Player(int roomID, int playerID, int lives, int health, double speed, int mana,
     			  int dir, int face, Position pos, int armour, int attack, int attackCount){
-    	this(roomID, playerID, pos.x, pos.y);
+    	this(roomID, playerID);
     	setLives(lives);
     	setHealth(health);
     	setSpeed(speed);

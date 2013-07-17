@@ -83,7 +83,8 @@ public class Client extends JFrame {
 		gui.addKeyListener(new Keys(players[playerID]));
 		
 		for(int i = 0; i < players.length; i++)
-			Map.getRoom(0).entities.add(players[i]);
+			if(i != playerID)
+				Map.getRoom(0).entities.add(players[i]);
 	 	
 		gui.setRandom(new Random(System.currentTimeMillis()));
 		MenuStart.setActiveRoom(Map.getRoom(0));

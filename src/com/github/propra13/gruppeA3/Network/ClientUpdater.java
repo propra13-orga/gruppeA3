@@ -34,6 +34,7 @@ public class ClientUpdater extends Thread {
 		this.playerID = playerID;
 		//gui.setPlayer(players[playerID]);
 		//gui.addKeyListener(new Keys(players[playerID]));
+		
 	}
 	
 	/**
