@@ -70,7 +70,6 @@ public class Client extends JFrame {
 		if(connect(gui.getHost(), gui.getPort())){
 			System.out.println("Verbindung erfolgreich");
 			chat = new Chat(gui.getName(), this.protocol);
-			chat.setVisible(true);
 			clientUpdater = new ClientUpdater(gui, chat, protocol, players, playerID);
 			clientUpdater.start();
 		}else{
@@ -82,7 +81,6 @@ public class Client extends JFrame {
 		gui.addKeyListener(new Keys(players[playerID]));
 		
 		for(int i = 0; i < players.length; i++){
-			System.out.println("PlayerID: "+players[i].getPlayerID());
 			if(i != playerID)
 				Map.getRoom(0).entities.add(players[i]);
 		}
