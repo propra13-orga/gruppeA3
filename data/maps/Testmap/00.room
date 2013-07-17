@@ -429,4 +429,14 @@
     <spawn x="19" y="7"/>
     <spawn x="18" y="7"/>
     <NPC beschreibung="" name="Gelächter" text="&lt;html&gt;&lt;body&gt;Hahaha!&lt;br&gt;&#10;Hahahahahahaha!&lt;/body&gt;&lt;/html&gt;" typ="1" x="17" y="3"/>
+    <item beschreibung="Erfrischt" element="eis" name="Lebenstrank" staerke="2" typ="5" wert="10" x="3" y="5"/>
+    <item beschreibung="Erfrischt" element="feuer" name="Lebenstrank" staerke="2" typ="5" wert="10" x="3" y="7"/>
+    <item beschreibung="Erfrischt" element="physisch" name="Lebenstrank" staerke="2" typ="5" wert="10" x="3" y="9"/>
+    <item beschreibung="Erfrischt" element="wasser" name="Lebenstrank" staerke="2" typ="5" wert="10" x="3" y="3"/>
+    <item beschreibung="Erfrischt" element="eis" name="Lebenstrank" staerke="2" typ="5" wert="10" x="3" y="11"/>
+    <item beschreibung="Erfrischt" element="feuer" name="Lebenstrank" staerke="2" typ="4" wert="10" x="3" y="13"/>
+    <item beschreibung="Erfrischt" element="wasser" name="Lebenstrank" staerke="2" typ="4" wert="10" x="5" y="13"/>
+    <item beschreibung="Erfrischt" element="eis" name="Lebenstrank" staerke="2" typ="4" wert="10" x="7" y="13"/>
+    <item beschreibung="Erfrischt" element="physisch" name="Lebenstrank" staerke="2" typ="4" wert="10" x="9" y="13"/>
+    <item beschreibung="Erfrischt" element="eis" name="Lebenstrank" staerke="2" typ="4" wert="10" x="11" y="13"/>
 </room>

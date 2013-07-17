@@ -293,7 +293,7 @@ public class Map {
 			String[] fileNameParts = fileName.split("\\.(?=[^\\.]+$)");
 			
 			if(fileNameParts.length > 1) { //TODO
-				switch (fileNameParts[1]) {
+				switch (fileNameParts[fileNameParts.length - 1]) {
 					case Map.roomEnding:
 						roomNames[roomFoundCounter] = fileNameParts[0];
 						roomFoundCounter++;
@@ -313,8 +313,6 @@ public class Map {
 		
 		
 		//Room-Namen-Check
-		for(int i=0; i < roomNames.length; i++)
-			System.out.println(roomNames[i]);
 		Arrays.sort(roomNames);
 		for (int i=0; i < roomNames.length; i++) {
 			int compare = Integer.parseInt(roomNames[i]);

@@ -640,7 +640,7 @@ public class MenuStart extends JPanel implements ActionListener {
 	        	break;
 	        }
         
-        	Score(g2d);
+        	paintScore(g2d);
         }
         else
         {	
@@ -737,10 +737,10 @@ public class MenuStart extends JPanel implements ActionListener {
 
 	/**
 	 * Gibt alle Spielrelevaten Informationen in der Infoleiste wieder
-	 * Informationen f�r Leben, Coins etc. werden duch getter und setter Methoden aus dem Player aufgerufen
+	 * Informationen fuer Leben, Coins etc. werden duch getter und setter Methoden aus dem Player aufgerufen
 	 * @param g
 	 */
-	public void Score(Graphics2D g) {
+	public void paintScore(Graphics2D g) {
 		g.setFont(smallfont);
 		g.setColor(Color.BLACK);
 		g.drawImage(GameWindow.coin, 720, 543, this);
@@ -753,9 +753,39 @@ public class MenuStart extends JPanel implements ActionListener {
 		g.drawString(Integer.toString(player.getHealth()),125,563);
 		g.drawImage(GameWindow.mana, 160, 543,this);
 		g.drawString(Integer.toString(player.getMana()),185,563);
-		g.drawImage(GameWindow.infosword, 220, 543,this);
+		
+		//Angriffsstärke
+		switch(player.getAttackElement()) {
+		case FIRE:
+			g.drawImage(GameWindow.swords[1], 220, 543, this);
+			break;
+		case ICE:
+			g.drawImage(GameWindow.swords[3], 220, 543, this);
+			break;
+		case PHYSICAL:
+			g.drawImage(GameWindow.swords[0], 220, 543, this);
+			break;
+		case WATER:
+			g.drawImage(GameWindow.swords[2], 220, 543, this);
+			break;
+		}
 		g.drawString(Integer.toString(player.getAttack()),245,563);
-		g.drawImage(GameWindow.infoshield, 270, 543,this);
+		
+		//Defstärke
+		switch(player.getDefenseElement()) {
+		case FIRE:
+			g.drawImage(GameWindow.shields[1], 270, 543,this);
+			break;
+		case ICE:
+			g.drawImage(GameWindow.shields[3], 270, 543,this);
+			break;
+		case PHYSICAL:
+			g.drawImage(GameWindow.shields[0], 270, 543,this);
+			break;
+		case WATER:
+			g.drawImage(GameWindow.shields[2], 270, 543,this);
+			break;
+		}
 		g.drawString(Integer.toString(player.getArmour()),305,563);
 		
 	}
