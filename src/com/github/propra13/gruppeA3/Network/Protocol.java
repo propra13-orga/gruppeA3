@@ -262,7 +262,8 @@ public class Protocol {
     	int armour = this.in.readInt();
     	boolean isBoss = this.in.readBoolean();
     	//TODO: Element
-    	return new Monster(roomID, speed, power, type, life, pos.x, pos.y, desc, coinValue, coinType, armour, isBoss, Moveable.Element.PHYSICAL);
+    	return new Monster(roomID, speed, power, type, life, pos.x, pos.y, desc, coinValue, 
+    						coinType, armour, isBoss, Moveable.Element.PHYSICAL);
     }
     
     /**
@@ -274,6 +275,7 @@ public class Protocol {
     {
     	this.sendString("player");
     	int laenge = player.length;
+    	System.out.println("playerlänge send:"+laenge);
     	this.out.writeInt(laenge);
     	for (int i = 0; i < laenge; i++)
     		sendPlayer(player[i]);
@@ -287,6 +289,7 @@ public class Protocol {
     public Player[] receivePlayers() throws IOException
     {
     	int laenge = this.in.readInt();
+    	System.out.println("playerlänge rec:"+laenge);
     	Player[] player = new Player[laenge];
     	for(int i=0;i<laenge;i++)
     		player[i] = receivePlayer();
