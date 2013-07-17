@@ -310,8 +310,14 @@ public class Protocol {
     	this.out.writeInt(player.getDirection().ordinal());
     	this.out.writeInt(player.getFaceDirection().ordinal());
     	sendPosition(player.getPosition());
-    	this.out.writeInt(player.getArmour());
-    	this.out.writeInt(player.getAttack());
+    	this.out.writeInt(player.getPhyDefense());
+    	this.out.writeInt(player.getFireDefense());
+    	this.out.writeInt(player.getWaterDefense());
+    	this.out.writeInt(player.getIceDefense());
+    	this.out.writeInt(player.getPhyAttack());
+    	this.out.writeInt(player.getFireAttack());
+    	this.out.writeInt(player.getWaterAttack());
+    	this.out.writeInt(player.getIceAttack());
     	this.out.writeInt(player.getAttackCount());
     }
     
@@ -330,12 +336,19 @@ public class Protocol {
     	int direct = this.in.readInt();
     	int face = this.in.readInt();
     	Position pos = receivePosition();
-    	int armour = this.in.readInt();
-    	int attack = this.in.readInt();
+    	int phyArmour = this.in.readInt();
+    	int fireArmour = this.in.readInt();
+    	int waterArmour = this.in.readInt();
+    	int iceArmour = this.in.readInt();
+    	int phyAttack = this.in.readInt();
+    	int fireAttack = this.in.readInt();
+    	int waterAttack = this.in.readInt();
+    	int iceAttack = this.in.readInt();
     	int attackCount = this.in.readInt();
-
+    	
 		return new Player(roomID, playerID, lives, health, speed, mana, 
-						  direct, face, pos, armour, attack, attackCount);
+						  direct, face, pos, phyArmour, fireArmour, waterArmour, iceArmour,
+						  phyAttack, fireAttack, waterAttack, iceAttack, attackCount);
     }
     
     /**

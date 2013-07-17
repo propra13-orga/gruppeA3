@@ -92,8 +92,8 @@ public class Client extends JFrame implements KeyListener{
 		
 		
 		// Menü-Buttons ausblenden, Status ändern
-		gui.setButtonVisible(false, false, false, false, false, false, false,
-						 false, false, false, false, false, false, false);
+		gui.setButtonVisible(false, false, false, false, false, false, false, false,
+						 false, false, false, false, false, false, false, false);
 			
 		MenuStart.setGameStatus(GameStatus.INGAME);
 		System.out.println("entitieslist "+Map.getRoom(0).entities.size());
