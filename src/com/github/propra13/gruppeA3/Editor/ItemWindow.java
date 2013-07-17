@@ -81,14 +81,14 @@ private static final long serialVersionUID = 1L;
 		JLabel healthEntry = new JLabel("Lebenstrank", new ImageIcon(GameWindow.lifePosion), JLabel.LEFT);
 		JLabel poisonEntry = new JLabel("Gifttrank", new ImageIcon(GameWindow.deadlyPosion), JLabel.LEFT);
 		JLabel manaEntry = new JLabel("Manatrank", new ImageIcon(GameWindow.manaPosion), JLabel.LEFT);
-		JLabel physicalSwordEntry = new JLabel("Schwert", new ImageIcon(GameWindow.sword), JLabel.LEFT);
-		JLabel iceSwordEntry = new JLabel("Eisschwert", new ImageIcon(GameWindow.swordeis), JLabel.LEFT);
-		JLabel fireSwordEntry = new JLabel("Feuerschwert", new ImageIcon(GameWindow.swordfeuer), JLabel.LEFT);
-		JLabel waterSwordEntry = new JLabel("Wasserschwert", new ImageIcon(GameWindow.swordwasser), JLabel.LEFT);
-		JLabel physicalShieldEntry = new JLabel("Schild", new ImageIcon(GameWindow.shield), JLabel.LEFT);
-		JLabel iceShieldEntry = new JLabel("Eisschild", new ImageIcon(GameWindow.shieldeis), JLabel.LEFT);
-		JLabel fireShieldEntry = new JLabel("Feuerschild", new ImageIcon(GameWindow.shieldfeuer), JLabel.LEFT);
-		JLabel waterShieldEntry = new JLabel("Wasserschild", new ImageIcon(GameWindow.shieldwasser), JLabel.LEFT);
+		JLabel physicalSwordEntry = new JLabel("Schwert", new ImageIcon(GameWindow.swords[0]), JLabel.LEFT);
+		JLabel iceSwordEntry = new JLabel("Eisschwert", new ImageIcon(GameWindow.swords[3]), JLabel.LEFT);
+		JLabel fireSwordEntry = new JLabel("Feuerschwert", new ImageIcon(GameWindow.swords[1]), JLabel.LEFT);
+		JLabel waterSwordEntry = new JLabel("Wasserschwert", new ImageIcon(GameWindow.swords[2]), JLabel.LEFT);
+		JLabel physicalShieldEntry = new JLabel("Schild", new ImageIcon(GameWindow.shields[0]), JLabel.LEFT);
+		JLabel iceShieldEntry = new JLabel("Eisschild", new ImageIcon(GameWindow.shields[3]), JLabel.LEFT);
+		JLabel fireShieldEntry = new JLabel("Feuerschild", new ImageIcon(GameWindow.shields[1]), JLabel.LEFT);
+		JLabel waterShieldEntry = new JLabel("Wasserschild", new ImageIcon(GameWindow.shields[2]), JLabel.LEFT);
 		
 		//Zugehörige JPanels
 		emptyPanel = new JPanel(new GridBagLayout());

@@ -1,6 +1,5 @@
 package com.github.propra13.gruppeA3;
 
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -19,25 +18,11 @@ import javax.imageio.ImageIO;
 public class GameWindow {
 	//monster
 	//boss monster
-	public static Image bossimg_1left;
-	public static Image bossimg_1right;
-	public static Image bossimg_1up;
-	public static Image bossimg_1down;
+	public static BufferedImage[] bossImgs_left = new BufferedImage[4];
+	public static BufferedImage[] bossImgs_right = new BufferedImage[4];
+	public static BufferedImage[] bossImgs_up = new BufferedImage[4];
+	public static BufferedImage[] bossImgs_down = new BufferedImage[4];
 	
-	public static BufferedImage bossimg_feuerl;
-	public static BufferedImage bossimg_feuerr;
-	public static BufferedImage bossimg_feueru;
-	public static BufferedImage bossimg_feuerd;
-	
-	public static BufferedImage bossimg_wasserl;
-	public static BufferedImage bossimg_wasserr;
-	public static BufferedImage bossimg_wasseru;
-	public static BufferedImage bossimg_wasserd;
-	
-	public static BufferedImage bossimg_eisl;
-	public static BufferedImage bossimg_eisr;
-	public static BufferedImage bossimg_eisu;
-	public static BufferedImage bossimg_eisd;
 	//normale Monster
 	public static BufferedImage monsterimg_1left;
 	public static BufferedImage monsterimg_1right;
@@ -108,15 +93,9 @@ public class GameWindow {
     public static BufferedImage lifePosion;
     public static BufferedImage deadlyPosion;
     public static BufferedImage manaPosion;
-    public static BufferedImage sword;
-    public static BufferedImage shield;
-    public static BufferedImage drachenei; 
-    public static BufferedImage swordfeuer;
-    public static BufferedImage swordwasser;
-    public static BufferedImage swordeis;
-    public static BufferedImage shieldfeuer;
-    public static BufferedImage shieldwasser;
-    public static BufferedImage shieldeis; 
+    public static BufferedImage[] swords = new BufferedImage[4];
+    public static BufferedImage[] shields = new BufferedImage[4];
+    public static BufferedImage drachenei;
     
     //Hintergrund bild
     public static BufferedImage background;
@@ -129,25 +108,25 @@ public class GameWindow {
 	    tool = Toolkit.getDefaultToolkit();
 	    
 	    //Boss
-	    bossimg_1left = this.getBufferedImage(this.GamePath + "/data/images/Monster/B1left.png");
-	    bossimg_1right = this.getBufferedImage(this.GamePath + "/data/images/Monster/B1right.png");
-	    bossimg_1up = this.getBufferedImage(this.GamePath + "/data/images/Monster/B1up.png");
-	    bossimg_1down = this.getBufferedImage(this.GamePath + "/data/images/Monster/B1down.png");
+	    bossImgs_down[0] = this.getBufferedImage(this.GamePath + "/data/images/Monster/Bphy.png");
+	    bossImgs_left[0] = rotate(bossImgs_down[0]);
+	    bossImgs_up[0] = rotate(bossImgs_left[0]);
+	    bossImgs_right[0] = rotate(bossImgs_up[0]);
 	    
-	    bossimg_feuerd = this.getBufferedImage(this.GamePath + "/data/images/Monster/Bfeuer.png");
-	    bossimg_feuerl = rotate(bossimg_feuerd);
-	    bossimg_feueru = rotate(bossimg_feuerl);
-	    bossimg_feuerr = rotate(bossimg_feueru);
+	    bossImgs_down[1] = this.getBufferedImage(this.GamePath + "/data/images/Monster/Bfeuer.png");
+	    bossImgs_left[1] = rotate(bossImgs_down[1]);
+	    bossImgs_up[1] = rotate(bossImgs_left[1]);
+	    bossImgs_right[1] = rotate(bossImgs_up[1]);
 	    
-	    bossimg_wasserd = this.getBufferedImage(this.GamePath + "/data/images/Monster/Bwasser.png");
-	    bossimg_wasserl = rotate(bossimg_wasserd);
-	    bossimg_wasseru = rotate(bossimg_wasserl);
-	    bossimg_wasserr = rotate(bossimg_wasseru);
+	    bossImgs_down[2] = this.getBufferedImage(this.GamePath + "/data/images/Monster/Bwasser.png");
+	    bossImgs_left[2] = rotate(bossImgs_down[2]);
+	    bossImgs_up[2] = rotate(bossImgs_left[2]);
+	    bossImgs_right[2] = rotate(bossImgs_up[2]);
 	    
-	    bossimg_eisd = this.getBufferedImage(this.GamePath + "/data/images/Monster/Beis.png");
-	    bossimg_eisl = rotate(bossimg_eisd);
-	    bossimg_eisu = rotate(bossimg_eisl);
-	    bossimg_eisr = rotate(bossimg_eisu);
+	    bossImgs_down[3] = this.getBufferedImage(this.GamePath + "/data/images/Monster/Beis.png");
+	    bossImgs_left[3] = rotate(bossImgs_down[3]);
+	    bossImgs_up[3] = rotate(bossImgs_left[3]);
+	    bossImgs_right[3] = rotate(bossImgs_up[3]);
 	    
 	    
 	    //Monster
@@ -214,15 +193,15 @@ public class GameWindow {
 	    lifePosion = this.getBufferedImage(this.GamePath + "/data/images/Items room/T1.png");
 	    deadlyPosion = this.getBufferedImage(this.GamePath + "/data/images/Items room/T2.png");
 	    manaPosion = this.getBufferedImage(this.GamePath + "/data/images/Items room/T3.png");
-	    sword = this.getBufferedImage(this.GamePath + "/data/images/Items room/W1.png");
-	    shield = this.getBufferedImage(this.GamePath + "/data/images/Items room/S1.png");
 	    drachenei = this.getBufferedImage(this.GamePath + "/data/images/Items room/ei.png");
-	    swordfeuer = this.getBufferedImage(this.GamePath + "/data/images/Items room/Wfeuer.png");
-	    swordwasser = this.getBufferedImage(this.GamePath + "/data/images/Items room/Wwasser.png");
-	    swordeis = this.getBufferedImage(this.GamePath + "/data/images/Items room/Weis.png");
-	    shieldfeuer= this.getBufferedImage(this.GamePath + "/data/images/Items room/Sfeuer.png");
-	    shieldwasser = this.getBufferedImage(this.GamePath + "/data/images/Items room/Swasser.png");
-	    shieldeis = this.getBufferedImage(this.GamePath + "/data/images/Items room/Seis.png");
+	    swords[0] = this.getBufferedImage(this.GamePath + "/data/images/Items room/W1.png");
+	    swords[1] = this.getBufferedImage(this.GamePath + "/data/images/Items room/Wfeuer.png");
+	    swords[2] = this.getBufferedImage(this.GamePath + "/data/images/Items room/Wwasser.png");
+	    swords[3] = this.getBufferedImage(this.GamePath + "/data/images/Items room/Weis.png");
+	    shields[0] = this.getBufferedImage(this.GamePath + "/data/images/Items room/S1.png");
+	    shields[1]= this.getBufferedImage(this.GamePath + "/data/images/Items room/Sfeuer.png");
+	    shields[2] = this.getBufferedImage(this.GamePath + "/data/images/Items room/Swasser.png");
+	    shields[3] = this.getBufferedImage(this.GamePath + "/data/images/Items room/Seis.png");
 	    //Infoleiste 
 	    heart = this.getBufferedImage(this.GamePath + "/data/images/Infoleiste/herz.png");
 	    coin = this.getBufferedImage(this.GamePath + "/data/images/Infoleiste/coin.png");

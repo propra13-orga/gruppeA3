@@ -89,13 +89,13 @@ public class MonsterWindow extends JDialog implements ActionListener, ListSelect
 		JLabel zombieEntry = new JLabel("Zombie", new ImageIcon(GameWindow.monsterimg_3up), JLabel.LEFT);
 		JLabel spiderEntry = new JLabel("Spinne", new ImageIcon(GameWindow.monsterimg_4up), JLabel.LEFT);
 		//Boss-Icons auf 32x32 verkleinern
-		ImageIcon phyBossIcon = new ImageIcon(GameWindow.bossimg_1up.getScaledInstance(32,32, java.awt.Image.SCALE_SMOOTH));
+		ImageIcon phyBossIcon = new ImageIcon(GameWindow.bossImgs_up[0].getScaledInstance(32,32, java.awt.Image.SCALE_SMOOTH));
 		JLabel phyBossEntry = new JLabel("Boss-Monster", phyBossIcon, JLabel.LEFT);
-		ImageIcon iceBossIcon = new ImageIcon(GameWindow.bossimg_eisu.getScaledInstance(32,32, java.awt.Image.SCALE_SMOOTH));
+		ImageIcon iceBossIcon = new ImageIcon(GameWindow.bossImgs_up[3].getScaledInstance(32,32, java.awt.Image.SCALE_SMOOTH));
 		JLabel iceBossEntry = new JLabel("Eis-Boss", iceBossIcon, JLabel.LEFT);
-		ImageIcon fireBossIcon = new ImageIcon(GameWindow.bossimg_feueru.getScaledInstance(32,32, java.awt.Image.SCALE_SMOOTH));
+		ImageIcon fireBossIcon = new ImageIcon(GameWindow.bossImgs_up[1].getScaledInstance(32,32, java.awt.Image.SCALE_SMOOTH));
 		JLabel fireBossEntry = new JLabel("Feuer-Boss", fireBossIcon, JLabel.LEFT);
-		ImageIcon waterBossIcon = new ImageIcon(GameWindow.bossimg_wasseru.getScaledInstance(32,32, java.awt.Image.SCALE_SMOOTH));
+		ImageIcon waterBossIcon = new ImageIcon(GameWindow.bossImgs_up[2].getScaledInstance(32,32, java.awt.Image.SCALE_SMOOTH));
 		JLabel waterBossEntry = new JLabel("Wasser-Boss", waterBossIcon, JLabel.LEFT);
 		
 		//Zugehörige JPanels

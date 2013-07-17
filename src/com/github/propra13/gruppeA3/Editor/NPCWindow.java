@@ -254,12 +254,12 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 		
 		//Schwert-Panel
 		shopData[3] = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		swordEntry = new JLabel("Schwerter: "+swordCtr, new ImageIcon(GameWindow.sword), JLabel.LEFT);
+		swordEntry = new JLabel("Schwerter: "+swordCtr, new ImageIcon(GameWindow.swords[0]), JLabel.LEFT);
 		shopData[3].add(swordEntry);
 		
 		//Schild-Panel
 		shopData[4] = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		shieldEntry = new JLabel("Schilde: "+shieldCtr, new ImageIcon(GameWindow.shield), JLabel.LEFT);
+		shieldEntry = new JLabel("Schilde: "+shieldCtr, new ImageIcon(GameWindow.shields[0]), JLabel.LEFT);
 		shopData[4].add(shieldEntry);
 		
 		//List-Setup

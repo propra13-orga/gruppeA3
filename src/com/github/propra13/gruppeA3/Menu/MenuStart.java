@@ -400,7 +400,25 @@ public class MenuStart extends JPanel implements ActionListener {
             if (testEntity instanceof Item) {
             	item = (Item)testEntity;
             	entityPos.setPosition(item.getPosition().getDrawPosition(item.getHitbox()));
-            	switch (item.getType()){
+
+        		//Entscheiden, welches Element aus Item-Arrays genommen werden soll nach Element
+				int elementIndex = -1;
+				switch(item.getElement()) {
+				case PHYSICAL:
+					elementIndex = 0;
+					break;
+				case FIRE:
+					elementIndex = 1;
+					break;
+				case WATER:
+					elementIndex = 2;
+					break;
+				case ICE:
+					elementIndex = 3;
+					break;
+				}
+				
+            	switch (item.getType()) {
             		case 1:
         				g2d.drawImage(GameWindow.lifePosion, entityPos.x, entityPos.y, panel);
         				break;
@@ -411,32 +429,13 @@ public class MenuStart extends JPanel implements ActionListener {
             			g2d.drawImage(GameWindow.manaPosion, entityPos.x, entityPos.y, panel);
             			break;
             		case 4:
-            			g2d.drawImage(GameWindow.sword, entityPos.x, entityPos.y, panel);
+            			g2d.drawImage(GameWindow.swords[elementIndex], entityPos.x, entityPos.y, panel);
             			break;
             		case 5:
-            			g2d.drawImage(GameWindow.shield, entityPos.x, entityPos.y, panel);
+            			g2d.drawImage(GameWindow.shields[elementIndex], entityPos.x, entityPos.y, panel);
             			break;
             		case 6:
             			g2d.drawImage(GameWindow.drachenei, entityPos.x, entityPos.y, panel);
-            			break;
-            			
-            		case 7:
-        				g2d.drawImage(GameWindow.swordfeuer, entityPos.x, entityPos.y, panel);
-        				break;
-            		case 8:
-        				g2d.drawImage(GameWindow.swordwasser, entityPos.x, entityPos.y, panel);
-        				break;
-            		case 9:
-            			g2d.drawImage(GameWindow.swordeis, entityPos.x, entityPos.y, panel);
-            			break;
-            		case 10:
-            			g2d.drawImage(GameWindow.shieldfeuer, entityPos.x, entityPos.y, panel);
-            			break;
-            		case 11:
-            			g2d.drawImage(GameWindow.shieldwasser, entityPos.x, entityPos.y, panel);
-            			break;
-            		case 12:
-            			g2d.drawImage(GameWindow.shieldeis, entityPos.x, entityPos.y, panel);
             			break;
             	}
             }
@@ -514,7 +513,7 @@ public class MenuStart extends JPanel implements ActionListener {
             			}
             			break;
             		}
-            		case 4:{           	
+            		case 4:{
             			switch(monster.getFaceDirection()){
             			case UP: 
             				g2d.drawImage(GameWindow.monsterimg_4up, entityPos.x, entityPos.y , panel);
@@ -534,93 +533,42 @@ public class MenuStart extends JPanel implements ActionListener {
             			}
             			break;
             		}
-            		case 5:{
-            	          	
-                			switch(monster.getFaceDirection()){
-                			case UP: 
-                				g2d.drawImage(GameWindow.bossimg_1up, entityPos.x, entityPos.y , panel);
-                				break;
-                			case DOWN:
-                				g2d.drawImage(GameWindow.bossimg_1down, entityPos.x, entityPos.y , panel);
-                				break;
-                			case LEFT:
-                				g2d.drawImage(GameWindow.bossimg_1left, entityPos.x, entityPos.y , panel);
-                				break;
-                			case RIGHT:
-                				g2d.drawImage(GameWindow.bossimg_1right, entityPos.x, entityPos.y , panel);
-                				break;	
-                			default:
-                				g2d.drawImage(GameWindow.bossimg_1down, entityPos.x, entityPos.y , panel);
+            		case 5:
             			
-            			break;
-            			
-                		/*case 6:{
-                	          	
-                    			switch(monster.getFaceDirection()){
-                    			case UP: 
-                    				g2d.drawImage(GameWindow.bossimg_feueru, entityPos.x, entityPos.y , panel);
-                    				break;
-                    			case DOWN:
-                    				g2d.drawImage(GameWindow.bossimg_feuerd, entityPos.x, entityPos.y , panel);
-                    				break;
-                    			case LEFT:
-                    				g2d.drawImage(GameWindow.bossimg_feuerl, entityPos.x, entityPos.y , panel);
-                    				break;
-                    			case RIGHT:
-                    				g2d.drawImage(GameWindow.bossimg_feuerr, entityPos.x, entityPos.y , panel);
-                    				break;	
-                    			default:
-                    				g2d.drawImage(GameWindow.bossimg_feuerd, entityPos.x, entityPos.y , panel);
-                			
-                			break;
-                			
-                    			case 7:{
-                    	          	
-                        			switch(monster.getFaceDirection()){
-                        			case UP: 
-                        				g2d.drawImage(GameWindow.bossimg_wasseru, entityPos.x, entityPos.y , panel);
-                        				break;
-                        			case DOWN:
-                        				g2d.drawImage(GameWindow.bossimg_wasserd, entityPos.x, entityPos.y , panel);
-                        				break;
-                        			case LEFT:
-                        				g2d.drawImage(GameWindow.bossimg_wasserl, entityPos.x, entityPos.y , panel);
-                        				break;
-                        			case RIGHT:
-                        				g2d.drawImage(GameWindow.bossimg_wasserr, entityPos.x, entityPos.y , panel);
-                        				break;	
-                        			default:
-                        				g2d.drawImage(GameWindow.bossimg_wasserd, entityPos.x, entityPos.y , panel);
-                    			
-                    			break;
-                    			
-                        			case 8:{
-                        	          	
-                            			switch(monster.getFaceDirection()){
-                            			case UP: 
-                            				g2d.drawImage(GameWindow.bossimg_eisu, entityPos.x, entityPos.y , panel);
-                            				break;
-                            			case DOWN:
-                            				g2d.drawImage(GameWindow.bossimg_eisd, entityPos.x, entityPos.y , panel);
-                            				break;
-                            			case LEFT:
-                            				g2d.drawImage(GameWindow.bossimg_eisl, entityPos.x, entityPos.y , panel);
-                            				break;
-                            			case RIGHT:
-                            				g2d.drawImage(GameWindow.bossimg_eisr, entityPos.x, entityPos.y , panel);
-                            				break;	
-                            			default:
-                            				g2d.drawImage(GameWindow.bossimg_eisd, entityPos.x, entityPos.y , panel);
-                        			
-                        			break;
-                            		      	}
-                            			  }
-                            			}
-                        			}
-                            	}
-                            }
-                           */
-                		}
+            			//Entscheiden, welches Element aus Boss-Arrays genommen werden soll nach Element
+        				int elementIndex = -1;
+        				switch(monster.getElement()) {
+        				case PHYSICAL:
+        					elementIndex = 0;
+        					break;
+        				case FIRE:
+        					elementIndex = 1;
+        					break;
+        				case WATER:
+        					elementIndex = 2;
+        					break;
+        				case ICE:
+        					elementIndex = 3;
+        					break;
+        				}
+        	          	
+            			switch(monster.getFaceDirection()){
+            			case UP: 
+            				g2d.drawImage(GameWindow.bossImgs_up[elementIndex], entityPos.x, entityPos.y , panel);
+            				break;
+            			case DOWN:
+            				g2d.drawImage(GameWindow.bossImgs_down[elementIndex], entityPos.x, entityPos.y , panel);
+            				break;
+            			case LEFT:
+            				g2d.drawImage(GameWindow.bossImgs_left[elementIndex], entityPos.x, entityPos.y , panel);
+            				break;
+            			case RIGHT:
+            				g2d.drawImage(GameWindow.bossImgs_right[elementIndex], entityPos.x, entityPos.y , panel);
+            				break;	
+            			default:
+            				g2d.drawImage(GameWindow.bossImgs_down[elementIndex], entityPos.x, entityPos.y , panel);
+        			
+        			break;
             		}
             	}
             }
