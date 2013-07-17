@@ -30,6 +30,7 @@ public class ServerUpdater extends Thread {
 	private ServerUpdater[] threads;
 	private int playerID;
 	private Player[] player;
+	private int key;
 	
 	/**
 	 * Erzeugt einen neuen ServerThread
@@ -113,6 +114,12 @@ public class ServerUpdater extends Thread {
 				if(vergleich.equalsIgnoreCase("chat"))
 				{
 					sendMessage(receiveMessage());
+				} else if(vergleich.equalsIgnoreCase("key")){
+					int keys[] = this.protocol.receiveKey();
+					key = keys[0];
+					playerID = keys[1];
+					// Key auswerten
+					// Ausertung an alle Spieler schicken
 				}
 			}
 			catch(SocketException ex)
