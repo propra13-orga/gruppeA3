@@ -76,6 +76,13 @@ public class Coin extends Entities {
 	}
 	
 	/**
+	 * Setzt den Wert der Münze.
+	 */
+	public void setValue(int value) {
+		this.value = value;
+	}
+	
+	/**
 	 * Wird verwendet, falls später zwischen Cointypen unterschieden werden soll.
 	 * @return
 	 */

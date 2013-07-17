@@ -478,14 +478,14 @@
     <field textur="0" typ="2" x="24" y="16"/>
     <spawn x="1" y="6"/>
     <spawn x="2" y="7"/>
-    <item beschreibung="A fresh drink." name="Life Drink" staerke="10" typ="1" wert="2" x="1" y="3"/>
-    <item beschreibung="Deadly Posion" name="Posion Drink" staerke="-2" typ="2" wert="2" x="4" y="5"/>
-    <item beschreibung="A strong protection." name="sword" staerke="2" typ="4" wert="5" x="5" y="14"/>
-    <item beschreibung="A way to protect." name="shield" staerke="2" typ="5" wert="5" x="20" y="5"/>
-    <monster angriff="3" beschreibung="Monster-Snake" geschwindigkeit="1.0" leben="10" muenzen="10" ruestung="1" typ="1" x="9" y="9"/>
-    <monster angriff="3" beschreibung="Spider-Man" geschwindigkeit="1.0" leben="15" muenzen="15" ruestung="1" typ="2" x="9" y="14"/>
-    <monster angriff="5" beschreibung="Pinky the Rat" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="0" typ="3" x="6" y="15"/>
-    <monster angriff="5" beschreibung="Pinky the Rat" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="0" typ="3" x="4" y="11"/>
-    <monster angriff="5" beschreibung="Pinky the Rat" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="0" typ="3" x="20" y="10"/>
     <NPC beschreibung="The nurse" name="Nancy" text="Ah ....du bist der Unbekannte&#10; Eins sage ich dir ,&#10; die Monster sind hier stärker!!" typ="1" x="5" y="8"/>
+    <item beschreibung="Erfrischt" element="physisch" name="Lebenstrank" staerke="20" typ="1" wert="7" x="1" y="3"/>
+    <item beschreibung="Erfrischt" element="physisch" name="Lebenstrank" staerke="15" typ="2" wert="4" x="4" y="5"/>
+    <item beschreibung="Erfrischt" element="physisch" name="Lebenstrank" staerke="2" typ="5" wert="15" x="20" y="5"/>
+    <monster angriff="6" beschreibung="unset" element="physisch" geschwindigkeit="1.0" leben="9" muenzen="8" ruestung="1" typ="4" x="20" y="10"/>
+    <monster angriff="8" beschreibung="unset" element="physisch" geschwindigkeit="1.0" leben="8" muenzen="8" ruestung="1" typ="1" x="10" y="10"/>
+    <monster angriff="8" beschreibung="unset" element="physisch" geschwindigkeit="1.0" leben="8" muenzen="8" ruestung="1" typ="1" x="7" y="15"/>
+    <monster angriff="6" beschreibung="unset" element="physisch" geschwindigkeit="1.0" leben="7" muenzen="7" ruestung="1" typ="2" x="15" y="2"/>
+    <monster angriff="4" beschreibung="unset" element="physisch" geschwindigkeit="1.0" leben="11" muenzen="9" ruestung="1" typ="3" x="4" y="11"/>
+    <item beschreibung="Erfrischt" element="eis" name="Lebenstrank" staerke="2" typ="4" wert="15" x="5" y="14"/>
 </room>

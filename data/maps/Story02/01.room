@@ -428,17 +428,23 @@
     <field textur="0" typ="2" x="24" y="14"/>
     <field textur="0" typ="2" x="24" y="15"/>
     <field textur="0" typ="2" x="24" y="16"/>
-    <monster angriff="3" beschreibung="Monster-Snake" geschwindigkeit="1.5" leben="10" muenzen="5" ruestung="1" typ="1" x="7" y="3"/>
-    <monster angriff="5" beschreibung="Spider-Man" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="1" typ="2" x="10" y="2"/>
-    <monster angriff="5" beschreibung="Spider-Man" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="1" typ="2" x="21" y="13"/>
-    <monster angriff="5" beschreibung="Spider-Man" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="1" typ="2" x="3" y="11"/>
-    <monster angriff="5" beschreibung="Spider-Man" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="1" typ="2" x="11" y="11"/>
     <NPC beschreibung="The barbarian" name="Harald" text="Hallo Unbekannter,&#10;&#10;halte die Augen offen nach wertvollen Dingen.&#10;Falls du Gold findest, ich hörte man kann es tauschen!" typ="2" x="18" y="4">
-        <item beschreibung="A way to protect" name="Shield" staerke="2" typ="5" wert="10" x="18" y="4"/>
-        <item beschreibung="Deadly Poison" name="Poison Drink" staerke="2" typ="2" wert="4" x="18" y="4"/>
-        <item beschreibung="Increases your Mana" name="Mana Drink" staerke="2" typ="3" wert="4" x="18" y="4"/>
-        <item beschreibung="A strong protection" name="Sword" staerke="2" typ="4" wert="10" x="18" y="4"/>
-        <item beschreibung="A fresh drink" name="Life Drink" staerke="10" typ="1" wert="4" x="18" y="4"/>
-        <item beschreibung="A fresh drink" name="Life Drink" staerke="10" typ="1" wert="4" x="18" y="4"/>
+        <item beschreibung="A way to protect" element="physisch" name="Shield" staerke="2" typ="5" wert="10" x="18" y="4"/>
+        <item beschreibung="Deadly Poison" element="physisch" name="Poison Drink" staerke="2" typ="2" wert="4" x="18" y="4"/>
+        <item beschreibung="Increases your Mana" element="physisch" name="Mana Drink" staerke="2" typ="3" wert="4" x="18" y="4"/>
+        <item beschreibung="A strong protection" element="physisch" name="Sword" staerke="2" typ="4" wert="10" x="18" y="4"/>
+        <item beschreibung="A fresh drink" element="physisch" name="Life Drink" staerke="10" typ="1" wert="4" x="18" y="4"/>
+        <item beschreibung="A fresh drink" element="physisch" name="Life Drink" staerke="10" typ="1" wert="4" x="18" y="4"/>
     </NPC>
+    <monster angriff="8" beschreibung="unset" element="physisch" geschwindigkeit="1.0" leben="8" muenzen="8" ruestung="1" typ="1" x="7" y="3"/>
+    <monster angriff="6" beschreibung="unset" element="physisch" geschwindigkeit="1.0" leben="9" muenzen="8" ruestung="1" typ="4" x="17" y="11"/>
+    <monster angriff="6" beschreibung="unset" element="physisch" geschwindigkeit="1.0" leben="9" muenzen="8" ruestung="1" typ="4" x="15" y="8"/>
+    <monster angriff="6" beschreibung="unset" element="physisch" geschwindigkeit="1.0" leben="9" muenzen="8" ruestung="1" typ="4" x="12" y="10"/>
+    <item beschreibung="Erfrischt" element="physisch" name="Lebenstrank" staerke="20" typ="1" wert="7" x="10" y="12"/>
+    <monster angriff="6" beschreibung="unset" element="physisch" geschwindigkeit="1.0" leben="7" muenzen="7" ruestung="1" typ="2" x="21" y="12"/>
+    <monster angriff="6" beschreibung="unset" element="physisch" geschwindigkeit="1.0" leben="7" muenzen="7" ruestung="1" typ="2" x="22" y="1"/>
+    <item beschreibung="Erfrischt" element="physisch" name="Lebenstrank" staerke="30" typ="3" wert="5" x="20" y="6"/>
+    <item beschreibung="Erfrischt" element="physisch" name="Lebenstrank" staerke="30" typ="3" wert="5" x="1" y="7"/>
+    <item beschreibung="Erfrischt" element="physisch" name="Lebenstrank" staerke="30" typ="3" wert="5" x="8" y="12"/>
+    <item beschreibung="Erfrischt" element="physisch" name="Lebenstrank" staerke="30" typ="3" wert="5" x="15" y="2"/>
 </room>

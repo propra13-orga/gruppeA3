@@ -235,55 +235,95 @@ public class MonsterWindow extends JDialog implements ActionListener, ListSelect
 		switch(workingMonster.getType()) {
 		case 1:
 			tableContent[0][1] = "Skorpion";	//Typ
-			tableContent[1][1] = "todo";		//Größe
-			tableContent[2][1] = "todo";		//Stärke
-			tableContent[3][1] = "todo";		//Leben
-			tableContent[4][1] = "todo";		//Rüstung
-			tableContent[5][1] = "todo";		//Geschwindigkeit
-			tableContent[6][1] = "todo";		//Münzwert
+			tableContent[1][1] = "1";			//Größe
+			tableContent[2][1] = "8";			//Stärke
+			tableContent[3][1] = "8";			//Leben
+			tableContent[4][1] = "1";			//Rüstung
+			tableContent[5][1] = "1";			//Geschwindigkeit
+			tableContent[6][1] = "10";			//Münzwert
 			tableContent[7][1] = "Physisch";	//Element
 			isBoss = false;
 		case 2:
 			tableContent[0][1] = "Schlange";	//Typ
-			tableContent[1][1] = "todo";		//Größe
-			tableContent[2][1] = "todo";		//Stärke
-			tableContent[3][1] = "todo";		//Leben
-			tableContent[4][1] = "todo";		//Rüstung
-			tableContent[5][1] = "todo";		//Geschwindigkeit
-			tableContent[6][1] = "todo";		//Münzwert
+			tableContent[1][1] = "1";			//Größe
+			tableContent[2][1] = "6";			//Stärke
+			tableContent[3][1] = "7";			//Leben
+			tableContent[4][1] = "1";			//Rüstung
+			tableContent[5][1] = "1";			//Geschwindigkeit
+			tableContent[6][1] = "11";			//Münzwert
 			tableContent[7][1] = "Physisch";	//Element
 			isBoss = false;
 			break;
 		case 3:
 			tableContent[0][1] = "Zombie";		//Typ
-			tableContent[1][1] = "todo";		//Größe
-			tableContent[2][1] = "todo";		//Stärke
-			tableContent[3][1] = "todo";		//Leben
-			tableContent[4][1] = "todo";		//Rüstung
-			tableContent[5][1] = "todo";		//Geschwindigkeit
-			tableContent[6][1] = "todo";		//Münzwert
+			tableContent[1][1] = "1";			//Größe
+			tableContent[2][1] = "4";			//Stärke
+			tableContent[3][1] = "11";			//Leben
+			tableContent[4][1] = "1";			//Rüstung
+			tableContent[5][1] = "1";			//Geschwindigkeit
+			tableContent[6][1] = "9";			//Münzwert
 			tableContent[7][1] = "Physisch";	//Element
+			isBoss = false;
 			break;
 		case 4:
 			tableContent[0][1] = "Spinne";		//Typ
-			tableContent[1][1] = "todo";		//Größe
-			tableContent[2][1] = "todo";		//Stärke
-			tableContent[3][1] = "todo";		//Leben
-			tableContent[4][1] = "todo";		//Rüstung
-			tableContent[5][1] = "todo";		//Geschwindigkeit
-			tableContent[6][1] = "todo";		//Münzwert
+			tableContent[1][1] = "1";			//Größe
+			tableContent[2][1] = "6";			//Stärke
+			tableContent[3][1] = "9";			//Leben
+			tableContent[4][1] = "1";			//Rüstung
+			tableContent[5][1] = "1";			//Geschwindigkeit
+			tableContent[6][1] = "8";			//Münzwert
 			tableContent[7][1] = "Physisch";	//Element
+			isBoss = false;
 			break;
 		case 5:
-			tableContent[0][1] = "Normaler Boss";//Typ
-			tableContent[1][1] = "todo";		//Größe
-			tableContent[2][1] = "todo";		//Stärke
-			tableContent[3][1] = "todo";		//Leben
-			tableContent[4][1] = "todo";		//Rüstung
-			tableContent[5][1] = "todo";		//Geschwindigkeit
-			tableContent[6][1] = "todo";		//Münzwert
-			tableContent[7][1] = Moveable.getElementName(workingMonster.getElement());	//Element
-			isBoss = true;
+			switch(workingMonster.getElement()) {
+			case FIRE:
+				tableContent[0][1] = "Feuer-Boss";	//Typ
+				tableContent[1][1] = "1,5";			//Größe
+				tableContent[2][1] = "17";			//Stärke
+				tableContent[3][1] = "22";			//Leben
+				tableContent[4][1] = "3";			//Rüstung
+				tableContent[5][1] = "1";			//Geschwindigkeit
+				tableContent[6][1] = "27";			//Münzwert
+				tableContent[7][1] = Moveable.getElementName(workingMonster.getElement());	//Element
+				break;
+			case ICE:
+				tableContent[0][1] = "Eis-Boss";	//Typ
+				tableContent[1][1] = "1,5";			//Größe
+				tableContent[2][1] = "15";			//Stärke
+				tableContent[3][1] = "18";			//Leben
+				tableContent[4][1] = "2";			//Rüstung
+				tableContent[5][1] = "0,8";			//Geschwindigkeit
+				tableContent[6][1] = "23";			//Münzwert
+				tableContent[7][1] = Moveable.getElementName(workingMonster.getElement());	//Element
+				isBoss = true;
+				break;
+			case PHYSICAL:
+				tableContent[0][1] = "Normaler Boss";//Typ
+				tableContent[1][1] = "1,5";			//Größe
+				tableContent[2][1] = "9";			//Stärke
+				tableContent[3][1] = "13";			//Leben
+				tableContent[4][1] = "2";			//Rüstung
+				tableContent[5][1] = "1";			//Geschwindigkeit
+				tableContent[6][1] = "15";			//Münzwert
+				tableContent[7][1] = Moveable.getElementName(workingMonster.getElement());	//Element
+				isBoss = true;
+				break;
+			case WATER:
+				tableContent[0][1] = "Wasser-Boss";	//Typ
+				tableContent[1][1] = "1,5";			//Größe
+				tableContent[2][1] = "12";			//Stärke
+				tableContent[3][1] = "15";			//Leben
+				tableContent[4][1] = "2";			//Rüstung
+				tableContent[5][1] = "1,5";			//Geschwindigkeit
+				tableContent[6][1] = "20";			//Münzwert
+				tableContent[7][1] = Moveable.getElementName(workingMonster.getElement());	//Element
+				break;
+			default:
+				break;
+			
+			}
 			break;
 		default:
 			type = "unbekannt";
@@ -349,43 +389,91 @@ public class MonsterWindow extends JDialog implements ActionListener, ListSelect
 	private void showScorp() {
 		workingMonster.setType(1);
 		workingMonster.setElement(Moveable.Element.PHYSICAL);
+		workingMonster.setArmour(1);
+		workingMonster.setAttack(8);
+		workingMonster.setHealth(8);
+		workingMonster.setSpeed(1.0);
+		workingMonster.getCoin().setValue(8);
+		workingMonster.isBoss = false;
 	}
 	
 	private void showSnake() {
 		workingMonster.setType(2);
 		workingMonster.setElement(Moveable.Element.PHYSICAL);
+		workingMonster.setArmour(1);
+		workingMonster.setAttack(6);
+		workingMonster.setHealth(7);
+		workingMonster.setSpeed(1.0);
+		workingMonster.getCoin().setValue(7);
+		workingMonster.isBoss = false;
 	}
 	
 	private void showZombie() {
 		workingMonster.setType(3);
 		workingMonster.setElement(Moveable.Element.PHYSICAL);
+		workingMonster.setArmour(1);
+		workingMonster.setAttack(4);
+		workingMonster.setHealth(11);
+		workingMonster.setSpeed(1.0);
+		workingMonster.getCoin().setValue(9);
+		workingMonster.isBoss = false;
 	}
 	
 	private void showSpider() {
 		workingMonster.setType(4);
 		workingMonster.setElement(Moveable.Element.PHYSICAL);
+		workingMonster.setArmour(1);
+		workingMonster.setAttack(6);
+		workingMonster.setHealth(9);
+		workingMonster.setSpeed(1.0);
+		workingMonster.getCoin().setValue(8);
+		workingMonster.isBoss = false;
 	}
 	
 	private void showPhyBoss() {
 		workingMonster.setType(5);
 		workingMonster.setElement(Moveable.Element.PHYSICAL);
+		workingMonster.setArmour(2);
+		workingMonster.setAttack(9);
+		workingMonster.setHealth(813);
+		workingMonster.setSpeed(1.0);
+		workingMonster.getCoin().setValue(15);
+		workingMonster.isBoss = true;
 	}
 	
 	private void showIceBoss() {
 		workingMonster.setType(5);
 		workingMonster.setElement(Moveable.Element.ICE);
+		workingMonster.setArmour(2);
+		workingMonster.setAttack(15);
+		workingMonster.setHealth(18);
+		workingMonster.setSpeed(0.8);
+		workingMonster.getCoin().setValue(23);
+		workingMonster.isBoss = true;
 	}
 
 	
 	private void showFireBoss() {
 		workingMonster.setType(5);
 		workingMonster.setElement(Moveable.Element.FIRE);
+		workingMonster.setArmour(3);
+		workingMonster.setAttack(17);
+		workingMonster.setHealth(22);
+		workingMonster.setSpeed(1.0);
+		workingMonster.getCoin().setValue(27);
+		workingMonster.isBoss = true;
 	}
 
 	
 	private void showWaterBoss() {
 		workingMonster.setType(5);
 		workingMonster.setElement(Moveable.Element.WATER);
+		workingMonster.setArmour(2);
+		workingMonster.setAttack(12);
+		workingMonster.setHealth(15);
+		workingMonster.setSpeed(1.6);
+		workingMonster.getCoin().setValue(20);
+		workingMonster.isBoss = true;
 	}
 
 

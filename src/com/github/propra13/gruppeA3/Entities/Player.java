@@ -405,6 +405,47 @@ public class Player extends Moveable {
 		}
 	}
     
+    /**
+     * Schaltet das Schwert-Element um eines weiter.
+     */
+    public void switchSwordEl() {
+    	switch(getAttackElement()) {
+		case FIRE:
+			setAttackElement(Moveable.Element.WATER);
+			break;
+		case ICE:
+			setAttackElement(Moveable.Element.PHYSICAL);
+			break;
+		case PHYSICAL:
+			setAttackElement(Moveable.Element.FIRE);
+			break;
+		case WATER:
+			setAttackElement(Moveable.Element.ICE);
+			break;
+    	
+    	}
+    }
+    
+    /**
+     * Schaltet das Schild-Element um eines weiter.
+     */
+    public void switchShieldEl() {
+    	switch(getDefenseElement()) {
+		case FIRE:
+			setDefenseElement(Moveable.Element.WATER);
+			break;
+		case ICE:
+			setDefenseElement(Moveable.Element.PHYSICAL);
+			break;
+		case PHYSICAL:
+			setDefenseElement(Moveable.Element.FIRE);
+			break;
+		case WATER:
+			setDefenseElement(Moveable.Element.ICE);
+			break;
+    	}
+    }
+    
     private int calculateDamage(Monster monster){
 		int damage=0;
 		switch(this.getAttackElement()){

@@ -31,6 +31,41 @@ public class Keys implements KeyListener {
 		int pressed = e.getKeyCode();
 		if(MenuStart.getGameStatus() == MenuStart.GameStatus.INGAME)
 		{
+			//Zwei Switches, damit Bewegung nicht unterbrochen wird
+			switch(pressed) {
+			case KeyEvent.VK_9:
+				player.switchSwordEl();
+				break;
+			
+			case KeyEvent.VK_0:
+				player.switchShieldEl();
+				break;
+				
+			case KeyEvent.VK_A:
+				player.setAttack(true);
+				break;
+				
+			case KeyEvent.VK_1:
+				player.setCast("SpeedBuff");
+				break;
+				
+			case KeyEvent.VK_2:
+				player.setCast("AttackBuff");
+				break;
+				
+			case KeyEvent.VK_3:
+				player.setCast("firePlasma");
+				break;
+				
+			case KeyEvent.VK_4:
+				player.setCast("fireAOEPlasma");
+				break;
+				
+			case KeyEvent.VK_E:
+				MenuStart.talk = true;
+				break;
+			}
+			
 			switch(pressed){
 				case KeyEvent.VK_LEFT:
 					player.setDirection(Direction.LEFT);
@@ -52,29 +87,7 @@ public class Keys implements KeyListener {
 					player.setFaceDirection(Direction.DOWN);
 					break;
 					
-				case  KeyEvent.VK_A:
-					player.setAttack(true);
-					break;
-					
-				case KeyEvent.VK_1:
-					player.setCast("SpeedBuff");
-					break;
-					
-				case KeyEvent.VK_2:
-					player.setCast("AttackBuff");
-					break;
-					
-				case KeyEvent.VK_3:
-					player.setCast("firePlasma");
-					break;
-					
-				case KeyEvent.VK_4:
-					player.setCast("fireAOEPlasma");
-					break;
-					
-				case KeyEvent.VK_E:
-					MenuStart.talk = true;
-					break;
+				
 					
 				case KeyEvent.VK_T:
 					MenuStart.client.getChat().setVisible(true);

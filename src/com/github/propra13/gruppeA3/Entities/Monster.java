@@ -374,77 +374,7 @@ public class Monster extends Moveable {
 			}
 			return damage;
 		}
-	
-	
-	/*
-	 * Map-Editor-Methoden
-	 */
-	
-	/**
-	 * Ändert die Monster-Attribute.
-	 * @param monster Monster, dessen Attribute übernommen werden sollen
-	 */
-	public void edit(Monster monster) {
-		setHealth(monster.getHealth());
-		setArmour(monster.getArmour());
-		desc = monster.desc;
-		this.isBoss = monster.isBoss;
-		coins=new Coin(monster.coins.getValue(), monster.coins.getType(), this.pos);
-		this.type = monster.type;
-		if(type == 5){ 
-			this.hitbox.height = 48;
-			this.hitbox.width  = 48;
-		}
-
-		resetSpeed(monster.getSpeed());
-		resetAttack(monster.getAttack());
-	}
-	
-	/**
-	 * Setzt Monster-Typ.
-	 * @param type - Der Typ des Monsters
-	 */
-	public void setType(int type) {
-		this.type = type;
-	}
-	
-	/**
-	 * Gibt eine Kopie dieses Monsters zurück.
-	 * @return Monster - eine Kopie des Monsters
-	 */
-	public Monster clone() {
-		return new Monster(roomID,
-				getSpeed(),
-				getAttack(),
-				type,
-				getHealth(),
-				getPosition(),
-				desc,
-				coins.getValue(),
-				coins.getType(),
-				getArmour(),
-				isBoss,
-				getElement());	
-	}
-	
-	/**
-	 * Setzt das Element des Monsters für die Schadensberechnung
-	 * @see com.github.propra13.gruppeA3.Moveable.Element
-	 * @param element Das zu setztende Element
-	 */
-	public void setElement(Element element){
-		this.element = element;
-	}
-	
-	/**
-	 * Gibt das Element des Monsters für die Schadensberechnung zurück
-	 * @see com.github.propra13.gruppeA3.Moveable.Element
-	 * @return element - Das Element des Monsters
-	 */
-	public Element getElement(){
-		return this.element;
-	}
-	
+	 
 	/**
 	 * Gibt das zu zeichnende Bild dieses Monsters zurück.
 	 * @return
@@ -574,6 +504,77 @@ public class Monster extends Moveable {
 		
 		return img;
 	}
+	
+	/*
+	 * Map-Editor-Methoden
+	 */
+	
+	/**
+	 * Ändert die Monster-Attribute.
+	 * @param monster Monster, dessen Attribute übernommen werden sollen
+	 */
+	public void edit(Monster monster) {
+		setHealth(monster.getHealth());
+		setArmour(monster.getArmour());
+		desc = monster.desc;
+		this.isBoss = monster.isBoss;
+		coins=new Coin(monster.coins.getValue(), monster.coins.getType(), this.pos);
+		this.type = monster.type;
+		if(type == 5){ 
+			this.hitbox.height = 48;
+			this.hitbox.width  = 48;
+		}
+
+		resetSpeed(monster.getSpeed());
+		resetAttack(monster.getAttack());
+	}
+	
+	/**
+	 * Setzt Monster-Typ.
+	 * @param type - Der Typ des Monsters
+	 */
+	public void setType(int type) {
+		this.type = type;
+	}
+	
+	/**
+	 * Gibt eine Kopie dieses Monsters zurück.
+	 * @return Monster - eine Kopie des Monsters
+	 */
+	public Monster clone() {
+		return new Monster(roomID,
+				getSpeed(),
+				getAttack(),
+				type,
+				getHealth(),
+				getPosition(),
+				desc,
+				coins.getValue(),
+				coins.getType(),
+				getArmour(),
+				isBoss,
+				getElement());	
+	}
+	
+	/**
+	 * Setzt das Element des Monsters für die Schadensberechnung
+	 * @see com.github.propra13.gruppeA3.Moveable.Element
+	 * @param element Das zu setztende Element
+	 */
+	public void setElement(Element element){
+		this.element = element;
+	}
+	
+	/**
+	 * Gibt das Element des Monsters für die Schadensberechnung zurück
+	 * @see com.github.propra13.gruppeA3.Moveable.Element
+	 * @return element - Das Element des Monsters
+	 */
+	public Element getElement(){
+		return this.element;
+	}
+	
+	
 }
 	
 

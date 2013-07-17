@@ -48,11 +48,11 @@ public class Item extends Entities {
 	final public static int standardShieldPower = 2;
 	
 	//Standard-Münzwerte von Standard-Items
-	final public static int standardManaValue = 4;
-	final public static int standardHealthValue = 4;
+	final public static int standardManaValue = 5;
+	final public static int standardHealthValue = 7;
 	final public static int standardPoisonValue = 4;
-	final public static int standardSwordValue = 10;
-	final public static int standardShieldValue = 10;
+	final public static int standardSwordValue = 15;
+	final public static int standardShieldValue = 15;
 	
 	
 	/**
