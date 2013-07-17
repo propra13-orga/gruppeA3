@@ -30,6 +30,16 @@ public class Player extends Moveable {
 	private Element atkelement;
 	private Element defelement;
 	
+	private int phyAttack;
+	private int fireAttack;
+	private int waterAttack;
+	private int iceAttack;
+	
+	private int phyDefense;
+	private int fireDefense;
+	private int waterDefense;
+	private int iceDefense;
+	
 	private int hurtAnimationCounter = 0;
 	private int walkAnimationCounter = 0;
 	private int attackAnimationCounter = 0;
@@ -85,7 +95,9 @@ public class Player extends Moveable {
      * @param attackCount
      */
     public Player(int roomID, int playerID, int lives, int health, double speed, int mana,
-    			  int dir, int face, Position pos, int armour, int attack, int attackCount){
+    			  int dir, int face, Position pos, int phyArmour, int fireArmour, int waterArmour,
+    			  int iceArmour, int phyAttack, int fireAttack, int waterAttack, int iceAttack,
+    			  int attackCount){
     	this(roomID, playerID);
     	setLives(lives);
     	setHealth(health);
@@ -113,8 +125,14 @@ public class Player extends Moveable {
     	else
     		setFaceDirection(Direction.NONE);
     	
-    	setArmour(armour);
-    	setAttack(attack);
+    	setPhyDefense(phyArmour);
+    	setFireDefense(fireArmour);
+    	setWaterDefense(waterArmour);
+    	setIceDefense(iceArmour);
+    	setPhyAttack(phyAttack);
+    	setFireAttack(fireAttack);
+    	setWaterAttack(waterAttack);
+    	setIceAttack(iceAttack);
     	setAttackCount(attackCount);
     }
     
@@ -417,7 +435,6 @@ public class Player extends Moveable {
 	}
     
     /**
-<<<<<<< HEAD
      * Schaltet das Schwert-Element um eines weiter.
      */
     public void switchSwordEl() {
@@ -778,7 +795,7 @@ public class Player extends Moveable {
      * @param item Zu benutzendes Item
      */
     public void useItem(Item item){
-    	switch(item.getType()){
+    	switch(item.getType()) {
     	case 1:
 			if(this.getHealth()<100){
 				this.setHealth(this.getHealth() + item.getDamage());
@@ -805,13 +822,41 @@ public class Player extends Moveable {
 			break;
 			
 		case 4:
-			this.addAttackSummand(item.getDamage());
+			switch(item.getElement()) {
+			case FIRE:
+				addFireAttackSummand(item.getDamage());
+				break;
+			case ICE:
+				addIceAttackSummand(item.getDamage());
+				break;
+			case PHYSICAL:
+				addPhyAttackSummand(item.getDamage());
+				break;
+			case WATER:
+				addWaterAttackSummand(item.getDamage());
+				break;
+			
+			}
 			this.items.add(item);
 			this.setAttackElement(item.getElement());
 			break;
 			
 		case 5:
-			this.setArmour(this.getArmour() + item.getDamage());
+			switch(item.getElement()) {
+			case FIRE:
+				addFireArmourSummand(item.getDamage());
+				break;
+			case ICE:
+				addIceArmourSummand(item.getDamage());
+				break;
+			case PHYSICAL:
+				addPhyArmourSummand(item.getDamage());
+				break;
+			case WATER:
+				addWaterArmourSummand(item.getDamage());
+				break;
+			
+			}
 			this.items.add(item);
 			this.setDefenseElement(item.getElement());
 			break;
@@ -903,6 +948,182 @@ public class Player extends Moveable {
 		return this.defelement;
 	}
 	
+	/**
+	 * Setzt den Physischen Angriffswert.
+	 * @param phyAtt
+	 */
+	public void setPhyAttack(int phyAtt) {
+		this.phyAttack = phyAtt;
+	}
+	
+	/**
+	 * Setzt den Feuer-Angriffswert.
+	 * @param fireAtt
+	 */
+	public void setFireAttack(int fireAtt) {
+		this.fireAttack = fireAtt;
+	}
+	
+	/**
+	 * Setzt den Wasser-Angriffswert.
+	 * @param waterAtt
+	 */
+	public void setWaterAttack(int waterAtt) {
+		this.waterAttack = waterAtt;
+	}
+	
+	/**
+	 * Setzt den Eis-Angriffswert.
+	 * @param phyAtt
+	 */
+	public void setIceAttack(int iceAtt) {
+		this.iceAttack = iceAtt;
+	}
+	
+	/**
+	 * Setzt den Physischen Verteidigungswert.
+	 * @param phyDef
+	 */
+	public void setPhyDefense(int phyDef) {
+		this.phyDefense = phyDef;
+	}
+	
+	/**
+	 * Setzt den Feuer-Verteidigungswert.
+	 * @param fireDef
+	 */
+	public void setFireDefense(int fireDef) {
+		this.fireDefense = fireDef;
+	}
+	
+	/**
+	 * Setzt den Wasser-Verteidigungswert.
+	 * @param waterDef
+	 */
+	public void setWaterDefense(int waterDef) {
+		this.waterDefense = waterDef;
+	}
+	
+	/**
+	 * Setzt den Eis-Verteidigungswert.
+	 * @param iceDef
+	 */
+	public void setIceDefense(int iceDef) {
+		this.iceDefense = iceDef;
+	}
+	
+	/**
+	 * @return Physischer Angriffswert des Spielers
+	 */
+	public int getPhyAttack() {
+		return phyAttack;
+	}
+	
+	/**
+	 * @return Feuer-Angriffswert des Spielers
+	 */
+	public int getFireAttack() {
+		return fireAttack;
+	}
+	
+	/**
+	 * @return Wasser-Angriffswert des Spielers
+	 */
+	public int getWaterAttack() {
+		return waterAttack;
+	}
+	
+	/**
+	 * @return Eis-Angriffswert des Spielers
+	 */
+	public int getIceAttack() {
+		return iceAttack;
+	}
+	
+	/**
+	 * @return Physischer Verteidigungswert des Spielers
+	 */
+	public int getPhyDefense() {
+		return phyDefense;
+	}
+	
+	/**
+	 * @return Feuer-Verteidigungswert des Spielers
+	 */
+	public int getFireDefense() {
+		return fireDefense;
+	}
+	
+	/**
+	 * @return Wasser-Verteidigungswert des Spielers
+	 */
+	public int getWaterDefense() {
+		return waterDefense;
+	}
+	
+	/**
+	 * @return Eis-Verteidigungswert des Spielers
+	 */
+	public int getIceDefense() {
+		return iceDefense;
+	}
+	
+	/**
+	 * Fügt einen physischen Angriffssummanden hinzu.
+	 */
+	public void addPhyAttackSummand(int summand) {
+		phyAttack+=summand;
+	}
+	
+	/**
+	 * Fügt einen Feuer-Angriffssummanden hinzu.
+	 */
+	public void addFireAttackSummand(int summand) {
+		fireAttack+=summand;
+	}
+	
+	/**
+	 * Fügt einen Wasser-Angriffssummanden hinzu.
+	 */
+	public void addWaterAttackSummand(int summand) {
+		waterAttack+=summand;
+	}
+	
+	/**
+	 * Fügt einen Eis-Angriffssummanden hinzu.
+	 */
+	public void addIceAttackSummand(int summand) {
+		iceAttack+=summand;
+	}
+	
+	/**
+	 * Fügt einen physischen Verteidigungssummanden hinzu.
+	 */
+	public void addPhyArmourSummand(int summand) {
+		phyDefense+=summand;
+	}
+	
+	/**
+	 * Fügt einen Feuer-Verteidigungssummanden hinzu.
+	 */
+	public void addFireArmourSummand(int summand) {
+		fireDefense+=summand;
+	}
+	
+	/**
+	 * Fügt einen Wasser-Verteidigungssummanden hinzu.
+	 */
+	public void addWaterArmourSummand(int summand) {
+		waterDefense+=summand;
+	}
+	
+	/**
+	 * Fügt einen Eis-Verteidigungssummanden hinzu.
+	 */
+	public void addIceArmourSummand(int summand) {
+		iceDefense+=summand;
+	}
+	
 	@Override
 	public BufferedImage getImage() {
 		BufferedImage img = null;
@@ -950,6 +1171,52 @@ public class Player extends Moveable {
 			img = GameWindow.turnRed(img);
 		
 		return img;
+	}
+	
+	/**
+	 * @return Gibt die aktuelle Stärke des aktuellen Angriffselements zurück.
+	 */
+	public int getAttack() {
+		switch(getAttackElement()) {
+		case FIRE:
+			return getFireAttack();
+		case ICE:
+			return getIceAttack();
+		case PHYSICAL:
+			return getPhyAttack();
+		case WATER:
+			return getWaterAttack();
+		default:
+			return -1;
+		}
+	}
+	
+	public void setAttack(int i) {
+		try {
+			throw new Exception("I'm a player!");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * @return Gibt die aktuelle Stärke des aktuellen Verteidigungselements zurück-
+	 */
+	public int getArmour() {
+		switch(getDefenseElement()) {
+		case FIRE:
+			return getFireDefense();
+		case ICE:
+			return getIceDefense();
+		case PHYSICAL:
+			return getPhyDefense();
+		case WATER:
+			return getWaterDefense();
+		default:
+			return -1;
+		}
+		
 	}
 }
 

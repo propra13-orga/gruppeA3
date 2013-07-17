@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -14,6 +15,9 @@ import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -25,8 +29,22 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import com.github.propra13.gruppeA3.Game;
 import com.github.propra13.gruppeA3.GameWindow;
@@ -70,6 +88,9 @@ public class MenuStart extends JPanel implements ActionListener {
     public static final int delay = 17;
     public Graphics2D g2d;
     
+    private JDialog dialog;
+    private JTextField textField;
+    
     /**
      *  Menüelemente
      *  	buttonNewGame: Startet ein neues Spiel
@@ -88,6 +109,8 @@ public class MenuStart extends JPanel implements ActionListener {
      */
 	private JButton buttonNewGame;
 	private JButton buttonNextMap;
+	private JButton buttonSave;
+	private JButton buttonLoad;
 	private JButton buttonSingleplayer;
 	private JButton buttonNetwork;
 	private JButton buttonHelp;
@@ -121,6 +144,10 @@ public class MenuStart extends JPanel implements ActionListener {
     public static enum NetworkStatus {NONE, DEATHMATCH, COOP}
     private static GameStatus gameStatus;
     private static NetworkStatus netstat = NetworkStatus.NONE;
+    
+    private static String saveDir = 
+			System.getProperty("user.dir") + File.separator + "data" + File.separator + "saves";
+    private static String saveEnding = ".sav";
     
     /**Header der Map, die gerade gespielt wird oder zuletzt gespielt wurde*/
     MapHeader lastMap;
@@ -171,6 +198,8 @@ public class MenuStart extends JPanel implements ActionListener {
      	buttonNewGame = new JButton("Neue Kampagne");
      	buttonNextMap = new JButton("Nächste Karte");
      	buttonSingleplayer = new JButton("Einzelspiel");
+     	buttonSave = new JButton("Spiel speichern");
+     	buttonLoad = new JButton("Spiel laden");
      	buttonNetwork = new JButton("Multiplayer");
      	buttonEditor = new JButton("Karteneditor");
      	buttonHelp = new JButton("Hilfe");
@@ -202,6 +231,8 @@ public class MenuStart extends JPanel implements ActionListener {
     	buttonNewGame.addActionListener(this);
     	buttonNextMap.addActionListener(this);
     	buttonSingleplayer.addActionListener(this);
+    	buttonSave.addActionListener(this);
+    	buttonLoad.addActionListener(this);
     	buttonNetwork.addActionListener(this);
     	buttonHelp.addActionListener(this);
     	buttonEditor.addActionListener(this);
@@ -218,6 +249,8 @@ public class MenuStart extends JPanel implements ActionListener {
     	add(buttonNewGame);
     	add(buttonNextMap);
     	add(buttonSingleplayer);
+    	add(buttonLoad);
+    	add(buttonSave);
     	add(buttonNetwork);
     	add(buttonHelp);
     	add(buttonEditor);
@@ -267,14 +300,16 @@ public class MenuStart extends JPanel implements ActionListener {
 		Game.frame.validate();
     }
     
-    public void setButtonVisible(boolean bground, boolean bNGame, boolean bNMap, boolean bSplayer, 
-    							boolean bNetwork, boolean bOptionen, boolean bHelp, boolean bEditor, 
-    							boolean bBeenden, boolean bDeathmatch, boolean bCoop, boolean bCreate,
-    							boolean bJoin, boolean bNWOptions){
+    public void setButtonVisible(boolean bground, boolean bNGame, boolean bNMap, boolean bSplayer,
+    							boolean bSave, boolean bLoad, boolean bNetwork, boolean bOptionen,
+    							boolean bHelp, boolean bEditor, boolean bBeenden, boolean bDeathmatch,
+    							boolean bCoop, boolean bCreate, boolean bJoin, boolean bNWOptions){
 		background.setVisible(bground);
 		buttonNewGame.setVisible(bNGame);
 		buttonNextMap.setVisible(bNMap);
 		buttonSingleplayer.setVisible(bSplayer);
+		buttonSave.setVisible(bSave);
+		buttonLoad.setVisible(bLoad);
 		buttonNetwork.setVisible(bNetwork);
 		buttonOptionen.setVisible(bOptionen);
 		buttonHelp.setVisible(bHelp);
@@ -318,7 +353,7 @@ public class MenuStart extends JPanel implements ActionListener {
 		// Menü-Buttons ausblenden, Status ändern
 		setButtonVisible(false, false, false, false, false, false,
 						 false, false, false, false, false, false,
-						 false, false);
+						 false, false, false, false);
 			
 		lastMap = Map.header;
 		setGameStatus(GameStatus.INGAME);
@@ -556,17 +591,21 @@ public class MenuStart extends JPanel implements ActionListener {
 			
 			background.setVisible(true);
 			buttonNextMap.setVisible(true);
+			buttonSave.setVisible(true);
 			buttonOptionen.setVisible(true);
 			buttonHelp.setVisible(true);
 			buttonBeenden.setVisible(true);
 			buttonNextMap.setBounds(buttonPosX,buttonPosY,    200,30);
-			buttonOptionen.setBounds(buttonPosX,buttonPosY+40, 200,30);
-			buttonHelp.setBounds(buttonPosX,   buttonPosY+80, 200,30);
-			buttonBeenden.setBounds(buttonPosX,buttonPosY+120,200,30);
+			buttonSave.setBounds(buttonPosY, buttonPosY+40, 200,30);
+			buttonOptionen.setBounds(buttonPosX,buttonPosY+80, 200,30);
+			buttonHelp.setBounds(buttonPosX,   buttonPosY+120, 200,30);
+			buttonBeenden.setBounds(buttonPosX,buttonPosY+140,200,30);
 		}
 		// Ansonsten normales Hauptmenü anzeigen
 		else {
 			buttonNextMap.setVisible(false);
+			buttonSave.setVisible(false);
+			buttonLoad.setVisible(true);
 			buttonNewGame.setVisible(true);
 			buttonNetwork.setVisible(true);
 			buttonEditor.setVisible(true);
@@ -575,11 +614,12 @@ public class MenuStart extends JPanel implements ActionListener {
 			buttonBeenden.setVisible(true);
 			buttonNewGame.setBounds(buttonPosX,buttonPosY,     200,30);
 			buttonSingleplayer.setBounds(buttonPosX, buttonPosY+40, 200,30);
-			buttonNetwork.setBounds(buttonPosX,buttonPosY+  80,200,30);
-			buttonEditor.setBounds(buttonPosX, buttonPosY+ 120,200,30);
-			buttonOptionen.setBounds(buttonPosX,buttonPosY+160,200,30);
-			buttonHelp.setBounds(buttonPosX,   buttonPosY+ 200,200,30);
-			buttonBeenden.setBounds(buttonPosX,buttonPosY+ 240,200,30);
+			buttonLoad.setBounds(buttonPosX, buttonPosY+    80,200,30);
+			buttonNetwork.setBounds(buttonPosX,buttonPosY+ 120,200,30);
+			buttonEditor.setBounds(buttonPosX, buttonPosY+ 160,200,30);
+			buttonOptionen.setBounds(buttonPosX,buttonPosY+200,200,30);
+			buttonHelp.setBounds(buttonPosX,   buttonPosY+ 240,200,30);
+			buttonBeenden.setBounds(buttonPosX,buttonPosY+ 280,200,30);
 		}
 	}
 
@@ -701,6 +741,12 @@ public class MenuStart extends JPanel implements ActionListener {
 			else if(e.getSource() == buttonSingleplayer)
 				startSingleplayer();
 			
+			else if(e.getSource() == buttonSave)
+				showSaveDialog();
+			
+			else if(e.getSource() == buttonLoad)
+				loadGame();
+			
 			//Hilfe
 			else if(e.getSource() == buttonHelp)
 				help();
@@ -743,6 +789,118 @@ public class MenuStart extends JPanel implements ActionListener {
 				System.exit(0);	// Programm beenden
 		}
 		repaint();
+	}
+	
+	/**
+	 * Speichert die aktuell laufende Kampagne.
+	 * @param saveName Name, unter dem der Spielstand gespeichert werden soll.
+	 * @throws TransformerException 
+	 * @throws IOException 
+	 * @throws ParserConfigurationException 
+	 */
+	public void saveGame(String saveName) throws TransformerException, IOException, ParserConfigurationException {
+		//Document-Setup
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		DOMImplementation impl = builder.getDOMImplementation();
+		
+		Document doc = impl.createDocument(null,null,null);
+		Element headEl = doc.createElement("save");
+		doc.appendChild(headEl);
+		
+		//Playerzustand anhängen
+		Element playerEl = doc.createElement("spieler");
+		headEl.appendChild(playerEl);
+		
+		playerEl.setAttribute("leben", Integer.toString(player.getLives()));
+		playerEl.setAttribute("geld", Integer.toString(player.getMoney()));
+		playerEl.setAttribute("lebenspunkte", Integer.toString(player.getHealth()));
+		playerEl.setAttribute("mana", Integer.toString(player.getMana()));
+		playerEl.setAttribute("phyangriff", Integer.toString(player.getPhyAttack()));
+		playerEl.setAttribute("feuerangriff", Integer.toString(player.getFireAttack()));
+		playerEl.setAttribute("wasserangriff", Integer.toString(player.getWaterAttack()));
+		playerEl.setAttribute("eisangriff", Integer.toString(player.getIceAttack()));
+		playerEl.setAttribute("phyruestung", Integer.toString(player.getPhyDefense()));
+		playerEl.setAttribute("feuerruestung", Integer.toString(player.getFireDefense()));
+		playerEl.setAttribute("wasserruestung", Integer.toString(player.getWaterDefense()));
+		playerEl.setAttribute("eisruestung", Integer.toString(player.getIceDefense()));
+		
+		//Map-Header anhängen
+		lastMap.appendToDoc(headEl);
+		
+		
+		//Transformiert Document in einen String
+		
+		//Transformer-Setup
+		DOMSource domSource = new DOMSource(doc);
+		TransformerFactory tf = TransformerFactory.newInstance();
+		Transformer transformer = tf.newTransformer();
+		transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+		transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+		transformer.setOutputProperty(OutputKeys.ENCODING,"UTF-8");
+		transformer.setOutputProperty
+			("{http://xml.apache.org/xslt}indent-amount", "4");
+		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+		
+		//transformieren
+		java.io.StringWriter sw = new java.io.StringWriter();
+		StreamResult sr = new StreamResult(sw);
+		transformer.transform(domSource, sr);
+		
+		//Datei schreiben
+		File f = new File(saveDir +File.separator+saveName+"."+saveEnding);
+		File mapdir = new File(saveDir);
+		
+		//Falls die Datei nicht existiert, Verzeichnisse und Datei anlegen
+		if(! f.exists()) {
+			mapdir.mkdirs();
+			f.createNewFile();
+		}
+		
+		BufferedWriter writer = new BufferedWriter(new FileWriter(f));
+		writer.write(sw.toString());
+		writer.close();
+	}
+	
+	/**
+	 * Zeigt den Spiel-speichern-Dialog.
+	 */
+	public void showSaveDialog() {
+		dialog = new JDialog();
+		JLabel text = new JLabel("Speichern unter:");
+		JButton bOk = new JButton("Speichern");
+		JButton bCancel = new JButton("Abbrechen");
+		textField = new JTextField(30);
+		bOk.setActionCommand("saveAs");
+		bCancel.setActionCommand("close dialog");
+		bOk.addActionListener(this);
+		bCancel.addActionListener(this);
+		
+		dialog.setTitle("Spiel speichern");
+		dialog.setSize(400, 80);
+		dialog.setModal(true);
+		dialog.setResizable(false);
+		dialog.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+		
+		MenuStart.centerWindow(dialog);
+		
+		GridLayout layout = new GridLayout(2,2);
+		layout.setHgap(6);
+		layout.setVgap(6);
+		dialog.setLayout(layout);
+		dialog.add(text);
+		dialog.add(textField);
+		dialog.add(bOk);
+		dialog.add(bCancel);
+
+		dialog.setVisible(true);
+	}
+	
+	/**
+	 * Lädt eine zuvor gespeicherte Kampagne.
+	 */
+	public void loadGame() {
+		
 	}
 	
 	/**
@@ -838,6 +996,9 @@ public class MenuStart extends JPanel implements ActionListener {
 		setGameStatus(GameStatus.NETWORK);
 		buttonNewGame.setVisible(false);
 		buttonNextMap.setVisible(false);
+		buttonLoad.setVisible(false);
+		buttonSave.setVisible(false);
+		buttonOptionen.setVisible(false);
 		buttonSingleplayer.setVisible(false);
 		buttonNetwork.setVisible(false);
 		buttonEditor.setVisible(false);
@@ -879,6 +1040,7 @@ public class MenuStart extends JPanel implements ActionListener {
 			buttonNewGame.setVisible(true);
 			buttonNextMap.setVisible(false);
 			buttonSingleplayer.setVisible(true);
+			buttonLoad.setVisible(true);
 			buttonNetwork.setVisible(true);
 			buttonHelp.setVisible(true);
 			buttonOptionen.setVisible(true);

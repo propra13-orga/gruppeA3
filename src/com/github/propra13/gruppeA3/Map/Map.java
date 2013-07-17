@@ -357,29 +357,7 @@ public class Map {
 		Element headEl = doc.createElement("xml");
 		doc.appendChild(headEl);
 		
-		Element headerEl = doc.createElement("header");
-		headEl.appendChild(headerEl);
-		
-		String type = null;
-		switch(header.type) {
-		case MapHeader.STORY_MAP:
-			type = "kampagne";
-			break;
-		case MapHeader.CUSTOM_MAP:
-			type = "einzelspieler";
-			break;
-		case MapHeader.DEATHMATCH_MAP:
-			type = "deathmatch";
-			break;
-		case MapHeader.COOP_MAP:
-			type = "coop";
-			break;
-		}
-		
-		headerEl.setAttribute("typ", type);
-		headerEl.setAttribute("name", header.mapName);
-		headerEl.setAttribute("maxSpieler", Integer.toString(header.maxPlayers));
-		headerEl.setAttribute("kampagneID", Integer.toString(header.storyID));
+		header.appendToDoc(headEl);
 		
 		
 		//Transformiert Document in einen String

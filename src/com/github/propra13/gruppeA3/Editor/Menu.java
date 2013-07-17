@@ -281,7 +281,7 @@ public class Menu extends JPanel implements ActionListener {
 		bOk.addActionListener(this);
 		bCancel.addActionListener(this);
 		
-		dialog.setTitle("Neue Karte");
+		dialog.setTitle("Speichern unter ...");
 		dialog.setSize(400, 80);
 		dialog.setModal(true);
 		dialog.setResizable(false);
