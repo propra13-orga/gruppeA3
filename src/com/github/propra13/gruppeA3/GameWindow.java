@@ -55,22 +55,9 @@ public class GameWindow {
     public static BufferedImage exitimg;
     
     //player
-    public static BufferedImage[] playerimg_down = new BufferedImage[2];
-    public static BufferedImage[] playerimg_left = new BufferedImage[2];
-    public static BufferedImage[] playerimg_up = new BufferedImage[2];
-    public static BufferedImage[] playerimg_right = new BufferedImage[2];
-    public static BufferedImage kampfimg_left1;
-    public static BufferedImage kampfimg_left2;
-    public static BufferedImage kampfimg_right1;
-    public static BufferedImage kampfimg_right2;
-    public static BufferedImage kampfimg_up1;
-    public static BufferedImage kampfimg_up2;
-    public static BufferedImage kampfimg_down1;
-    public static BufferedImage kampfimg_down2;
-    public static BufferedImage kampfimg_shieldL;
-    public static BufferedImage kampfimg_shieldR;
-    public static BufferedImage kampfimg_shieldU;
-    public static BufferedImage kampfimg_shieldD;
+    public static BufferedImage[][] playerimgs = new BufferedImage[4][2];
+    public static BufferedImage[][] kampfimgs = new BufferedImage[4][2];
+    public static BufferedImage[] kampfimgs_shield = new BufferedImage[4];
     //NPC
     public static BufferedImage coin;
     public static BufferedImage npc1;
@@ -157,28 +144,28 @@ public class GameWindow {
 	    riverimg_u = rotate(riverimg_l);
 	    
 	    //Player laeuft
-	    playerimg_down[0] = this.getBufferedImage(this.GamePath + "/data/images/Spieler laeuft/Pdown1.png");
-	    playerimg_down[1] = this.getBufferedImage(this.GamePath + "/data/images/Spieler laeuft/Pdown2.png");
-	    playerimg_left[0] = rotate(playerimg_down[0]);
-	    playerimg_left[1] = rotate(playerimg_down[1]);
-	    playerimg_up[0] = rotate(playerimg_left[0]);
-	    playerimg_up[1] = rotate(playerimg_left[1]);
-	    playerimg_right[0] = rotate(playerimg_up[0]);
-	    playerimg_right[1] = rotate(playerimg_up[1]);
+	    playerimgs[0][0] = this.getBufferedImage(this.GamePath + "/data/images/Spieler laeuft/Pdown1.png");
+	    playerimgs[0][1] = this.getBufferedImage(this.GamePath + "/data/images/Spieler laeuft/Pdown2.png");
+	    playerimgs[1][0] = rotate(playerimgs[0][0]);
+	    playerimgs[1][1] = rotate(playerimgs[0][1]);
+	    playerimgs[2][0] = rotate(playerimgs[1][0]);
+	    playerimgs[2][1] = rotate(playerimgs[1][1]);
+	    playerimgs[3][0] = rotate(playerimgs[2][0]);
+	    playerimgs[3][1] = rotate(playerimgs[2][1]);
 	    
 	    //Player kaempft
-	    kampfimg_left1 = this.getBufferedImage(this.GamePath +"/data/images/Spieler kampf/Kleft1.png");
-	    kampfimg_left2 = this.getBufferedImage(this.GamePath +"/data/images/Spieler kampf/Kleft2.png");
-	    kampfimg_right1 = this.getBufferedImage(this.GamePath +"/data/images/Spieler kampf/Kright1.png");
-	    kampfimg_right2 = this.getBufferedImage(this.GamePath +"/data/images/Spieler kampf/Kright2.png");
-	    kampfimg_up1 = this.getBufferedImage(this.GamePath +"/data/images/Spieler kampf/Kup1.png");
-	    kampfimg_up2 = this.getBufferedImage(this.GamePath +"/data/images/Spieler kampf/Kup2.png");
-	    kampfimg_down1 = this.getBufferedImage(this.GamePath +"/data/images/Spieler kampf/Kdown1.png");
-	    kampfimg_down2 = this.getBufferedImage(this.GamePath +"/data/images/Spieler kampf/Kdown2.png");
-	    kampfimg_shieldL = this.getBufferedImage(this.GamePath + "/data/images/Spieler kampf/Sleft1.png");
-	    kampfimg_shieldR = this.getBufferedImage(this.GamePath + "/data/images/Spieler kampf/Sright1.png");
-	    kampfimg_shieldU = this.getBufferedImage(this.GamePath + "/data/images/Spieler kampf/Sup1.png");
-	    kampfimg_shieldD = this.getBufferedImage(this.GamePath + "/data/images/Spieler kampf/Sdown1.png");
+	    kampfimgs[0][0] = this.getBufferedImage(this.GamePath +"/data/images/Spieler kampf/Kdown1.png");
+	    kampfimgs[0][1] = this.getBufferedImage(this.GamePath +"/data/images/Spieler kampf/Kdown2.png");
+	    kampfimgs[1][0] = rotate(kampfimgs[0][0]);
+	    kampfimgs[1][1] = rotate(kampfimgs[0][1]);
+	    kampfimgs[2][0] = rotate(kampfimgs[1][0]);
+	    kampfimgs[2][1] = rotate(kampfimgs[1][1]);
+	    kampfimgs[3][0] = rotate(kampfimgs[2][0]);
+	    kampfimgs[3][1] = rotate(kampfimgs[2][1]);
+	    kampfimgs_shield[0] = this.getBufferedImage(this.GamePath + "/data/images/Spieler kampf/Sdown.png");
+	    kampfimgs_shield[1] = rotate(kampfimgs_shield[0]);
+	    kampfimgs_shield[2] = rotate(kampfimgs_shield[0]);
+	    kampfimgs_shield[3] = rotate(kampfimgs_shield[0]);
 	    
 	    //Player zaubert 
 	    plasma = this.getBufferedImage(this.GamePath + "/data/images/Plasma.png");

@@ -33,6 +33,7 @@ public class Player extends Moveable {
 	
 	private int hurtAnimationCounter = 0;
 	private int walkAnimationCounter = 0;
+	private int attackAnimationCounter = 0;
 	
 	public int eggCounter = 0;
 
@@ -352,7 +353,9 @@ public class Player extends Moveable {
         pickupItems();
     }
     
-    public void attack(){
+    public void attack() {
+    	if(attackAnimationCounter == 0)
+    		attackAnimationCounter = 24;
 		Position temp = new Position(this.getPosition().x,this.getPosition().y);
 		switch(this.getFaceDirection()){
 		case UP:
@@ -768,6 +771,9 @@ public class Player extends Moveable {
   			walkAnimationCounter = 16;
   		else if(getDirection() == Direction.NONE)
   			walkAnimationCounter = 0;
+  		
+  		if(attackAnimationCounter > 0)
+  			attackAnimationCounter--;
   	}
 
 
@@ -807,30 +813,46 @@ public class Player extends Moveable {
 	@Override
 	public BufferedImage getImage() {
 		BufferedImage img = null;
-		int animIndex;
-		if(walkAnimationCounter > 7)
-			animIndex = 0;
-		else
-			animIndex = 1;
 		
+		int direcIndex;
 		switch(getFaceDirection()) {
-        case UP: 
-        	img = GameWindow.playerimg_up[animIndex];
-        	break;
         case DOWN:
-        	img = GameWindow.playerimg_down[animIndex];
+        	direcIndex = 0;
         	break;
         case LEFT:
-        	img = GameWindow.playerimg_left[animIndex];
+        	direcIndex = 1;
+        	break;
+        case UP: 
+        	direcIndex = 2;
         	break;
         case RIGHT:
-        	img = GameWindow.playerimg_right[animIndex];
+        	direcIndex = 3;
         	break;	
         default:
-        	img = GameWindow.playerimg_down[animIndex];
+        	direcIndex = 0;
         	break;
         }
 		
+		int animIndex;
+		if(attackAnimationCounter > 0) {
+			animIndex = (attackAnimationCounter/6) %4;
+			if(animIndex == 1 || animIndex == 3)
+				animIndex = 0;
+			else
+				animIndex = 1;
+			
+			img = GameWindow.kampfimgs[direcIndex][animIndex];
+		}
+		else {
+			if(walkAnimationCounter > 7)
+				animIndex = 0;
+			else
+				animIndex = 1;
+			
+			img = GameWindow.playerimgs[direcIndex][animIndex];
+		}
+		
+		//Rotes Bild bei Verletzung
 		if(hurtAnimationCounter > 0)
 			img = GameWindow.turnRed(img);
 		
