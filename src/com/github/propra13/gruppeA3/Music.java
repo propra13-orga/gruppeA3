@@ -7,6 +7,10 @@ import java.applet.Applet;
 import java.applet.AudioClip;
 import java.io.File;
 import java.net.MalformedURLException;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 /**
  * Klasse zum Abspielen von midi Dateien
  * @author Majida Dere
@@ -59,6 +63,20 @@ public class Music {
 	 */
 	public boolean isRunning() {
 		return isRunning;
+	}
+	/*
+	 * Gibt eine Sounddatei im Format wave oder Midi als Datenstream aus.
+	 * 
+	 */
+	public static void soundattach(){
+		try {
+			Clip clip = AudioSystem.getClip();
+			AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File(System.getProperty("user.dir")+"/data/sound/hit.wav"));
+			clip.open(inputStream);
+			clip.start(); 
+		} catch (Exception e) {
+			System.out.println("error: " + e.getMessage() + "hit");
+		} 
 	}
 }
 

@@ -16,7 +16,6 @@ import com.github.propra13.gruppeA3.Map.Trigger;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 
 /**
- * @author Majida Dere
  *         Diese Klasse definiert einen Spieler und seine Eigenschaften und Methoden.
  */
 
@@ -133,7 +132,15 @@ public class Player extends Moveable {
     	
     }
 
-    //Methode überschrieben, prüft für Spieler zusätzlich Trigger und ob bereits ein anderer Spieler auf dem Feld steht
+    /**
+     * Methode, um den Spieler zu bewegen, prüft zusätzlich auf Trigger und Kollision mit anderen Spielern, 
+     * bewegt den Spieler auserdem wenn er untätig in Wasser steht. Auserdem werden Items mit pickupItems() aufgehoben
+     * @see Trigger
+     * @see Moveable.move()
+     * @see Moveable.rangeCheck()
+     * @see Moveable.hitboxCheck()
+     * @see Player.pickupItems()
+     */
     public void move() {
 
     	int step = (int)(movePx * getSpeed());
@@ -353,6 +360,10 @@ public class Player extends Moveable {
         pickupItems();
     }
     
+    /**
+     * Angriffsfunktion für den Spieler, lässt den Spieler abhängig von seiner Blickrichtung angreifen und ruft calculateDamage() auf, 
+     * um den Schaden zu berechnen.
+     */
     public void attack() {
     	if(attackAnimationCounter == 0)
     		attackAnimationCounter = 24;
@@ -406,6 +417,7 @@ public class Player extends Moveable {
 	}
     
     /**
+<<<<<<< HEAD
      * Schaltet das Schwert-Element um eines weiter.
      */
     public void switchSwordEl() {
@@ -446,6 +458,11 @@ public class Player extends Moveable {
     	}
     }
     
+    /**
+	 * Berechnet den Schaden eines Spielerangriffs, dieser ist immer mindestens 1
+     * @param monster Monster, das angegriffen wird
+     * @return damage -  den Schaden, den der Angriff verursacht
+     */
     private int calculateDamage(Monster monster){
 		int damage=0;
 		switch(this.getAttackElement()){
@@ -617,8 +634,10 @@ public class Player extends Moveable {
     	}
     }
     
+    /**
+     * Lässt den Spieler Items aufsammeln, wenn er auf diese läuft
+     */
     private void pickupItems(){
-    	 /** Items aufsammeln, wenn man sie ber�hrt **/
         @SuppressWarnings("unchecked")
 		LinkedList<Entities> list = (LinkedList<Entities>) getRoom().entities.clone();
         Iterator<Entities> iter = list.iterator();
@@ -631,7 +650,6 @@ public class Player extends Moveable {
         			getRoom().removeCandidates.add(testEntity);
         			
         	}
-        		/** Coins aufsammeln, wenn Monster tot **/
         	} else if(testEntity instanceof Coin){
         		if(this.getPosition().toFieldPos(). equals(testEntity.getPosition().toFieldPos())){
         			this.setMoney(getMoney() + ((Coin)testEntity).getValue());
@@ -701,26 +719,50 @@ public class Player extends Moveable {
     		buff = new AttackBuff(this, 1.5, 5);
     }
     
+    /**
+     * Gibt die Anzahl der Leben über die der Spieler noch verfügt zurück
+     * @return lives - Die Anzahl der Leben des Spielers
+     */
     public int getLives() {
     	return lives;
     }
     
+    /**
+     * Setzt die Anzahl der Leben des Spielers
+     * @param lives Anzahl der zu setzenden Leben
+     */
     public void setLives(int lives){
     	this.lives = lives;
     }
 
+    /**
+     * Gibt das verfügbare Geld des Spielers zurücl
+     * @return money -  Geld des Spielers
+     */
     public int getMoney(){
     	return this.money;
     }
     
+    /**
+     * Setzt das verfügbare Geld des Spielers
+     * @param money Zu setztendes Geld
+     */
     public void setMoney(int money){
     	this.money = money;
     }
 
+    /**
+     * Gibt die Manapunkte zurück über die der Spieler verfügt.
+     * @return mana - Mana des Spielers
+     */
     public int getMana(){
     	return mana;
     }
     
+    /**
+     * Setzt das Mana des Spielers
+     * @param mana Zu setztende Manapunkte
+     */
     public void setMana(int mana){
     	this.mana = mana;
     	if (mana < 0)
@@ -733,7 +775,7 @@ public class Player extends Moveable {
     
     /**
      * Items werden nach dem Aufsammeln direkt benutzt
-     * @param item
+     * @param item Zu benutzendes Item
      */
     public void useItem(Item item){
     	switch(item.getType()){
@@ -791,13 +833,7 @@ public class Player extends Moveable {
     	this.health = health;
     }
     
-    /*
-	@Override
-	public Hitbox getHitbox() {
-		// TODO Auto-generated method stub
-		return hitbox;
-	}
-	*/
+
   	@Override
   	public void tick() {
   		if(hurtAnimationCounter > 0)
@@ -817,36 +853,52 @@ public class Player extends Moveable {
   			attackAnimationCounter--;
   	}
 
-
     //Dummies
   	@Override
   	public void collision(Entities entity) {}
 
 	/**
-	 * @return the playerID
+	 * @return playerID - die ID des Spielers
 	 */
 	public int getPlayerID() {
 		return playerID;
 	}
 
 	/**
-	 * @param playerID the playerID to set
+	 * @param playerID Die zu setzende SpielerID
 	 */
 	public void setPlayerID(int playerID) {
 		this.playerID = playerID;
 	}
+	
+	/**
+	 * Setzt das Angriffselement des Spielers
+	 * @param element Das zu setzende Element
+	 */
 	public void setAttackElement(Element element){
 		this.atkelement = element;
 	}
 	
+	/**
+	 * Gibt das Angriffselement des Spielers zurück
+	 * @return atkelement - Angriffselement des Spielers
+	 */
 	public Element getAttackElement(){
 		return this.atkelement;
 	}
 	
+	/**
+	 * Setzt das Verteidungselement des Spielers
+	 * @param element Zu setzendes Element
+	 */
 	public void setDefenseElement(Element element){
 		this.defelement = element;
 	}
 	
+	/**
+	 * Gibt das Verteidungselement des Spielers zurück
+	 * @return defelement - das Verteidigungselement des Spielers
+	 */
 	public Element getDefenseElement(){
 		return this.defelement;
 	}
