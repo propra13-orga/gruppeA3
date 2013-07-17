@@ -2,7 +2,6 @@ package com.github.propra13.gruppeA3.Map;
 
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
 import com.github.propra13.gruppeA3.Entities.Entities;
-import com.github.propra13.gruppeA3.Entities.Hitbox;
 import com.github.propra13.gruppeA3.Entities.Item;
 import com.github.propra13.gruppeA3.Entities.Monster;
 import com.github.propra13.gruppeA3.Entities.Moveable;

@@ -7,9 +7,7 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.github.propra13.gruppeA3.Game;
@@ -56,11 +54,11 @@ public class MainOptions extends JPanel implements ActionListener{
 	 * Wird ausgeführt, wenn der Musik-Knopf gedrückt wurde.
 	 */
 	private void toggleSound() {
-		if(Game.Menu.music.isRunning()) {
-			Game.Menu.music.stop();
+		if(MenuStart.music.isRunning()) {
+			MenuStart.music.stop();
 		}
 		else
-			Game.Menu.music.play();
+			MenuStart.music.play();
 		
 		updateSoundButton();
 	}
@@ -69,7 +67,7 @@ public class MainOptions extends JPanel implements ActionListener{
 	 * Passt den Text des Sound-Buttons an, je nach Zustand der Musik
 	 */
 	private void updateSoundButton() {
-		if(Game.Menu.music.isRunning()) {
+		if(MenuStart.music.isRunning()) {
 			bToggleSound.setText("Musik aus");
 		}
 		else

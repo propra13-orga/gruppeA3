@@ -144,7 +144,7 @@ public class MenuStart extends JPanel implements ActionListener {
 	
 	/**
 	 * Konstruktor der Klasse MenuStart
-	 * Initalisiert alle Komponenten die f�r das Spiel notwendig sind
+	 * Initalisiert alle Komponenten, die fuer das Spiel notwendig sind
 	 * Setzt das Layout des Panels fest
 	 */
     public MenuStart() {
@@ -287,7 +287,11 @@ public class MenuStart extends JPanel implements ActionListener {
 		buttonEinstellungen.setVisible(bNWOptions);
     }
     
-    // Startet Spiel
+    /**
+     * Startet eine neue Karte.
+     * @param header Header der zu startenden Karte.
+     * @param playerID ID des Players (im Normalfall 0)
+     */
     public void initMap(MapHeader header, int playerID) {
 
     	// Stellt Map auf
@@ -761,7 +765,7 @@ public class MenuStart extends JPanel implements ActionListener {
 	 * (bzw. Nicht-Kampagnen-Karten) gespielt werden können.
 	 */
 	private void startSingleplayer() {
-		
+		new SingleplayerWindow();
 	}
 
 	/**
