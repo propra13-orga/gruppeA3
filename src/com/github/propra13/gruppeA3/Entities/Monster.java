@@ -8,18 +8,12 @@ import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Map.Position;
 
 /**
- * @author Majida Dere
- * Die Klasse Monster liefert hauptsächlich die zugehörigen getter und setter Methoden zur Entity Monster
+ * Diese Klasse stellt die Gegner im Spiel dar
+ *
  */
 
 public class Monster extends Moveable {
 
-	/**
-	 * Attribute:
-	 * 			desc: Beschreibung des Monsters
-	 * 			coins: Die Münze, die das Monster droppt, wenn es stirbt.
-	 * 			type: Typ des Monsters
-	 */
 	private String desc;
 	private Coin coins=null;
 	private int type;
@@ -60,9 +54,6 @@ public class Monster extends Moveable {
 		coins=new Coin(coinValue, coinType, this.pos);
 		this.type = type;
 		this.element = element;
-		/**
-		 * Diese Abfrage ist für Bossmonster, die größer sind als gewöhnliche Monster
-		 */
 		if(type == 5){ 
 			this.hitbox.height = 48;
 			this.hitbox.width  = 48;
@@ -87,9 +78,6 @@ public class Monster extends Moveable {
 		coins=new Coin(coinValue, coinType, this.pos);
 		this.type = type;
 		this.element = element;
-		/**
-		 * Diese Abfrage ist für Bossmonster, die größer sind als gewöhnliche Monster
-		 */
 		if(type == 5){ 
 			this.hitbox.height = 48;
 			this.hitbox.width  = 48;
@@ -116,9 +104,6 @@ public class Monster extends Moveable {
 		coins=new Coin(coinValue, coinType, this.pos);
 		this.type = type;
 		this.element = element;
-		/**
-		 * Diese Abfrage ist für Bossmonster, die größer sind als gewöhnliche Monster
-		 */
 		if(type == 5){ 
 			this.hitbox.height = 48;
 			this.hitbox.width  = 48;
@@ -129,30 +114,52 @@ public class Monster extends Moveable {
 	
 	// Getter Methoden
 	
+	/**
+	 * Gibt die Hitbox des Monsters zurück
+	 * @see Hitbox
+	 * @return hitbox - Die Hitbox des Monsters
+	 */
 	public Hitbox getHitbox() {
 		return this.hitbox;
 	}
 
 	/**
 	 * Liefert die Coins, die das Monster beherbergt.
-	 * @return Coin
+	 * @see Coin
+	 * @return coins - Die Anzahl der Münzen
 	 */
 	public Coin getCoin(){
 		return this.coins;
 	}
 	
+	/**Liefert den Typ des Monsters
+	 * @return type - der Typ des Monsters
+	 */
 	public int getType(){
 		return type;
 	}
 	
+	/**
+	 * Liefert die Beschreibung des Monsters
+	 * @return desc - Die Beschreibung des Monsters
+	 */
 	public String getDesc(){
 		return desc;
 	}
 	
+	/**
+	 * Liefert die ID des Raums, in dem sich das Monster befindet
+	 * @see Room
+	 * @return roomID - Die ID des Raums
+	 */
 	public int getRoomID(){
 		return this.roomID;
 	}
 	
+	/**
+	 * Liefert die Angriffsstärke des Monsters
+	 * @return power - die Angriffsstärke des Monsters
+	 */
 	public int getPower(){
 		return this.power;
 	}
@@ -163,6 +170,7 @@ public class Monster extends Moveable {
 	
 	/**
 	 * Tötet das Monster und verteilt das Gold.
+	 * Entfernt das Monster aus der Entityliste und fügt die Münzen hinzu
 	 */
 	public void death() {
 		coins.setPosition(getPosition());
@@ -179,7 +187,7 @@ public class Monster extends Moveable {
 	
 	/**
 	 * Diese Methode setzt den aktuellen Health Status eines bewegbaren Objektes
-	 * @param life leben
+	 * @param health Anzahl der zu setzenden Lebenspunkte
 	 */
 	@Override
 	public void setHealth(int health){
@@ -192,6 +200,11 @@ public class Monster extends Moveable {
 		}
 	}
 
+	/**
+	 * Führt einen Angriff in Abhänigkeit von der Blickrichtung des Monsters aus, indem die Liste der Entities auf Kollisionen geprüft wird
+	 *  und berechnet den Schaden mit Monster.calculateDamage()
+	 * @see Monster.calculateDamage()
+	 */
 	public void attack(){
 		Position temp = new Position(this.getPosition().x,this.getPosition().y);
 		switch(this.getFaceDirection()){
@@ -245,6 +258,13 @@ public class Monster extends Moveable {
 		}
 	}
 	
+	/**
+	 * Führt die Schadensberechnung für einen Angriff durch ein Monster auf einen Spieler durch.
+	 * Sollte die Berechnung einen Wert kleiner 1 ergeben, so wird 1 zurückgegeben
+	 * @see Monster.attack()
+	 * @param player - Der Spieler der Angegriffen wird
+	 * @return damage - Der Schaden der dem Spieler zugefügt wird
+	 */
 	 private int calculateDamage(Player player){
 			int damage=0;
 			switch(this.getElement()){
@@ -356,9 +376,6 @@ public class Monster extends Moveable {
 		this.isBoss = monster.isBoss;
 		coins=new Coin(monster.coins.getValue(), monster.coins.getType(), this.pos);
 		this.type = monster.type;
-		/**
-		 * Diese Abfrage ist für Bossmonster, die größer sind als gewöhnliche Monster
-		 */
 		if(type == 5){ 
 			this.hitbox.height = 48;
 			this.hitbox.width  = 48;
@@ -370,6 +387,7 @@ public class Monster extends Moveable {
 	
 	/**
 	 * Setzt Monster-Typ.
+	 * @param type - Der Typ des Monsters
 	 */
 	public void setType(int type) {
 		this.type = type;
@@ -377,6 +395,7 @@ public class Monster extends Moveable {
 	
 	/**
 	 * Gibt eine Kopie dieses Monsters zurück.
+	 * @return Monster - eine Kopie des Monsters
 	 */
 	public Monster clone() {
 		return new Monster(roomID,
@@ -393,10 +412,20 @@ public class Monster extends Moveable {
 				getElement());	
 	}
 	
+	/**
+	 * Setzt das Element des Monsters für die Schadensberechnung
+	 * @see com.github.propra13.gruppeA3.Moveable.Element
+	 * @param element Das zu setztende Element
+	 */
 	public void setElement(Element element){
 		this.element = element;
 	}
 	
+	/**
+	 * Gibt das Element des Monsters für die Schadensberechnung zurück
+	 * @see com.github.propra13.gruppeA3.Moveable.Element
+	 * @return element - Das Element des Monsters
+	 */
 	public Element getElement(){
 		return this.element;
 	}
