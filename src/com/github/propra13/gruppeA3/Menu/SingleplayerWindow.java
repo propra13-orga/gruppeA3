@@ -18,7 +18,6 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
 import com.github.propra13.gruppeA3.Game;
-import com.github.propra13.gruppeA3.Editor.Editor;
 import com.github.propra13.gruppeA3.Editor.ListRenderer;
 import com.github.propra13.gruppeA3.Map.MapHeader;
 

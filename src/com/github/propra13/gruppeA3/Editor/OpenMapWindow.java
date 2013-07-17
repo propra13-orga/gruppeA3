@@ -33,7 +33,6 @@ public class OpenMapWindow extends JDialog implements ActionListener, ListSelect
 	//Fensterelemente
 	JButton bDone, bCancel;
 	String type, size, strength, health, armor, speed, coinVal;
-	boolean isBoss;
 	JList<JPanel> mapList;
 	JTable attributeTable;
 	String[][] tableContent;
