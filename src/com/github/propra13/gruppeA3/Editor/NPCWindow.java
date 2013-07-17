@@ -74,9 +74,11 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 	
 	//Shop-NPC-Kram
 	JList<JPanel> shopList;
-	JLabel healthPEntry, manaPEntry, poisonPEntry, swordEntry, shieldEntry;
+	JLabel healthPEntry, manaPEntry, poisonPEntry, 
+			phySwordEntry, fireSwordEntry, waterSwordEntry, iceSwordEntry,
+			phyShieldEntry, fireShieldEntry, waterShieldEntry, iceShieldEntry;
 	JButton plus, minus;
-	JPanel[] shopData = new JPanel[5];
+	JPanel[] shopData = new JPanel[11];
 	JTextArea shopTextArea;
 	GridBagConstraints panelConstr;
 	
@@ -84,8 +86,16 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 	int healthCtr=0;
 	int manaCtr=0;
 	int poisonCtr=0;
-	int swordCtr=0;
-	int shieldCtr=0;
+	
+	int phySwordCtr=0;
+	int fireSwordCtr=0;
+	int waterSwordCtr=0;
+	int iceSwordCtr=0;
+	
+	int phyShieldCtr=0;
+	int fireShieldCtr=0;
+	int waterShieldCtr=0;
+	int iceShieldCtr=0;
 	
 	public NPCWindow() {
 		//JDialog aufbauen
@@ -252,15 +262,45 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 		poisonPEntry = new JLabel("Gifttränke: "+poisonCtr, new ImageIcon(GameWindow.deadlyPosion), JLabel.LEFT);
 		shopData[2].add(poisonPEntry);
 		
-		//Schwert-Panel
+		//Phy-Schwert-Panel
 		shopData[3] = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		swordEntry = new JLabel("Schwerter: "+swordCtr, new ImageIcon(GameWindow.swords[0]), JLabel.LEFT);
-		shopData[3].add(swordEntry);
+		phySwordEntry = new JLabel("", new ImageIcon(GameWindow.swords[0]), JLabel.LEFT);
+		shopData[3].add(phySwordEntry);
 		
-		//Schild-Panel
+		//Feuer-Schwert-Panel
 		shopData[4] = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		shieldEntry = new JLabel("Schilde: "+shieldCtr, new ImageIcon(GameWindow.shields[0]), JLabel.LEFT);
-		shopData[4].add(shieldEntry);
+		fireSwordEntry = new JLabel("", new ImageIcon(GameWindow.swords[1]), JLabel.LEFT);
+		shopData[4].add(fireSwordEntry);
+		
+		//Wasser-Schwert-Panel
+		shopData[5] = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		waterSwordEntry = new JLabel("", new ImageIcon(GameWindow.swords[2]), JLabel.LEFT);
+		shopData[5].add(waterSwordEntry);
+		
+		//Eis-Schwert-Panel
+		shopData[6] = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		iceSwordEntry = new JLabel("", new ImageIcon(GameWindow.swords[3]), JLabel.LEFT);
+		shopData[6].add(iceSwordEntry);
+		
+		//Phy-Schild-Panel
+		shopData[7] = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		phyShieldEntry = new JLabel("", new ImageIcon(GameWindow.shields[0]), JLabel.LEFT);
+		shopData[7].add(phyShieldEntry);
+		
+		//Feuer-Schild-Panel
+		shopData[8] = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		fireShieldEntry = new JLabel("", new ImageIcon(GameWindow.shields[1]), JLabel.LEFT);
+		shopData[8].add(fireShieldEntry);
+		
+		//Wasser-Schild-Panel
+		shopData[9] = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		waterShieldEntry = new JLabel("", new ImageIcon(GameWindow.shields[2]), JLabel.LEFT);
+		shopData[9].add(waterShieldEntry);
+		
+		//Eis-Schild-Panel
+		shopData[10] = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		iceShieldEntry = new JLabel("", new ImageIcon(GameWindow.shields[3]), JLabel.LEFT);
+		shopData[10].add(iceShieldEntry);
 		
 		//List-Setup
 		shopList = new JList<JPanel>();
@@ -394,7 +434,9 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 		affectedField = field;
 		
 		//Shop-Zähler zurücksetzen
-		healthCtr = poisonCtr = manaCtr = shieldCtr = swordCtr = 0;
+		healthCtr = poisonCtr = manaCtr =
+				phyShieldCtr = fireShieldCtr = waterShieldCtr = iceShieldCtr =
+				phySwordCtr = fireSwordCtr = waterSwordCtr = iceSwordCtr = 0;
 		
 		//workingNPC und NPCToEdit setzen
 		NPCToEdit = npc;
@@ -438,11 +480,37 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 					break;
 				//Schwert
 				case 4:
-					swordCtr++;
+					switch(testItem.getElement()) {
+					case FIRE:
+						fireSwordCtr++;
+						break;
+					case ICE:
+						iceSwordCtr++;
+						break;
+					case PHYSICAL:
+						phySwordCtr++;
+						break;
+					case WATER:
+						waterSwordCtr++;
+						break;
+					}
 					break;
 				//Schild
 				case 5:
-					shieldCtr++;
+					switch(testItem.getElement()) {
+					case FIRE:
+						fireShieldCtr++;
+						break;
+					case ICE:
+						iceShieldCtr++;
+						break;
+					case PHYSICAL:
+						phyShieldCtr++;
+						break;
+					case WATER:
+						waterShieldCtr++;
+						break;
+					}
 					break;
 				}
 			}
@@ -491,7 +559,6 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 				workingNPC.setName(nameField.getText());
 				
 				//Shop zusammensammeln
-				System.out.println("Shop-Inhalt: "+healthCtr+" "+poisonCtr+" "+manaCtr+" "+swordCtr+" "+shieldCtr);
 				for(int i = healthCtr; i > 0; i--) {
 					workingNPC.getItems().add(new Item(10, 1, 
 							affectedField.pos, "Bringt dich wieder zu Kräften",
@@ -505,14 +572,42 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 					workingNPC.getItems().add(new Item(10, 2,
 							affectedField.pos, "Vergiftet dich",
 							"Gift-Trank", 4, Moveable.Element.PHYSICAL));
-				for(int i = swordCtr; i > 0; i--)
+				
+				//Schwerter
+				for(int i = phySwordCtr; i > 0; i--)
 					workingNPC.getItems().add(new Item(2, 4,
 							affectedField.pos, "Verstärkt deinen Angriff",
-							"Schwert", 10, Moveable.Element.PHYSICAL));
-				for(int i = shieldCtr; i > 0; i--)
+							"Normales Schwert", 10, Moveable.Element.PHYSICAL));
+				for(int i = fireSwordCtr; i > 0; i--)
+					workingNPC.getItems().add(new Item(2, 4,
+							affectedField.pos, "Verstärkt deinen Angriff",
+							"Feuerschwert", 10, Moveable.Element.FIRE));
+				for(int i = waterSwordCtr; i > 0; i--)
+					workingNPC.getItems().add(new Item(2, 4,
+							affectedField.pos, "Verstärkt deinen Angriff",
+							"Wasserschwert", 10, Moveable.Element.WATER));
+				for(int i = iceSwordCtr; i > 0; i--)
+					workingNPC.getItems().add(new Item(2, 4,
+							affectedField.pos, "Verstärkt deinen Angriff",
+							"Eisschwert", 10, Moveable.Element.ICE));
+				
+				//Schilde
+				for(int i = phyShieldCtr; i > 0; i--)
 					workingNPC.getItems().add(new Item(2, 5,
 							affectedField.pos, "Erhöht deine Verteidigung",
-							"Schild", 10, Moveable.Element.PHYSICAL));
+							"Normaler Schild", 10, Moveable.Element.PHYSICAL));
+				for(int i = fireShieldCtr; i > 0; i--)
+					workingNPC.getItems().add(new Item(2, 5,
+							affectedField.pos, "Erhöht deine Verteidigung",
+							"Feuerschild", 10, Moveable.Element.FIRE));
+				for(int i = waterShieldCtr; i > 0; i--)
+					workingNPC.getItems().add(new Item(2, 5,
+							affectedField.pos, "Erhöht deine Verteidigung",
+							"Wasserschild", 10, Moveable.Element.WATER));
+				for(int i = iceShieldCtr; i > 0; i--)
+					workingNPC.getItems().add(new Item(2, 5,
+							affectedField.pos, "Erhöht deine Verteidigung",
+							"Eisschild", 10, Moveable.Element.ICE));
 			}
 			//Ein bestehender NPC wird geändert
 			if(! delRB.isSelected() && NPCToEdit != null)
@@ -547,8 +642,14 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 		healthPEntry.setText(healthCtr + " HP-Tränke");
 		manaPEntry.setText(manaCtr + " Mana-Tränke");
 		poisonPEntry.setText(poisonCtr + " Gifttränke");
-		swordEntry.setText(swordCtr + " Schwerter");
-		shieldEntry.setText(shieldCtr + " Schilde");
+		phySwordEntry.setText(phySwordCtr + " normale Schwerter");
+		fireSwordEntry.setText(fireSwordCtr + " Feuerschwerter");
+		waterSwordEntry.setText(waterSwordCtr + " Wasserschwerter");
+		iceSwordEntry.setText(iceSwordCtr + " Eisschwerter");
+		phyShieldEntry.setText(phyShieldCtr + " normale Schilde");
+		fireShieldEntry.setText(fireShieldCtr + " Feuerschilde");
+		waterShieldEntry.setText(waterShieldCtr + " Wasserschilde");
+		iceShieldEntry.setText(iceShieldCtr + " Eisschilde");
 		shopList.setListData(shopData);
 	}
 	
@@ -569,10 +670,28 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 			poisonCtr++;
 			break;
 		case 3:
-			swordCtr++;
+			phySwordCtr++;
 			break;
 		case 4:
-			shieldCtr++;
+			fireSwordCtr++;
+			break;
+		case 5:
+			waterSwordCtr++;
+			break;
+		case 6:
+			iceSwordCtr++;
+			break;
+		case 7:
+			phyShieldCtr++;
+			break;
+		case 8:
+			fireShieldCtr++;
+			break;
+		case 9:
+			waterShieldCtr++;
+			break;
+		case 10:
+			iceShieldCtr++;
 			break;
 		default:
 			break;
@@ -601,14 +720,36 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 				poisonCtr--;
 			break;
 		case 3:
-			if(swordCtr > 0)
-				swordCtr--;
+			if(phySwordCtr > 0)
+				phySwordCtr--;
 			break;
 		case 4:
-			if(shieldCtr > 0)
-				shieldCtr--;
+			if(fireSwordCtr > 0)
+				fireSwordCtr--;
 			break;
-		default:
+		case 5:
+			if(waterSwordCtr > 0)
+				waterSwordCtr--;
+			break;
+		case 6:
+			if(iceSwordCtr > 0)
+				iceSwordCtr--;
+			break;
+		case 7:
+			if(phyShieldCtr > 0)
+				phyShieldCtr--;
+			break;
+		case 8:
+			if(fireShieldCtr > 0)
+				fireShieldCtr--;
+			break;
+		case 9:
+			if(waterShieldCtr > 0)
+				waterShieldCtr--;
+			break;
+		case 10:
+			if(iceShieldCtr > 0)
+				iceShieldCtr--;
 			break;
 		}
 		update();
