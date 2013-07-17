@@ -809,7 +809,7 @@ public class Room {
 				el.setAttribute("beschreibung", npc.getDesc());
 				el.setAttribute("name", npc.getName());
 				
-				if(npc.getType() == 2) {
+				if(npc.getType() == NPC.SHOP_NPC || npc.getType() == NPC.Quest_NPC) {
 					Item testItem;
 					Element item;
 					for(Iterator<Item> it = npc.getItems().iterator(); it.hasNext();) {

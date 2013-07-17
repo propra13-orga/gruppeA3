@@ -428,4 +428,5 @@
     <spawn x="19" y="6"/>
     <spawn x="19" y="7"/>
     <spawn x="18" y="7"/>
+    <NPC beschreibung="" name="Gelächter" text="&lt;html&gt;&lt;body&gt;Hahaha!&lt;br&gt;&#10;Hahahahahahaha!&lt;/body&gt;&lt;/html&gt;" typ="1" x="17" y="3"/>
 </room>

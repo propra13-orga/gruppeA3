@@ -441,10 +441,7 @@ public class NPCWindow extends JDialog implements ActionListener, ListSelectionL
 		//workingNPC und NPCToEdit setzen
 		NPCToEdit = npc;
 		if(NPCToEdit == null)
-			workingNPC = new NPC(1, "", "", new FieldPosition(
-					affectedField.pos.toPosition().x+Hitbox.standard.width/2,
-					affectedField.pos.toPosition().y+Hitbox.standard.height/2)
-					);
+			workingNPC = new NPC(1, "", "", affectedField.pos);
 		else
 			workingNPC = npc;
 		

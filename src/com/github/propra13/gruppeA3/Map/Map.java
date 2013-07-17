@@ -313,6 +313,8 @@ public class Map {
 		
 		
 		//Room-Namen-Check
+		for(int i=0; i < roomNames.length; i++)
+			System.out.println(roomNames[i]);
 		Arrays.sort(roomNames);
 		for (int i=0; i < roomNames.length; i++) {
 			int compare = Integer.parseInt(roomNames[i]);

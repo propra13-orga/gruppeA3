@@ -1223,30 +1223,13 @@ public class MenuStart extends JPanel implements ActionListener {
 										break;
 										
 									case 3:
-										if(questFinished == false){
-											//System.out.println("eierzählen1");
-											LinkedList<Entities> roomitems = (LinkedList<Entities>) player.getRoom().entities;
-											Iterator<Entities> itemsiter = roomitems.iterator();
-											int eggcount = 0;
-											Item testitem = null;
-											Entities testentitem = null;
-											while(itemsiter.hasNext()){
-												testentitem = itemsiter.next();
-												if(testentitem instanceof Item){
-													//System.out.println("eierzählen2");
-													testitem = (Item)testentitem;
-													if(testitem.getType() == 6){
-														//System.out.println("ei gefunden");
-														eggcount++;
-														//System.out.println("eggcount:" + eggcount);
-													}
-												}
-											}
-											if(eggcount == 0){
+										if(! questFinished) {
+											if(player.eggCounter == 3){
 												questFinished = true;
 											}
 										}
-										if(questFinished == false){
+										
+										if(! questFinished) {
 											JOptionPane.showMessageDialog(null, npc.getText(), npc.getName(), JOptionPane.PLAIN_MESSAGE);
 											talk = false;
 										}

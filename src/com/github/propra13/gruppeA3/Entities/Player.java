@@ -28,6 +28,8 @@ public class Player extends Moveable {
 	private Buff buff;
 	private Element atkelement;
 	private Element defelement;
+	
+	public int eggCounter = 0;
 
 	final public static int movePx = Moveable.movePx;
 
@@ -721,6 +723,11 @@ public class Player extends Moveable {
 			this.setArmour(this.getArmour() + item.getDamage());
 			this.items.add(item);
 			this.setDefenseElement(item.getElement());
+			break;
+			
+		case 6:
+			eggCounter++;
+			System.out.println("Ei gefunden");
 			break;
 			
 		default:

@@ -479,10 +479,10 @@
     <field textur="0" typ="2" x="24" y="15"/>
     <field textur="0" typ="2" x="24" y="16"/>
     <ziel x="24" y="6"/>
-    <item beschreibung="A way to protect." element="physisch" name="shield" staerke="2" typ="5" wert="5" x="23" y="3"/>
-    <item beschreibung="A strong protection." element="physisch" name="sword" staerke="2" typ="4" wert="5" x="10" y="15"/>
-    <item beschreibung="A fresh drink." element="physisch" name="Life Drink" staerke="16" typ="1" wert="2" x="15" y="5"/>
     <item beschreibung="A fresh drink." element="physisch" name="Life Drink" staerke="16" typ="1" wert="2" x="10" y="10"/>
+    <item beschreibung="A fresh drink." element="physisch" name="Life Drink" staerke="16" typ="1" wert="2" x="15" y="5"/>
+    <item beschreibung="A strong protection." element="physisch" name="sword" staerke="2" typ="4" wert="5" x="10" y="15"/>
+    <item beschreibung="A way to protect." element="physisch" name="shield" staerke="2" typ="5" wert="5" x="23" y="3"/>
     <monster angriff="15" beschreibung="Bossi" element="physisch" geschwindigkeit="0.5" leben="60" muenzen="15" ruestung="3" typ="5" x="19" y="7"/>
     <monster angriff="3" beschreibung="Spider-Man" element="physisch" geschwindigkeit="1.0" leben="15" muenzen="15" ruestung="1" typ="2" x="19" y="10"/>
     <monster angriff="5" beschreibung="Pinky the Rat" element="physisch" geschwindigkeit="1.0" leben="5" muenzen="5" ruestung="0" typ="3" x="21" y="11"/>
