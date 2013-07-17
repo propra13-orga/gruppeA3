@@ -1,5 +1,8 @@
 package com.github.propra13.gruppeA3.Entities;
 
+import java.awt.image.BufferedImage;
+
+import com.github.propra13.gruppeA3.GameWindow;
 import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Map.Position;
 
@@ -39,6 +42,18 @@ public class PlasmaBall extends Projectile {
 	@Override
 	public int getDamage() {
 		return damage;
+	}
+
+	//Dummy
+	@Override
+	public void setHealth(int health) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public BufferedImage getImage() {
+		return GameWindow.plasma;
 	}
 	
 }

@@ -1,8 +1,10 @@
 package com.github.propra13.gruppeA3.Entities;
 
+import java.awt.image.BufferedImage;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import com.github.propra13.gruppeA3.GameWindow;
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
 import com.github.propra13.gruppeA3.Map.Field;
 import com.github.propra13.gruppeA3.Map.FieldPosition;
@@ -28,6 +30,8 @@ public class Player extends Moveable {
 	private Buff buff;
 	private Element atkelement;
 	private Element defelement;
+	
+	private int hurtAnimationCounter = 0;
 	
 	public int eggCounter = 0;
 
@@ -734,6 +738,14 @@ public class Player extends Moveable {
     	}
     }
     
+    public void setHealth(int health) {
+    	if(health < this.health) {
+			hurtAnimationCounter = 20;
+		}
+    	
+    	this.health = health;
+    }
+    
     /*
 	@Override
 	public Hitbox getHitbox() {
@@ -741,10 +753,14 @@ public class Player extends Moveable {
 		return hitbox;
 	}
 	*/
+  	@Override
+  	public void tick() {
+  		if(hurtAnimationCounter > 0)
+  			hurtAnimationCounter--;
+  	}
+
 
     //Dummies
-  	@Override
-  	public void tick() {}
   	@Override
   	public void collision(Entities entity) {}
 
@@ -775,6 +791,34 @@ public class Player extends Moveable {
 	
 	public Element getDefenseElement(){
 		return this.defelement;
+	}
+	
+	@Override
+	public BufferedImage getImage() {
+		BufferedImage img = null;
+		
+		switch(getFaceDirection()) {
+        case UP: 
+        	img = GameWindow.playerimg_up1;
+        	break;
+        case DOWN:
+        	img = GameWindow.playerimg_down1;
+        	break;
+        case LEFT:
+        	img = GameWindow.playerimg_left1;
+        	break;
+        case RIGHT:
+        	img = GameWindow.playerimg_right1;
+        	break;	
+        default:
+        	img = GameWindow.playerimg_down1;
+        	break;
+        }
+		
+		if(hurtAnimationCounter > 0)
+			img = GameWindow.turnRed(img);
+		
+		return img;
 	}
 }
 

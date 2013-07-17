@@ -446,77 +446,90 @@ public class Monster extends Moveable {
 	}
 	
 	/**
-	 * Gibt das aktuell zu zeichnende Bild dieses Monsters zurück.
-	 */
-	public BufferedImage getImageToPaint() {
-		BufferedImage img = getMonsterImage();
-		if(hurtAnimationCounter > 0) {
-			System.out.println("rotes bild");
-			img = GameWindow.turnRed(img);
-		}
-		
-		return img;
-	}
-	
-	/**
-	 * Gibt das Standardbild dieses Monsters zurück.
+	 * Gibt das zu zeichnende Bild dieses Monsters zurück.
 	 * @return
 	 */
-	public BufferedImage getMonsterImage() {
+	@Override
+	public BufferedImage getImage() {
+		BufferedImage img = null;
 		
 		switch(getType()) {
 		case 1:
 			switch(getFaceDirection()){
 			case UP: 
-				return(GameWindow.monsterimg_1up);
+				img = GameWindow.monsterimg_1up;
+				break;
 			case DOWN:
-				return(GameWindow.monsterimg_1down);
+				img = GameWindow.monsterimg_1down;
+				break;
 			case LEFT:
-				return(GameWindow.monsterimg_1left);
+				img = GameWindow.monsterimg_1left;
+				break;
 			case RIGHT:
-				return(GameWindow.monsterimg_1right);
+				img = GameWindow.monsterimg_1right;
+				break;
 			default:
-				return(GameWindow.monsterimg_1down);
+				img = GameWindow.monsterimg_1down;
+				break;
 			}
+			break;
 		case 2:
 			switch(getFaceDirection()){
 			case UP: 
-				return(GameWindow.monsterimg_2up);
+				img = GameWindow.monsterimg_2up;
+				break;
 			case DOWN:
-				return(GameWindow.monsterimg_2down);
+				img = GameWindow.monsterimg_2down;
+				break;
 			case LEFT:
-				return(GameWindow.monsterimg_2left);
+				img = GameWindow.monsterimg_2left;
+				break;
 			case RIGHT:
-				return(GameWindow.monsterimg_2right);
+				img = GameWindow.monsterimg_2right;
+				break;
 			default:
-				return(GameWindow.monsterimg_2down);
+				img = GameWindow.monsterimg_2down;
+				break;
 			}
+			break;
 		case 3:	
 			switch(getFaceDirection()){
 			case UP: 
-				return(GameWindow.monsterimg_3up);
+				img = GameWindow.monsterimg_3up;
+				break;
 			case DOWN:
-				return(GameWindow.monsterimg_3down);
+				img = GameWindow.monsterimg_3down;
+				break;
 			case LEFT:
-				return(GameWindow.monsterimg_3left);
+				img = GameWindow.monsterimg_3left;
+				break;
 			case RIGHT:
-				return(GameWindow.monsterimg_3right);
+				img = GameWindow.monsterimg_3right;
+				break;
 			default:
-				return(GameWindow.monsterimg_3down);
+				img = GameWindow.monsterimg_3down;
+				break;
 			}
+			break;
 		case 4:
 			switch(getFaceDirection()){
 			case UP: 
-				return(GameWindow.monsterimg_4up);
+				img = GameWindow.monsterimg_4up;
+				break;
 			case DOWN:
-				return(GameWindow.monsterimg_4down);
+				img = GameWindow.monsterimg_4down;
+				break;
 			case LEFT:
-				return(GameWindow.monsterimg_4left);
+				img = GameWindow.monsterimg_4left;
+				break;
 			case RIGHT:
-				return(GameWindow.monsterimg_4right);
+				img = GameWindow.monsterimg_4right;
+				break;
 			default:
-				return(GameWindow.monsterimg_4down);
+				img = GameWindow.monsterimg_4down;
+				break;
 			}
+			break;
 		case 5:
 			
 			//Entscheiden, welches Element aus Boss-Arrays genommen werden soll nach Element
@@ -538,20 +551,28 @@ public class Monster extends Moveable {
           	
 			switch(getFaceDirection()){
 			case UP: 
-				return(GameWindow.bossImgs_up[elementIndex]);
+				img = GameWindow.bossImgs_up[elementIndex];
+				break;
 			case DOWN:
-				return(GameWindow.bossImgs_down[elementIndex]);
+				img = GameWindow.bossImgs_down[elementIndex];
+				break;
 			case LEFT:
-				return(GameWindow.bossImgs_left[elementIndex]);
+				img = GameWindow.bossImgs_left[elementIndex];
+				break;
 			case RIGHT:
-				return(GameWindow.bossImgs_right[elementIndex]);
-			default:
-				return(GameWindow.bossImgs_down[elementIndex]);
+				img = GameWindow.bossImgs_right[elementIndex];
+				break;
+			case NONE:
+				img = GameWindow.bossImgs_right[elementIndex];
+				break;
 			}
-			
-		default:
-			return null;
+			break;
 		}
+		
+		if(hurtAnimationCounter > 0) 
+			img = GameWindow.turnRed(img);
+		
+		return img;
 	}
 }
 	

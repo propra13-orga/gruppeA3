@@ -455,12 +455,6 @@ public class MenuStart extends JPanel implements ActionListener {
             	entityPos.setPosition(coin.getPosition().x - (coin.getHitbox().width/2), coin.getPosition().y - (coin.getHitbox().height/2));
             	g2d.drawImage(GameWindow.coin, entityPos.x, entityPos.y, panel);
             }
-            else if (testEntity instanceof Monster) {
-            	monster=(Monster)testEntity;
-            	entityPos.setPosition(monster.getPosition().x - (monster.getHitbox().width/2) , monster.getPosition().y - (monster.getHitbox().height/2));
-            	//zeichnet Monster-Typen mit Blickrichtung
-            	g2d.drawImage(monster.getImageToPaint(), entityPos.x, entityPos.y , panel);
-            }
             
             else if (testEntity instanceof NPC){
             	npc = (NPC)testEntity;
@@ -476,10 +470,11 @@ public class MenuStart extends JPanel implements ActionListener {
             			g2d.drawImage(GameWindow.npc4, entityPos.x, entityPos.y, panel);
             	}
             }
-            else if (testEntity instanceof PlasmaBall) {
-            	entityPos.setPosition(testEntity.getPosition().x - (testEntity.getHitbox().width/2) , testEntity.getPosition().y - (testEntity.getHitbox().height/2));
-            	g2d.drawImage(GameWindow.plasma, entityPos.x, entityPos.y, panel);
-            	
+            
+            else if (testEntity instanceof Moveable) {
+            	Moveable mvb = (Moveable)testEntity;
+            	entityPos.setPosition(mvb.getPosition().getDrawPosition(mvb.getHitbox()));
+            	g2d.drawImage(mvb.getImage(), entityPos.x, entityPos.y, panel);
             }
         }
  	}
@@ -496,27 +491,6 @@ public class MenuStart extends JPanel implements ActionListener {
 	        setBackground(Color.GRAY);
 	        
 	        Position pp = player.getPosition().getDrawPosition(player.getHitbox());
-	
-	        
-	
-	        // Malt Spieler
-	        switch(player.getFaceDirection()){
-	        case UP: 
-	        	g2d.drawImage(GameWindow.playerimg_up1, pp.x, pp.y , this);
-	        	break;
-	        case DOWN:
-	        	g2d.drawImage(GameWindow.playerimg_down1, pp.x, pp.y , this);
-	        	break;
-	        case LEFT:
-	        	g2d.drawImage(GameWindow.playerimg_left1, pp.x, pp.y , this);
-	        	break;
-	        case RIGHT:
-	        	g2d.drawImage(GameWindow.playerimg_right1, pp.x, pp.y , this);
-	        	break;	
-	        default:
-	        	g2d.drawImage(GameWindow.playerimg_down1, pp.x, pp.y , this);
-	        	break;
-	        }
         
         	paintScore(g2d);
         }
@@ -709,14 +683,6 @@ public class MenuStart extends JPanel implements ActionListener {
 			executeTalk();
 			executePlayerAttacks();
 			tickCounters();
-			
-			//Monster-ticks
-			Entities testEntity;
-			for(Iterator<Entities> iter = activeRoom.entities.iterator(); iter.hasNext();) {
-				testEntity = iter.next();
-				if(testEntity instanceof Monster)
-					((Monster)testEntity).tick();
-			}
 
 		}
 		else {
@@ -931,7 +897,6 @@ public class MenuStart extends JPanel implements ActionListener {
 	private void executeEnemyActions(){
 		Entities testent = null;	//durch alle Entitys der Liste iterieren
 		Monster testmonster = null;
-		Projectile testproj = null;
 		@SuppressWarnings("unchecked")
 		LinkedList<Entities> tempEntities = (LinkedList<Entities>) player.getRoom().entities.clone();
 	    Iterator<Entities> iter = tempEntities.iterator();
@@ -946,10 +911,6 @@ public class MenuStart extends JPanel implements ActionListener {
 					testmonster.attack();
 					testmonster.move();
 				}
-			}
-			else if(testent instanceof Projectile) {
-				testproj = (PlasmaBall) testent;
-				testproj.tick();
 			}
 		}
 	}
@@ -1049,6 +1010,10 @@ public class MenuStart extends JPanel implements ActionListener {
 	    Iterator<Entities> iter = tempEntities.iterator();
 	    while(iter.hasNext()){
 	    	testent = iter.next();
+	    	
+	    	if(testent instanceof Moveable)
+	    		((Moveable)testent).tick();
+	    	
 	    	if(testent instanceof Monster){
 	    		monster = (Monster) testent;
 	    		if(monster != null){

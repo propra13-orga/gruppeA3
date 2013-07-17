@@ -60,7 +60,7 @@ public class Coin extends Entities {
 	}
 
 	@Override
-	void tick() {		
+	public void tick() {		
 	}
 
 	@Override

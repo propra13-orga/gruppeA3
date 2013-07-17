@@ -2,6 +2,7 @@ package com.github.propra13.gruppeA3.Entities;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.awt.image.BufferedImage;
 import java.lang.Math;
 
 import com.github.propra13.gruppeA3.Map.Field;
@@ -478,15 +479,7 @@ public abstract class Moveable extends Entities {
 	 * Diese Methode setzt den aktuellen Health Status eines bewegbaren Objektes
 	 * @param health zu setzende Lebenspunkte
 	 */
-	public void setHealth(int health){
-		this.health = health;
-		if (this.health <= 0 && ! (this instanceof Player)) {
-			getRoom().removeCandidates.add(this);
-			if (isBoss) {
-				Map.endIsOpen = true;
-			}
-		}
-	}
+	public abstract void setHealth(int health);
 
 	/**
 	 * Diese Methode liefert den aktuellen Health Status eines bewegbaren Objektes
@@ -814,6 +807,12 @@ public abstract class Moveable extends Entities {
 	public void setRoomID(int roomID) {
 		this.roomID = roomID;
 	}
+	
+	/**
+	 * Gibt das zu zeichnende Bild des Moveables zurück.
+	 * @return Zu zeichnendes Bild
+	 */
+	abstract public BufferedImage getImage();
 	
 
 }

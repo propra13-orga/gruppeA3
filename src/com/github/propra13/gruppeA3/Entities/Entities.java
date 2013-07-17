@@ -13,7 +13,7 @@ public abstract class Entities {
 	
 	public abstract Position getPosition();
 	public abstract Hitbox getHitbox();
-	abstract void tick();
+	public abstract void tick();
 	abstract void collision(Entities entity);
 
 }

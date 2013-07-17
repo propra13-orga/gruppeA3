@@ -102,7 +102,7 @@ public class NPC extends Entities {
 	}
 
 	@Override
-	void tick() {
+	public void tick() {
 		// TODO Auto-generated method stub
 		
 	}
