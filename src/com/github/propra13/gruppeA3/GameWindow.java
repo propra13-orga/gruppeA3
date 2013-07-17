@@ -231,15 +231,54 @@ public class GameWindow {
      * @return gedrehtes Bild
      */
     public static BufferedImage rotate(BufferedImage img) {
-    	BufferedImage bufImg = (BufferedImage)img;
-        int width = bufImg.getWidth();
-        int height = bufImg.getHeight();
-        BufferedImage newBufferedImage = new BufferedImage(height, width, bufImg.getType());
+        int width = img.getWidth();
+        int height = img.getHeight();
+        BufferedImage newBufferedImage = new BufferedImage(height, width, img.getType());
   
         for(int i=0 ; i < width ; i++)
-            for(int j=0 ; j < height ; j++)  
-                newBufferedImage.setRGB(height-1-j, i, bufImg.getRGB(i,j));  
-  
-        return newBufferedImage;  
-    }  
+            for(int j=0 ; j < height ; j++)
+                newBufferedImage.setRGB(height-1-j, i, img.getRGB(i,j));
+        
+        return newBufferedImage;
+    }
+    
+    /**
+     * Färbt ein Bild rot.
+     * @param img Zu färbendes Bild
+     */
+    public static BufferedImage turnRed(BufferedImage img) {
+    	BufferedImage newImg = new BufferedImage(img.getHeight(), img.getWidth(), img.getType());
+    	
+    	//Iteriert über Bild
+        for(int i=0 ; i < img.getWidth(); i++)
+            for(int j=0 ; j < img.getHeight(); j++) {
+                int oldRGB = img.getRGB(i,j);
+                int alpha = oldRGB>>>24;
+            	int red = (oldRGB -(alpha<<24)) >>> 16;
+            	int green = (oldRGB<<16)>>>24;
+            	int blue = (oldRGB<<24)>>>24;
+            	
+            	int smallest = red;
+            	if(green < red)
+            		smallest = green;
+            	if(blue < red)
+            		smallest = blue;
+            	
+            	int newBlue = smallest;
+            	int newGreen = smallest;
+            	int newRed;
+            	
+            	//Falls schwarz, künstlich rot reinmachen
+            	if(oldRGB<<8 == 0)
+            		newRed = 0x30;
+            	else
+            		newRed = ((red/2 + green/3 + blue/3)<<24)>>>24;
+            		
+            	int newRGB = (alpha<<24) + (red<<16) + (newGreen<<8) + (newBlue);
+            	newRGB = (alpha<<24) + (newRed<<16);
+            	newImg.setRGB(i, j, newRGB);
+            }
+        
+        return newImg;
+    }
 }

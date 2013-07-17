@@ -458,130 +458,8 @@ public class MenuStart extends JPanel implements ActionListener {
             else if (testEntity instanceof Monster) {
             	monster=(Monster)testEntity;
             	entityPos.setPosition(monster.getPosition().x - (monster.getHitbox().width/2) , monster.getPosition().y - (monster.getHitbox().height/2));
-            	//zeichnet Monster-Typen mit Blickrichtung 
-               // g2d.drawImage(GameWindow.monsterimg_1left, entityPos.x, entityPos.y, this);
-            	switch(monster.getType()){
-            		case 1:{           	
-            			switch(monster.getFaceDirection()){
-            			case UP: 
-            				g2d.drawImage(GameWindow.monsterimg_1up, entityPos.x, entityPos.y , panel);
-            				break;
-            			case DOWN:
-            				g2d.drawImage(GameWindow.monsterimg_1down, entityPos.x, entityPos.y , panel);
-            				break;
-            			case LEFT:
-            				g2d.drawImage(GameWindow.monsterimg_1left, entityPos.x, entityPos.y , panel);
-            				break;
-            			case RIGHT:
-            				g2d.drawImage(GameWindow.monsterimg_1right, entityPos.x, entityPos.y , panel);
-            				break;	
-            			default:
-            				g2d.drawImage(GameWindow.monsterimg_1down, entityPos.x, entityPos.y , panel);
-            				break;
-            			}
-            			break;
-            		}
-            			
-            		case 2:
-            		{           	
-            			switch(monster.getFaceDirection()){
-            			case UP: 
-            				g2d.drawImage(GameWindow.monsterimg_2up, entityPos.x, entityPos.y , panel);
-            				break;
-            			case DOWN:
-            				g2d.drawImage(GameWindow.monsterimg_2down, entityPos.x, entityPos.y , panel);
-            				break;
-            			case LEFT:
-            				g2d.drawImage(GameWindow.monsterimg_2left, entityPos.x, entityPos.y , panel);
-            				break;
-            			case RIGHT:
-            				g2d.drawImage(GameWindow.monsterimg_2right, entityPos.x, entityPos.y , panel);
-            				break;	
-            			default:
-            				g2d.drawImage(GameWindow.monsterimg_2down, entityPos.x, entityPos.y , panel);
-            				break;
-            			}
-            			break;
-            		}
-            		case 3:
-            		{           	
-            			switch(monster.getFaceDirection()){
-            			case UP: 
-            				g2d.drawImage(GameWindow.monsterimg_3up, entityPos.x, entityPos.y , panel);
-            				break;
-            			case DOWN:
-            				g2d.drawImage(GameWindow.monsterimg_3down, entityPos.x, entityPos.y , panel);
-            				break;
-            			case LEFT:
-            				g2d.drawImage(GameWindow.monsterimg_3left, entityPos.x, entityPos.y , panel);
-            				break;
-            			case RIGHT:
-            				g2d.drawImage(GameWindow.monsterimg_3right, entityPos.x, entityPos.y , panel);
-            				break;	
-            			default:
-            				g2d.drawImage(GameWindow.monsterimg_3down, entityPos.x, entityPos.y , panel);
-            				break;
-            			}
-            			break;
-            		}
-            		case 4:{
-            			switch(monster.getFaceDirection()){
-            			case UP: 
-            				g2d.drawImage(GameWindow.monsterimg_4up, entityPos.x, entityPos.y , panel);
-            				break;
-            			case DOWN:
-            				g2d.drawImage(GameWindow.monsterimg_4down, entityPos.x, entityPos.y , panel);
-            				break;
-            			case LEFT:
-            				g2d.drawImage(GameWindow.monsterimg_4left, entityPos.x, entityPos.y , panel);
-            				break;
-            			case RIGHT:
-            				g2d.drawImage(GameWindow.monsterimg_4right, entityPos.x, entityPos.y , panel);
-            				break;	
-            			default:
-            				g2d.drawImage(GameWindow.monsterimg_4down, entityPos.x, entityPos.y , panel);
-            				break;
-            			}
-            			break;
-            		}
-            		case 5:
-            			
-            			//Entscheiden, welches Element aus Boss-Arrays genommen werden soll nach Element
-        				int elementIndex = -1;
-        				switch(monster.getElement()) {
-        				case PHYSICAL:
-        					elementIndex = 0;
-        					break;
-        				case FIRE:
-        					elementIndex = 1;
-        					break;
-        				case WATER:
-        					elementIndex = 2;
-        					break;
-        				case ICE:
-        					elementIndex = 3;
-        					break;
-        				}
-        	          	
-            			switch(monster.getFaceDirection()){
-            			case UP: 
-            				g2d.drawImage(GameWindow.bossImgs_up[elementIndex], entityPos.x, entityPos.y , panel);
-            				break;
-            			case DOWN:
-            				g2d.drawImage(GameWindow.bossImgs_down[elementIndex], entityPos.x, entityPos.y , panel);
-            				break;
-            			case LEFT:
-            				g2d.drawImage(GameWindow.bossImgs_left[elementIndex], entityPos.x, entityPos.y , panel);
-            				break;
-            			case RIGHT:
-            				g2d.drawImage(GameWindow.bossImgs_right[elementIndex], entityPos.x, entityPos.y , panel);
-            				break;	
-            			default:
-            				g2d.drawImage(GameWindow.bossImgs_down[elementIndex], entityPos.x, entityPos.y , panel);
-        			
-        			break;
-            		}
-            	}
+            	//zeichnet Monster-Typen mit Blickrichtung
+            	g2d.drawImage(monster.getImageToPaint(), entityPos.x, entityPos.y , panel);
             }
             
             else if (testEntity instanceof NPC){
@@ -831,6 +709,14 @@ public class MenuStart extends JPanel implements ActionListener {
 			executeTalk();
 			executePlayerAttacks();
 			tickCounters();
+			
+			//Monster-ticks
+			Entities testEntity;
+			for(Iterator<Entities> iter = activeRoom.entities.iterator(); iter.hasNext();) {
+				testEntity = iter.next();
+				if(testEntity instanceof Monster)
+					((Monster)testEntity).tick();
+			}
 
 		}
 		else {

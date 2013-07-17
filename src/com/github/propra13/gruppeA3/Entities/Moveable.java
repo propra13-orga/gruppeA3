@@ -13,7 +13,6 @@ import com.github.propra13.gruppeA3.Menu.MenuStart;
 
 /**
  * Diese Klasse dient als Vorlage für alle bewegbaren Objekte im Spiel.
- *
  */
 public abstract class Moveable extends Entities {
 	
@@ -411,8 +410,8 @@ public abstract class Moveable extends Entities {
 	
 	
 	/**
-	 * Diese Methode liefert die aktuelle Position im Raum
-	 * @return pos - liefert die Position im Raum
+	 * Diese Methode liefert die aktuelle Position im Raum.
+	 * @return pos Position des Objekts im Raum
 	 */
 	public Position getPosition(){
 		return this.pos;

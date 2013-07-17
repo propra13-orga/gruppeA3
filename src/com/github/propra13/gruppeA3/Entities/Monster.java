@@ -1,8 +1,10 @@
 package com.github.propra13.gruppeA3.Entities;
 
+import java.awt.image.BufferedImage;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import com.github.propra13.gruppeA3.GameWindow;
 import com.github.propra13.gruppeA3.Map.FieldPosition;
 import com.github.propra13.gruppeA3.Map.Map;
 import com.github.propra13.gruppeA3.Map.Position;
@@ -20,6 +22,8 @@ public class Monster extends Moveable {
 	private int roomID;
 	private int power;
 	private Element element;
+	
+	private int hurtAnimationCounter = 0;
 	
 	/**
 	 * Der Konstruktor erzeugt ein Monster mit folgenden Parametern
@@ -180,9 +184,16 @@ public class Monster extends Moveable {
 	
 	//Dummies
 	@Override
-	public void tick() {}
-	@Override
 	public void collision(Entities entity) {}
+	
+	/**
+	 * Wird jeden Gametick ausgeführt.
+	 */
+	@Override
+	public void tick() {
+		if(hurtAnimationCounter > 0)
+			hurtAnimationCounter--;
+	}
 	
 	
 	/**
@@ -190,7 +201,11 @@ public class Monster extends Moveable {
 	 * @param health Anzahl der zu setzenden Lebenspunkte
 	 */
 	@Override
-	public void setHealth(int health){
+	public void setHealth(int health) {
+		if(health < this.health) {
+			hurtAnimationCounter = 20;
+		}
+		
 		this.health = health;
 		if (this.health <= 0) {
 			death();
@@ -428,6 +443,115 @@ public class Monster extends Moveable {
 	 */
 	public Element getElement(){
 		return this.element;
+	}
+	
+	/**
+	 * Gibt das aktuell zu zeichnende Bild dieses Monsters zurück.
+	 */
+	public BufferedImage getImageToPaint() {
+		BufferedImage img = getMonsterImage();
+		if(hurtAnimationCounter > 0) {
+			System.out.println("rotes bild");
+			img = GameWindow.turnRed(img);
+		}
+		
+		return img;
+	}
+	
+	/**
+	 * Gibt das Standardbild dieses Monsters zurück.
+	 * @return
+	 */
+	public BufferedImage getMonsterImage() {
+		
+		switch(getType()) {
+		case 1:
+			switch(getFaceDirection()){
+			case UP: 
+				return(GameWindow.monsterimg_1up);
+			case DOWN:
+				return(GameWindow.monsterimg_1down);
+			case LEFT:
+				return(GameWindow.monsterimg_1left);
+			case RIGHT:
+				return(GameWindow.monsterimg_1right);
+			default:
+				return(GameWindow.monsterimg_1down);
+			}
+		case 2:
+			switch(getFaceDirection()){
+			case UP: 
+				return(GameWindow.monsterimg_2up);
+			case DOWN:
+				return(GameWindow.monsterimg_2down);
+			case LEFT:
+				return(GameWindow.monsterimg_2left);
+			case RIGHT:
+				return(GameWindow.monsterimg_2right);
+			default:
+				return(GameWindow.monsterimg_2down);
+			}
+		case 3:	
+			switch(getFaceDirection()){
+			case UP: 
+				return(GameWindow.monsterimg_3up);
+			case DOWN:
+				return(GameWindow.monsterimg_3down);
+			case LEFT:
+				return(GameWindow.monsterimg_3left);
+			case RIGHT:
+				return(GameWindow.monsterimg_3right);
+			default:
+				return(GameWindow.monsterimg_3down);
+			}
+		case 4:
+			switch(getFaceDirection()){
+			case UP: 
+				return(GameWindow.monsterimg_4up);
+			case DOWN:
+				return(GameWindow.monsterimg_4down);
+			case LEFT:
+				return(GameWindow.monsterimg_4left);
+			case RIGHT:
+				return(GameWindow.monsterimg_4right);
+			default:
+				return(GameWindow.monsterimg_4down);
+			}
+		case 5:
+			
+			//Entscheiden, welches Element aus Boss-Arrays genommen werden soll nach Element
+			int elementIndex = -1;
+			switch(getElement()) {
+			case PHYSICAL:
+				elementIndex = 0;
+				break;
+			case FIRE:
+				elementIndex = 1;
+				break;
+			case WATER:
+				elementIndex = 2;
+				break;
+			case ICE:
+				elementIndex = 3;
+				break;
+			}
+          	
+			switch(getFaceDirection()){
+			case UP: 
+				return(GameWindow.bossImgs_up[elementIndex]);
+			case DOWN:
+				return(GameWindow.bossImgs_down[elementIndex]);
+			case LEFT:
+				return(GameWindow.bossImgs_left[elementIndex]);
+			case RIGHT:
+				return(GameWindow.bossImgs_right[elementIndex]);
+			default:
+				return(GameWindow.bossImgs_down[elementIndex]);
+			}
+			
+		default:
+			return null;
+		}
 	}
 }
 	
