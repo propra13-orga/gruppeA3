@@ -12,7 +12,6 @@ import com.github.propra13.gruppeA3.Map.Room;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 
 /**
- * @author Majida Dere 
  * Diese Klasse dient als Vorlage für alle bewegbaren Objekte im Spiel.
  *
  */
@@ -51,7 +50,11 @@ public abstract class Moveable extends Entities {
 	final public static int movePx = 2;
 	
 	
-	//Konstruktor
+	/**
+	 * Der Konstruktor wird von den Unterklassen aufgerufen und erstellt zuerst ein Dummy-Moveable, 
+	 * bevor die Werte im Konstruktor der Unterklasse sinnvoll belegt werden
+	 * @param roomID Die ID des Raums in dem das Moveable erstellt werden soll
+	 */
 	public Moveable(int roomID){
 		this.pos = new Position(0,0);
 		this.roomID = roomID;
@@ -68,9 +71,8 @@ public abstract class Moveable extends Entities {
 	}
 
 	/** 
-	 * Diese Methode bewegt ein bewegbares Objekt im Raum
-	 * Begehbarkeit des Feldes prüfen
-	 * Wenn begehbar, setposition anwenden
+	 * Diese Methode bewegt ein bewegbares Objekt im Raum, prüft die Begehbarkeit und wendet setposition() an,
+	 *  wenn die neue Position begehbar ist
 	 **/
 	public void move() {
 
@@ -232,7 +234,11 @@ public abstract class Moveable extends Entities {
 	
         }
 	}
-	
+	/**
+	 * Prüft ob es ein Objekt gibt, dessen Abstand Mittelpunkt zu Mittelpunkt unter 60Pixeln liegt, falls ja wird hitboxCheck() aufgerufen
+	 * @see Moveable.hitboxCheck()
+	 * @return flag - false, wenn eine Kollision vorliegt, true, wenn keine Kollision vorliegt
+	 */
 	//Kollisionsabfragen
 	public boolean rangeCheck(){
 		int xdelta;
@@ -255,7 +261,7 @@ public abstract class Moveable extends Entities {
 				ydelta = this.getPosition().y - testent.getPosition().y; //y-Abstand der Mittelpunkte bestimmen
 				if(ydelta < 0)
 					ydelta = ydelta * (-1);
-				if(Math.sqrt(xdelta*xdelta + ydelta*ydelta) < 50){	//Wenn wurzel(x^2 + y^2) < 50 ist, auf hitboxkollision prüfen
+				if(Math.sqrt(xdelta*xdelta + ydelta*ydelta) < 60){	//Wenn wurzel(x^2 + y^2) < 60 ist, auf hitboxkollision prüfen
 					if(hitboxCheck(this.getPosition(), testent) == false){
 						
 						if(this instanceof Projectile) {
@@ -272,7 +278,9 @@ public abstract class Moveable extends Entities {
 	
 	/**
 	 * Kollisionsabfrage für this mit gegebenem Kollisionsgegner
-	 * @param test Kollisionsgegner
+	 * @param testent Kollisionsgegner
+	 * @param pos Die Position, auf die gelaufen werden soll
+	 * @see Moveable.rangeCheck()
 	 * @return Kollisionswahrheitswert
 	 */
 	public boolean hitboxCheck(Position pos, Entities testent) {
@@ -404,7 +412,7 @@ public abstract class Moveable extends Entities {
 	
 	/**
 	 * Diese Methode liefert die aktuelle Position im Raum
-	 * @return liefert die Position im Raum
+	 * @return pos - liefert die Position im Raum
 	 */
 	public Position getPosition(){
 		return this.pos;
@@ -469,7 +477,7 @@ public abstract class Moveable extends Entities {
 	
 	/**
 	 * Diese Methode setzt den aktuellen Health Status eines bewegbaren Objektes
-	 * @param life leben
+	 * @param health zu setzende Lebenspunkte
 	 */
 	public void setHealth(int health){
 		this.health = health;
@@ -489,22 +497,41 @@ public abstract class Moveable extends Entities {
 		return this.health;
 	}
 	
+	/**
+	 * Liefert die Angriiffsstärke eines Objekts
+	 * @return attack - die Angriffsstärke
+	 */
 	public int getAttack(){
 		return attack;
 	}
-	
+	/**
+	 * Liefert die Stärke der Rüstung
+	 * @return armour - die Stärke der Rüstung
+	 */
 	public int getArmour(){
 		return armour;
 	}
 	
+	/**
+	 * Setzt die Stärke der Rüstung
+	 * @param armour zu setzende Stärke
+	 */
 	public void setArmour(int armour) {
 		this.armour = armour;
 	}
 	
+	/**
+	 * Liefert die Geschwindigkeit eines beweglichen Objekts
+	 * @return speed - die Geschwindigkeit
+	 */
 	public double getSpeed(){
 		return speed;
 	}
 	
+	/**
+	 * Setzt die Geschwindigkeit eines beweglichen Objekts
+	 * @param speed die zu setztende Geschwindigkeit
+	 */
 	public void setSpeed(double speed){
 		this.speed = speed;
 	}
@@ -598,14 +625,26 @@ public abstract class Moveable extends Entities {
 			attack = (int)((double)attack*iter.next());
 	}
 	
+	/**
+	 * Setzt die Grundangriffsstärke eines beweglichen Objekts
+	 * @param attack die zu setzende Angriffsstärke
+	 */
 	public void setAttack(int attack){
 		this.attack = attack;
 	}
 	
+	/**
+	 * Liefert den Raum, in dem sich das bewegliche Objekt aufhält
+	 * @return room - der Raum in dem sich das Objekt befindet
+	 */
 	public Room getRoom(){
 		return Map.getRoom(roomID);
 	}
 	
+	/**
+	 * Setzt den Raum, in dem sich ein Objekt befindet
+	 * @param roomID Die ID des neuen Raums
+	 */
 	public void setRoom(int roomID){
 		//lastField richtig setzen
 		lastField = getRoom().getField(lastField.pos.x, lastField.pos.y);
@@ -613,58 +652,111 @@ public abstract class Moveable extends Entities {
 		this.roomID = roomID;
 	}
 	
+	/**
+	 * Liefert die Richtung in die sich das Objekt bewegen soll
+	 * @return direct - Die Richtung in die sich Obhjekt bewegen soll
+	 */
 	public Direction getDirection(){
 		return this.direct;
 	}
 	
+	/**
+	 * Setzt die Richtung, in die sich das Objekt bewegen soll
+	 * @param direct Die Richtung in die sich das Objekt bewegen soll
+	 */
 	public void setDirection(Direction direct){
 		this.direct = direct;
 	}
+	/**
+	 * @see Entities.getHitbox()
+	 */
 	@Override
 	public Hitbox getHitbox(){
 		return hitbox;
 	}
 	
+	/**
+	 * Liefert die Blickrichtung des Objekts
+	 * @return facedirect - Die Blickrichtung des Objekts
+	 */
 	public Direction getFaceDirection(){
 		return facedirect;
 	}
 	
+	/**Setzt die Blickrichtung eines Objekts
+	 * @param direct Die zu setzende Richtung
+	 */
 	public void setFaceDirection(Direction direct){
 		facedirect = direct;
 	}
 	
+	/**
+	 * Liefert den Zähler, wann wieder ein Angriff ausgeführt werden kann
+	 * @return attackcounter - Der Angriffszähler
+	 */
 	public int getAttackCount(){
 		return attackcounter;
 	}
 	
+	/**
+	 * Setzt den Zähler, wann wieder ein Angriff ausgeführt werden kann
+	 * @param count Anzahl der Spielticks, bis wieder ein Angriff ausgeführt werden kann
+	 */
 	public void setAttackCount(int count){
 		attackcounter = count;
 	}
 	
+	/**
+	 * Liefert den Zähler, wann wieder gezaubert werden kann
+	 * @return castcounter -  Den Zauberzähler
+	 */
 	public int getCastCount(){
 		return castcounter;
 	}
 	
+	/**
+	 * Setzt den Zähler, wann wieder gezaubert werden kann
+	 * @param count Anzahl der Spielticks, bis wieder gezaubert werden kann
+	 */
 	public void setCastCount(int count){
 		castcounter = count;
 	}
 	
+	/**
+	 * Setzt den Wert, ob ein Objekt im aktuellen Tick angreifen will
+	 * @param isAttacking Wert, ob das Objekt angreifen will
+	 */
 	public void setAttack(boolean isAttacking){
 		this.isAttacking = isAttacking;
 	}
 	
+	/**
+	 * Liefert den Wert, ob ein Objekt im aktuellen Tick angreifen will
+	 * @return isAttacking - Wert, ob das Objekt angreifen will
+	 */
 	public boolean getIsAttacking(){
 		return isAttacking;
 	}
-	
+	/**
+	 * Setzt den nächsten auszuführenden Zauber
+	 * @param cast Zauber der ausgeführt werden soll
+	 */
 	public void setCast(String cast){
 		this.cast = cast;
 	}
-	
+	/**
+	 * Gibt den nächsten auszuführenden Zauber zurück
+	 * @return cast - Der nächste auszuführende Zauber
+	 */
 	public String getCast(){
 		return cast;
 	}
 	
+	/**
+	 * Gibt den Namen eines Elementes als String zurück
+	 * @param element Das Element
+	 * @return elName - Den Namen des Elements
+	 */
 	public static String getElementName(Element element) {
 		String elName = null;
 		switch(element) {
@@ -708,10 +800,18 @@ public abstract class Moveable extends Entities {
 		addSpeedFactor(newSpeed);
 	}
 	
+	/**
+	 * Liefert die RaumID des Objekts
+	 * @return roomID - Die RaumID
+	 */
 	public int getRoomID() {
 		return roomID;
 	}
-
+	
+	/**
+	 * Setzt die RaumID eines Objekts
+	 * @param roomID die zu setzende ID
+	 */
 	public void setRoomID(int roomID) {
 		this.roomID = roomID;
 	}
