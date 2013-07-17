@@ -1,10 +1,16 @@
 package com.github.propra13.gruppeA3;
 
 import java.awt.event.*;
+
 import com.github.propra13.gruppeA3.Editor.WarningWindow;
 import com.github.propra13.gruppeA3.Entities.Player;
 import com.github.propra13.gruppeA3.Entities.Moveable.Direction;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
+
+/**
+* Dies ist die Klasse für den Keylistener, welche die Tastatureingaben abfängt, sie benötigt eine Referenz zum gesteuerten Spieler. 
+* Von den von KeyListener implementierten Methoden wird nur keyTyped() verwendet.
+*/
 
 public class Keys implements KeyListener {
 	
@@ -20,12 +26,21 @@ public class Keys implements KeyListener {
 	WarningWindow msgWindow = new WarningWindow();
 
 	//Konstruktor
+		/**
+		 * Konstruktor für den KeyListener
+		 * @param player_bind Spieler an die die Steuerung gebunden werden soll
+		 */
+
 	public Keys(Player player_bind) {
 		player = player_bind;
 	}
 	
 	public void keyTyped(KeyEvent e){}
-	
+		/**
+		 * Diese Methode ruft die jeweiligen Methoden des Spielers auf, je nachdem welche Taste gedrückt wird
+	 	 * 
+		 */
+
 	public void keyPressed(KeyEvent e){
 		
 		int pressed = e.getKeyCode();
