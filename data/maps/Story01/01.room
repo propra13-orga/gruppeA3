@@ -442,4 +442,5 @@
         <item beschreibung="A fresh drink" element="physisch" name="Life Drink" staerke="10" typ="1" wert="4" x="6" y="9"/>
         <item beschreibung="A fresh drink" element="physisch" name="Life Drink" staerke="10" typ="1" wert="4" x="6" y="9"/>
     </NPC>
+    <item beschreibung="Erfrischt" element="feuer" name="Lebenstrank" staerke="0" typ="6" wert="0" x="8" y="4"/>
 </room>

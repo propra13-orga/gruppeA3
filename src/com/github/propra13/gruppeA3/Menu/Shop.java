@@ -3,6 +3,7 @@ package com.github.propra13.gruppeA3.Menu;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -18,6 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.github.propra13.gruppeA3.Game;
 import com.github.propra13.gruppeA3.Entities.Item;
 import com.github.propra13.gruppeA3.Entities.NPC;
 import com.github.propra13.gruppeA3.Entities.Player;
@@ -31,7 +33,7 @@ import java.awt.Font;
  * @author Majida Dere
  *
  */
-public class Shop extends JFrame 
+public class Shop extends JDialog
 				  implements ListSelectionListener{
 
 	/**
@@ -66,6 +68,7 @@ public class Shop extends JFrame
 	 * @param npc Das Shop-NPC Objekt
 	 */
 	public Shop(final Player player, final NPC npc) {
+		super(Game.frame);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setAlwaysOnTop(true);
 		setResizable(false);
@@ -73,6 +76,7 @@ public class Shop extends JFrame
 		setTitle(npc.getName()+"s Shop");
 		setSize(450,300);
 		setLocationRelativeTo(null);
+		setModal(true);
 		
 		items = npc.getItems();
 		Item item;

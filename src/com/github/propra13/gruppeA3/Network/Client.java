@@ -17,7 +17,6 @@ import com.github.propra13.gruppeA3.Map.MapHeader;
 import com.github.propra13.gruppeA3.Menu.MenuStart;
 import com.github.propra13.gruppeA3.Menu.MenuStart.GameStatus;
 import com.github.propra13.gruppeA3.Menu.MenuStart.NetworkStatus;
-import com.github.propra13.gruppeA3.XMLParser.SAXCrawlerReader;
 
 /**
  * Diese Klasse erzeugt einen Clienten
@@ -91,7 +90,7 @@ public class Client extends JFrame {
 		
 		
 		// Menü-Buttons ausblenden, Status ändern
-		gui.setButtonVisible(false, false, false, false, false, false,
+		gui.setButtonVisible(false, false, false, false, false, false, false,
 						 false, false, false, false, false, false, false);
 			
 		MenuStart.setGameStatus(GameStatus.INGAME);

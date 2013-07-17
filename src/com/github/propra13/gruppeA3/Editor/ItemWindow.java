@@ -52,7 +52,7 @@ private static final long serialVersionUID = 1L;
 	//Listeneinträge
 	JPanel emptyPanel, healthPanel, poisonPanel, manaPanel,
 			iceShieldPanel, waterShieldPanel, fireShieldPanel, physicalShieldPanel,
-			iceSwordPanel, waterSwordPanel, fireSwordPanel, physicalSwordPanel;
+			iceSwordPanel, waterSwordPanel, fireSwordPanel, physicalSwordPanel, dragonEggPanel;
 	
 	public ItemWindow() {
 		//JDialog aufbauen
@@ -81,14 +81,15 @@ private static final long serialVersionUID = 1L;
 		JLabel healthEntry = new JLabel("Lebenstrank", new ImageIcon(GameWindow.lifePosion), JLabel.LEFT);
 		JLabel poisonEntry = new JLabel("Gifttrank", new ImageIcon(GameWindow.deadlyPosion), JLabel.LEFT);
 		JLabel manaEntry = new JLabel("Manatrank", new ImageIcon(GameWindow.manaPosion), JLabel.LEFT);
-		JLabel physicalSwordEntry = new JLabel("Schwert", new ImageIcon(GameWindow.sword), JLabel.LEFT);
-		JLabel iceSwordEntry = new JLabel("Eisschwert", new ImageIcon(GameWindow.swordeis), JLabel.LEFT);
-		JLabel fireSwordEntry = new JLabel("Feuerschwert", new ImageIcon(GameWindow.swordfeuer), JLabel.LEFT);
-		JLabel waterSwordEntry = new JLabel("Wasserschwert", new ImageIcon(GameWindow.swordwasser), JLabel.LEFT);
-		JLabel physicalShieldEntry = new JLabel("Schild", new ImageIcon(GameWindow.shield), JLabel.LEFT);
-		JLabel iceShieldEntry = new JLabel("Eisschild", new ImageIcon(GameWindow.shieldeis), JLabel.LEFT);
-		JLabel fireShieldEntry = new JLabel("Feuerschild", new ImageIcon(GameWindow.shieldfeuer), JLabel.LEFT);
-		JLabel waterShieldEntry = new JLabel("Wasserschild", new ImageIcon(GameWindow.shieldwasser), JLabel.LEFT);
+		JLabel physicalSwordEntry = new JLabel("Schwert", new ImageIcon(GameWindow.swords[0]), JLabel.LEFT);
+		JLabel iceSwordEntry = new JLabel("Eisschwert", new ImageIcon(GameWindow.swords[3]), JLabel.LEFT);
+		JLabel fireSwordEntry = new JLabel("Feuerschwert", new ImageIcon(GameWindow.swords[1]), JLabel.LEFT);
+		JLabel waterSwordEntry = new JLabel("Wasserschwert", new ImageIcon(GameWindow.swords[2]), JLabel.LEFT);
+		JLabel physicalShieldEntry = new JLabel("Schild", new ImageIcon(GameWindow.shields[0]), JLabel.LEFT);
+		JLabel iceShieldEntry = new JLabel("Eisschild", new ImageIcon(GameWindow.shields[3]), JLabel.LEFT);
+		JLabel fireShieldEntry = new JLabel("Feuerschild", new ImageIcon(GameWindow.shields[1]), JLabel.LEFT);
+		JLabel waterShieldEntry = new JLabel("Wasserschild", new ImageIcon(GameWindow.shields[2]), JLabel.LEFT);
+		JLabel dragonEggEntry = new JLabel("Drachenei", new ImageIcon(GameWindow.drachenei), JLabel.LEFT);
 		
 		//Zugehörige JPanels
 		emptyPanel = new JPanel(new GridBagLayout());
@@ -103,6 +104,7 @@ private static final long serialVersionUID = 1L;
 		iceShieldPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		fireShieldPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		waterShieldPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		dragonEggPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		
 		//Labels auf Panels klatschen
 		GridBagConstraints emptyConstr = new GridBagConstraints();
@@ -119,11 +121,13 @@ private static final long serialVersionUID = 1L;
 		iceShieldPanel.add(iceShieldEntry);
 		fireShieldPanel.add(fireShieldEntry);
 		waterShieldPanel.add(waterShieldEntry);
+		dragonEggPanel.add(dragonEggEntry);
 		
 		//Panels auf JList legen; Liste auf Scrollpane legen
 		JPanel[] panels = {emptyPanel, healthPanel, poisonPanel, manaPanel,
 				physicalSwordPanel, iceSwordPanel, fireSwordPanel, waterSwordPanel,
-				physicalShieldPanel, iceShieldPanel, fireShieldPanel, waterShieldPanel};
+				physicalShieldPanel, iceShieldPanel, fireShieldPanel, waterShieldPanel,
+				dragonEggPanel};
 		itemList.setListData(panels);
 		JScrollPane monsterListPane = new JScrollPane(itemList);
 		monsterListPane.setPreferredSize(new Dimension(100, 300)); //Größe der Liste
@@ -262,6 +266,12 @@ private static final long serialVersionUID = 1L;
 			tableContent[2][1] = Item.standardShieldValue+"";	//Münzwert
 			tableContent[3][1] = Moveable.getElementName(workingItem.getElement()); //Element
 			break;
+		case 6:
+			tableContent[0][1] = "Drachenei";					//Typ
+			tableContent[1][1] = "irrelevant";					//Stärke
+			tableContent[2][1] = "wertlos";						//Münzwert
+			tableContent[3][1] = "unbekannt";					//Element
+			break;
 		default:
 			type = "unbekannt";
 			break;
@@ -354,6 +364,13 @@ private static final long serialVersionUID = 1L;
 		workingItem.setValue(Item.standardShieldValue);
 		workingItem.setElement(element);
 	}
+	
+	private void showDragonEgg() {
+		workingItem.setType(6);
+		workingItem.setDamage(0);
+		workingItem.setValue(0);
+		workingItem.setElement(Moveable.Element.FIRE);
+	}
 
 	/**
 	 * EventListener für die Auswahl in der Monsterliste
@@ -394,6 +411,10 @@ private static final long serialVersionUID = 1L;
 					showShield(Moveable.Element.FIRE);
 				else if(itemList.getSelectedIndex() == 11)
 					showShield(Moveable.Element.WATER);
+				
+				//Drachenei
+				else if(itemList.getSelectedIndex() == 12)
+					showDragonEgg();
 	
 				update();
 				attributeTable.setVisible(true);

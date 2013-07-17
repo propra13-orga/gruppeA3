@@ -88,6 +88,7 @@ public class MenuStart extends JPanel implements ActionListener {
      */
 	private JButton buttonNewGame;
 	private JButton buttonNextMap;
+	private JButton buttonSingleplayer;
 	private JButton buttonNetwork;
 	private JButton buttonHelp;
 	private JButton buttonHelpOk;
@@ -143,7 +144,7 @@ public class MenuStart extends JPanel implements ActionListener {
 	
 	/**
 	 * Konstruktor der Klasse MenuStart
-	 * Initalisiert alle Komponenten die f�r das Spiel notwendig sind
+	 * Initalisiert alle Komponenten, die fuer das Spiel notwendig sind
 	 * Setzt das Layout des Panels fest
 	 */
     public MenuStart() {
@@ -167,8 +168,9 @@ public class MenuStart extends JPanel implements ActionListener {
         // Menü vorbereiten
         background = new JLabel(new ImageIcon(GameWindow.background));
         
-     	buttonNewGame = new JButton("Neues Spiel");
+     	buttonNewGame = new JButton("Neue Kampagne");
      	buttonNextMap = new JButton("Nächste Karte");
+     	buttonSingleplayer = new JButton("Einzelspiel");
      	buttonNetwork = new JButton("Multiplayer");
      	buttonEditor = new JButton("Karteneditor");
      	buttonHelp = new JButton("Hilfe");
@@ -185,6 +187,7 @@ public class MenuStart extends JPanel implements ActionListener {
      	// benenne Aktionen
     	buttonNewGame.setActionCommand("newgame");
     	buttonNextMap.setActionCommand("nextmap");
+    	buttonSingleplayer.setActionCommand("singleplayer");
     	buttonNetwork.setActionCommand("network");
     	buttonEditor.setActionCommand("editor");
     	buttonBack.setActionCommand("back");
@@ -198,6 +201,7 @@ public class MenuStart extends JPanel implements ActionListener {
     	// ActionListener hinzufügen
     	buttonNewGame.addActionListener(this);
     	buttonNextMap.addActionListener(this);
+    	buttonSingleplayer.addActionListener(this);
     	buttonNetwork.addActionListener(this);
     	buttonHelp.addActionListener(this);
     	buttonEditor.addActionListener(this);
@@ -213,6 +217,7 @@ public class MenuStart extends JPanel implements ActionListener {
     	// füge Buttons zum Panel hinzu
     	add(buttonNewGame);
     	add(buttonNextMap);
+    	add(buttonSingleplayer);
     	add(buttonNetwork);
     	add(buttonHelp);
     	add(buttonEditor);
@@ -262,12 +267,14 @@ public class MenuStart extends JPanel implements ActionListener {
 		Game.frame.validate();
     }
     
-    public void setButtonVisible(boolean bground, boolean bNGame, boolean bNMap, boolean bNetwork, boolean bOptionen,
-    							boolean bHelp, boolean bEditor, boolean bBeenden, boolean bDeathmatch, 
-    							boolean bCoop, boolean bCreate, boolean bJoin, boolean bNWOptions){
+    public void setButtonVisible(boolean bground, boolean bNGame, boolean bNMap, boolean bSplayer, 
+    							boolean bNetwork, boolean bOptionen, boolean bHelp, boolean bEditor, 
+    							boolean bBeenden, boolean bDeathmatch, boolean bCoop, boolean bCreate,
+    							boolean bJoin, boolean bNWOptions){
 		background.setVisible(bground);
 		buttonNewGame.setVisible(bNGame);
 		buttonNextMap.setVisible(bNMap);
+		buttonSingleplayer.setVisible(bSplayer);
 		buttonNetwork.setVisible(bNetwork);
 		buttonOptionen.setVisible(bOptionen);
 		buttonHelp.setVisible(bHelp);
@@ -280,7 +287,11 @@ public class MenuStart extends JPanel implements ActionListener {
 		buttonEinstellungen.setVisible(bNWOptions);
     }
     
-    // Startet Spiel
+    /**
+     * Startet eine neue Karte.
+     * @param header Header der zu startenden Karte.
+     * @param playerID ID des Players (im Normalfall 0)
+     */
     public void initMap(MapHeader header, int playerID) {
 
     	// Stellt Map auf
@@ -307,7 +318,7 @@ public class MenuStart extends JPanel implements ActionListener {
 		// Menü-Buttons ausblenden, Status ändern
 		setButtonVisible(false, false, false, false, false, false,
 						 false, false, false, false, false, false,
-						 false);
+						 false, false);
 			
 		lastMap = Map.header;
 		setGameStatus(GameStatus.INGAME);
@@ -400,7 +411,25 @@ public class MenuStart extends JPanel implements ActionListener {
             if (testEntity instanceof Item) {
             	item = (Item)testEntity;
             	entityPos.setPosition(item.getPosition().getDrawPosition(item.getHitbox()));
-            	switch (item.getType()){
+
+        		//Entscheiden, welches Element aus Item-Arrays genommen werden soll nach Element
+				int elementIndex = -1;
+				switch(item.getElement()) {
+				case PHYSICAL:
+					elementIndex = 0;
+					break;
+				case FIRE:
+					elementIndex = 1;
+					break;
+				case WATER:
+					elementIndex = 2;
+					break;
+				case ICE:
+					elementIndex = 3;
+					break;
+				}
+				
+            	switch (item.getType()) {
             		case 1:
         				g2d.drawImage(GameWindow.lifePosion, entityPos.x, entityPos.y, panel);
         				break;
@@ -411,32 +440,13 @@ public class MenuStart extends JPanel implements ActionListener {
             			g2d.drawImage(GameWindow.manaPosion, entityPos.x, entityPos.y, panel);
             			break;
             		case 4:
-            			g2d.drawImage(GameWindow.sword, entityPos.x, entityPos.y, panel);
+            			g2d.drawImage(GameWindow.swords[elementIndex], entityPos.x, entityPos.y, panel);
             			break;
             		case 5:
-            			g2d.drawImage(GameWindow.shield, entityPos.x, entityPos.y, panel);
+            			g2d.drawImage(GameWindow.shields[elementIndex], entityPos.x, entityPos.y, panel);
             			break;
             		case 6:
             			g2d.drawImage(GameWindow.drachenei, entityPos.x, entityPos.y, panel);
-            			break;
-            			
-            		case 7:
-        				g2d.drawImage(GameWindow.swordfeuer, entityPos.x, entityPos.y, panel);
-        				break;
-            		case 8:
-        				g2d.drawImage(GameWindow.swordwasser, entityPos.x, entityPos.y, panel);
-        				break;
-            		case 9:
-            			g2d.drawImage(GameWindow.swordeis, entityPos.x, entityPos.y, panel);
-            			break;
-            		case 10:
-            			g2d.drawImage(GameWindow.shieldfeuer, entityPos.x, entityPos.y, panel);
-            			break;
-            		case 11:
-            			g2d.drawImage(GameWindow.shieldwasser, entityPos.x, entityPos.y, panel);
-            			break;
-            		case 12:
-            			g2d.drawImage(GameWindow.shieldeis, entityPos.x, entityPos.y, panel);
             			break;
             	}
             }
@@ -514,7 +524,7 @@ public class MenuStart extends JPanel implements ActionListener {
             			}
             			break;
             		}
-            		case 4:{           	
+            		case 4:{
             			switch(monster.getFaceDirection()){
             			case UP: 
             				g2d.drawImage(GameWindow.monsterimg_4up, entityPos.x, entityPos.y , panel);
@@ -534,93 +544,42 @@ public class MenuStart extends JPanel implements ActionListener {
             			}
             			break;
             		}
-            		case 5:{
-            	          	
-                			switch(monster.getFaceDirection()){
-                			case UP: 
-                				g2d.drawImage(GameWindow.bossimg_1up, entityPos.x, entityPos.y , panel);
-                				break;
-                			case DOWN:
-                				g2d.drawImage(GameWindow.bossimg_1down, entityPos.x, entityPos.y , panel);
-                				break;
-                			case LEFT:
-                				g2d.drawImage(GameWindow.bossimg_1left, entityPos.x, entityPos.y , panel);
-                				break;
-                			case RIGHT:
-                				g2d.drawImage(GameWindow.bossimg_1right, entityPos.x, entityPos.y , panel);
-                				break;	
-                			default:
-                				g2d.drawImage(GameWindow.bossimg_1down, entityPos.x, entityPos.y , panel);
+            		case 5:
             			
-            			break;
-            			
-                		/*case 6:{
-                	          	
-                    			switch(monster.getFaceDirection()){
-                    			case UP: 
-                    				g2d.drawImage(GameWindow.bossimg_feueru, entityPos.x, entityPos.y , panel);
-                    				break;
-                    			case DOWN:
-                    				g2d.drawImage(GameWindow.bossimg_feuerd, entityPos.x, entityPos.y , panel);
-                    				break;
-                    			case LEFT:
-                    				g2d.drawImage(GameWindow.bossimg_feuerl, entityPos.x, entityPos.y , panel);
-                    				break;
-                    			case RIGHT:
-                    				g2d.drawImage(GameWindow.bossimg_feuerr, entityPos.x, entityPos.y , panel);
-                    				break;	
-                    			default:
-                    				g2d.drawImage(GameWindow.bossimg_feuerd, entityPos.x, entityPos.y , panel);
-                			
-                			break;
-                			
-                    			case 7:{
-                    	          	
-                        			switch(monster.getFaceDirection()){
-                        			case UP: 
-                        				g2d.drawImage(GameWindow.bossimg_wasseru, entityPos.x, entityPos.y , panel);
-                        				break;
-                        			case DOWN:
-                        				g2d.drawImage(GameWindow.bossimg_wasserd, entityPos.x, entityPos.y , panel);
-                        				break;
-                        			case LEFT:
-                        				g2d.drawImage(GameWindow.bossimg_wasserl, entityPos.x, entityPos.y , panel);
-                        				break;
-                        			case RIGHT:
-                        				g2d.drawImage(GameWindow.bossimg_wasserr, entityPos.x, entityPos.y , panel);
-                        				break;	
-                        			default:
-                        				g2d.drawImage(GameWindow.bossimg_wasserd, entityPos.x, entityPos.y , panel);
-                    			
-                    			break;
-                    			
-                        			case 8:{
-                        	          	
-                            			switch(monster.getFaceDirection()){
-                            			case UP: 
-                            				g2d.drawImage(GameWindow.bossimg_eisu, entityPos.x, entityPos.y , panel);
-                            				break;
-                            			case DOWN:
-                            				g2d.drawImage(GameWindow.bossimg_eisd, entityPos.x, entityPos.y , panel);
-                            				break;
-                            			case LEFT:
-                            				g2d.drawImage(GameWindow.bossimg_eisl, entityPos.x, entityPos.y , panel);
-                            				break;
-                            			case RIGHT:
-                            				g2d.drawImage(GameWindow.bossimg_eisr, entityPos.x, entityPos.y , panel);
-                            				break;	
-                            			default:
-                            				g2d.drawImage(GameWindow.bossimg_eisd, entityPos.x, entityPos.y , panel);
-                        			
-                        			break;
-                            		      	}
-                            			  }
-                            			}
-                        			}
-                            	}
-                            }
-                           */
-                		}
+            			//Entscheiden, welches Element aus Boss-Arrays genommen werden soll nach Element
+        				int elementIndex = -1;
+        				switch(monster.getElement()) {
+        				case PHYSICAL:
+        					elementIndex = 0;
+        					break;
+        				case FIRE:
+        					elementIndex = 1;
+        					break;
+        				case WATER:
+        					elementIndex = 2;
+        					break;
+        				case ICE:
+        					elementIndex = 3;
+        					break;
+        				}
+        	          	
+            			switch(monster.getFaceDirection()){
+            			case UP: 
+            				g2d.drawImage(GameWindow.bossImgs_up[elementIndex], entityPos.x, entityPos.y , panel);
+            				break;
+            			case DOWN:
+            				g2d.drawImage(GameWindow.bossImgs_down[elementIndex], entityPos.x, entityPos.y , panel);
+            				break;
+            			case LEFT:
+            				g2d.drawImage(GameWindow.bossImgs_left[elementIndex], entityPos.x, entityPos.y , panel);
+            				break;
+            			case RIGHT:
+            				g2d.drawImage(GameWindow.bossImgs_right[elementIndex], entityPos.x, entityPos.y , panel);
+            				break;	
+            			default:
+            				g2d.drawImage(GameWindow.bossImgs_down[elementIndex], entityPos.x, entityPos.y , panel);
+        			
+        			break;
             		}
             	}
             }
@@ -765,12 +724,13 @@ public class MenuStart extends JPanel implements ActionListener {
 			buttonOptionen.setVisible(true);
 			buttonHelp.setVisible(true);
 			buttonBeenden.setVisible(true);
-			buttonNewGame.setBounds(buttonPosX,buttonPosY,    200,30);
-			buttonNetwork.setBounds(buttonPosX,buttonPosY+40, 200,30);
-			buttonEditor.setBounds(buttonPosX, buttonPosY+80, 200,30);
-			buttonOptionen.setBounds(buttonPosX,buttonPosY+120,200,30);
-			buttonHelp.setBounds(buttonPosX,   buttonPosY+160,200,30);
-			buttonBeenden.setBounds(buttonPosX,buttonPosY+200,200,30);
+			buttonNewGame.setBounds(buttonPosX,buttonPosY,     200,30);
+			buttonSingleplayer.setBounds(buttonPosX, buttonPosY+40, 200,30);
+			buttonNetwork.setBounds(buttonPosX,buttonPosY+  80,200,30);
+			buttonEditor.setBounds(buttonPosX, buttonPosY+ 120,200,30);
+			buttonOptionen.setBounds(buttonPosX,buttonPosY+160,200,30);
+			buttonHelp.setBounds(buttonPosX,   buttonPosY+ 200,200,30);
+			buttonBeenden.setBounds(buttonPosX,buttonPosY+ 240,200,30);
 		}
 	}
 
@@ -798,6 +758,14 @@ public class MenuStart extends JPanel implements ActionListener {
 		g.drawImage(GameWindow.infoshield, 270, 543,this);
 		g.drawString(Integer.toString(player.getArmour()),305,563);
 		
+	}
+	
+	/**
+	 * Startet den Singleplayer-Modus, in dem eigene Karten
+	 * (bzw. Nicht-Kampagnen-Karten) gespielt werden können.
+	 */
+	private void startSingleplayer() {
+		new SingleplayerWindow();
 	}
 
 	/**
@@ -850,6 +818,9 @@ public class MenuStart extends JPanel implements ActionListener {
 				
 				initMap(mapToStart, 0);
 			}
+			
+			else if(e.getSource() == buttonSingleplayer)
+				startSingleplayer();
 			
 			//Hilfe
 			else if(e.getSource() == buttonHelp)
@@ -988,6 +959,7 @@ public class MenuStart extends JPanel implements ActionListener {
 		setGameStatus(GameStatus.NETWORK);
 		buttonNewGame.setVisible(false);
 		buttonNextMap.setVisible(false);
+		buttonSingleplayer.setVisible(false);
 		buttonNetwork.setVisible(false);
 		buttonEditor.setVisible(false);
 		buttonHelp.setVisible(false);
@@ -1026,7 +998,8 @@ public class MenuStart extends JPanel implements ActionListener {
 		} else {
 			setGameStatus(GameStatus.MAINMENU);
 			buttonNewGame.setVisible(true);
-			buttonNextMap.setVisible(true);
+			buttonNextMap.setVisible(false);
+			buttonSingleplayer.setVisible(true);
 			buttonNetwork.setVisible(true);
 			buttonHelp.setVisible(true);
 			buttonOptionen.setVisible(true);
@@ -1250,30 +1223,13 @@ public class MenuStart extends JPanel implements ActionListener {
 										break;
 										
 									case 3:
-										if(questFinished == false){
-											//System.out.println("eierzählen1");
-											LinkedList<Entities> roomitems = (LinkedList<Entities>) player.getRoom().entities;
-											Iterator<Entities> itemsiter = roomitems.iterator();
-											int eggcount = 0;
-											Item testitem = null;
-											Entities testentitem = null;
-											while(itemsiter.hasNext()){
-												testentitem = itemsiter.next();
-												if(testentitem instanceof Item){
-													//System.out.println("eierzählen2");
-													testitem = (Item)testentitem;
-													if(testitem.getType() == 6){
-														//System.out.println("ei gefunden");
-														eggcount++;
-														//System.out.println("eggcount:" + eggcount);
-													}
-												}
-											}
-											if(eggcount == 0){
+										if(! questFinished) {
+											if(player.eggCounter == 3){
 												questFinished = true;
 											}
 										}
-										if(questFinished == false){
+										
+										if(! questFinished) {
 											JOptionPane.showMessageDialog(null, npc.getText(), npc.getName(), JOptionPane.PLAIN_MESSAGE);
 											talk = false;
 										}
@@ -1381,11 +1337,11 @@ public class MenuStart extends JPanel implements ActionListener {
 		this.player = player;
 	}
 
-	public Client getClient() {
+	public static Client getClient() {
 		return client;
 	}
 
-	public void setClient(Client client) {
-		this.client = client;
+	public static void setClient(Client client) {
+		MenuStart.client = client;
 	}
 }

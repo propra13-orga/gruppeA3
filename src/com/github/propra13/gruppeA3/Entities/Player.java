@@ -28,6 +28,8 @@ public class Player extends Moveable {
 	private Buff buff;
 	private Element atkelement;
 	private Element defelement;
+	
+	public int eggCounter = 0;
 
 	final public static int movePx = Moveable.movePx;
 
@@ -186,12 +188,12 @@ public class Player extends Moveable {
             				int distance = getPosition().getCornerTopLeft(hitbox).y - (fieldsToWalk[0].pos.toPosition().y + 32);
             				setPosition(getPosition().x, getPosition().y - distance);
             			}
-            			}
             		}
-					//ansonsten Annäherung an Raumrand 
-            		else {
-            			setPosition(nextPos.x, hitbox.height/2);
-            		}
+        		}
+				//ansonsten Annäherung an Raumrand 
+        		else {
+        			setPosition(nextPos.x, hitbox.height/2);
+        		}
             	
                 break;
 
@@ -219,9 +221,9 @@ public class Player extends Moveable {
             			}
             		}
             	}
-            		else {
-            			setPosition(getRoom().getWidth()*32 - hitbox.width/2, nextPos.y);
-            		}
+        		else {
+        			setPosition(getRoom().getWidth()*32 - hitbox.width/2, nextPos.y);
+        		}
             	
                 break;
 
@@ -264,55 +266,55 @@ public class Player extends Moveable {
             		int moveDirection = -1; // Wird je nach Fließrichtung 1 oder -1
             		int distance;
             		switch(field.attribute1) {
-            			//Fließrichtung horizontal
-            			case 1: // Rechts; moveD umdrehen
-            				moveDirection = moveDirection * (-1);
-            			case 3: // Links
-            				/* Falls Abstand zur Mitte des Flusses != 0, treibe zur Flussmitte
-            				 * Distance < 0: Spieler über Fluss
-            				 * Distance > 0: Spieler unter Fluss */
-            				distance = getPosition().y - (field.pos.toPosition().y + 16);
-            				if(distance != 0) {
-            					// Falls relativ nah an Flussmitte, setze auf Flussmitte
-            					if(Math.abs(distance) <= swimStep)
-            						setPosition(getPosition().x, getPosition().y - distance);
-            					// Ansonsten normale Schwimmbewegung zur Flussmitte
-            					else {
-            						int negFactor = 1;
-            						if (distance < 0)
-            							negFactor = -1;
-            						setPosition(getPosition().x, getPosition().y - swimStep*negFactor);
-            					}
-            				}
-            				// Ansonsten normale Schwimmbewegung mit Flussrichtung
-            				else
-            					setPosition(getPosition().x + swimStep * moveDirection, getPosition().y);
-            				break;
-            				
-            				
-            				//Fließrichtung vertikal
-            			case 2: // Rechts; moveD umdrehen
-            				moveDirection = moveDirection * (-1);
-            			case 0: // Links
-            				/* Falls Abstand zur Mitte des Flusses != 0, treibe zur Flussmitte
-            				 * Distance < 0: Spieler links vom Fluss
-            				 * Distance > 0: Spieler rechts vom Fluss */
-            				distance = getPosition().x - (field.pos.toPosition().x + 16);
-            				if(distance != 0)
-            					// Falls relativ nah an Flussmitte, setze auf Flussmitte
-            					if(Math.abs(distance) <= swimStep)
-            						setPosition(getPosition().x - distance, getPosition().y);
-            					// Ansonsten normale Schwimmbewegung zur Flussmitte
-            					else {
-            						int negFactor = 1;
-            						if (distance < 0)
-            							negFactor = -1;
-            						setPosition(getPosition().x - swimStep*negFactor, getPosition().y);
-            					}
-            				// Ansonsten normale Schwimmbewegung mit Flussrichtung
-            				else
-            					setPosition(getPosition().x, getPosition().y + swimStep * moveDirection);
-            				break;
+        			//Fließrichtung horizontal
+        			case 1: // Rechts; moveD umdrehen
+        				moveDirection = moveDirection * (-1);
+        			case 3: // Links
+        				/* Falls Abstand zur Mitte des Flusses != 0, treibe zur Flussmitte
+        				 * Distance < 0: Spieler über Fluss
+        				 * Distance > 0: Spieler unter Fluss */
+        				distance = getPosition().y - (field.pos.toPosition().y + 16);
+        				if(distance != 0) {
+        					// Falls relativ nah an Flussmitte, setze auf Flussmitte
+        					if(Math.abs(distance) <= swimStep)
+        						setPosition(getPosition().x, getPosition().y - distance);
+        					// Ansonsten normale Schwimmbewegung zur Flussmitte
+        					else {
+        						int negFactor = 1;
+        						if (distance < 0)
+        							negFactor = -1;
+        						setPosition(getPosition().x, getPosition().y - swimStep*negFactor);
+        					}
+        				}
+        				// Ansonsten normale Schwimmbewegung mit Flussrichtung
+        				else
+        					setPosition(getPosition().x + swimStep * moveDirection, getPosition().y);
+        				break;
+        				
+        				
+        				//Fließrichtung vertikal
+        			case 2: // Rechts; moveD umdrehen
+        				moveDirection = moveDirection * (-1);
+        			case 0: // Links
+        				/* Falls Abstand zur Mitte des Flusses != 0, treibe zur Flussmitte
+        				 * Distance < 0: Spieler links vom Fluss
+        				 * Distance > 0: Spieler rechts vom Fluss */
+        				distance = getPosition().x - (field.pos.toPosition().x + 16);
+        				if(distance != 0)
+        					// Falls relativ nah an Flussmitte, setze auf Flussmitte
+        					if(Math.abs(distance) <= swimStep)
+        						setPosition(getPosition().x - distance, getPosition().y);
+        					// Ansonsten normale Schwimmbewegung zur Flussmitte
+        					else {
+        						int negFactor = 1;
+        						if (distance < 0)
+        							negFactor = -1;
+        						setPosition(getPosition().x - swimStep*negFactor, getPosition().y);
+        					}
+        				// Ansonsten normale Schwimmbewegung mit Flussrichtung
+        				else
+        					setPosition(getPosition().x, getPosition().y + swimStep * moveDirection);
+        				break;
             		}
             	}
             	else
@@ -721,6 +723,11 @@ public class Player extends Moveable {
 			this.setArmour(this.getArmour() + item.getDamage());
 			this.items.add(item);
 			this.setDefenseElement(item.getElement());
+			break;
+			
+		case 6:
+			eggCounter++;
+			System.out.println("Ei gefunden");
 			break;
 			
 		default:
