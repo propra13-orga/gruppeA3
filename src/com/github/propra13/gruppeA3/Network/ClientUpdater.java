@@ -100,6 +100,18 @@ public class ClientUpdater extends Thread {
 		}	
 	}
 	
+	private synchronized void receivePlayerPositions() {
+		for(int i=0; i < players.length; i++) {
+			int[] ppos = new int[3];
+			try {
+				ppos = this.protocol.receivePlayerPos();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			players[i].setPosition(ppos[1], ppos[2]);
+		}
+	}
+	
 	private synchronized void receiveKeys() throws IOException{
 		int keys[] = this.protocol.receiveKey();
 		key = keys[0];

@@ -10,6 +10,9 @@ public class GameTicker implements ActionListener {
 	
 	MenuStart gui;
 	
+	/**Definiert, wann im Netzwerk das nächste Mal ein komplettes Update aller Playerpositionen erforderlich ist.*/
+	public int updatePlayerPosCtr = 0;
+	
 	GameTicker(MenuStart gui) {
 		this.gui = gui;
 	}
@@ -52,6 +55,11 @@ public class GameTicker implements ActionListener {
 				gui.tickCounters();
 			}
 		}
+		
+		if(updatePlayerPosCtr == 0)
+			updatePlayerPosCtr = 20;
+		else
+			updatePlayerPosCtr--;
 		
 		gui.player = thisPlayer;
 		gui.repaint();
