@@ -1,0 +1,4 @@
+<save>
+    <spieler eisangriff="0" eisruestung="0" feuerangriff="0" feuerruestung="0" geld="20" leben="7" lebenspunkte="100" mana="100" phyangriff="0" phyruestung="0" wasserangriff="0" wasserruestung="0"/>
+    <header kampagneID="1" maxSpieler="2" name="Story01" typ="kampagne"/>
+</save>

@@ -193,35 +193,12 @@ public class Map {
 			}
 			doc.getDocumentElement().normalize();
 			
-			
-			/*
-			 * Header-Inhalt auslesen
-			 */
+			//Header auslesen und zur Liste hinzufügen
 			
 			NodeList headerNodes = doc.getElementsByTagName("header");
 			Element headerEl = (Element)headerNodes.item(0);
 			
-			int type = -1;
-			switch(headerEl.getAttribute("typ")) {
-			case "kampagne":
-				type = MapHeader.STORY_MAP;
-				break;
-			case "coop":
-				type = MapHeader.COOP_MAP;
-				break;
-			case "deathmatch":
-				type = MapHeader.DEATHMATCH_MAP;
-				break;
-			case "einzelspieler":
-				type = MapHeader.CUSTOM_MAP;
-				break;
-			}
-			
-			String name = headerEl.getAttribute("name");
-			int maxPlayers = Integer.parseInt(headerEl.getAttribute("maxSpieler"));
-			int storyID = Integer.parseInt(headerEl.getAttribute("kampagneID"));
-			
-			headers.add(new MapHeader(name, type, maxPlayers, storyID));
+			headers.add(new MapHeader(headerEl));
 		}
 		
 		Game.mapHeaders = headers;

@@ -19,6 +19,13 @@ public class MapHeader {
 	
 	public int storyID;
 	
+	/**
+	 * Erstellt einen MapHeader.
+	 * @param name Name der Map
+	 * @param type Typ der Map (siehe Konstanten)
+	 * @param maxPlayers Maximale Anzahl an Spielern, die auf der Karte Platz finden (Anzahl der Spawns)
+	 * @param storyID Nummer der Karte in der Kampagnenkartenreihenfolge. Falls die Karte keine Kampagnenkarte ist, ist dieses Feld irrelevant.
+	 */
 	public MapHeader(String name, int type, int maxPlayers, int storyID) {
 		mapName = name;
 		this.maxPlayers = maxPlayers;
@@ -27,6 +34,34 @@ public class MapHeader {
 		if (type != STORY_MAP)
 			storyID = -1;
 		this.storyID = storyID;
+	}
+	
+	/**
+	 * Erstellt einen MapHeader aus einem gegebenen DOM-Doc-Element.
+	 * @param element Header-DOM-Doc-Element
+	 */
+	public MapHeader(Element element) {
+		switch(element.getAttribute("typ")) {
+		case "kampagne":
+			type = MapHeader.STORY_MAP;
+			break;
+		case "coop":
+			type = MapHeader.COOP_MAP;
+			break;
+		case "deathmatch":
+			type = MapHeader.DEATHMATCH_MAP;
+			break;
+		case "einzelspieler":
+			type = MapHeader.CUSTOM_MAP;
+			break;
+		default:
+			type = -1;
+			break;
+		}
+		
+		mapName = element.getAttribute("name");
+		maxPlayers = Integer.parseInt(element.getAttribute("maxSpieler"));
+		storyID = Integer.parseInt(element.getAttribute("kampagneID"));
 	}
 	
 	/**

@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
@@ -45,12 +46,15 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import com.github.propra13.gruppeA3.Game;
 import com.github.propra13.gruppeA3.GameWindow;
 import com.github.propra13.gruppeA3.Keys;
 import com.github.propra13.gruppeA3.Music;
 import com.github.propra13.gruppeA3.Editor.Editor;
+import com.github.propra13.gruppeA3.Editor.WarningWindow;
 import com.github.propra13.gruppeA3.Entities.*;
 import com.github.propra13.gruppeA3.Entities.Moveable.Direction;
 import com.github.propra13.gruppeA3.Exceptions.InvalidRoomLinkException;
@@ -145,9 +149,9 @@ public class MenuStart extends JPanel implements ActionListener {
     private static GameStatus gameStatus;
     private static NetworkStatus netstat = NetworkStatus.NONE;
     
-    private static String saveDir = 
+    public static String saveDir = 
 			System.getProperty("user.dir") + File.separator + "data" + File.separator + "saves";
-    private static String saveEnding = ".sav";
+    public static String saveEnding = "sav";
     
     /**Header der Map, die gerade gespielt wird oder zuletzt gespielt wurde*/
     MapHeader lastMap;
@@ -339,14 +343,12 @@ public class MenuStart extends JPanel implements ActionListener {
 	 	randomgen = new Random(System.currentTimeMillis());
 		activeRoom = Map.getRoom(0);
 		
-		//Falls bisher keine Map gespielt wurde oder die letzte Map nicht die letzte Storymap war
-		if(		lastMap == null || 
-				//oder die letzte Map nicht die letzte Storymap war
-				! (lastMap.type == MapHeader.STORY_MAP && lastMap.storyID == Game.storyHeaders.size()))
+		//Falls es in der Story weiter geht
+		if(getGameStatus() == GameStatus.MAPWON)
+			player.initialize();
+		else
 			player = new Player(playerID);
 		
-		else
-			player.initialize();
 		addKeyListener(new Keys(player));
 		
 		
@@ -738,6 +740,17 @@ public class MenuStart extends JPanel implements ActionListener {
 				initMap(mapToStart, 0);
 			}
 			
+			else if("save game".equals(e.getActionCommand()))
+				try {
+					saveGame(textField.getText());
+				} catch (TransformerException | IOException
+						| ParserConfigurationException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			else if("close dialog".equals(e.getActionCommand()))
+				dialog.setVisible(false);
+			
 			else if(e.getSource() == buttonSingleplayer)
 				startSingleplayer();
 			
@@ -745,7 +758,7 @@ public class MenuStart extends JPanel implements ActionListener {
 				showSaveDialog();
 			
 			else if(e.getSource() == buttonLoad)
-				loadGame();
+				new LoadSavegameWindow();
 			
 			//Hilfe
 			else if(e.getSource() == buttonHelp)
@@ -863,6 +876,87 @@ public class MenuStart extends JPanel implements ActionListener {
 	}
 	
 	/**
+	 * Lädt einen zuvor gespeicherten Spielstand.
+	 * @param saveFile Zu ladende Spielstanddatei.
+	 */
+	public void loadGame(File saveFile) {
+		//DOM-doc mit xml-Inhalt erzeugen
+		Document doc = null;
+		try {
+			DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			doc = dBuilder.parse(saveFile);
+		} catch (SAXException | IOException | ParserConfigurationException e) {
+			e.printStackTrace();
+		}
+		
+		//Header auslesen und zur Liste hinzufügen
+		
+		NodeList headerNodes = doc.getElementsByTagName("header");
+		MapHeader header = new MapHeader((Element)headerNodes.item(0));
+		//Header raussuchen, der diesem gleicht
+		boolean headerFound = false;
+		MapHeader testHeader;
+		for(Iterator<MapHeader> iter = Game.mapHeaders.iterator(); iter.hasNext();) {
+			testHeader = iter.next();
+			if(testHeader.equals(header)) {
+				headerFound = true;
+				header = testHeader;
+				break;
+			}
+		}
+		
+		//Falls kein passender Header gefunden, Abbruch
+		if(! headerFound) {
+			WarningWindow warning = new WarningWindow();
+			warning.showWindow("Konnte das Spiel leider nicht öffnen, Karte nicht gefunden.");
+			return;
+		}
+		
+		lastMap = header;
+		try {
+			Map.initialize(header); //Gegen nullpointers, ziemlich hacky, beizeiten schöner machen
+		} catch (MapFormatException | IOException
+				| InvalidRoomLinkException e) {
+			e.printStackTrace();
+		} 
+		
+		//Spieler-Status einlesen
+		NodeList playerNodes = doc.getElementsByTagName("spieler");
+		Element el = (Element)playerNodes.item(0);
+		
+		int lives = Integer.parseInt(el.getAttribute("leben"));
+		int money = Integer.parseInt(el.getAttribute("geld"));
+		int health = Integer.parseInt(el.getAttribute("lebenspunkte"));
+		int mana = Integer.parseInt(el.getAttribute("mana"));
+		int phyAtt = Integer.parseInt(el.getAttribute("phyangriff"));
+		int fireAtt = Integer.parseInt(el.getAttribute("feuerangriff"));
+		int waterAtt = Integer.parseInt(el.getAttribute("wasserangriff"));
+		int iceAtt = Integer.parseInt(el.getAttribute("eisangriff"));
+		int phyDef = Integer.parseInt(el.getAttribute("phyruestung"));
+		int fireDef = Integer.parseInt(el.getAttribute("feuerruestung"));
+		int waterDef = Integer.parseInt(el.getAttribute("wasserruestung"));
+		int iceDef = Integer.parseInt(el.getAttribute("eisruestung"));
+		
+		
+		player = new Player(0, 0, lives, health, 1.0, mana, 3, 3, new Position(0, 0), phyDef, fireDef,
+				waterDef, iceDef, phyAtt, fireAtt, waterAtt, iceAtt, 0);
+		player.setMoney(money);
+		
+		setGameStatus(GameStatus.MAPWON);
+		
+		if(Game.storyHeaders.size() <= lastMap.storyID) {
+			WarningWindow warning = new WarningWindow();
+			warning.showWindow("Konnte das Spiel leider nicht öffnen, nächste Karte nicht gefunden.");
+			return;
+		}
+		
+		initMap(Game.storyHeaders.get(lastMap.storyID), 0);
+		
+		
+		doc.getDocumentElement().normalize();
+	}
+	
+	/**
 	 * Zeigt den Spiel-speichern-Dialog.
 	 */
 	public void showSaveDialog() {
@@ -871,7 +965,7 @@ public class MenuStart extends JPanel implements ActionListener {
 		JButton bOk = new JButton("Speichern");
 		JButton bCancel = new JButton("Abbrechen");
 		textField = new JTextField(30);
-		bOk.setActionCommand("saveAs");
+		bOk.setActionCommand("save game");
 		bCancel.setActionCommand("close dialog");
 		bOk.addActionListener(this);
 		bCancel.addActionListener(this);
@@ -894,13 +988,6 @@ public class MenuStart extends JPanel implements ActionListener {
 		dialog.add(bCancel);
 
 		dialog.setVisible(true);
-	}
-	
-	/**
-	 * Lädt eine zuvor gespeicherte Kampagne.
-	 */
-	public void loadGame() {
-		
 	}
 	
 	/**

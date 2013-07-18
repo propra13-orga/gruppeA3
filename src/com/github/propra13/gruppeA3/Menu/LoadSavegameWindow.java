@@ -7,7 +7,9 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Iterator;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.LinkedList;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -19,20 +21,18 @@ import javax.swing.ListSelectionModel;
 
 import com.github.propra13.gruppeA3.Game;
 import com.github.propra13.gruppeA3.Editor.ListRenderer;
-import com.github.propra13.gruppeA3.Map.MapHeader;
 
-public class SingleplayerWindow extends JDialog implements ActionListener {
+public class LoadSavegameWindow extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
-
 	private final static int MINWIDTH = 350;
 	private final static int MINHEIGHT = 300;
 	
 	//Fensterelemente
 	JButton bDone, bCancel;
-	JList<JPanel> mapList;
-	MapHeader[] headers;
+	JList<JPanel> list;
+	LinkedList<File> saveFiles = new LinkedList<File>();
 	
-	public SingleplayerWindow() {
+	public LoadSavegameWindow() {
 		//JDialog aufbauen
 		super(Game.frame);
 		GridBagLayout layout = new GridBagLayout();
@@ -44,20 +44,20 @@ public class SingleplayerWindow extends JDialog implements ActionListener {
 		setResizable(false);
 		MenuStart.centerWindow(this);
 		
-		/* Singplayer-Map-Liste
+		/* Savegame-Liste
 		 * Listeneinträge sind JPanels, die JLabels beinhalten
 		 */
 		//JList-Setup
-		mapList = new JList<JPanel>();
-		mapList.setCellRenderer(new ListRenderer());
-		mapList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		mapList.setLayoutOrientation(JList.VERTICAL);
-		mapList.setFixedCellHeight(38);
+		list = new JList<JPanel>();
+		list.setCellRenderer(new ListRenderer());
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.setLayoutOrientation(JList.VERTICAL);
+		list.setFixedCellHeight(38);
 		
 		//Liste einlesen
 		updateList();
 		
-		JScrollPane mapListPane = new JScrollPane(mapList);
+		JScrollPane mapListPane = new JScrollPane(list);
 		mapListPane.setPreferredSize(new Dimension(100, 300)); //Größe der Liste
 		
 		//Liste auf Dialog legen
@@ -98,37 +98,48 @@ public class SingleplayerWindow extends JDialog implements ActionListener {
 		add(bCancel, cancelConstraints);
 		
 
-		mapList.setSelectedIndex(0);
+		list.setSelectedIndex(0);
 		setVisible(true);
 		
 	}
 	
 	private void updateList() {
-		//JLabels
+		//Alle Dateien in maps/
+		File f = new File(MenuStart.saveDir);
+		if (! f.exists())
+			try {
+				throw new FileNotFoundException(MenuStart.saveDir);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
 		
-		//Einzelspielermaps zählen
-		int mapCtr = 0;
-		for(Iterator<MapHeader> iter = Game.mapHeaders.iterator(); iter.hasNext();)
-			if(iter.next().type == MapHeader.CUSTOM_MAP)
-				mapCtr++;
+		//Sammle save-dateien
+		File[] savesDirEntries = f.listFiles();
+		saveFiles.clear();
 		
-		JPanel[] panels = new JPanel[mapCtr];
-		headers = new MapHeader[mapCtr];
-		MapHeader testHeader;
-		//Einzelspielermaps zur Liste hinzufügen
-		for(Iterator<MapHeader> iter = Game.mapHeaders.iterator(); iter.hasNext();) {
-			testHeader = iter.next();
-			if(testHeader.type == MapHeader.CUSTOM_MAP) {
-				JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-				JLabel label = new JLabel(testHeader.mapName);
-				panel.add(label);
+		for(int i=0; i < savesDirEntries.length; i++) {
+			if(savesDirEntries[i].isFile()) {
+				File file = savesDirEntries[i];
+				String fileName = file.getName();
+				String[] fileNameParts = fileName.split("\\.(?=[^\\.]+$)");
 				
-				panels[panels.length - mapCtr] = panel;
-				headers[headers.length - mapCtr] = testHeader;
-				mapCtr--;
+				//Auf Raum- und Headerdateien prüfen
+				if(fileNameParts.length > 1) {
+					if(fileNameParts[1].equals(MenuStart.saveEnding))
+						saveFiles.add(file);
+				}
 			}
 		}
-		mapList.setListData(panels);
+		
+		//In Panels zusammenbasteln
+		JPanel[] panels = new JPanel[saveFiles.size()];
+		for(int i=0; i < panels.length; i++) {
+			panels[i] = new JPanel(new FlowLayout(FlowLayout.LEFT));
+			JLabel label = new JLabel(saveFiles.get(i).getName());
+			panels[i].add(label);
+		}
+		
+		list.setListData(panels);
 	}
 	
 	/*
@@ -141,10 +152,11 @@ public class SingleplayerWindow extends JDialog implements ActionListener {
 		if(e.getSource() == bCancel)
 			setVisible(false);
 		else if(e.getSource() == bDone) {
-			Game.Menu.initMap(headers[mapList.getSelectedIndex()], 0);
+			Game.Menu.loadGame(saveFiles.get(list.getSelectedIndex()));
 			setVisible(false);
 		}
 		
 	}
+
 
 }
