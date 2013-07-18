@@ -480,7 +480,7 @@
     <field textur="0" typ="2" x="24" y="16"/>
     <ziel x="19" y="16"/>
     <item beschreibung="Erfrischt" element="physisch" name="Lebenstrank" staerke="30" typ="3" wert="4" x="11" y="8"/>
-    <monster angriff="15" beschreibung="Bossi" element="eis" geschwindigkeit="0.8" leben="18" muenzen="23" ruestung="2" typ="5" x="17" y="13"/>
+    <monster angriff="15" beschreibung="Bossi" element="eis" geschwindigkeit="0.8" leben="50" muenzen="23" ruestung="2" typ="5" x="17" y="13"/>
     <NPC beschreibung="" name="Nancy" text="Haha, er wird dich töten!" typ="1" x="1" y="15"/>
     <monster angriff="6" beschreibung="unset" element="physisch" geschwindigkeit="1.0" leben="9" muenzen="8" ruestung="1" typ="4" x="18" y="6"/>
     <item beschreibung="Erfrischt" element="physisch" name="Lebenstrank" staerke="30" typ="3" wert="5" x="4" y="5"/>

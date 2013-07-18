@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import com.github.propra13.gruppeA3.Game;
 import com.github.propra13.gruppeA3.GameWindow;
 import com.github.propra13.gruppeA3.Map.FieldPosition;
 import com.github.propra13.gruppeA3.Map.Map;
@@ -180,6 +181,11 @@ public class Monster extends Moveable {
 		coins.setPosition(getPosition());
 		getRoom().removeCandidates.add(this);
 		getRoom().entities.add(coins);
+		Game.Menu.player.exp = Game.Menu.player.exp + 10;
+		if(Game.Menu.player.exp >= 100){
+			Game.Menu.player.level++;
+			Game.Menu.player.exp = 0;
+		}
 	}
 	
 	//Dummies

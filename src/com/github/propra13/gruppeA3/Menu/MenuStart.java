@@ -602,10 +602,10 @@ public class MenuStart extends JPanel implements ActionListener {
 			buttonHelp.setVisible(true);
 			buttonBeenden.setVisible(true);
 			buttonNextMap.setBounds(buttonPosX,buttonPosY,    200,30);
-			buttonSave.setBounds(buttonPosY, buttonPosY+40, 200,30);
+			buttonSave.setBounds(buttonPosX, buttonPosY+40, 200,30);
 			buttonOptionen.setBounds(buttonPosX,buttonPosY+80, 200,30);
 			buttonHelp.setBounds(buttonPosX,   buttonPosY+120, 200,30);
-			buttonBeenden.setBounds(buttonPosX,buttonPosY+140,200,30);
+			buttonBeenden.setBounds(buttonPosX,buttonPosY+160,200,30);
 		}
 		// Ansonsten normales Hauptmenü anzeigen
 		else {
@@ -648,6 +648,8 @@ public class MenuStart extends JPanel implements ActionListener {
 		g.drawString(Integer.toString(player.getHealth()),125,563);
 		g.drawImage(GameWindow.mana, 160, 543,this);
 		g.drawString(Integer.toString(player.getMana()),185,563);
+		g.drawString("Level:", 640 ,563);
+		g.drawString(Integer.toString(player.level),690,563);
 		
 		//Angriffsstärke
 		switch(player.getAttackElement()) {
@@ -733,7 +735,7 @@ public class MenuStart extends JPanel implements ActionListener {
 			initMap(mapToStart, 0);
 		}
 		
-		else if("save game".equals(e.getActionCommand()))
+		else if("save game".equals(e.getActionCommand())) {
 			try {
 				saveGame(textField.getText());
 			} catch (TransformerException | IOException
@@ -741,6 +743,8 @@ public class MenuStart extends JPanel implements ActionListener {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			dialog.setVisible(false);
+		}
 		else if("close dialog".equals(e.getActionCommand()))
 			dialog.setVisible(false);
 		
@@ -831,6 +835,8 @@ public class MenuStart extends JPanel implements ActionListener {
 		playerEl.setAttribute("feuerruestung", Integer.toString(player.getFireDefense()));
 		playerEl.setAttribute("wasserruestung", Integer.toString(player.getWaterDefense()));
 		playerEl.setAttribute("eisruestung", Integer.toString(player.getIceDefense()));
+		playerEl.setAttribute("level", Integer.toString(player.level));
+		playerEl.setAttribute("exp", Integer.toString(player.exp));
 		
 		//Map-Header anhängen
 		lastMap.appendToDoc(headEl);
@@ -930,11 +936,15 @@ public class MenuStart extends JPanel implements ActionListener {
 		int fireDef = Integer.parseInt(el.getAttribute("feuerruestung"));
 		int waterDef = Integer.parseInt(el.getAttribute("wasserruestung"));
 		int iceDef = Integer.parseInt(el.getAttribute("eisruestung"));
+		int level = Integer.parseInt(el.getAttribute("level"));
+		int exp = Integer.parseInt(el.getAttribute("exp"));
 		
 		
 		player = new Player(0, 0, lives, health, 1.0, mana, 3, 3, new Position(0, 0), phyDef, fireDef,
 				waterDef, iceDef, phyAtt, fireAtt, waterAtt, iceAtt, 0);
 		player.setMoney(money);
+		player.level = level;
+		player.exp = exp;
 		
 		setGameStatus(GameStatus.MAPWON);
 		

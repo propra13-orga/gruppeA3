@@ -24,6 +24,8 @@ public class Player extends Moveable {
 	private int lives = 7;
 	private int money = 0;
 	private int mana = 100;
+	public int exp = 0;
+	public int level = 1;
 	public LinkedList<Item> items = null;
 	
 	private Buff buff;
