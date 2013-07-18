@@ -36,9 +36,6 @@ public class ClientUpdater extends Thread {
 		this.protocol = protocol;
 		this.players = players;
 		this.playerID = playerID;
-		//gui.setPlayer(players[playerID]);
-		//gui.addKeyListener(new Keys(players[playerID]));
-		
 	}
 	
 	/**
