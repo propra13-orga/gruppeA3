@@ -70,13 +70,17 @@ public class Keys implements KeyListener {
 				break;
 				
 			case KeyEvent.VK_3:
-				player.setCast("firePlasma");
-				Music.soundmagic(); //Soundeffekt magic
+				if(Game.Menu.player.level >=2){
+					player.setCast("firePlasma");
+					Music.soundmagic(); //Soundeffekt magic
+				}
 				break;
 				
 			case KeyEvent.VK_4:
-				player.setCast("fireAOEPlasma");
-				Music.soundmagic(); //Soundeffekt magic
+				if(Game.Menu.player.level >=3){
+					player.setCast("fireAOEPlasma");
+					Music.soundmagic(); //Soundeffekt magic
+				}
 				break;
 				
 			case KeyEvent.VK_E:
