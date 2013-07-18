@@ -159,7 +159,8 @@ public class Player extends Moveable {
      * @see Moveable.hitboxCheck()
      * @see Player.pickupItems()
      */
-    public void move() {
+    public void move(Object o) {
+    	System.out.println("Player.move() called by "+o.getClass());
 
     	int step = (int)(movePx * getSpeed());
     	Position nextPos = new Position(0,0); //Position, auf die gelaufen werden soll

@@ -42,7 +42,7 @@ public class Keys implements KeyListener {
 		 */
 
 	public void keyPressed(KeyEvent e){
-		
+		System.out.println("event im SP-keylistener");
 		int pressed = e.getKeyCode();
 		if(MenuStart.getGameStatus() == MenuStart.GameStatus.INGAME)
 		{

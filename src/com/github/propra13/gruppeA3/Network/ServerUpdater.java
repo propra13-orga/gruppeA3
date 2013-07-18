@@ -13,7 +13,7 @@ import com.github.propra13.gruppeA3.Entities.Moveable.Direction;
 
 /**
  * ServerUpdater ist eine Hilfsklasse für die Klasse Server
- * Diese wird von Server erzeugt und existiert pro Client einmal
+ * Diese wird von Server erzeugt und existiert auf der Serverseite pro Client einmal
  * Jede ServerUpdater Klasse enthält ein Array aller ServerUpdater Instanzen
  * So können alle Clienten angesprochen werden
  * @author Majida Dere
@@ -33,7 +33,6 @@ public class ServerUpdater extends Thread {
 	private int playerID;
 	private Player[] players;
 	private int key;
-	private int id;
 	
 	/**
 	 * Erzeugt einen neuen ServerUpdater
@@ -59,7 +58,7 @@ public class ServerUpdater extends Thread {
 	 * @param message Die zu sendende Nachricht
 	 * @throws IOException die im Fehlerfall geworfene Eception
 	 */
-	public synchronized void sendMessage(String message) throws IOException{
+	public synchronized void sendMessage(String message) throws IOException {
 		for(int i = 0; i < threads.length; i++){
 			if(null != threads[i]){
 				threads[i].getProtocol().sendString("chat");
@@ -109,7 +108,7 @@ public class ServerUpdater extends Thread {
 			{
 				if(!this.protocol.isInputShutdown())
 					vergleich = protocol.receiveString();
-				else{
+				else {
 					started = false;
 					continue;
 				}
@@ -120,8 +119,7 @@ public class ServerUpdater extends Thread {
 				} else if(vergleich.equalsIgnoreCase("key")){
 					receiveKeys();
 					move();
-					players[id].move();
-					sendKeys(key, id);
+					sendKeys(key, playerID);
 				}
 			}
 			catch(SocketException ex)
@@ -138,7 +136,7 @@ public class ServerUpdater extends Thread {
 	private synchronized void receiveKeys() throws IOException{
 		int keys[] = this.protocol.receiveKey();
 		key = keys[0];
-		id = keys[1];
+		playerID = keys[1];
 	}
 	
 	private synchronized void sendKeys(int key, int playerID) throws IOException{
@@ -147,31 +145,39 @@ public class ServerUpdater extends Thread {
 				threads[i].protocol.sendKey(key, playerID);
 	}
 	
+	public synchronized void sendTick() {
+		try {
+			this.protocol.sendString("tick");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	private synchronized void move() {
-		if(players[id].getLives() == 0)
+		if(players[playerID].getLives() == 0)
 			return;
 		switch(key){
 			case KeyEvent.VK_LEFT:
-				players[id].setDirection(Direction.LEFT);
-				players[id].setFaceDirection(Direction.LEFT);
+				players[playerID].setDirection(Direction.LEFT);
+				players[playerID].setFaceDirection(Direction.LEFT);
 				break;
 			
 			case KeyEvent.VK_RIGHT:
-				players[id].setDirection(Direction.RIGHT);
-				players[id].setFaceDirection(Direction.RIGHT);
+				players[playerID].setDirection(Direction.RIGHT);
+				players[playerID].setFaceDirection(Direction.RIGHT);
 				break;
 				
 			case KeyEvent.VK_UP:
-				players[id].setDirection(Direction.UP);
-				players[id].setFaceDirection(Direction.UP);
+				players[playerID].setDirection(Direction.UP);
+				players[playerID].setFaceDirection(Direction.UP);
 				break;
 			
 			case KeyEvent.VK_DOWN:
-				players[id].setDirection(Direction.DOWN);
-				players[id].setFaceDirection(Direction.DOWN);
+				players[playerID].setDirection(Direction.DOWN);
+				players[playerID].setFaceDirection(Direction.DOWN);
 				break;
 			case KeyEvent.VK_A:
-				players[id].setAttack(true);
+				players[playerID].setAttack(true);
 				break;
 		}
 	}

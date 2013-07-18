@@ -1149,7 +1149,7 @@ public class MenuStart extends JPanel implements ActionListener {
 						generateDirection(testmonster);
 					}
 					testmonster.attack();
-					testmonster.move();
+					testmonster.move(this);
 				}
 			}
 		}
