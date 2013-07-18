@@ -444,4 +444,18 @@ public class Protocol {
     	}
     	return list;
     }
+    
+    public void sendPlayerPos(int playerID, int x, int y) throws IOException {
+    	this.out.writeInt(playerID);
+    	this.out.writeInt(x);
+    	this.out.writeInt(y);
+    }
+    
+    public int[] receivePlayerPos() throws IOException {
+    	int[] returnArray = new int[3];
+    	returnArray[0] = this.in.readInt(); //PlayerID
+    	returnArray[1] = this.in.readInt(); //x
+    	returnArray[2] = this.in.readInt(); //y
+    	return returnArray;
+    }
 }
