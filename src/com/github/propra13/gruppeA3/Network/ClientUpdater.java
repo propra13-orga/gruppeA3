@@ -22,6 +22,7 @@ public class ClientUpdater extends Thread {
 	private Chat chat;
 	private int key;
 	private int id;
+	private int tickCtr = 0;
 	
 	/**
 	 * Setzt die noetigen Parameter
@@ -85,11 +86,16 @@ public class ClientUpdater extends Thread {
 				else if(vergleich.equalsIgnoreCase("key")){
 					receiveKeys();
 					move();
-					players[id].move();
 				}
+				else if(vergleich.equals("tick"))
+					gui.ticker.tick();
 				else if(vergleich.equalsIgnoreCase("eog")){
 					running = false;
-				}			
+				}
+				if(vergleich.equals("tick")) {
+					tickCtr++;
+					gui.ticker.tick(players);
+				}
 			}catch(IOException ex){ex.printStackTrace();}//TODO bessere Exception
 		}	
 	}
@@ -127,6 +133,9 @@ public class ClientUpdater extends Thread {
 				players[id].setDirection(Direction.DOWN);
 				players[id].setFaceDirection(Direction.DOWN);
 				break;
+			case 0:
+				players[id].setDirection(Direction.NONE);
+				break;
 			case KeyEvent.VK_A:
 				players[id].setAttack(true);
 				Music.soundattach(); //Soundeffekt hit
@@ -136,6 +145,9 @@ public class ClientUpdater extends Thread {
 				break;
 			case KeyEvent.VK_E:
 				MenuStart.talk = true;
+				break;
+			case KeyEvent.VK_O:
+				System.out.println("ticks: "+tickCtr);
 				break;
 		}
 	}

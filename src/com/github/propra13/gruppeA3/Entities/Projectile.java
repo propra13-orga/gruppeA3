@@ -41,7 +41,7 @@ public abstract class Projectile extends Moveable {
 		else
 			super.direct = direct1;
 		
-		move();
+		move(this);
 		// falls am Raumrand, Projektil auflösen
 		if (	pos.getCornerTopLeft(hitbox).x <= 0 ||
 				pos.getCornerTopLeft(hitbox).y <= 0 || 

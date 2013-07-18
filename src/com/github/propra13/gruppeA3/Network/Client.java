@@ -83,6 +83,7 @@ public class Client extends JFrame implements KeyListener{
 		
 		gui.setPlayer(players[playerID]);
 		gui.addKeyListener(this);
+		gui.timer.stop();
 		
 		for(int i = 0; i < players.length; i++)
 			Map.getRoom(0).entities.add(players[i]);
@@ -161,7 +162,12 @@ public class Client extends JFrame implements KeyListener{
 
 	@Override
 	public void keyReleased(KeyEvent arg0) {
-		players[playerID].setDirection(Direction.NONE);		
+		try {
+			protocol.sendKey(0, playerID);
+			players[playerID].setDirection(Direction.NONE);	
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
 	}
 
 	@Override

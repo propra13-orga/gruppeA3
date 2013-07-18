@@ -3,9 +3,13 @@
  */
 package com.github.propra13.gruppeA3.Network;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.Iterator;
+
+import javax.swing.Timer;
 
 import com.github.propra13.gruppeA3.Game;
 import com.github.propra13.gruppeA3.Entities.Player;
@@ -21,7 +25,7 @@ import com.github.propra13.gruppeA3.Menu.MenuStart;
  * @author Majida Dere
  *
  */
-public class Server extends Thread{
+public class Server extends Thread implements ActionListener {
 
 	/**
 	 * Attribute:
@@ -33,6 +37,7 @@ public class Server extends Thread{
 	private ServerUpdater[] threads;
 	private int playerCount=1;
 	private Player[] players=null;
+	Timer timer;
 	
 	/**
 	 * Erzeugt einen neuen Server
@@ -47,6 +52,9 @@ public class Server extends Thread{
 			e.printStackTrace();
 		}
 		get_started(netstat.toString());
+		
+		timer = new Timer(MenuStart.delay, this);
+		timer.start();
 	}
 	
 	public void get_started(String mapName) {
@@ -91,5 +99,14 @@ public class Server extends Thread{
 		}catch ( IOException e ) {
 		      e.printStackTrace();
 	    }
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		for(int i=0; i < threads.length; i++) {
+			if(threads[i] != null) {
+				threads[i].sendTick();
+			}
+		}
 	}
 }

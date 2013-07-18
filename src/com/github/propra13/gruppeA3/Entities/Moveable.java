@@ -74,7 +74,8 @@ public abstract class Moveable extends Entities {
 	 * Diese Methode bewegt ein bewegbares Objekt im Raum, prüft die Begehbarkeit und wendet setposition() an,
 	 *  wenn die neue Position begehbar ist
 	 **/
-	public void move() {
+	public void move(Object o) {
+		System.out.println("Moveable.move() called by" +o);
 
     	int step = (int)(movePx * getSpeed());
     	Position nextPos = new Position(0,0); //Position, auf die gelaufen werden soll
