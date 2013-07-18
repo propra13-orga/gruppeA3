@@ -33,6 +33,7 @@ public class ServerUpdater extends Thread {
 	private int playerID;
 	private Player[] players;
 	private int key;
+	private int id;
 	
 	/**
 	 * Erzeugt einen neuen ServerUpdater
@@ -119,8 +120,8 @@ public class ServerUpdater extends Thread {
 				} else if(vergleich.equalsIgnoreCase("key")){
 					receiveKeys();
 					move();
-					players[playerID].move();
-					sendKeys(key, playerID);
+					players[id].move();
+					sendKeys(key, id);
 				}
 			}
 			catch(SocketException ex)
@@ -137,7 +138,7 @@ public class ServerUpdater extends Thread {
 	private synchronized void receiveKeys() throws IOException{
 		int keys[] = this.protocol.receiveKey();
 		key = keys[0];
-		playerID = keys[1];
+		id = keys[1];
 	}
 	
 	private synchronized void sendKeys(int key, int playerID) throws IOException{
@@ -147,30 +148,30 @@ public class ServerUpdater extends Thread {
 	}
 	
 	private synchronized void move() {
-		if(players[playerID].getLives() == 0)
+		if(players[id].getLives() == 0)
 			return;
 		switch(key){
 			case KeyEvent.VK_LEFT:
-				players[playerID].setDirection(Direction.LEFT);
-				players[playerID].setFaceDirection(Direction.LEFT);
+				players[id].setDirection(Direction.LEFT);
+				players[id].setFaceDirection(Direction.LEFT);
 				break;
 			
 			case KeyEvent.VK_RIGHT:
-				players[playerID].setDirection(Direction.RIGHT);
-				players[playerID].setFaceDirection(Direction.RIGHT);
+				players[id].setDirection(Direction.RIGHT);
+				players[id].setFaceDirection(Direction.RIGHT);
 				break;
 				
 			case KeyEvent.VK_UP:
-				players[playerID].setDirection(Direction.UP);
-				players[playerID].setFaceDirection(Direction.UP);
+				players[id].setDirection(Direction.UP);
+				players[id].setFaceDirection(Direction.UP);
 				break;
 			
 			case KeyEvent.VK_DOWN:
-				players[playerID].setDirection(Direction.DOWN);
-				players[playerID].setFaceDirection(Direction.DOWN);
+				players[id].setDirection(Direction.DOWN);
+				players[id].setFaceDirection(Direction.DOWN);
 				break;
 			case KeyEvent.VK_A:
-				players[playerID].setAttack(true);
+				players[id].setAttack(true);
 				break;
 		}
 	}
