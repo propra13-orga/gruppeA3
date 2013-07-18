@@ -481,7 +481,7 @@
     <ziel x="24" y="6"/>
     <item beschreibung="A strong protection." element="physisch" name="sword" staerke="2" typ="4" wert="5" x="10" y="15"/>
     <NPC beschreibung="The nurse" name="Nancy" text=" Oh, du bist der ... &#10;Auser*ääääh* Unbekannte,&#10; von dem alle reden!&#10;Wusstest du schon,&#10; das in den grünen Tränken, Gift ist?! " typ="1" x="3" y="5"/>
-    <monster angriff="9" beschreibung="unset" element="physisch" geschwindigkeit="1.0" leben="813" muenzen="15" ruestung="2" typ="5" x="17" y="6"/>
+    <monster angriff="9" beschreibung="unset" element="physisch" geschwindigkeit="1.0" leben="30" muenzen="15" ruestung="2" typ="5" x="17" y="6"/>
     <monster angriff="4" beschreibung="unset" element="physisch" geschwindigkeit="1.0" leben="11" muenzen="9" ruestung="1" typ="3" x="21" y="11"/>
     <item beschreibung="Erfrischt" element="physisch" name="Lebenstrank" staerke="20" typ="1" wert="7" x="10" y="10"/>
     <item beschreibung="Erfrischt" element="physisch" name="Lebenstrank" staerke="20" typ="1" wert="7" x="15" y="5"/>
