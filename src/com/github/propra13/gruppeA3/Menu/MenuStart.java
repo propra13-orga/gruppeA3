@@ -17,7 +17,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
@@ -88,6 +87,8 @@ public class MenuStart extends JPanel implements ActionListener {
     private int movecounter = 0;
     public static boolean talk = false;
     private boolean questFinished = false;
+    
+    public GameTicker ticker;
     
     public static final int delay = 17;
     public Graphics2D g2d;
@@ -188,12 +189,15 @@ public class MenuStart extends JPanel implements ActionListener {
         setDoubleBuffered(true);
         
         setGameStatus(GameStatus.MAINMENU); 
+        
+        ticker = new GameTicker(this);
 
         /**
          * Initalisiert und startet den Timer mit timer.start
          */
-        timer = new Timer(delay, this);
+        timer = new Timer(delay, ticker);
         timer.start();
+        System.out.println("Timer angeschmissen");
         
         
         // Menü vorbereiten
@@ -713,94 +717,84 @@ public class MenuStart extends JPanel implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		//Spielstart
+		String action = e.getActionCommand();
 		
-		// Tasks für Timer in dieser if-condition eintragen
-		if(getGameStatus() == GameStatus.INGAME) {
-			player.move();
-			executeEnemyActions();
-			activeRoom.removeEntities();
-			executeTalk();
-			executePlayerAttacks();
-			tickCounters();
-
+		if("newgame".equals(action) || "nextmap".equals(action)) {
+			MapHeader mapToStart = null;
+			//Falls zuletzt keine oder die letzte Storymap gespielt wurde, erste starten
+			if(lastMap == null || lastMap.type != MapHeader.STORY_MAP ||
+					(lastMap.type == MapHeader.STORY_MAP && lastMap.storyID == Game.storyHeaders.size()))
+				mapToStart = Game.storyHeaders.getFirst();
+			//anderenfalls nächste Storymap starten
+			else
+				mapToStart = Game.storyHeaders.get(lastMap.storyID);
+			
+			initMap(mapToStart, 0);
 		}
-		else {
-			//Spielstart
-			String action = e.getActionCommand();
-			if("newgame".equals(action) || "nextmap".equals(action)) {
-				MapHeader mapToStart = null;
-				//Falls zuletzt keine oder die letzte Storymap gespielt wurde, erste starten
-				if(lastMap == null || lastMap.type != MapHeader.STORY_MAP ||
-						(lastMap.type == MapHeader.STORY_MAP && lastMap.storyID == Game.storyHeaders.size()))
-					mapToStart = Game.storyHeaders.getFirst();
-				//anderenfalls nächste Storymap starten
-				else
-					mapToStart = Game.storyHeaders.get(lastMap.storyID);
-				
-				initMap(mapToStart, 0);
+		
+		else if("save game".equals(e.getActionCommand()))
+			try {
+				saveGame(textField.getText());
+			} catch (TransformerException | IOException
+					| ParserConfigurationException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
-			
-			else if("save game".equals(e.getActionCommand()))
-				try {
-					saveGame(textField.getText());
-				} catch (TransformerException | IOException
-						| ParserConfigurationException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			else if("close dialog".equals(e.getActionCommand()))
-				dialog.setVisible(false);
-			
-			else if(e.getSource() == buttonSingleplayer)
-				startSingleplayer();
-			
-			else if(e.getSource() == buttonSave)
-				showSaveDialog();
-			
-			else if(e.getSource() == buttonLoad)
-				new LoadSavegameWindow();
-			
-			//Hilfe
-			else if(e.getSource() == buttonHelp)
-				help();
-			else if(e.getSource() == buttonHelpOk)
-				helpDialog.dispose();
-			
-			//Optionen
-			else if(e.getSource() == buttonOptionen)
-				showOptions();
-			
-			//Netzwerk-Kram
-			else if("network".equals(action)){
-				initNetwork();
-			}
-			else if("coop".equals(action)){
-				setNetstat(NetworkStatus.COOP);
-				networkMenu();
-			}
-			else if ("deathmatch".equals(action)){
-				setNetstat(NetworkStatus.DEATHMATCH);
-				networkMenu();
-			}
-			else if("create".equals(action)){
-				Server server = new Server(this.getPort(), MenuStart.getNetstat());
-				server.start();
-				setClient(new Client(this, MenuStart.getNetstat(), true));
-			}
-			else if("join".equals(action)){
-				setClient(new Client(this, MenuStart.getNetstat(), false));
-			}
-			else if("back".equals(action)){
-				backMenu();
-			}
-			else if("options".equals(action)){
-				new NetworkOptions(this);
-			}
-			else if("editor".equals(action))
-				initEditor();
-			else if("exit".equals(action)) 
-				System.exit(0);	// Programm beenden
+		else if("close dialog".equals(e.getActionCommand()))
+			dialog.setVisible(false);
+		
+		else if(e.getSource() == buttonSingleplayer)
+			startSingleplayer();
+		
+		else if(e.getSource() == buttonSave)
+			showSaveDialog();
+		
+		else if(e.getSource() == buttonLoad)
+			new LoadSavegameWindow();
+		
+		//Hilfe
+		else if(e.getSource() == buttonHelp)
+			help();
+		else if(e.getSource() == buttonHelpOk)
+			helpDialog.dispose();
+		
+		//Optionen
+		else if(e.getSource() == buttonOptionen)
+			showOptions();
+		
+		//Netzwerk-Kram
+		else if("network".equals(action)){
+			initNetwork();
 		}
+		else if("coop".equals(action)){
+			setNetstat(NetworkStatus.COOP);
+			networkMenu();
+		}
+		else if ("deathmatch".equals(action)){
+			setNetstat(NetworkStatus.DEATHMATCH);
+			networkMenu();
+		}
+		else if("create".equals(action)){
+			Server server = new Server(this.getPort(), MenuStart.getNetstat());
+			server.start();
+			setClient(new Client(this, MenuStart.getNetstat(), true));
+		}
+		else if("join".equals(action)){
+			setClient(new Client(this, MenuStart.getNetstat(), false));
+		}
+		else if("back".equals(action)){
+			backMenu();
+		}
+		else if("options".equals(action)){
+			new NetworkOptions(this);
+		}
+		else if("editor".equals(action))
+			initEditor();
+		else if("exit".equals(action)) 
+			System.exit(0);	// Programm beenden
+		
+		
 		repaint();
 	}
 	
@@ -1140,7 +1134,7 @@ public class MenuStart extends JPanel implements ActionListener {
 		}
 	}
 	
-	private void executeEnemyActions(){
+	public void executeEnemyActions(){
 		Entities testent = null;	//durch alle Entitys der Liste iterieren
 		Monster testmonster = null;
 		@SuppressWarnings("unchecked")
@@ -1189,7 +1183,7 @@ public class MenuStart extends JPanel implements ActionListener {
 		}
 	}
 	
-	private void executePlayerAttacks(){
+	public void executePlayerAttacks(){
 		if((player.getAttackCount() == 0) && (player.getIsAttacking() == true)){
 			player.attack();
 			player.setAttackCount(30);
@@ -1227,7 +1221,7 @@ public class MenuStart extends JPanel implements ActionListener {
 		}
 	}
 	
-	private void tickCounters(){
+	public void tickCounters(){
 		if (player.getBuff() != null){
 			player.getBuff().tick();
 		}
@@ -1295,7 +1289,7 @@ public class MenuStart extends JPanel implements ActionListener {
 			setGameStatus(GameStatus.GAMEWON);
 	}
 	
-	private void executeTalk(){
+	public void executeTalk(){
 		if(talk == true){
 			Position temp = new Position(player.getPosition().x,player.getPosition().y);
 			switch(player.getFaceDirection()){
