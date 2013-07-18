@@ -31,7 +31,7 @@ public class ServerUpdater extends Thread {
 	private boolean started;
 	private ServerUpdater[] threads;
 	private int playerID;
-	private Player[] player;
+	private Player[] players;
 	private int key;
 	
 	/**
@@ -39,9 +39,9 @@ public class ServerUpdater extends Thread {
 	 * @param s Socket das die Verbindung zum Client darstellt
 	 * @throws IOException Wird im Fehlerfall geworfen
 	 */
-	public ServerUpdater(Socket s, Player[] player, int playerID) throws IOException {
+	public ServerUpdater(Socket s, Player[] players, int playerID) throws IOException {
 		this.protocol = new Protocol(s);
-		this.player = player;
+		this.players = players;
 		this.playerID = playerID;
 	}
 	
@@ -90,7 +90,7 @@ public class ServerUpdater extends Thread {
 	public void sendNextGame() throws IOException
 	{
 		this.protocol.sendString("start");
-		this.protocol.sendPlayers(player);
+		this.protocol.sendPlayers(players);
 		this.protocol.sendPlayerID(playerID);
 	}
 	
@@ -119,6 +119,7 @@ public class ServerUpdater extends Thread {
 				} else if(vergleich.equalsIgnoreCase("key")){
 					receiveKeys();
 					move();
+					players[playerID].move();
 					sendKeys(key, playerID);
 				}
 			}
@@ -146,27 +147,30 @@ public class ServerUpdater extends Thread {
 	}
 	
 	private synchronized void move() {
-		if(player[playerID].getLives() == 0)
+		if(players[playerID].getLives() == 0)
 			return;
 		switch(key){
 			case KeyEvent.VK_LEFT:
-				player[playerID].setDirection(Direction.LEFT);
-				player[playerID].setFaceDirection(Direction.LEFT);
+				players[playerID].setDirection(Direction.LEFT);
+				players[playerID].setFaceDirection(Direction.LEFT);
 				break;
 			
 			case KeyEvent.VK_RIGHT:
-				player[playerID].setDirection(Direction.RIGHT);
-				player[playerID].setFaceDirection(Direction.RIGHT);
+				players[playerID].setDirection(Direction.RIGHT);
+				players[playerID].setFaceDirection(Direction.RIGHT);
 				break;
 				
 			case KeyEvent.VK_UP:
-				player[playerID].setDirection(Direction.UP);
-				player[playerID].setFaceDirection(Direction.UP);
+				players[playerID].setDirection(Direction.UP);
+				players[playerID].setFaceDirection(Direction.UP);
 				break;
 			
 			case KeyEvent.VK_DOWN:
-				player[playerID].setDirection(Direction.DOWN);
-				player[playerID].setFaceDirection(Direction.DOWN);
+				players[playerID].setDirection(Direction.DOWN);
+				players[playerID].setFaceDirection(Direction.DOWN);
+				break;
+			case KeyEvent.VK_A:
+				players[playerID].setAttack(true);
 				break;
 		}
 	}

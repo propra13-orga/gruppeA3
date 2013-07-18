@@ -1,5 +1,7 @@
 package com.github.propra13.gruppeA3.Network;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Random;
@@ -11,6 +13,7 @@ import com.github.propra13.gruppeA3.Game;
 import com.github.propra13.gruppeA3.Keys;
 import com.github.propra13.gruppeA3.Entities.Entities;
 import com.github.propra13.gruppeA3.Entities.Player;
+import com.github.propra13.gruppeA3.Entities.Moveable.Direction;
 import com.github.propra13.gruppeA3.Exceptions.InvalidRoomLinkException;
 import com.github.propra13.gruppeA3.Exceptions.MapFormatException;
 import com.github.propra13.gruppeA3.Map.Map;
@@ -24,7 +27,7 @@ import com.github.propra13.gruppeA3.Menu.MenuStart.NetworkStatus;
  * @author Majida Dere
  *
  */
-public class Client extends JFrame {
+public class Client extends JFrame implements KeyListener{
 
 	/**
 	 * Attribute:
@@ -79,7 +82,7 @@ public class Client extends JFrame {
 		}
 		
 		gui.setPlayer(players[playerID]);
-		gui.addKeyListener(new Keys(players[playerID]));
+		gui.addKeyListener(this);
 		
 		for(int i = 0; i < players.length; i++)
 			Map.getRoom(0).entities.add(players[i]);
@@ -93,17 +96,6 @@ public class Client extends JFrame {
 						 false, false, false, false, false, false, false, false);
 			
 		MenuStart.setGameStatus(GameStatus.INGAME);
-		System.out.println("entitieslist "+Map.getRoom(0).entities.size());
-		Iterator<Entities> iter = Map.getRoom(0).entities.iterator();
-		Entities entity;
-		Player player;
-		while(iter.hasNext()){
-			entity = iter.next();
-			if(entity instanceof Player){
-				player = (Player)entity;
-				System.out.println("playerIDD "+player.getPlayerID());
-			}
-		}
 	}
 	
 	/**
@@ -157,4 +149,25 @@ public class Client extends JFrame {
 	public Chat getChat() {
 		return chat;
 	}
+
+	@Override
+	public void keyPressed(KeyEvent arg0) {
+		try {
+				protocol.sendKey(arg0.getExtendedKeyCode(), playerID);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		players[playerID].setDirection(Direction.NONE);		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }
