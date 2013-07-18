@@ -130,6 +130,12 @@ public class ClientUpdater extends Thread {
 				players[playerID].setAttack(true);
 				Music.soundattach(); //Soundeffekt hit
 				break;
+			case KeyEvent.VK_T:
+				chat.setVisible(true);
+				break;
+			case KeyEvent.VK_E:
+				MenuStart.talk = true;
+				break;
 		}
 	}
 }

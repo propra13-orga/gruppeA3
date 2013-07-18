@@ -96,17 +96,6 @@ public class Client extends JFrame implements KeyListener{
 						 false, false, false, false, false, false, false, false);
 			
 		MenuStart.setGameStatus(GameStatus.INGAME);
-		System.out.println("entitieslist "+Map.getRoom(0).entities.size());
-		Iterator<Entities> iter = Map.getRoom(0).entities.iterator();
-		Entities entity;
-		Player player;
-		while(iter.hasNext()){
-			entity = iter.next();
-			if(entity instanceof Player){
-				player = (Player)entity;
-				System.out.println("playerIDD "+player.getPlayerID());
-			}
-		}
 	}
 	
 	/**
@@ -163,14 +152,11 @@ public class Client extends JFrame implements KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
-		if(arg0.getKeyCode() == KeyEvent.VK_T)
-			chat.setVisible(true);
-		
 		try {
-			protocol.sendKey(arg0.getExtendedKeyCode(), playerID);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+				protocol.sendKey(arg0.getExtendedKeyCode(), playerID);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 	}
 
 	@Override

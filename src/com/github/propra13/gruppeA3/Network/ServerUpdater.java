@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
 
-import com.github.propra13.gruppeA3.Music;
 import com.github.propra13.gruppeA3.Entities.Player;
 import com.github.propra13.gruppeA3.Entities.Moveable.Direction;
 
